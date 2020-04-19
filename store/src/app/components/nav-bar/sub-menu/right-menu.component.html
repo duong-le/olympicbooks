@@ -1,0 +1,12 @@
+<ul nz-menu [nzMode]="mode">
+  <li nz-menu-item *ngIf="mode === 'horizontal'">
+    <i nz-icon nzType="shopping-cart" nzTheme="outline"></i> Cart ({{quantity}})
+  </li>
+
+  <li nz-submenu nzTitle="Account" *ngIf="mode === 'vertical' || !mobile">
+    <ul>
+      <li nz-menu-item> Log In </li>
+      <li nz-menu-item> Sign Up </li>
+    </ul>
+  </li>
+</ul>
