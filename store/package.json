@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --open",
-    "build": "ng build --prod && ng run store:server:production",
+    "start": "node dist/store/server/main.js",
+    "start:dev": "ng serve --open",
+    "build": "ng build --prod && ng run store:server:production && touch dist/store/browser/robots.txt ",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -26,7 +27,7 @@
     "@angular/service-worker": "~9.1.1",
     "@nguniversal/express-engine": "^9.1.0",
     "express": "^4.15.2",
-    "ng-zorro-antd": "^9.0.1",
+    "ng-zorro-antd": "^9.0.2",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

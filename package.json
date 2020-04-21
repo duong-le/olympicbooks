@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "postinstall": "npm install --prefix store",
-    "start": "npm start --prefix store"
+    "start": "npm run start:dev --prefix store",
+    "build": "npm run build --prefix store"
   },
   "author": "",
   "license": "ISC"
