@@ -1,0 +1,6 @@
+<nz-carousel [nzEnableSwipe]="true" nzAutoPlay [nzAutoPlaySpeed]="3000">
+  <div nz-carousel-content *ngFor="let item of items">
+    <div class="slider-bg" style="background-image: url({{item.img}});"> </div>
+    <div class="slider-content"> {{ item.content }} </div>
+  </div>
+</nz-carousel>
