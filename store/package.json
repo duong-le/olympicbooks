@@ -10,7 +10,6 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "dev:ssr": "ng run store:serve-ssr",
-    "serve:ssr": "node dist/store/server/main.js",
     "prerender": "ng run store:prerender"
   },
   "private": true,
