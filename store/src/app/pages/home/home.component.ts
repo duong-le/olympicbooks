@@ -10,15 +10,15 @@ export class HomeComponent {
 
   items = [
     {
-      img: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66',
+      img: 'assets/images/banner-1.jpg',
       content: 'Hello',
     },
     {
-      img: 'https://images.unsplash.com/photo-1521036392421-35d436448d6a',
+      img: 'assets/images/banner-2.jpg',
       content: 'Hello',
     },
     {
-      img: 'https://images.unsplash.com/photo-1571459882268-fa847595cb77',
+      img: 'assets/images/banner-3.jpg',
       content: 'Hello',
     },
   ];
