@@ -3,7 +3,7 @@
 }
 
 [nz-carousel-content] {
-  height: 500px;
+  height: 550px;
 }
 
 .slider-bg {
@@ -14,12 +14,31 @@
   background-position: center center;
 }
 
-.slider-content {
-  color: #fff;
-  font-size: 50px;
-  text-transform: uppercase;
-  position: absolute;
-  top: 50%;
-  left: calc(50% - 20px);
-  transform: translate(-50%, -50%);
+.banner {
+  height: 350px;
+  padding: 10px;
+
+  .banner-child {
+    padding: 10px;
+
+    .banner-bg {
+      height: 100%;
+      background-size: cover;
+      background-position: center center;
+    }
+
+    .banner-content {
+      color: #fff;
+      font-size: 50px;
+      text-transform: uppercase;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      a {
+        color: inherit;
+      }
+    }
+  }
 }

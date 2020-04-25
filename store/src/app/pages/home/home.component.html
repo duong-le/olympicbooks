@@ -1,6 +1,17 @@
 <nz-carousel [nzEnableSwipe]="true" nzAutoPlay [nzAutoPlaySpeed]="3000">
   <div nz-carousel-content *ngFor="let item of items">
-    <div class="slider-bg" style="background-image: url({{item.img}});"> </div>
-    <div class="slider-content"> {{ item.content }} </div>
+    <div class="slider-bg" style="background-image: url({{item}});"> </div>
   </div>
 </nz-carousel>
+
+<div nz-row class="banner">
+  <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 16 }" class="banner-child">
+    <div class="banner-bg" style="background-image: url({{banner.left.img}});"> </div>
+    <div class="banner-content"> <a routerLink="/"> {{banner.left.content}} </a></div>
+  </div>
+
+  <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }" class="banner-child">
+    <div class="banner-bg" style="background-image: url({{banner.right.img}});"> </div>
+    <div class="banner-content"> <a routerLink="/"> {{banner.right.content}} </a></div>
+  </div>
+</div>

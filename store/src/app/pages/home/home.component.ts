@@ -9,19 +9,21 @@ export class HomeComponent {
   array = [1, 2, 3, 4];
 
   items = [
-    {
-      img: 'assets/images/banner-1.jpg',
-      content: 'Hello',
-    },
-    {
-      img: 'assets/images/banner-2.jpg',
-      content: 'Hello',
-    },
-    {
-      img: 'assets/images/banner-3.jpg',
-      content: 'Hello',
-    },
+    'assets/images/banner-1.jpg',
+    'assets/images/banner-2.jpg',
+    'assets/images/banner-3.jpg',
   ];
+
+  banner = {
+    left: {
+      img: 'assets/images/community.jpg',
+      content: 'Community',
+    },
+    right: {
+      img: 'assets/images/new-arrivals.jpg',
+      content: 'New Arrivals',
+    },
+  };
 
   constructor() {}
 }
