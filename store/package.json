@@ -10,7 +10,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "dev:ssr": "ng run store:serve-ssr",
-    "prerender": "ng run store:prerender"
+    "prerender": "ng run store:prerender",
+    "postinstall": "ngcc"
   },
   "private": true,
   "dependencies": {
