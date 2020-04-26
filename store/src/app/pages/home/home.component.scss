@@ -3,7 +3,7 @@
 }
 
 [nz-carousel-content] {
-  height: 550px;
+  height: 500px;
 }
 
 .slider-bg {
@@ -41,4 +41,22 @@
       }
     }
   }
+}
+
+.home {
+  margin: 45px 10% 45px 10%;
+}
+
+.ant-page-header {
+  background-color: white;
+}
+
+.ant-col {
+  .ant-list-item {
+    margin-bottom: 0;
+  }
+}
+
+.ant-card {
+  text-align: center;
 }

@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  array = [1, 2, 3, 4];
+  categories;
 
   items = [
     'assets/images/banner-1.jpg',
@@ -25,5 +25,15 @@ export class HomeComponent {
     },
   };
 
-  constructor() {}
+  constructor() {
+    this.categories = [...Array(12)].map(
+      (_, idx, arr) =>
+        (arr[idx] = {
+          title: 'Category',
+          img: `https://picsum.photos/seed/${Math.floor(
+            Math.random() * 1000
+          )}/300`,
+        })
+    );
+  }
 }

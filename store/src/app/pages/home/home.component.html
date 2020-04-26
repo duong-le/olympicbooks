@@ -5,13 +5,34 @@
 </nz-carousel>
 
 <div nz-row class="banner">
-  <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 16 }" class="banner-child">
+  <div nz-col [nzXs]="24" [nzLg]="15" class="banner-child">
     <div class="banner-bg" style="background-image: url({{banner.left.img}});"> </div>
     <div class="banner-content"> <a routerLink="/"> {{banner.left.content}} </a></div>
   </div>
 
-  <div nz-col [nzXs]="{ span: 24 }" [nzLg]="{ span: 8 }" class="banner-child">
+  <div nz-col [nzXs]="24" [nzLg]="9" class="banner-child">
     <div class="banner-bg" style="background-image: url({{banner.right.img}});"> </div>
     <div class="banner-content"> <a routerLink="/"> {{banner.right.content}} </a></div>
   </div>
+</div>
+
+<div class="home">
+  <nz-page-header class="site-page-header" nzTitle="Categories"> </nz-page-header>
+
+  <nz-list nzGrid>
+    <div nz-row nzJustify="center">
+      <div nz-col [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24" *ngFor="let item of categories">
+        <nz-list-item>
+          <a routerLink="/">
+            <nz-card nzHoverable [nzCover]="coverTemplate">
+              <nz-card-meta nzTitle="{{item.title}}"></nz-card-meta>
+            </nz-card>
+            <ng-template #coverTemplate>
+              <img src="{{item.img}}" />
+            </ng-template>
+          </a>
+        </nz-list-item>
+      </div>
+    </div>
+  </nz-list>
 </div>
