@@ -1,7 +1,19 @@
 nav {
-  margin-top: 15px;
+  margin: 15px;
 }
 
 .ant-btn {
   border: none;
+}
+
+.logo a {
+  font-size: 30px;
+  font-weight: 700;
+  color: black;
+}
+
+@media (max-width: 576px) {
+  .logo a {
+    font-size: 22px;
+  }
 }

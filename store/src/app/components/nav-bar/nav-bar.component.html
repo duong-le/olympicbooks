@@ -1,14 +1,13 @@
 <nav>
-  <div nz-row>
+  <div nz-row nzAlign="middle">
     <div nz-col [nzXs]="{ span: 10 }" [nzLg]="{ span: 4, push:2 }">
       <div class="logo">
-        <a routerLink="/">
-          <img src="//laz-img-cdn.alicdn.com/images/ims-web/TB1T7K2d8Cw3KVjSZFuXXcAOpXa.png" width="50%"></a>
+        <a routerLink="/">Olym<span style="color:#337ab7">books.</span></a>
       </div>
     </div>
 
     <div nz-col [nzXs]="{ span: 14 }" [nzLg]="{ span: 20 }">
-      <div nz-row>
+      <div nz-row nzAlign="middle" nzJustify="end">
         <div nz-col [nzLg]="{ span: 13, push: 2}" class="visible-lg">
           <app-left-menu [mode]="horiontalMode" [mobile]="false"></app-left-menu>
         </div>
@@ -21,12 +20,12 @@
           <app-right-menu [mode]="horiontalMode" [quantity]="quantity" [mobile]="false"></app-right-menu>
         </div>
 
-        <div nz-col [nzXs]="{ span: 16}" class="hidden-lg">
+        <div nz-col class="hidden-lg">
           <app-right-menu [mode]="horiontalMode" [quantity]="quantity" [mobile]="true">
           </app-right-menu>
         </div>
 
-        <div nz-col [nzXs]="{ span: 8}" class="hidden-lg">
+        <div nz-col class="hidden-lg">
           <button nz-button nzType="default" (click)="open()">
             <i nz-icon nzType="menu" nzTheme="outline"></i>
           </button>
@@ -38,7 +37,6 @@
           </nz-drawer>
         </div>
       </div>
-
     </div>
   </div>
 </nav>
