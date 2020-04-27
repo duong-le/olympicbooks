@@ -5,14 +5,11 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { SharedComponentsModule } from './components/shared-components.module';
-import { IconsProviderModule } from './icons-provider.module';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
@@ -27,10 +24,7 @@ registerLocaleData(en);
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
-    FormsModule,
-    HttpClientModule,
     SharedComponentsModule,
-    IconsProviderModule,
     NzLayoutModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
