@@ -1,0 +1,9 @@
+<a routerLink="/">
+  <nz-card nzHoverable [nzCover]="coverTemplate">
+    <h3>{{category.title}}</h3>
+  </nz-card>
+  <ng-template #coverTemplate>
+    <img src="{{category.img}}" />
+  </ng-template>
+  <div class="category_extra category_new" *ngIf="category.new">New</div>
+</a>

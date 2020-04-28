@@ -1,0 +1,17 @@
+<a routerLink="/products/{{product.id}}">
+  <nz-card nzHoverable [nzCover]="coverTemplate">
+    <p>{{product.title | slice:0:maxLength}}{{product.title.length > maxLength ? '...' : ''}}</p>
+    <div class="price">
+      <h3>{{product.sale ? (product.salePrice | currency:"VND") : (product.price | currency:"VND")}}</h3>
+    </div>
+    <div class="original_price" *ngIf="product.sale">{{product.price | currency:"VND"}}</div>
+  </nz-card>
+
+  <ng-template #coverTemplate>
+    <img src="{{product.img}}" />
+  </ng-template>
+
+  <div class="product_extra product_new" *ngIf="product.new">New</div>
+  <div class="product_extra product_hot" *ngIf="product.hot">Hot</div>
+  <div class="product_extra product_sale" *ngIf="product.sale">Sale</div>
+</a>

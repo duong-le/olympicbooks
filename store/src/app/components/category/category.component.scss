@@ -1,0 +1,28 @@
+a {
+  display: flex;
+}
+
+.ant-card {
+  border-top: none;
+  text-align: center;
+}
+
+h3 {
+  margin-bottom: 0;
+}
+
+.category_extra {
+  position: absolute;
+  top: 0;
+  left: 54px;
+  width: 66px;
+  text-align: center;
+  transform-origin: top left;
+  transform: rotate(90deg);
+  color: #ffffff;
+  line-height: 36px;
+}
+
+.category_new {
+  background: #6c6a74;
+}
