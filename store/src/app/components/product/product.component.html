@@ -8,7 +8,7 @@
   </nz-card>
 
   <ng-template #coverTemplate>
-    <img src="{{product.img}}" />
+    <img src="{{product.img}}" loading="lazy" />
   </ng-template>
 
   <div class="product_extra product_new" *ngIf="product.new">New</div>
