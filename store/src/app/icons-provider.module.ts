@@ -4,7 +4,7 @@ import { NZ_ICONS, NzIconModule } from 'ng-zorro-antd/icon';
 import {
   MenuOutline,
   ShoppingCartOutline,
-  SearchOutline,
+  SearchOutline
 } from '@ant-design/icons-angular/icons';
 
 const icons = [MenuOutline, ShoppingCartOutline, SearchOutline];
@@ -12,6 +12,6 @@ const icons = [MenuOutline, ShoppingCartOutline, SearchOutline];
 @NgModule({
   imports: [NzIconModule],
   exports: [NzIconModule],
-  providers: [{ provide: NZ_ICONS, useValue: icons }],
+  providers: [{ provide: NZ_ICONS, useValue: icons }]
 })
 export class IconsProviderModule {}

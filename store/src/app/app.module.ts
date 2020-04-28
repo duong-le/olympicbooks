@@ -22,12 +22,12 @@ registerLocaleData(en);
     AppRoutingModule,
     BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
+      enabled: environment.production
     }),
     SharedComponentsModule,
-    NzLayoutModule,
+    NzLayoutModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'app-right-menu',
   templateUrl: './right-menu.component.html',
-  styleUrls: ['./sub-menu.component.scss'],
+  styleUrls: ['./sub-menu.component.scss']
 })
 export class RightMenuComponent {
   @Input() mode: string;

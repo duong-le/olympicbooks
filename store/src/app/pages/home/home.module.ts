@@ -21,6 +21,6 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
     NzListModule,
     NzCardModule,
     NzPageHeaderModule
-  ],
+  ]
 })
 export class HomeModule {}
