@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class HomeComponent {
   categories;
   hotDeals;
-  forYou;
+  recommendations;
 
   categoriesData = [
     'Sách văn học',
@@ -76,7 +76,7 @@ export class HomeComponent {
       sale: true
     }));
 
-    this.forYou = this.bookData.map((el, idx) => ({
+    this.recommendations = this.bookData.map((el, idx) => ({
       ...el,
       id: idx + 1,
       img: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/500`
