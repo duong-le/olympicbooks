@@ -43,27 +43,12 @@
   }
 }
 
-.block {
-  margin: 45px 10% 45px 10%;
-}
-
 .ant-page-header {
   background-color: white;
-}
-
-.block-col {
-  display: flex;
-}
-
-.ant-col {
-  .ant-list-item {
-    display: flex;
-    align-items: stretch;
-    margin-bottom: 0;
-  }
 }
 
 app-category,
 app-product {
   display: flex;
+  width: inherit;
 }

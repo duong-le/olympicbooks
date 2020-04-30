@@ -64,14 +64,14 @@ export class HomeComponent {
     this.categories = this.categoriesData.map((el, idx) => ({
       title: el,
       id: idx + 1,
-      img: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/300`,
+      img: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/500`,
       ...((idx + 1) % 4 === 0 && { new: true })
     }));
 
     this.hotDeals = this.bookData.map((el, idx) => ({
       ...el,
       id: idx + 1,
-      img: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/300`,
+      img: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/500`,
       salePrice: 1000000,
       sale: true
     }));
@@ -79,7 +79,7 @@ export class HomeComponent {
     this.forYou = this.bookData.map((el, idx) => ({
       ...el,
       id: idx + 1,
-      img: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/300`
+      img: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/500`
     }));
   }
 }

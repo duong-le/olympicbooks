@@ -1,8 +1,10 @@
 a {
   display: flex;
+  width: inherit;
 }
 
 .ant-card {
+  width: inherit;
   border-top: none;
 }
 

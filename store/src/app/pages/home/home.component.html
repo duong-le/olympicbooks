@@ -19,45 +19,32 @@
 <div class="block">
   <nz-page-header class="site-page-header" nzTitle="Categories"> </nz-page-header>
 
-  <nz-list nzGrid>
-    <div nz-row nzJustify="center">
-      <div nz-col class="block-col" [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24"
-        *ngFor="let item of categories">
-        <nz-list-item>
-          <app-category [category]="item"></app-category>
-        </nz-list-item>
-      </div>
+  <div nz-row nzJustify="center">
+    <div nz-col class="block-col" [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24"
+      *ngFor="let item of categories">
+      <app-category [category]="item"></app-category>
     </div>
-  </nz-list>
+  </div>
 </div>
 
 <div class="block">
   <nz-page-header nzTitle="Hot Deals"> </nz-page-header>
 
-  <nz-list nzGrid>
-    <div nz-row nzJustify="center">
-      <div nz-col class="block-col" [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24"
-        *ngFor="let item of hotDeals">
-        <nz-list-item>
-          <app-product [product]="item"></app-product>
-        </nz-list-item>
-      </div>
+  <div nz-row nzJustify="center">
+    <div nz-col class="block-col" [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24"
+      *ngFor="let item of hotDeals">
+      <app-product [product]="item"></app-product>
     </div>
-  </nz-list>
+  </div>
 </div>
 
 
 <div class="block">
   <nz-page-header nzTitle="For You"> </nz-page-header>
 
-  <nz-list nzGrid>
-    <div nz-row nzJustify="center">
-      <div nz-col class="block-col" [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24"
-        *ngFor="let item of forYou">
-        <nz-list-item>
-          <app-product [product]="item"></app-product>
-        </nz-list-item>
-      </div>
+  <div nz-row nzJustify="center">
+    <div nz-col class="block-col" [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24" *ngFor="let item of forYou">
+      <app-product [product]="item"></app-product>
     </div>
-  </nz-list>
+  </div>
 </div>
