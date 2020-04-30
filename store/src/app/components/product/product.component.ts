@@ -8,6 +8,13 @@ import { Component, Input } from '@angular/core';
 export class ProductComponent {
   @Input() product: any;
 
+  loading = true;
   maxLength = 50;
   constructor() {}
+
+  onLoadImage(evt) {
+    if (evt && evt.target) {
+      this.loading = false;
+    }
+  }
 }

@@ -8,5 +8,12 @@ import { Component, Input } from '@angular/core';
 export class CategoryComponent {
   @Input() category: any;
 
+  loading = true;
   constructor() {}
+
+  onLoadImage(evt) {
+    if (evt && evt.target) {
+      this.loading = false;
+    }
+  }
 }
