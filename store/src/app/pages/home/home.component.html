@@ -16,22 +16,22 @@
   </div>
 </div>
 
-<div class="block">
+<div class="container">
   <nz-page-header class="site-page-header" nzTitle="Categories"> </nz-page-header>
 
   <div nz-row nzJustify="center">
-    <div nz-col class="block-col" [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24"
+    <div nz-col class="ant-col-all" [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24"
       *ngFor="let item of categories">
       <app-category [category]="item"></app-category>
     </div>
   </div>
 </div>
 
-<div class="block">
+<div class="container">
   <nz-page-header nzTitle="Hot Deals"> </nz-page-header>
 
   <div nz-row nzJustify="center">
-    <div nz-col class="block-col" [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24"
+    <div nz-col class="ant-col-all" [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24"
       *ngFor="let item of hotDeals">
       <app-product [product]="item"></app-product>
     </div>
@@ -39,11 +39,11 @@
 </div>
 
 
-<div class="block">
+<div class="container">
   <nz-page-header nzTitle="Recommendations"> </nz-page-header>
 
   <div nz-row nzJustify="center">
-    <div nz-col class="block-col" [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24"
+    <div nz-col class="ant-col-all" [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24"
       *ngFor="let item of recommendations">
       <app-product [product]="item"></app-product>
     </div>

@@ -1,5 +1,5 @@
 nav {
-  margin: 15px;
+  margin: 10px 10%;
 }
 
 .ant-btn {
@@ -15,5 +15,12 @@ nav {
 @media (max-width: 576px) {
   .logo a {
     font-size: 22px;
+  }
+}
+
+@media (min-width: 992px) {
+  .ant-col-lg-8 {
+    display: flex;
+    justify-content: flex-end;
   }
 }

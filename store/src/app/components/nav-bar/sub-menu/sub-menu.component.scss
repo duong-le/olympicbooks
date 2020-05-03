@@ -10,7 +10,11 @@
   font-size: 20px;
 }
 
-.menu-item,
+.submenu-title,
 .ant-menu-item {
   font-weight: bold;
+}
+
+.ant-menu-item {
+  padding: 0 10px;
 }

@@ -1,12 +1,26 @@
 <ul nz-menu [nzMode]="mode">
-  <li nz-menu-item *ngIf="mode === 'horizontal'">
-    <i nz-icon nzType="shopping-cart" nzTheme="outline"></i> Cart ({{quantity}})
-  </li>
+  <ng-container *ngIf="mode === 'horizontal' && !mobile">
+    <li nz-menu-item>
+      <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>Cart ({{quantity}})</li>
+    <li nz-submenu nzTitle="Account" class="submenu-title">
+      <ul>
+        <li nz-menu-item> Log In </li>
+        <li nz-menu-item> Sign Up </li>
+      </ul>
+    </li>
+  </ng-container>
 
-  <li nz-submenu nzTitle="Account" class="menu-item" *ngIf="mode === 'vertical' || !mobile">
-    <ul>
-      <li nz-menu-item> Log In </li>
-      <li nz-menu-item> Sign Up </li>
-    </ul>
-  </li>
+  <ng-container *ngIf="mode === 'horizontal' && mobile">
+    <li nz-menu-item>
+      <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>({{quantity}})</li>
+  </ng-container>
+
+  <ng-container *ngIf="mode === 'inline'">
+    <li nz-submenu nzTitle="Account" class="submenu-title">
+      <ul>
+        <li nz-menu-item> Log In </li>
+        <li nz-menu-item> Sign Up </li>
+      </ul>
+    </li>
+  </ng-container>
 </ul>

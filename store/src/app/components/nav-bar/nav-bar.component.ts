@@ -9,7 +9,7 @@ export class NavBarComponent {
   visible = false;
   horiontalMode = 'horizontal';
   verticalMode = 'inline';
-  quantity = 1;
+  quantity = 12;
 
   constructor() {}
 
