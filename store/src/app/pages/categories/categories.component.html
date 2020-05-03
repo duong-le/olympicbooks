@@ -1,0 +1,66 @@
+<div class="container">
+  <div nz-row nzJustify="end">
+    <div nz-col [nzLg]="{span: 6, order: 1}" [nzMd]="{span: 8, order: 1}" [nzSm]="{span: 12, order: 1}"
+      [nzXs]="{span: 24, order: 3}">
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-page-header nzTitle="Filter"> </nz-page-header>
+        </div>
+
+        <div nz-col class="filter" nzSpan="24">
+          <div class="block-filter">
+            <nz-divider nzText="Sort By" nzOrientation="left"></nz-divider>
+            <nz-select ngModel="" nzAllowClear nzPlaceHolder="Default" (ngModelChange)="onOptionChange($event)">
+              <nz-option nzValue="lowToHigh" nzLabel="Price low to high"></nz-option>
+              <nz-option nzValue="highToLow" nzLabel="Price high to low"></nz-option>
+            </nz-select>
+          </div>
+
+          <div class="block-filter">
+            <nz-divider nzText="Price Range" nzOrientation="left"></nz-divider>
+            <nz-slider nzRange [ngModel]="rangeValue" [nzMax]="maxPrice" [nzTipFormatter]="formatter"
+              (nzOnAfterChange)="onSliderAfterChange($event)">
+            </nz-slider>
+          </div>
+
+          <div class="block-filter">
+            <nz-divider nzText="Publisher" nzOrientation="left"></nz-divider>
+            <nz-list nzSize="small" [nzSplit]="false">
+              <nz-list-item *ngFor="let publisher of publishers">
+                {{publisher.name}} ({{publisher.quantity}})
+              </nz-list-item>
+            </nz-list>
+          </div>
+
+          <div class="block-filter">
+            <nz-divider nzText="Author" nzOrientation="left"></nz-divider>
+            <nz-list nzSize="small" [nzSplit]="false">
+              <nz-list-item *ngFor="let author of authors">
+                {{author.name}} ({{author.quantity}})
+              </nz-list-item>
+            </nz-list>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div nz-col [nzLg]="{span: 18, order: 2}" [nzMd]="{span: 16, order: 2}" [nzSm]="{span: 12, order: 2}"
+      [nzXs]="{span: 24, order: 1}">
+      <nz-page-header nzTitle="Khoa Học"> </nz-page-header>
+      <div nz-row>
+        <div nz-col class="ant-col-all" [nzXl]="6" [nzLg]="8" [nzMd]="12" [nzSm]="24" [nzXs]="24"
+          *ngFor="let product of products">
+          <app-product [product]="product"></app-product>
+        </div>
+      </div>
+    </div>
+
+    <div nz-col [nzLg]="{span: 24, order: 3}" [nzMd]="{span: 24, order: 3}" [nzSm]="{span: 24, order: 3}" [nzXs]="0">
+      <nz-pagination [nzPageIndex]="1" [nzTotal]="500" [nzPageSize]="9"></nz-pagination>
+    </div>
+
+    <div nz-col [nzLg]="0" [nzMd]="0" [nzSm]="0" [nzXs]="{span: 24, order: 2}">
+      <nz-pagination [nzPageIndex]="1" [nzTotal]="500" [nzPageSize]="9" nzSimple></nz-pagination>
+    </div>
+  </div>
+</div>
