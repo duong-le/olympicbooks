@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node dist/store/server/main.js",
-    "start:dev": "ng serve --open",
+    "dev": "ng serve --open",
     "build": "ng build --prod --outputHashing=all && ng run store:server:production && touch dist/store/browser/robots.txt ",
     "test": "ng test",
     "lint": "ng lint",
