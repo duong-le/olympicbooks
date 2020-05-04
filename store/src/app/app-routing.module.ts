@@ -1,20 +1,23 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { NotExistComponent } from './components/error/not-exist.component';
+
 const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
       import('./pages/home/home.module').then((m) => m.HomeModule)
   },
+  { path: 'home', pathMatch: 'full', redirectTo: '' },
   {
-    path: 'categories/:id',
+    path: 'categories',
     loadChildren: () =>
       import('./pages/categories/categories.module').then(
         (m) => m.CategoriesModule
       )
   },
-  { path: '**', pathMatch: 'full', redirectTo: '' }
+  { path: '**', component: NotExistComponent }
 ];
 
 @NgModule({

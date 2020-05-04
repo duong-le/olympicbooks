@@ -9,6 +9,7 @@ import { FooterComponent } from './footer/footer.component';
 import { SearchComponent } from './search/search.component';
 import { ProductComponent } from './product/product.component';
 import { CategoryComponent } from './category/category.component';
+import { NotExistComponent } from './error/not-exist.component';
 
 import { IconsProviderModule } from '../icons-provider.module';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
@@ -17,6 +18,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzResultModule } from 'ng-zorro-antd/result';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     FooterComponent,
     SearchComponent,
     ProductComponent,
-    CategoryComponent
+    CategoryComponent,
+    NotExistComponent
   ],
   imports: [
     CommonModule,
@@ -37,7 +40,8 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     NzGridModule,
     NzButtonModule,
     NzInputModule,
-    NzCardModule
+    NzCardModule,
+    NzResultModule
   ],
   exports: [
     NavBarComponent,
@@ -46,7 +50,8 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     FooterComponent,
     SearchComponent,
     ProductComponent,
-    CategoryComponent
+    CategoryComponent,
+    NotExistComponent
   ]
 })
 export class SharedComponentsModule {}
