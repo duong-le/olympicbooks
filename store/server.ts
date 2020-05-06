@@ -7,6 +7,7 @@ import { join } from 'path';
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
+import * as DeviceDetector from 'device-detector-js';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
@@ -22,8 +23,6 @@ export function app() {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
-  // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
   server.get('*.*', express.static(distFolder, {
     maxAge: '1y'
@@ -31,7 +30,13 @@ export function app() {
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
-    res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
+    const deviceDetector = new DeviceDetector();
+    const device = deviceDetector.parse(req.get('User-Agent'));
+    if (device.bot) {
+      res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
+    } else {
+      res.sendFile(join(distFolder, 'index.html'));
+    }
   });
 
   return server;

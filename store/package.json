@@ -26,6 +26,7 @@
     "@angular/router": "~9.1.4",
     "@angular/service-worker": "~9.1.4",
     "@nguniversal/express-engine": "^9.1.0",
+    "device-detector-js": "^2.2.1",
     "express": "^4.17.1",
     "ng-zorro-antd": "^9.1.0",
     "rxjs": "~6.5.5",
