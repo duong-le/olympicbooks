@@ -1,23 +1,11 @@
-.ant-page-header {
-  background-color: white;
-}
-
 app-product {
   display: flex;
   width: 100%;
 }
 
-.filter {
-  background-color: white;
-  padding: 0 15px 0 15px;
-}
-
-.block-filter {
-  margin-bottom: 20px;
-}
-
 nz-select {
   width: 100%;
+  margin-bottom: 15px;
 }
 
 .ant-pagination {
