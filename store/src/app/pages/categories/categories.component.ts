@@ -63,7 +63,7 @@ export class CategoriesComponent implements OnInit {
     this.products = this.bookData.map((el, idx) => ({
       ...el,
       id: idx + 1,
-      img: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/500`
+      img: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/460`
     }));
   }
 
