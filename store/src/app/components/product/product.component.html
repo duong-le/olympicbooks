@@ -11,7 +11,7 @@
     <img src="{{product.img}}" loading="lazy" (load)="onLoadImage($event)" />
   </ng-template>
 
-  <div class="product_extra product_new" *ngIf="product.new && !loading">New</div>
-  <div class="product_extra product_hot" *ngIf="product.hot && !loading">Hot</div>
-  <div class="product_extra product_sale" *ngIf="product.sale && !loading">Sale</div>
+  <div class="item_extra item_new" *ngIf="product.new && !loading">New</div>
+  <div class="item_extra item_hot" *ngIf="product.hot && !loading">Hot</div>
+  <div class="item_extra item_sale" *ngIf="product.sale && !loading">Sale</div>
 </a>
