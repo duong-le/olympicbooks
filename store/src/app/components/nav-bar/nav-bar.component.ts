@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class NavBarComponent {
   visible = false;
-  horiontalMode = 'horizontal';
+  horizontalMode = 'horizontal';
   verticalMode = 'inline';
   quantity = 12;
 
