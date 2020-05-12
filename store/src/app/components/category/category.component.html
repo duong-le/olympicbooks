@@ -5,5 +5,5 @@
   <ng-template #coverTemplate>
     <img src="{{category.img}}" loading="lazy" (load)="onLoadImage($event)" />
   </ng-template>
-  <div class="item_extra item_new" *ngIf="category.new && !loading">New</div>
+  <div class="item-extra item-new" *ngIf="category.new && !loading">New</div>
 </a>

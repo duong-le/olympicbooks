@@ -9,7 +9,7 @@ export class ProductComponent {
   @Input() product: any;
 
   loading = true;
-  maxLength = 50;
+  maxLength = 48;
   constructor() {}
 
   onLoadImage(evt) {

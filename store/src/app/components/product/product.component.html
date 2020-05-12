@@ -1,17 +1,15 @@
 <a routerLink="/products/{{product.id}}">
   <nz-card nzHoverable [nzCover]="coverTemplate" [nzLoading]="loading">
-    <p>{{product.title | slice:0:maxLength}}{{product.title.length > maxLength ? '...' : ''}}</p>
-    <div class="price">
-      <h3>{{product.sale ? (product.salePrice | currency:"VND") : (product.price | currency:"VND")}}</h3>
-    </div>
-    <div class="original_price" *ngIf="product.sale">{{product.price | currency:"VND"}}</div>
+    <p>{{ product.title | slice:0:maxLength }}{{ product.title.length > maxLength ? '...' : '' }}</p>
+    <h3 class="price">{{ product.sale ? (product.salePrice | currency:"VND") : (product.price | currency:"VND") }}</h3>
+    <span *ngIf="product.sale"><del>{{ product.price | currency:"VND" }}</del></span>
   </nz-card>
 
   <ng-template #coverTemplate>
-    <img src="{{product.img}}" loading="lazy" (load)="onLoadImage($event)" />
+    <img src="{{ product.img }}" loading="lazy" (load)="onLoadImage($event)" />
   </ng-template>
 
-  <div class="item_extra item_new" *ngIf="product.new && !loading">New</div>
-  <div class="item_extra item_hot" *ngIf="product.hot && !loading">Hot</div>
-  <div class="item_extra item_sale" *ngIf="product.sale && !loading">Sale</div>
+  <div class="item-extra item-new" *ngIf="product.new && !loading">New</div>
+  <div class="item-extra item-hot" *ngIf="product.hot && !loading">Hot</div>
+  <div class="item-extra item-sale" *ngIf="product.sale && !loading">Sale</div>
 </a>
