@@ -6,14 +6,18 @@ import {
   MenuOutline,
   ShoppingCartOutline,
   SearchOutline,
-  DownOutline
+  DownOutline,
+  LikeOutline,
+  LikeTwoTone
 } from '@ant-design/icons-angular/icons';
 
 const icons: IconDefinition[] = [
   MenuOutline,
   ShoppingCartOutline,
   SearchOutline,
-  DownOutline
+  DownOutline,
+  LikeOutline,
+  LikeTwoTone
 ];
 
 @NgModule({

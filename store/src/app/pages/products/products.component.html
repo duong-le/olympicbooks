@@ -1,0 +1,117 @@
+<nz-card class="container">
+  <div nz-row [nzGutter]="[48,32]">
+    <div nz-col [nzLg]="12" [nzMd]="24" [nzSm]="24" [nzXs]="24">
+      <nz-carousel [nzEnableSwipe]="true">
+        <div nz-carousel-content *ngFor="let image of product?.images">
+          <img [src]="image" (load)="onLoadImage($event)">
+        </div>
+      </nz-carousel>
+    </div>
+
+    <div nz-col [nzLg]="12" [nzMd]="24" [nzSm]="24" [nzXs]="24">
+      <nz-skeleton [nzLoading]="loading" [nzActive]="true" [nzParagraph]="{ rows: 15 }">
+        <div>
+          <div class="badge item-new" *ngIf="product.new">New</div>
+          <span class="title">{{ product.title }}</span>
+        </div>
+
+        <nz-divider></nz-divider>
+
+        <nz-descriptions [nzColumn]="3" [nzColon]="false">
+          <nz-descriptions-item>
+            <nz-statistic [nzValue]="4.8 | number" [nzSuffix]="'/ 5'" [nzTitle]="'Đánh Giá'"></nz-statistic>
+          </nz-descriptions-item>
+          <nz-descriptions-item>
+            <nz-statistic [nzValue]="36 | number" [nzTitle]="'Đã Bán'"></nz-statistic>
+          </nz-descriptions-item>
+          <nz-descriptions-item>
+            <nz-statistic [nzValue]="11 | number" [nzTitle]="'Nhận xét'"></nz-statistic>
+          </nz-descriptions-item>
+        </nz-descriptions>
+
+        <div class="price-wrapper">
+          <h1 class="price">{{ product.price | currency:"VND" }}</h1>
+          <h3 class="original-price"><del>{{ product.originalPrice | currency:"VND" }}</del></h3>
+        </div>
+
+        <nz-descriptions [nzColumn]="2" [nzColon]="false">
+          <nz-descriptions-item>Tác giả</nz-descriptions-item>
+          <nz-descriptions-item [nzTitle]="product.author"></nz-descriptions-item>
+
+          <nz-descriptions-item>Nhà xuất bản</nz-descriptions-item>
+          <nz-descriptions-item [nzTitle]="product.publisher"></nz-descriptions-item>
+
+          <nz-descriptions-item>Loại bìa</nz-descriptions-item>
+          <nz-descriptions-item [nzTitle]="product.cover"></nz-descriptions-item>
+        </nz-descriptions>
+
+        <nz-divider></nz-divider>
+
+        <nz-descriptions [nzColumn]="2" [nzColon]="false">
+          <nz-descriptions-item nzTitle="Số lượng"></nz-descriptions-item>
+          <nz-descriptions-item>
+            <nz-input-number [ngModel]="1" [nzMin]="1" [nzMax]="10" [nzStep]="1"></nz-input-number>
+          </nz-descriptions-item>
+        </nz-descriptions>
+
+        <button nz-button class="btn" nzType="default" nzBlock>Thêm Vào Giỏ Hàng</button>
+        <button nz-button class="btn" nzType="primary" nzBlock>Mua Ngay</button>
+      </nz-skeleton>
+    </div>
+  </div>
+</nz-card>
+
+<nz-card [nzLoading]="loading" class="container">
+  <nz-descriptions nzTitle="Thông Tin Chi Tiết" nzBordered [nzColumn]="1" [nzSize]="'middle'">
+    <ng-container *ngFor="let item of specifications">
+      <nz-descriptions-item [nzTitle]="item.name">{{ item.value }}</nz-descriptions-item>
+    </ng-container>
+  </nz-descriptions>
+</nz-card>
+
+<nz-card [nzLoading]="loading" class="container">
+  <h3 class="block-header">Mô Tả Sản Phẩm</h3>
+  <div [innerHTML]="product.description"></div>
+</nz-card>
+
+<nz-card [nzLoading]="loading" class="container">
+  <h3 class="block-header">Khách Hàng Nhận Xét</h3>
+  <nz-list *ngIf="commentData.length" [nzDataSource]="commentData" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">
+    <ng-template #item let-item>
+      <nz-comment [nzAuthor]="user.author" [nzDatetime]="item.datetime">
+        <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="user.avatar"></nz-avatar>
+        <nz-comment-content>
+          <p>{{ item.content }}</p>
+        </nz-comment-content>
+        <nz-comment-action>
+          <i nz-icon nzType="like" [nzTheme]="likes > 0 ? 'twotone' : 'outline'" (click)="like()"></i>
+          <span class="count like">{{ likes }}</span>
+        </nz-comment-action>
+      </nz-comment>
+    </ng-template>
+  </nz-list>
+
+  <nz-comment>
+    <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="user.avatar"></nz-avatar>
+    <nz-comment-content>
+      <nz-form-item>
+        <textarea [(ngModel)]="inputValue" nz-input rows="4"></textarea>
+      </nz-form-item>
+      <nz-form-item>
+        <button nz-button nzType="primary" [nzLoading]="submitting" [disabled]="!inputValue" (click)="handleSubmit()">
+          Add Comment
+        </button>
+      </nz-form-item>
+    </nz-comment-content>
+  </nz-comment>
+</nz-card>
+
+<nz-card [nzLoading]="loading" class="container">
+  <h3 class="block-header">Sản Phẩm Liên Quan</h3>
+  <div nz-row>
+    <div nz-col class="ant-col-all" [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24"
+      *ngFor="let product of products">
+      <app-product [product]="product"></app-product>
+    </div>
+  </div>
+</nz-card>
