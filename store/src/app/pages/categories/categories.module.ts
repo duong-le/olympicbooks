@@ -13,10 +13,6 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
-// import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-// import { NzButtonModule } from 'ng-zorro-antd/button';
-// import { NzFormModule } from 'ng-zorro-antd/form';
-// import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
@@ -34,11 +30,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
     NzPageHeaderModule,
     NzDividerModule,
     NzSelectModule,
-    // NzFormModule,
-    // NzInputModule,
     NzSliderModule,
-    // NzDropDownModule,
-    // NzButtonModule,
     NzListModule,
     NzPaginationModule
   ]
