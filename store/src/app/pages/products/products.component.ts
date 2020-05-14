@@ -105,7 +105,7 @@ export class ProductsComponent implements OnInit {
         (_) =>
           `https://picsum.photos/seed/${Math.floor(
             Math.random() * 1000
-          )}/400/550`
+          )}/385/550`
       );
 
     this.products = this.bookData.map((el, idx) => ({

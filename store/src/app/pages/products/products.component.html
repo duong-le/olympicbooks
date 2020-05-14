@@ -3,7 +3,7 @@
     <div nz-col [nzLg]="12" [nzMd]="24" [nzSm]="24" [nzXs]="24">
       <nz-carousel [nzEnableSwipe]="true">
         <div nz-carousel-content *ngFor="let image of product?.images">
-          <img [src]="image" (load)="onLoadImage($event)">
+          <img class="product-image" [src]="image" (load)="onLoadImage($event)">
         </div>
       </nz-carousel>
     </div>
