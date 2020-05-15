@@ -31,7 +31,7 @@
 
         <div class="price-wrapper">
           <h1 class="price">{{ product.price | currency:"VND" }}</h1>
-          <h3 class="original-price"><del>{{ product.originalPrice | currency:"VND" }}</del></h3>
+          <h3><del>{{ product.originalPrice | currency:"VND" }}</del></h3>
         </div>
 
         <nz-descriptions [nzColumn]="2" [nzColon]="false">
