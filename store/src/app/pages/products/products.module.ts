@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ProductsRoutingModule } from './products-routing.module';
 import { ProductsComponent } from './products.component';
 import { IconsProviderModule } from '../../icons-provider.module';
-import { SharedComponentsModule } from '../../components/shared-components.module';
+import { SharedComponentsModule } from '../../shared/components/shared-components.module';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';

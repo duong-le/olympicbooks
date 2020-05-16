@@ -2,16 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { RightMenuComponent } from './nav-bar/sub-menu/right-menu.component';
-import { LeftMenuComponent } from './nav-bar/sub-menu/left-menu.component';
+import { HeaderComponent } from './header/header.component';
+import { RightMenuComponent } from './header/sub-menu/right-menu.component';
+import { LeftMenuComponent } from './header/sub-menu/left-menu.component';
 import { FooterComponent } from './footer/footer.component';
 import { SearchComponent } from './search/search.component';
 import { ProductComponent } from './product/product.component';
 import { CategoryComponent } from './category/category.component';
 import { NotExistComponent } from './error/not-exist.component';
 
-import { IconsProviderModule } from '../icons-provider.module';
+import { IconsProviderModule } from '../../icons-provider.module';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -22,7 +22,7 @@ import { NzResultModule } from 'ng-zorro-antd/result';
 
 @NgModule({
   declarations: [
-    NavBarComponent,
+    HeaderComponent,
     RightMenuComponent,
     LeftMenuComponent,
     FooterComponent,
@@ -44,7 +44,7 @@ import { NzResultModule } from 'ng-zorro-antd/result';
     NzResultModule
   ],
   exports: [
-    NavBarComponent,
+    HeaderComponent,
     RightMenuComponent,
     LeftMenuComponent,
     FooterComponent,

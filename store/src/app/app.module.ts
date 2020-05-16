@@ -9,7 +9,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { SharedComponentsModule } from './components/shared-components.module';
+import { SharedComponentsModule } from './shared/components/shared-components.module';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
