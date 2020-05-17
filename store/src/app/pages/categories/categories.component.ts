@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-categories',
@@ -57,7 +58,9 @@ export class CategoriesComponent implements OnInit {
   rangeValue = [0, 1800000];
   maxPrice = 2000000;
 
-  constructor() {}
+  constructor(private titleService: Title) {
+    this.titleService.setTitle('Sách Khoa Học | Olymbooks');
+  }
 
   ngOnInit() {
     this.products = this.bookData.map((el, idx) => ({

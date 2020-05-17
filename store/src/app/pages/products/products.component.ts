@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { formatDistance, addDays } from 'date-fns';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-products',
@@ -97,6 +98,10 @@ export class ProductsComponent implements OnInit {
     avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
   };
   inputValue = '';
+
+  constructor(private titleService: Title) {
+    this.titleService.setTitle('Nhà Giả Kim | Olymbooks');
+  }
 
   ngOnInit(): void {
     this.product.images = new Array(4)

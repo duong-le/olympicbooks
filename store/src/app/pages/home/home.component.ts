@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -60,7 +61,9 @@ export class HomeComponent {
     }
   };
 
-  constructor() {
+  constructor(private titleService: Title) {
+    this.titleService.setTitle('Olymbooks');
+
     this.categories = this.categoriesData.map((el, idx) => ({
       title: el,
       id: idx + 1,
