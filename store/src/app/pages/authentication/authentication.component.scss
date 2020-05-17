@@ -1,0 +1,20 @@
+nz-card {
+  margin: 10vh auto;
+  max-width: 450px;
+}
+
+.authentication-form-password {
+  position: relative;
+}
+
+.authentication-form-forgot {
+  position: absolute;
+  right: 0;
+  padding-top: 4px;
+}
+
+.authentication-form-button-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

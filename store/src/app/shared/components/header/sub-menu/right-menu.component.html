@@ -1,25 +1,23 @@
 <ul nz-menu [nzMode]="mode">
   <ng-container *ngIf="mode === 'horizontal' && !mobile">
-    <li nz-menu-item>
-      <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>Cart ({{quantity}})</li>
+    <li nz-menu-item><i nz-icon nzType="shopping-cart" nzTheme="outline"></i>Cart ({{quantity}})</li>
     <li nz-submenu nzTitle="Account" class="submenu-title">
       <ul>
-        <li nz-menu-item> Log In </li>
-        <li nz-menu-item> Sign Up </li>
+        <li nz-menu-item> <a routerLink="/login"> Log In </a> </li>
+        <li nz-menu-item> <a routerLink="/signup"> Sign Up </a> </li>
       </ul>
     </li>
   </ng-container>
 
   <ng-container *ngIf="mode === 'horizontal' && mobile">
-    <li nz-menu-item>
-      <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>({{quantity}})</li>
+    <li nz-menu-item><i nz-icon nzType="shopping-cart" nzTheme="outline"></i>({{quantity}})</li>
   </ng-container>
 
   <ng-container *ngIf="mode === 'inline'">
     <li nz-submenu nzTitle="Account" class="submenu-title">
       <ul>
-        <li nz-menu-item> Log In </li>
-        <li nz-menu-item> Sign Up </li>
+        <li nz-menu-item> <a routerLink="/login"> Log In </a> </li>
+        <li nz-menu-item> <a routerLink="/signup"> Sign Up </a> </li>
       </ul>
     </li>
   </ng-container>
