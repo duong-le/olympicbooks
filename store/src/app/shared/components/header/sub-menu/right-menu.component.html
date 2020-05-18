@@ -16,8 +16,8 @@
   <ng-container *ngIf="mode === 'inline'">
     <li nz-submenu nzTitle="Account" class="submenu-title">
       <ul>
-        <li nz-menu-item> <a routerLink="/login"> Log In </a> </li>
-        <li nz-menu-item> <a routerLink="/signup"> Sign Up </a> </li>
+        <li nz-menu-item> <a routerLink="/login" (click)="onClick()"> Log In </a> </li>
+        <li nz-menu-item> <a routerLink="/signup" (click)="onClick()"> Sign Up </a> </li>
       </ul>
     </li>
   </ng-container>

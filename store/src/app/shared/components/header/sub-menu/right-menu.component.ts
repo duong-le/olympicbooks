@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-right-menu',
@@ -9,6 +9,11 @@ export class RightMenuComponent {
   @Input() mode: string;
   @Input() quantity: number;
   @Input() mobile: boolean;
+  @Output() onNavigate: EventEmitter<any> = new EventEmitter();
 
   constructor() {}
+
+  onClick() {
+    this.onNavigate.emit();
+  }
 }

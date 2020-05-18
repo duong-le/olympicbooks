@@ -33,7 +33,7 @@
           <nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="Menu"
             (nzOnClose)="close()">
             <app-left-menu [mode]="verticalMode" [mobile]="true"></app-left-menu>
-            <app-right-menu [mode]="verticalMode"></app-right-menu>
+            <app-right-menu [mode]="verticalMode" (onNavigate)="close()"></app-right-menu>
           </nz-drawer>
         </div>
       </div>
