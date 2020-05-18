@@ -11,7 +11,12 @@ import {
   LikeTwoTone,
   UserOutline,
   MailOutline,
-  LockOutline
+  LockOutline,
+  BookOutline,
+  TeamOutline,
+  CommentOutline,
+  LoginOutline,
+  LogoutOutline
 } from '@ant-design/icons-angular/icons';
 
 const icons: IconDefinition[] = [
@@ -23,7 +28,12 @@ const icons: IconDefinition[] = [
   LikeTwoTone,
   UserOutline,
   MailOutline,
-  LockOutline
+  LockOutline,
+  BookOutline,
+  TeamOutline,
+  CommentOutline,
+  LoginOutline,
+  LogoutOutline
 ];
 
 @NgModule({

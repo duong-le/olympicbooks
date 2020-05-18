@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-left-menu',
@@ -8,6 +8,11 @@ import { Component, Input } from '@angular/core';
 export class LeftMenuComponent {
   @Input() mode: string;
   @Input() mobile: boolean;
+  @Output() onNavigate: EventEmitter<any> = new EventEmitter();
 
   constructor() {}
+
+  onClick() {
+    this.onNavigate.emit();
+  }
 }
