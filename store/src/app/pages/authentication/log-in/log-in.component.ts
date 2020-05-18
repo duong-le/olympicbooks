@@ -13,7 +13,7 @@ export class LogInComponent implements OnInit {
   constructor(private titleService: Title, private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('Log In | Olymbooks');
+    this.titleService.setTitle('Đăng nhập | Olymbooks');
 
     this.loginForm = this.fb.group({
       userName: ['', [Validators.required]],

@@ -62,7 +62,7 @@ export class HomeComponent {
   };
 
   constructor(private titleService: Title) {
-    this.titleService.setTitle('Olymbooks');
+    this.titleService.setTitle('Trang chủ | Olymbooks');
 
     this.categories = this.categoriesData.map((el, idx) => ({
       title: el,

@@ -18,7 +18,7 @@ export class SignUpComponent implements OnInit {
   constructor(private titleService: Title, private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('Sign Up | Olymbooks');
+    this.titleService.setTitle('Đăng ký | Olymbooks');
 
     this.signUpForm = this.fb.group({
       userName: ['', [Validators.required]],
