@@ -1,11 +1,7 @@
 <nz-card class="container">
   <div nz-row [nzGutter]="[48,32]">
     <div nz-col [nzLg]="12" [nzMd]="24" [nzSm]="24" [nzXs]="24">
-      <nz-carousel [nzEnableSwipe]="true">
-        <div nz-carousel-content *ngFor="let image of product?.images">
-          <img class="product-image" [src]="image" (load)="onLoadImage($event)">
-        </div>
-      </nz-carousel>
+      <gallery [items]="items" [counter]="false"></gallery>
     </div>
 
     <div nz-col [nzLg]="12" [nzMd]="24" [nzSm]="24" [nzXs]="24">
@@ -54,8 +50,16 @@
           </nz-descriptions-item>
         </nz-descriptions>
 
-        <button nz-button class="btn" nzType="default" nzBlock>Thêm Vào Giỏ Hàng</button>
-        <button nz-button class="btn" nzType="primary" nzBlock>Mua Ngay</button>
+        <div class="btn-wrapper">
+          <div nz-row [nzGutter]="[48,16]">
+            <div nz-col [nzLg]="12" [nzMd]="24" [nzSm]="24" [nzXs]="24">
+              <button nz-button class="btn" nzType="default">Thêm Vào Giỏ Hàng</button>
+            </div>
+            <div nz-col [nzLg]="12" [nzMd]="24" [nzSm]="24" [nzXs]="24">
+              <button nz-button class="btn" nzType="primary">Mua Ngay</button>
+            </div>
+          </div>
+        </div>
       </nz-skeleton>
     </div>
   </div>

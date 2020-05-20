@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { formatDistance, addDays } from 'date-fns';
 import { Title } from '@angular/platform-browser';
+import { GalleryItem, ImageItem } from 'ng-gallery';
 
 @Component({
   selector: 'app-products',
@@ -8,7 +9,7 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent implements OnInit {
-  loading = true;
+  loading = false;
   likes = 0;
   dislikes = 0;
 
@@ -99,6 +100,8 @@ export class ProductsComponent implements OnInit {
   };
   inputValue = '';
 
+  items: GalleryItem[];
+
   constructor(private titleService: Title) {
     this.titleService.setTitle('Nhà Giả Kim | Olymbooks');
   }
@@ -110,8 +113,12 @@ export class ProductsComponent implements OnInit {
         (_) =>
           `https://picsum.photos/seed/${Math.floor(
             Math.random() * 1000
-          )}/385/550`
+          )}/719/410`
       );
+
+    this.items = this.product.images.map(
+      (item) => new ImageItem({ src: item, thumb: item })
+    );
 
     this.products = this.bookData.map((el, idx) => ({
       ...el,

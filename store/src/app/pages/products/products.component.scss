@@ -1,24 +1,7 @@
-nz-carousel {
-  display: block;
-  margin: auto;
-}
-
-nz-carousel,
-.product-image {
-  width: 385px;
-  height: 550px;
-}
-
 @media (max-width: 576px) {
   .container {
     margin: 0;
     margin-bottom: 20px;
-  }
-
-  nz-carousel,
-  .product-image {
-    width: 270px;
-    height: 390px;
   }
 }
 
@@ -51,9 +34,11 @@ nz-carousel,
   padding: 0;
 }
 
-.btn {
-  margin-top: 10px;
-  margin-bottom: 5px;
+.btn-wrapper {
+  margin-top: 18px;
+  button {
+    width: 100%;
+  }
 }
 
 .block-header {
