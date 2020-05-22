@@ -44,20 +44,16 @@ export class HomeComponent {
     { title: 'Khi Hơi Thở Hóa Thinh Không ', price: 1500000, hot: true }
   ];
 
-  items = [
-    'assets/images/banner-1.jpg',
-    'assets/images/banner-2.jpg',
-    'assets/images/banner-3.jpg'
-  ];
+  hero = 'assets/images/hero.jpg';
 
   banner = {
     left: {
-      img: 'assets/images/community.jpg',
-      content: 'Community'
+      src: 'assets/images/community.jpg',
+      caption: 'Cộng Đồng'
     },
     right: {
-      img: 'assets/images/new-arrivals.jpg',
-      content: 'New Arrivals'
+      src: 'assets/images/new-arrivals.jpg',
+      caption: 'Sản Phẩm Mới'
     }
   };
 
@@ -67,14 +63,14 @@ export class HomeComponent {
     this.categories = this.categoriesData.map((el, idx) => ({
       title: el,
       id: idx + 1,
-      img: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/460`,
+      src: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/460`,
       ...((idx + 1) % 4 === 0 && { new: true })
     }));
 
     this.hotDeals = this.bookData.map((el, idx) => ({
       ...el,
       id: idx + 1,
-      img: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/460`,
+      src: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/460`,
       salePrice: 1000000,
       sale: true
     }));
@@ -82,7 +78,7 @@ export class HomeComponent {
     this.recommendations = this.bookData.map((el, idx) => ({
       ...el,
       id: idx + 1,
-      img: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/460`
+      src: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/460`
     }));
   }
 }
