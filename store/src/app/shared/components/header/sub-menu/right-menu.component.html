@@ -1,7 +1,7 @@
 <ul nz-menu [nzMode]="mode" [nzSelectable]="false" (nzClick)="onClick()">
   <ng-container *ngIf="(mode === 'horizontal' && mobile) || (mode === 'horizontal' && !mobile)">
     <li nz-menu-item nzMatchRouter>
-      <a routerLink="/cart"><i nz-icon nzType="shopping-cart" nzTheme="outline"></i>({{quantity}})</a></li>
+      <a routerLink="/checkout/cart"><i nz-icon nzType="shopping-cart" nzTheme="outline"></i>({{quantity}})</a></li>
   </ng-container>
 
   <ng-container *ngIf="(mode === 'inline') || (mode === 'horizontal' && !mobile)">

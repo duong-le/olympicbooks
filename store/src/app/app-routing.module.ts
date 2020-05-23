@@ -24,6 +24,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/products/products.module').then((m) => m.ProductsModule)
   },
+  {
+    path: 'checkout',
+    loadChildren: () =>
+      import('./pages/check-out/check-out.module').then((m) => m.CheckOutModule)
+  },
   { path: '**', component: NotExistComponent }
 ];
 
