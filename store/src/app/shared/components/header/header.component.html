@@ -1,8 +1,11 @@
-<nav class="container">
+<nz-card [nzBordered]="false" [nzBodyStyle]="{ padding: '5px 10% 1px' }">
   <div nz-row nzAlign="middle">
     <div nz-col [nzXs]="13" [nzXl]="4">
       <div class="logo">
-        <a routerLink="/">Olym<span style="color:#337ab7">books</span></a>
+        <a routerLink="/">
+          <h4>Olym</h4>
+          <h4 style="color:#337ab7;">books</h4>
+        </a>
       </div>
     </div>
 
@@ -38,4 +41,4 @@
       </div>
     </div>
   </div>
-</nav>
+</nz-card>
