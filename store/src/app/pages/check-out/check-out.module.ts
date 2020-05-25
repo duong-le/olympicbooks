@@ -12,6 +12,9 @@ import { StepComponent } from './step.component';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 @NgModule({
   declarations: [CartComponent, ShipComponent, PayComponent, StepComponent],
@@ -22,7 +25,10 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     CheckOutRoutingModule,
     NzCardModule,
     NzStepsModule,
-    NzGridModule
+    NzGridModule,
+    NzInputNumberModule,
+    NzButtonModule,
+    NzInputModule
   ]
 })
 export class CheckOutModule {}

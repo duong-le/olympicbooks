@@ -18,7 +18,9 @@ import {
   LoginOutline,
   LogoutOutline,
   HomeOutline,
-  CreditCardOutline
+  CreditCardOutline,
+  DeleteOutline,
+  GiftOutline
 } from '@ant-design/icons-angular/icons';
 
 const icons: IconDefinition[] = [
@@ -37,7 +39,9 @@ const icons: IconDefinition[] = [
   LoginOutline,
   LogoutOutline,
   HomeOutline,
-  CreditCardOutline
+  CreditCardOutline,
+  DeleteOutline,
+  GiftOutline
 ];
 
 @NgModule({
