@@ -1,6 +1,6 @@
 <nz-card class="container">
   <div nz-row [nzGutter]="[48,32]">
-    <div nz-col [nzLg]="12" [nzMd]="24" [nzSm]="24" [nzXs]="24">
+    <div nz-col nzLg="12" nzXs="24">
       <nz-carousel [nzEnableSwipe]="true">
         <div nz-carousel-content *ngFor="let image of product?.images">
           <img class="product-image" [src]="image" (load)="onLoadImage($event)">
@@ -8,7 +8,7 @@
       </nz-carousel>
     </div>
 
-    <div nz-col [nzLg]="12" [nzMd]="24" [nzSm]="24" [nzXs]="24">
+    <div nz-col nzLg="12" nzXs="24">
       <nz-skeleton [nzLoading]="loading" [nzActive]="true" [nzParagraph]="{ rows: 15 }">
         <div>
           <div class="badge item-new" *ngIf="product.new">New</div>
@@ -109,8 +109,7 @@
 <nz-card [nzLoading]="loading" class="container">
   <h3 class="block-header">Sản Phẩm Liên Quan</h3>
   <div nz-row>
-    <div nz-col class="ant-col-all" [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24"
-      *ngFor="let product of products">
+    <div nz-col class="ant-col-all" nzXl="4" nzLg="6" nzMd="8" nzSm="12" nzXs="24" *ngFor="let product of products">
       <app-product [product]="product"></app-product>
     </div>
   </div>

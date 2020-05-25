@@ -14,12 +14,12 @@
 </div>
 
 <div nz-row class="banner-section">
-  <div nz-col [nzXs]="24" [nzLg]="15" class="banner">
+  <div nz-col nzLg="15" nzXs="24" class="banner">
     <div class="banner-image" style="background-image: url({{banner.left.src}});"> </div>
     <div class="banner-caption"> <a routerLink="/community"> {{banner.left.caption}} </a></div>
   </div>
 
-  <div nz-col [nzXs]="24" [nzLg]="9" class="banner">
+  <div nz-col nzLg="9" nzXs="24" class="banner">
     <div class="banner-image" style="background-image: url({{banner.right.src}});"> </div>
     <div class="banner-caption"> <a routerLink="/products/1"> {{banner.right.caption}} </a></div>
   </div>
@@ -28,9 +28,8 @@
 <div class="container">
   <nz-page-header nzTitle="Categories" [nzGhost]="false"> </nz-page-header>
 
-  <div nz-row nzJustify="center">
-    <div nz-col class="ant-col-all" [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24"
-      *ngFor="let item of categories">
+  <div nz-row>
+    <div nz-col class="ant-col-all" nzXl="4" nzLg="6" nzMd="8" nzSm="12" nzXs="24" *ngFor="let item of categories">
       <app-category [category]="item"></app-category>
     </div>
   </div>
@@ -39,9 +38,8 @@
 <div class="container">
   <nz-page-header nzTitle="Hot Deals" [nzGhost]="false"> </nz-page-header>
 
-  <div nz-row nzJustify="center">
-    <div nz-col class="ant-col-all" [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24"
-      *ngFor="let item of hotDeals">
+  <div nz-row>
+    <div nz-col class="ant-col-all" nzXl="4" nzLg="6" nzMd="8" nzSm="12" nzXs="24" *ngFor="let item of hotDeals">
       <app-product [product]="item"></app-product>
     </div>
   </div>
@@ -51,9 +49,8 @@
 <div class="container">
   <nz-page-header nzTitle="Recommendations" [nzGhost]="false"> </nz-page-header>
 
-  <div nz-row nzJustify="center">
-    <div nz-col class="ant-col-all" [nzXl]="4" [nzLg]="6" [nzMd]="8" [nzSm]="12" [nzXs]="24"
-      *ngFor="let item of recommendations">
+  <div nz-row>
+    <div nz-col class="ant-col-all" nzXl="4" nzLg="6" nzMd="8" nzSm="12" nzXs="24" *ngFor="let item of recommendations">
       <app-product [product]="item"></app-product>
     </div>
   </div>

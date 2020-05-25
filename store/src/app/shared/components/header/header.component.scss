@@ -1,21 +1,15 @@
 h4 {
   display: inline;
   font-weight: bold;
+  font-size: 1.47em;
 }
 
 .ant-btn {
   border: none;
 }
 
-.logo a {
-  font-size: 1.47em;
-  font-weight: 700;
-  color: black;
-}
-
-@media (min-width: 1200px) {
-  .ant-col-xl-8 {
-    display: flex;
-    justify-content: flex-end;
+@media (max-width: 1200px) {
+  .hidden-lg {
+    display: none;
   }
 }

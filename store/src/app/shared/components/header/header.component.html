@@ -1,33 +1,31 @@
 <nz-card [nzBordered]="false" [nzBodyStyle]="{ padding: '5px 10% 1px' }">
-  <div nz-row nzAlign="middle">
-    <div nz-col [nzXs]="13" [nzXl]="4">
-      <div class="logo">
-        <a routerLink="/">
-          <h4>Olym</h4>
-          <h4 style="color:#337ab7;">books</h4>
-        </a>
-      </div>
+  <div nz-row nzJustify="space-between" nzAlign="middle">
+    <div nz-col>
+      <a routerLink="/">
+        <h4>Olym</h4>
+        <h4 style="color:#337ab7;">books</h4>
+      </a>
     </div>
 
-    <div nz-col [nzXs]="11" [nzXl]="20">
-      <div nz-row nzAlign="middle" nzJustify="end">
-        <div nz-col [nzXs]="0" [nzXl]="12">
-          <app-left-menu [mode]="horizontalMode" [mobile]="false"></app-left-menu>
-        </div>
+    <div nz-col class="hidden-lg">
+      <app-left-menu [mode]="horizontalMode" [mobile]="false"></app-left-menu>
+    </div>
 
-        <div nz-col [nzXs]="0" [nzXl]="4">
-          <app-search></app-search>
-        </div>
+    <div nz-col class="hidden-lg">
+      <app-search></app-search>
+    </div>
 
-        <div nz-col [nzXs]="0" [nzXl]="8">
-          <app-right-menu [mode]="horizontalMode" [quantity]="quantity" [mobile]="false"></app-right-menu>
-        </div>
+    <div nz-col class="hidden-lg">
+      <app-right-menu [mode]="horizontalMode" [quantity]="quantity" [mobile]="false"></app-right-menu>
+    </div>
 
-        <div nz-col [nzXl]="0">
+    <div nz-col nzXl="0">
+      <div nz-row nzAlign="middle">
+        <div nz-col>
           <app-right-menu [mode]="horizontalMode" [quantity]="quantity" [mobile]="true"></app-right-menu>
         </div>
 
-        <div nz-col [nzXl]="0">
+        <div nz-col>
           <button nz-button nzType="default" (click)="open()">
             <i nz-icon nzType="menu" nzTheme="outline"></i>
           </button>
