@@ -1,4 +1,4 @@
-<ul nz-menu [nzMode]="mode" [nzSelectable]="false" (nzClick)="onClick()">
+<ul nz-menu [nzMode]="mode" [nzSelectable]="false" (nzClick)="onMenuTitleClick()">
   <app-search *ngIf="mobile"></app-search>
 
   <li nz-submenu nzTitle="Danh mục sách" nzIcon="book">

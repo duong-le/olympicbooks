@@ -12,7 +12,7 @@ export class LeftMenuComponent {
 
   constructor() {}
 
-  onClick() {
+  onMenuTitleClick() {
     this.onNavigate.emit();
   }
 }

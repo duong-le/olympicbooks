@@ -13,7 +13,7 @@ export class RightMenuComponent {
 
   constructor() {}
 
-  onClick() {
+  onMenuTitleClick() {
     this.onNavigate.emit();
   }
 }
