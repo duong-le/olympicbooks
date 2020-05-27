@@ -3,25 +3,26 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IconsProviderModule } from '../../icons-provider.module';
 
-import { CheckOutRoutingModule } from './check-out-routing.module';
-import { CheckOutComponent } from './check-out.component';
+import { CartRoutingModule } from './cart-routing.module';
+import { CartComponent } from './cart.component';
 
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
-
 @NgModule({
-  declarations: [CheckOutComponent],
+  declarations: [CartComponent],
   imports: [
     CommonModule,
     FormsModule,
     IconsProviderModule,
-    CheckOutRoutingModule,
+    CartRoutingModule,
     NzCardModule,
     NzGridModule,
+    NzInputNumberModule,
     NzButtonModule,
     NzInputModule
   ]
 })
-export class CheckOutModule {}
+export class CartModule {}
