@@ -1,5 +1,5 @@
 nz-layout {
-  position: relative;
+  min-height: 100vh;
 }
 
 app-header {
@@ -11,11 +11,4 @@ app-header {
 
 nz-content {
   margin-top: 60px;
-  min-height: calc(100vh - 60px);
-}
-
-app-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
 }
