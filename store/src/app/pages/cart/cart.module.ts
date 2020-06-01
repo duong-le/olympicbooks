@@ -9,8 +9,10 @@ import { CartComponent } from './cart.component';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
-import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+
 @NgModule({
   declarations: [CartComponent],
   imports: [
@@ -21,8 +23,9 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzCardModule,
     NzGridModule,
     NzInputNumberModule,
-    NzButtonModule,
-    NzInputModule
+    NzInputModule,
+    NzDividerModule,
+    NzButtonModule
   ]
 })
 export class CartModule {}

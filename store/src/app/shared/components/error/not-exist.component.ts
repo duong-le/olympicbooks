@@ -10,7 +10,7 @@ import { Title } from '@angular/platform-browser';
       nzSubTitle="Sorry, the page you visited does not exist."
     >
       <div nz-result-extra>
-        <button nz-button nzType="primary" [routerLink]="['']">
+        <button nz-button nzType="primary" routerLink="/">
           Back Home
         </button>
       </div>
