@@ -30,8 +30,8 @@
         </nz-descriptions>
 
         <div class="price-wrapper">
-          <h1 class="price">{{ product.price | currency:"VND" }}</h1>
-          <h3><del>{{ product.originalPrice | currency:"VND" }}</del></h3>
+          <h1 class="price">{{ product.price | currency:"VND":"symbol":null:"vi-VN" }}</h1>
+          <h3><del>{{ product.originalPrice | currency:"VND":"symbol":null:"vi-VN" }}</del></h3>
         </div>
 
         <nz-descriptions [nzColumn]="2" [nzColon]="false">
