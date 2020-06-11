@@ -1,0 +1,23 @@
+steps:
+  # Build the container image
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/olymbooks/api", "."]
+    dir: "api"
+  # Push the image to Container Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/olymbooks/api"]
+  # Deploy image to Cloud Run
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      - "run"
+      - "deploy"
+      - "api"
+      - "--image"
+      - "gcr.io/olymbooks/api"
+      - "--region"
+      - "asia-east1"
+      - "--platform"
+      - "managed"
+images:
+  - gcr.io/olymbooks/api
+timeout: 1200s
