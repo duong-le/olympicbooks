@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+  olymbooks-store:
+    container_name: olymbooks-store
+    working_dir: /usr/src/app
+    build:
+      context: ./store
+      target: development
+    volumes:
+      - ./store:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 4200:4200
+    command: yarn start:dev
+    networks:
+      - olymbooks-network
+
+  olymbooks-api:
+    container_name: olymbooks-api
+    build:
+      context: ./api
+      target: development
+    volumes:
+      - ./api:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 4000:4000
+    command: yarn start:dev
+    networks:
+      - olymbooks-network
+
+networks:
+  olymbooks-network:
+    driver: bridge
