@@ -23,6 +23,4 @@ RUN npm install
 
 COPY --from=development /usr/src/app/dist ./dist
 
-EXPOSE 4000
-
 CMD [ "node", "dist/main" ]
