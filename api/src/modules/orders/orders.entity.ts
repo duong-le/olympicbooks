@@ -1,9 +1,9 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, OneToMany, OneToOne, JoinColumn } from 'typeorm';
 import { OrderDetail } from './order-detail.entity';
-import { User } from '../users/user.entity';
-import { Discount } from '../discounts/discount.entity';
-import { Payment } from '../payments/payment.entity';
-import { Shipment } from '../shipments/shipment.entity';
+import { User } from '../users/users.entity';
+import { Discount } from '../discounts/discounts.entity';
+import { Payment } from '../payments/payments.entity';
+import { Shipment } from '../shipments/shipments.entity';
 
 export enum OrderState {
   PROCESSING = 'PROCESSING',
