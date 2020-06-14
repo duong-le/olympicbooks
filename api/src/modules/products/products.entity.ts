@@ -1,7 +1,7 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne, CreateDateColumn } from 'typeorm';
-import { Author } from '../authors/author.entity';
-import { Publisher } from '../publishers/publisher.entity';
-import { Category } from '../categories/category.entity';
+import { Author } from '../authors/authors.entity';
+import { Publisher } from '../publishers/publishers.entity';
+import { Category } from '../categories/categories.entity';
 
 @Entity()
 export class Product extends BaseEntity {
