@@ -12,6 +12,7 @@ import { OrdersModule } from './modules/orders/orders.module';
 import { DiscountsModule } from './modules/discounts/discounts.module';
 import { PaymentsModule } from './modules/payments/payments.module';
 import { ShipmentsModule } from './modules/shipments/shipments.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -34,7 +35,8 @@ import { ShipmentsModule } from './modules/shipments/shipments.module';
     OrdersModule,
     DiscountsModule,
     PaymentsModule,
-    ShipmentsModule
+    ShipmentsModule,
+    AuthModule
   ],
   controllers: [],
   providers: [Logger]
