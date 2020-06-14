@@ -1,5 +1,5 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Order } from '../orders/order.entity';
+import { Order } from '../orders/orders.entity';
 
 export enum PaymentMethod {
   COD = 'COD'
