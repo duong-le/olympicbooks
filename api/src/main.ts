@@ -9,11 +9,13 @@ async function bootstrap() {
   app.use(helmet());
 
   app.setGlobalPrefix('/v1');
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
 
-  const options = new DocumentBuilder().setTitle('Olymbooks API v1').addBearerAuth().build();
-  const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('/v1', app, document);
+  if (process.env.NODE_ENV !== 'PRODUCTION') {
+    const options = new DocumentBuilder().setTitle('Olymbooks API v1').addBearerAuth().build();
+    const document = SwaggerModule.createDocument(app, options);
+    SwaggerModule.setup('/', app, document, { swaggerOptions: { docExpansion: 'none' } });
+  }
 
   await app.listen(process.env.PORT || 4000);
 }

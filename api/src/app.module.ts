@@ -16,14 +16,14 @@ import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
+      host: process.env.SQL_HOST,
       port: 5432,
-      username: process.env.DB_USER_NAME,
-      password: process.env.DB_USER_PASSWORD,
-      database: process.env.DB_NAME,
+      username: process.env.SQL_USER,
+      password: process.env.SQL_PASSWORD,
+      database: process.env.SQL_NAME,
       entities: [join(__dirname, '**/**.entity{.ts,.js}')],
       synchronize: true
     }),
@@ -46,7 +46,9 @@ export class AppModule implements NestModule {
 
   configure(consumer: MiddlewareConsumer): void {
     consumer
-      .apply(morgan('dev', { stream: { write: (message) => this.logger.log(message.substring(0, message.lastIndexOf('\n'))) } }))
+      .apply(
+        morgan('dev', { stream: { write: (message) => this.logger.log(message.substring(0, message.lastIndexOf('\n')), 'HTTP Request') } })
+      )
       .forRoutes('*');
   }
 }
