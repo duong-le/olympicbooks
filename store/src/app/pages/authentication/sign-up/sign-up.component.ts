@@ -21,7 +21,7 @@ export class SignUpComponent implements OnInit {
     this.titleService.setTitle('Đăng ký | Olymbooks');
 
     this.signUpForm = this.fb.group({
-      userName: ['', [Validators.required]],
+      name: ['', [Validators.required]],
       email: ['', [Validators.email, Validators.required]],
       password: ['', [Validators.required]],
       confirm: ['', [this.confirmValidator]]

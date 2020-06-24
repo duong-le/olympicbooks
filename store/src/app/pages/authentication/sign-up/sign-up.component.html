@@ -2,10 +2,10 @@
   <h2>Sign Up</h2>
   <form nz-form [formGroup]="signUpForm" nzLayout="vertical" (ngSubmit)="submitForm(signUpForm.value)">
     <nz-form-item>
-      <nz-form-label nzRequired nzFor="userName">Username</nz-form-label>
-      <nz-form-control nzErrorTip="Please input your username!">
+      <nz-form-label nzRequired nzFor="name">Name</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your name!">
         <nz-input-group [nzPrefix]="prefixUser">
-          <input type="text" nz-input formControlName="userName" placeholder="Username" id="userName">
+          <input type="text" nz-input formControlName="name" placeholder="Name" id="name">
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
