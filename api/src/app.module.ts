@@ -3,16 +3,17 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import * as morgan from 'morgan';
+import { AuthModule } from './modules/auth/auth.module';
 import { ProductsModule } from './modules/products/products.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { PublishersModule } from './modules/publishers/publishers.module';
 import { AuthorsModule } from './modules/authors/authors.module';
 import { UsersModule } from './modules/users/users.module';
+import { CartsModule } from './modules/carts/carts.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { DiscountsModule } from './modules/discounts/discounts.module';
 import { PaymentsModule } from './modules/payments/payments.module';
 import { ShipmentsModule } from './modules/shipments/shipments.module';
-import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -27,16 +28,17 @@ import { AuthModule } from './modules/auth/auth.module';
       entities: [join(__dirname, '**/**.entity{.ts,.js}')],
       synchronize: true
     }),
+    AuthModule,
     ProductsModule,
     CategoriesModule,
     PublishersModule,
     AuthorsModule,
     UsersModule,
+    CartsModule,
     OrdersModule,
     DiscountsModule,
     PaymentsModule,
-    ShipmentsModule,
-    AuthModule
+    ShipmentsModule
   ],
   controllers: [],
   providers: [Logger]
