@@ -1,5 +1,5 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, OneToMany, OneToOne, JoinColumn } from 'typeorm';
-import { OrderDetail } from './order-detail.entity';
+import { OrderItem } from './orders-item.entity';
 import { User } from '../users/users.entity';
 import { Discount } from '../discounts/discounts.entity';
 import { Payment } from '../payments/payments.entity';
@@ -43,8 +43,8 @@ export class Order extends BaseEntity {
   @ManyToOne((type) => Payment, (payment) => payment.orders)
   payment: Payment;
 
-  @OneToMany((type) => OrderDetail, (orderDetail) => orderDetail.order)
-  orderDetails: OrderDetail[];
+  @OneToMany((type) => OrderItem, (orderItem) => orderItem.order)
+  orderItems: OrderItem[];
 
   @OneToOne((type) => Shipment)
   @JoinColumn()

@@ -3,7 +3,7 @@ import { Product } from '../products/products.entity';
 import { Order } from './orders.entity';
 
 @Entity()
-export class OrderDetail extends BaseEntity {
+export class OrderItem extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -16,7 +16,7 @@ export class OrderDetail extends BaseEntity {
   @Column()
   orderId: number;
 
-  @ManyToOne((type) => Order, (order) => order.orderDetails)
+  @ManyToOne((type) => Order, (order) => order.orderItems)
   order: Order;
 
   @OneToOne((type) => Product)

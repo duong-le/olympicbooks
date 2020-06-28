@@ -7,7 +7,10 @@ export class Category extends BaseEntity {
   id: number;
 
   @Column()
-  name: string;
+  title: string;
+
+  @Column()
+  img: string;
 
   @Column({ default: null })
   parent: number;

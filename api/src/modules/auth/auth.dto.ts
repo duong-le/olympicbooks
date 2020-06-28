@@ -1,5 +1,5 @@
 import { IsEmail, IsString, MinLength, MaxLength, Matches, IsDefined } from 'class-validator';
-import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 
 export class SignUpDto {
   @ApiProperty()
@@ -25,4 +25,9 @@ export class SignUpDto {
   password: string;
 }
 
-export class SignInDto extends OmitType(SignUpDto, ['name'] as const) {}
+export class SignInDto extends PickType(SignUpDto, ['email'] as const) {
+  @ApiProperty()
+  @IsDefined()
+  @IsString()
+  password: string;
+}

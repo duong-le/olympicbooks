@@ -38,7 +38,7 @@ export class Product extends BaseEntity {
   @ManyToOne((type) => Publisher, (publisher) => publisher.products)
   publisher: Publisher;
 
-  @ManyToMany((type) => Author)
-  @JoinTable()
+  @ManyToMany((type) => Author, (author) => author.products)
+  @JoinTable({ name: 'products_authors' })
   authors: Author[];
 }
