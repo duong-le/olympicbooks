@@ -1,11 +1,7 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany } from 'typeorm';
+import { Exclude } from 'class-transformer';
+import { Role } from 'src/shared/Enums/roles.enum';
 import { Order } from '../orders/orders.entity';
-
-export enum UserRole {
-  CUSTOMER = 'CUSTOMER',
-  EDITOR = 'EDITOR',
-  ADMIN = 'ADMIN'
-}
 
 @Entity()
 export class User extends BaseEntity {
@@ -19,9 +15,11 @@ export class User extends BaseEntity {
   email: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @Column()
+  @Exclude()
   salt: string;
 
   @Column({ default: null })
@@ -33,8 +31,8 @@ export class User extends BaseEntity {
   @Column({ default: false })
   isBlock: boolean;
 
-  @Column({ enum: UserRole, default: UserRole.CUSTOMER })
-  role: UserRole;
+  @Column({ enum: Role, default: Role.CUSTOMER })
+  role: Role;
 
   @CreateDateColumn()
   createdAt: Date;
