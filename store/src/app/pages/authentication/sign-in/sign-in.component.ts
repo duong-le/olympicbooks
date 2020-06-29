@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { first } from 'rxjs/operators';
 import { Authentication } from 'src/app/shared/Interfaces/authentication.interface';
@@ -16,11 +16,13 @@ export class SignInComponent implements OnInit {
   signInForm: FormGroup;
   passwordVisible = false;
   isLoading = false;
+  returnUrl: string;
 
   constructor(
     private titleService: Title,
     private fb: FormBuilder,
     private router: Router,
+    private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
     private message: NzMessageService
   ) {}
@@ -32,6 +34,8 @@ export class SignInComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
+
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   submitForm(data: Authentication): void {
@@ -43,7 +47,7 @@ export class SignInComponent implements OnInit {
         (response) => {
           this.createMessage('success', 'Đăng nhập thành công');
           this.isLoading = false;
-          this.router.navigate(['/']);
+          this.router.navigate([this.returnUrl]);
         },
         (error) => {
           if (error.status === 401)

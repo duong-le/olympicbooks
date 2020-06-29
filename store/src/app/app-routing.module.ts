@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { NotExistComponent } from './shared/components/error/not-exist.component';
+import { AuthGuard } from './shared/Guards/auth.guard';
+import { UnAuthGuard } from './shared/Guards/unauth.guard';
 
 const routes: Routes = [
   {
@@ -10,9 +12,11 @@ const routes: Routes = [
       import('./pages/home/home.module').then((m) => m.HomeModule)
   },
   { path: 'home', pathMatch: 'full', redirectTo: '' },
-  { path: '', 
+  {
+    path: '',
     loadChildren: () =>
-    import('./pages/authentication/authentication.module').then((m) => m.AuthenticationModule) 
+      import('./pages/authentication/authentication.module').then((m) => m.AuthenticationModule),
+    canActivate: [UnAuthGuard]
   },
   {
     path: 'categories',
@@ -27,12 +31,14 @@ const routes: Routes = [
   {
     path: 'cart',
     loadChildren: () =>
-      import('./pages/cart/cart.module').then((m) => m.CartModule)
+      import('./pages/cart/cart.module').then((m) => m.CartModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'checkout',
     loadChildren: () =>
-      import('./pages/check-out/check-out.module').then((m) => m.CheckOutModule)
+      import('./pages/check-out/check-out.module').then((m) => m.CheckOutModule),
+    canActivate: [AuthGuard]
   },
   { path: '**', component: NotExistComponent }
 ];
