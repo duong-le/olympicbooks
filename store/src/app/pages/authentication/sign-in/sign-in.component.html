@@ -1,15 +1,6 @@
 <nz-card>
-  <h2>Đăng Ký</h2>
-  <form nz-form [formGroup]="signUpForm" nzLayout="vertical" (ngSubmit)="submitForm(signUpForm.value)">
-    <nz-form-item>
-      <nz-form-label nzRequired nzFor="name">Họ tên</nz-form-label>
-      <nz-form-control nzErrorTip="Tên phải chứa ít nhất 2 ký tự">
-        <nz-input-group [nzPrefix]="prefixUser">
-          <input type="text" nz-input formControlName="name" placeholder="Họ tên" id="name">
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-
+  <h2>Đăng Nhập</h2>
+  <form nz-form [formGroup]="signInForm" nzLayout="vertical" (ngSubmit)="submitForm(signInForm.value)">
     <nz-form-item>
       <nz-form-label nzRequired nzFor="email">Email</nz-form-label>
       <nz-form-control nzErrorTip="Email không hợp lệ!">
@@ -19,10 +10,10 @@
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item>
+    <nz-form-item class="authentication-form-password">
       <nz-form-label nzRequired nzFor="password">Mật khẩu</nz-form-label>
-      <nz-form-control
-        nzErrorTip="Mật khẩu phải chứa ít nhất 6 ký tự, bao gồm cả chữ thường, chữ hoa và ký tự đặc biệt">
+      <a class="authentication-form-forgot" [routerLink]="['/signin']">Quên mật khẩu?</a>
+      <nz-form-control nzErrorTip="Mật khẩu không hợp lệ!">
         <nz-input-group [nzPrefix]="prefixPassword" [nzSuffix]="suffixPassword">
           <input [type]="passwordVisible ? 'text' : 'password'" nz-input formControlName="password"
             placeholder="Mật khẩu" id="password">
@@ -33,13 +24,13 @@
     <nz-form-item>
       <nz-form-control>
         <div class="authentication-form-button-wrapper">
-          <span>Đã có tài khoản? <a [routerLink]="['/signin']"> Đăng nhập</a> </span>
-          <button nz-button [nzType]="'primary'" [disabled]="!signUpForm.valid" [nzLoading]="isLoading">Đăng ký</button>
+          <span>Chưa có tài khoản? <a [routerLink]="['/signup']"> Đăng ký</a> </span>
+          <button nz-button [nzType]="'primary'" [disabled]="!signInForm.valid" [nzLoading]="isLoading">
+            Đăng nhập</button>
         </div>
       </nz-form-control>
     </nz-form-item>
   </form>
-  <ng-template #prefixUser><i nz-icon nzType="user" nzTheme="outline"></i></ng-template>
   <ng-template #prefixEmail><i nz-icon nzType="mail" nzTheme="outline"></i></ng-template>
   <ng-template #prefixPassword><i nz-icon nzType="lock" nzTheme="outline"></i></ng-template>
   <ng-template #suffixPassword>
