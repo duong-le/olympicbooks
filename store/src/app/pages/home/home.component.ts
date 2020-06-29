@@ -1,30 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { CategoriesService } from '../categories/categories.service';
+import { Category } from 'src/app/shared/Interfaces/category.interface';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
-  categories;
+export class HomeComponent implements OnInit {
+  categories: Category[];
   hotDeals;
   recommendations;
-
-  categoriesData = [
-    'Sách văn học',
-    'Sách kinh tế',
-    'Sách thiếu nhi',
-    'Sách kỹ năng sống',
-    'Sách Giáo Khoa - Giáo Trình',
-    'Sách Ngoại Ngữ',
-    'Sách Tham Khảo',
-    'Sách Khoa Học - Kỹ Thuật',
-    'Truyện Tranh, Manga, Comic',
-    'Sách Văn Hóa - Địa Lý - Du Lịch',
-    'Sách Chính Trị - Pháp Lý',
-    'Sách Công Nghệ Thông Tin'
-  ];
 
   bookData = [
     { title: 'Chiến tranh và hòa bình', price: 1500000 },
@@ -57,15 +44,11 @@ export class HomeComponent {
     }
   };
 
-  constructor(private titleService: Title) {
+  constructor(
+    private titleService: Title,
+    private categoriesService: CategoriesService
+  ) {
     this.titleService.setTitle('Trang chủ | Olymbooks');
-
-    this.categories = this.categoriesData.map((el, idx) => ({
-      title: el,
-      id: idx + 1,
-      src: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/460`,
-      ...((idx + 1) % 4 === 0 && { new: true })
-    }));
 
     this.hotDeals = this.bookData.map((el, idx) => ({
       ...el,
@@ -80,5 +63,14 @@ export class HomeComponent {
       id: idx + 1,
       src: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/460`
     }));
+  }
+
+  ngOnInit() {
+    this.categoriesService.getManyCategories().subscribe(
+      (response) => {
+        this.categories = response;
+      },
+      (error) => {}
+    );
   }
 }
