@@ -4,12 +4,23 @@ import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { Category } from './categories.entity';
 import { CategoriesService } from './categories.service';
+import { Roles } from 'src/shared/Decorators/roles.decorator';
+import { Role } from 'src/shared/Enums/roles.enum';
+import { CreateCategoryDto, UpdateCategoryDto } from './categories.dto';
 
 @ApiTags('Categories')
-@ApiBearerAuth()
 @Controller('categories')
-@UseGuards(AuthGuard())
-@Crud({ model: { type: Category } })
+@Crud({
+  model: { type: Category },
+  routes: {
+    exclude: ['replaceOneBase'],
+    createOneBase: { decorators: [ApiBearerAuth(), UseGuards(AuthGuard()), Roles(Role.ADMIN)] },
+    createManyBase: { decorators: [ApiBearerAuth(), UseGuards(AuthGuard()), Roles(Role.ADMIN)] },
+    updateOneBase: { decorators: [ApiBearerAuth(), UseGuards(AuthGuard()), Roles(Role.ADMIN)] },
+    deleteOneBase: { decorators: [ApiBearerAuth(), UseGuards(AuthGuard()), Roles(Role.ADMIN)] }
+  },
+  dto: { create: CreateCategoryDto, update: UpdateCategoryDto }
+})
 export class CategoriesController implements CrudController<Category> {
   constructor(public service: CategoriesService) {}
 }
