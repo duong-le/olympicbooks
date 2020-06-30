@@ -1,7 +1,11 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
+import { CrudConfigService } from '@nestjsx/crud';
+CrudConfigService.load({ routes: { exclude: ['replaceOneBase'] } });
+
+import { AppModule } from './app.module';
 import * as helmet from 'helmet';
 
 async function bootstrap() {

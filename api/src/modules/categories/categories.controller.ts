@@ -13,7 +13,6 @@ import { CreateCategoryDto, UpdateCategoryDto } from './categories.dto';
 @Crud({
   model: { type: Category },
   routes: {
-    exclude: ['replaceOneBase'],
     createOneBase: { decorators: [ApiBearerAuth(), UseGuards(AuthGuard()), Roles(Role.ADMIN)] },
     createManyBase: { decorators: [ApiBearerAuth(), UseGuards(AuthGuard()), Roles(Role.ADMIN)] },
     updateOneBase: { decorators: [ApiBearerAuth(), UseGuards(AuthGuard()), Roles(Role.ADMIN)] },
