@@ -2,7 +2,6 @@ import { Module, NestModule, MiddlewareConsumer, Logger } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
-import * as morgan from 'morgan';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProductsModule } from './modules/products/products.module';
 import { CategoriesModule } from './modules/categories/categories.module';
@@ -14,6 +13,8 @@ import { OrdersModule } from './modules/orders/orders.module';
 import { DiscountsModule } from './modules/discounts/discounts.module';
 import { PaymentsModule } from './modules/payments/payments.module';
 import { ShipmentsModule } from './modules/shipments/shipments.module';
+import { SqlFormat } from './shared/Loggers/sql-format.logger';
+import morgan from 'morgan';
 
 @Module({
   imports: [
@@ -26,7 +27,8 @@ import { ShipmentsModule } from './modules/shipments/shipments.module';
       password: process.env.SQL_PASSWORD,
       database: process.env.SQL_NAME,
       entities: [join(__dirname, '**/**.entity{.ts,.js}')],
-      synchronize: true
+      synchronize: true,
+      logger: new SqlFormat(['schema', 'error', 'warn', 'info', 'log', 'migration'])
     }),
     AuthModule,
     ProductsModule,
@@ -47,10 +49,6 @@ export class AppModule implements NestModule {
   constructor(private logger: Logger) {}
 
   configure(consumer: MiddlewareConsumer): void {
-    consumer
-      .apply(
-        morgan('dev', { stream: { write: (message) => this.logger.log(message.substring(0, message.lastIndexOf('\n')), 'HTTP Request') } })
-      )
-      .forRoutes('*');
+    consumer.apply(morgan('dev', { stream: { write: (message) => this.logger.log(message.substring(0, message.lastIndexOf('\n')), 'HTTP Request') } })).forRoutes('*');
   }
 }
