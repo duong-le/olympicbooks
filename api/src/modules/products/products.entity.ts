@@ -1,7 +1,9 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne, CreateDateColumn } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne, CreateDateColumn, OneToMany } from 'typeorm';
 import { Author } from '../authors/authors.entity';
 import { Publisher } from '../publishers/publishers.entity';
 import { Category } from '../categories/categories.entity';
+import { OrderItem } from '../orders/orders-item/orders-item.entity';
+import { ProductImage } from './product-images/product-images.entity';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -15,13 +17,19 @@ export class Product extends BaseEntity {
   publicationYear: number;
 
   @Column()
+  pages: number;
+
+  @Column()
   price: number;
 
   @Column()
-  img: string;
+  originalPrice: number;
 
   @Column()
   availableQuantity: number;
+
+  @Column()
+  description: string;
 
   @Column()
   categoryId: number;
@@ -32,13 +40,19 @@ export class Product extends BaseEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne((type) => Category, (category) => category.products)
+  @OneToMany((type) => ProductImage, (productImage) => productImage.product, { eager: true, cascade: true })
+  images: ProductImage[];
+
+  @ManyToOne((type) => Category, (category) => category.products, { eager: true })
   category: Category;
 
-  @ManyToOne((type) => Publisher, (publisher) => publisher.products)
+  @ManyToOne((type) => Publisher, (publisher) => publisher.products, { eager: true })
   publisher: Publisher;
 
-  @ManyToMany((type) => Author, (author) => author.products)
+  @ManyToMany((type) => Author, (author) => author.products, { eager: true, cascade: true })
   @JoinTable({ name: 'products_authors' })
   authors: Author[];
+
+  @OneToMany((type) => OrderItem, (orderItem) => orderItem.product)
+  orderItems: OrderItem[];
 }
