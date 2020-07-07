@@ -2,6 +2,7 @@ import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, O
 import { Exclude } from 'class-transformer';
 import { Role } from 'src/shared/Enums/roles.enum';
 import { Order } from '../orders/orders.entity';
+import { CartItem } from '../carts/carts.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -39,4 +40,7 @@ export class User extends BaseEntity {
 
   @OneToMany((type) => Order, (order) => order.user)
   orders: Order[];
+
+  @OneToMany((type) => CartItem, (cartItem) => cartItem.user, { eager: true, cascade: true })
+  cartItems: CartItem[];
 }

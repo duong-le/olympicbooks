@@ -1,19 +1,28 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, Unique, CreateDateColumn } from 'typeorm';
+import { Product } from '../products/products.entity';
 import { User } from '../users/users.entity';
-import { CartItem } from './carts-item.entity';
 
 @Entity()
-export class Cart extends BaseEntity {
+@Unique(['userId', 'productId'])
+export class CartItem extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   userId: number;
 
-  @OneToOne((type) => User)
-  @JoinColumn()
+  @Column()
+  quantity: number;
+
+  @Column()
+  productId: number;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @ManyToOne((type) => User, (user) => user.cartItems)
   user: User;
 
-  @OneToMany((type) => CartItem, (cartItem) => cartItem.cart)
-  cartItems: CartItem[];
+  @ManyToOne((type) => Product, { eager: true })
+  product: Product;
 }

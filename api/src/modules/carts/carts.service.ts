@@ -1,12 +1,25 @@
-import { Injectable } from '@nestjs/common';
-import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Cart } from './carts.entity';
+import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
+import { CartItem } from './carts.entity';
 import { CartRepository } from './carts.repository';
+import { CreateCartItemDto } from './carts.dto';
+import { User } from '../users/users.entity';
 
 @Injectable()
-export class CartsService extends TypeOrmCrudService<Cart> {
+export class CartsService extends TypeOrmCrudService<CartItem> {
   constructor(@InjectRepository(CartRepository) private cartRepository: CartRepository) {
     super(cartRepository);
+  }
+
+  async createCartItem(dto: CreateCartItemDto, user: User): Promise<CartItem> {
+    const cartItem = await this.cartRepository.findOne({ where: { productId: dto.productId, userId: user.id } });
+    if (cartItem) throw new ConflictException('Cart item is already exist');
+    return await this.cartRepository.createCartItem(dto, user);
+  }
+
+  async deleteMany(user: User): Promise<void> {
+    const result = await this.cartRepository.delete({ userId: user.id });
+    if (result.affected === 0) throw new NotFoundException(`Cart is empty`);
   }
 }
