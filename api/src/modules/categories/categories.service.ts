@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Category } from './categories.entity';
-import { CategoryRepository } from './categories.repository';
 
 @Injectable()
 export class CategoriesService extends TypeOrmCrudService<Category> {
-  constructor(@InjectRepository(CategoryRepository) private categoryRepository: CategoryRepository) {
+  constructor(@InjectRepository(Category) private categoryRepository: Repository<Category>) {
     super(categoryRepository);
   }
 }
