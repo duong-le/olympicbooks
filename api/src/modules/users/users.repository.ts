@@ -23,9 +23,10 @@ export class UserRepository extends Repository<User> {
     }
   }
 
-  async updateUser(dto: UpdateUserDto | UpdateMeDto, id: number): Promise<void> {
+  async updateUser(dto: UpdateUserDto | UpdateMeDto, id: number): Promise<User> {
     try {
       await this.update(id, dto);
+      return this.findOne(id);
     } catch (error) {
       if (error.code === '23505') {
         throw new ConflictException('Email already exists');

@@ -34,15 +34,15 @@ export class UsersController implements CrudController<User> {
   }
 
   @ApiOperation({ summary: 'Update my User' })
-  @UseInterceptors(CrudRequestInterceptor)
+  @UseInterceptors(CrudRequestInterceptor, ClassSerializerInterceptor)
   @Patch('/me')
-  updateMe(@Body() me: UpdateMeDto, @UserInfo() user: User): Promise<void> {
+  updateMe(@Body() me: UpdateMeDto, @UserInfo() user: User): Promise<User> {
     return this.service.updateUser(me, user.id);
   }
 
   @Override()
   @Roles(Role.ADMIN)
-  updateOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: UpdateUserDto): Promise<void> {
+  updateOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: UpdateUserDto): Promise<User> {
     return this.service.updateUser(dto, req.parsed.paramsFilter[0].value);
   }
 }
