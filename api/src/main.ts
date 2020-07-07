@@ -7,6 +7,7 @@ CrudConfigService.load({ routes: { exclude: ['replaceOneBase'] } });
 
 import { AppModule } from './app.module';
 import helmet from 'helmet';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
@@ -20,6 +21,8 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('/', app, document, { swaggerOptions: { docExpansion: 'none' } });
   }
+
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   await app.listen(process.env.PORT || 4000);
 }

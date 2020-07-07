@@ -15,6 +15,8 @@ import { PaymentsModule } from './modules/payments/payments.module';
 import { ShipmentsModule } from './modules/shipments/shipments.module';
 import { SqlFormat } from './shared/Loggers/sql-format.logger';
 import morgan from 'morgan';
+import { Exist } from './shared/Validators/Exist/exist.service';
+import { ArrayExist } from './shared/Validators/array-exist/array-exist.service';
 
 @Module({
   imports: [
@@ -42,8 +44,7 @@ import morgan from 'morgan';
     PaymentsModule,
     ShipmentsModule
   ],
-  controllers: [],
-  providers: [Logger]
+  providers: [Logger, Exist, ArrayExist]
 })
 export class AppModule implements NestModule {
   constructor(private logger: Logger) {}
