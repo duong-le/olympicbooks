@@ -5,7 +5,7 @@ import { OrderState } from '../../shared/Enums/order-state.enum';
 import { CreateTransactionDto, UpdateTransactionDto } from '../transactions/transactions.dto';
 import { CreateShippingDto, UpdateShippingDto } from '../shippings/shippings.dto';
 import { CreateOrderItemDto } from './orders-item/orders-item.dto';
-import { Exist } from 'src/shared/Validators/Exist/exist.service';
+import { Exist } from 'src/shared/Validators/exist/exist.service';
 import { TransactionMethod } from '../transactions/transaction-methods.entity';
 import { ShippingMethod } from '../shippings/shipping-methods.entity';
 import { ArrayExist } from '../../shared/Validators/array-exist/array-exist.service';

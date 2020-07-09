@@ -17,7 +17,7 @@ import { ShippingsModule } from './modules/shippings/shippings.module';
 import { SqlFormat } from './shared/Loggers/sql-format.logger';
 import morgan from 'morgan';
 import { RolesGuard } from 'src/shared/Guards/roles.guard';
-import { Exist } from './shared/Validators/Exist/exist.service';
+import { Exist } from './shared/Validators/exist/exist.service';
 import { ArrayExist } from './shared/Validators/array-exist/array-exist.service';
 
 @Module({
@@ -46,10 +46,15 @@ import { ArrayExist } from './shared/Validators/array-exist/array-exist.service'
     TransactionsModule,
     ShippingsModule
   ],
+  providers: [
+    Logger,
+    Exist,
+    ArrayExist,
     {
       provide: APP_GUARD,
       useClass: RolesGuard
     }
+  ]
 })
 export class AppModule implements NestModule {
   constructor(private logger: Logger) {}

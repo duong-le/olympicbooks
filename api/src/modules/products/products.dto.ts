@@ -1,7 +1,7 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsDefined, IsString, IsNumber, IsArray, ValidateNested, Validate } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Exist } from 'src/shared/Validators/Exist/exist.service';
+import { Exist } from 'src/shared/Validators/exist/exist.service';
 import { ArrayExist } from 'src/shared/Validators/array-exist/array-exist.service';
 import { CreateProductImageDto } from './product-images/product-images.dto';
 import { CreateAuthorWithProductDto } from '../authors/authors.dto';
