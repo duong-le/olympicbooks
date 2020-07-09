@@ -55,6 +55,10 @@ export class AppModule implements NestModule {
   constructor(private logger: Logger) {}
 
   configure(consumer: MiddlewareConsumer): void {
-    consumer.apply(morgan('dev', { stream: { write: (message) => this.logger.log(message.substring(0, message.lastIndexOf('\n')), 'HTTP Request') } })).forRoutes('*');
+    if (process.env.NODE_ENV !== 'PRODUCTION') {
+      consumer
+        .apply(morgan('dev', { stream: { write: (message) => this.logger.log(message.substring(0, message.lastIndexOf('\n')), 'HTTP Request') } }))
+        .forRoutes('*');
+    }
   }
 }
