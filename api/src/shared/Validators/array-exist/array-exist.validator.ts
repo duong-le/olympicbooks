@@ -17,18 +17,12 @@ export abstract class ArrayExistValidator implements ValidatorConstraintInterfac
   public async validate<E>(value: any[], args: ExistArrayValidationArguments<E>): Promise<boolean> {
     const [EntityClass, findCondition = args.property, validationCondition] = args.constraints;
 
-    if (!value.length) return true;
+    if (!value.length) return false;
     const entityCount = await this.connection.getRepository(EntityClass).count({
       where:
         typeof findCondition === 'function'
           ? findCondition(args, value)
-          : {
-              [findCondition]: In(
-                validationCondition && typeof validationCondition !== 'function'
-                  ? value.map((val) => (isObject(val) ? val[validationCondition] : val))
-                  : value
-              )
-            }
+          : { [findCondition]: In(validationCondition && typeof validationCondition !== 'function' ? value.map((val) => (isObject(val) ? val[validationCondition] : val)) : value) }
     });
     args.constraints[3] = entityCount;
     return typeof validationCondition === 'function' ? validationCondition(args, value, entityCount) : value.length === entityCount;

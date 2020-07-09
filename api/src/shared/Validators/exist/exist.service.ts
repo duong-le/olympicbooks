@@ -4,7 +4,7 @@ import { Connection } from 'typeorm';
 import { InjectConnection } from '@nestjs/typeorm';
 import { ExistValidator } from './exist.validator';
 
-@ValidatorConstraint({ name: 'unique', async: true })
+@ValidatorConstraint({ name: 'exist', async: true })
 @Injectable()
 export class Exist extends ExistValidator {
   constructor(@InjectConnection() protected readonly connection: Connection) {
