@@ -12,7 +12,7 @@ import { CartsModule } from './modules/carts/carts.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { DiscountsModule } from './modules/discounts/discounts.module';
 import { PaymentsModule } from './modules/payments/payments.module';
-import { ShipmentsModule } from './modules/shipments/shipments.module';
+import { ShippingsModule } from './modules/shippings/shippings.module';
 import { SqlFormat } from './shared/Loggers/sql-format.logger';
 import morgan from 'morgan';
 import { Exist } from './shared/Validators/Exist/exist.service';
@@ -42,7 +42,7 @@ import { ArrayExist } from './shared/Validators/array-exist/array-exist.service'
     OrdersModule,
     DiscountsModule,
     PaymentsModule,
-    ShipmentsModule
+    ShippingsModule
   ],
   providers: [Logger, Exist, ArrayExist]
 })
