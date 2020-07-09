@@ -11,7 +11,7 @@ import { UsersModule } from './modules/users/users.module';
 import { CartsModule } from './modules/carts/carts.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { DiscountsModule } from './modules/discounts/discounts.module';
-import { PaymentsModule } from './modules/payments/payments.module';
+import { TransactionsModule } from './modules/transactions/transactions.module';
 import { ShippingsModule } from './modules/shippings/shippings.module';
 import { SqlFormat } from './shared/Loggers/sql-format.logger';
 import morgan from 'morgan';
@@ -41,7 +41,7 @@ import { ArrayExist } from './shared/Validators/array-exist/array-exist.service'
     CartsModule,
     OrdersModule,
     DiscountsModule,
-    PaymentsModule,
+    TransactionsModule,
     ShippingsModule
   ],
   providers: [Logger, Exist, ArrayExist]
