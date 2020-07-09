@@ -1,15 +1,10 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, OneToMany, OneToOne, JoinColumn } from 'typeorm';
-import { OrderItem } from './orders-item.entity';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany, OneToOne, JoinColumn } from 'typeorm';
+import { OrderItem } from './orders-item/orders-item.entity';
+import { OrderState } from '../../shared/Enums/order-state.enum';
 import { User } from '../users/users.entity';
 import { Discount } from '../discounts/discounts.entity';
-import { Payment } from '../payments/payments.entity';
-import { Shipment } from '../shipments/shipments.entity';
-
-export enum OrderState {
-  PROCESSING = 'PROCESSING',
-  SHIPPING = 'SHIPPING',
-  DELIVERED = 'DELIVERED'
-}
+import { Transaction } from '../transactions/transactions.entity';
+import { Shipping } from '../shippings/shippings.entity';
 
 @Entity()
 export class Order extends BaseEntity {
@@ -20,33 +15,37 @@ export class Order extends BaseEntity {
   state: OrderState;
 
   @Column()
-  totalPrice: number;
-
-  @Column()
   userId: number;
 
-  @Column()
+  @Column({ default: null })
   discountId: number;
 
   @Column()
-  paymentId: number;
+  transactionId: number;
+
+  @Column()
+  shippingId: number;
 
   @CreateDateColumn()
   createdAt: Date;
 
+  @UpdateDateColumn()
+  updatedAt: Date;
+
   @ManyToOne((type) => User, (user) => user.orders)
   user: User;
 
-  @ManyToOne((type) => Discount, (discount) => discount.orders)
+  @ManyToOne((type) => Discount, (discount) => discount.orders, { eager: true })
   discount: Discount;
 
-  @ManyToOne((type) => Payment, (payment) => payment.orders)
-  payment: Payment;
-
-  @OneToMany((type) => OrderItem, (orderItem) => orderItem.order)
-  orderItems: OrderItem[];
-
-  @OneToOne((type) => Shipment)
+  @OneToOne((type) => Transaction, { eager: true, cascade: true })
   @JoinColumn()
-  shipment: Shipment;
+  transaction: Transaction;
+
+  @OneToOne((type) => Shipping, { eager: true, cascade: true })
+  @JoinColumn()
+  shipping: Shipping;
+
+  @OneToMany((type) => OrderItem, (orderItem) => orderItem.order, { eager: true })
+  orderItems: OrderItem[];
 }
