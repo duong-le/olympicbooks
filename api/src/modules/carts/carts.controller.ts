@@ -10,7 +10,7 @@ import { UserInfo } from 'src/shared/Decorators/user-info.decorator';
 
 @ApiTags('Carts')
 @ApiBearerAuth()
-@Controller('carts')
+@Controller('mine/carts')
 @UseGuards(AuthGuard())
 @Crud({
   model: { type: CartItem },
