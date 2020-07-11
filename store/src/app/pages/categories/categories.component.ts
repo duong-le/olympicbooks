@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RequestQueryBuilder, CondOperator, QuerySortOperator } from '@nestjsx/crud-request';
+import { combineLatest } from 'rxjs';
+import { Category } from 'src/app/shared/Interfaces/category.interface';
+import { CategoriesService } from './categories.service';
+import { Product } from 'src/app/shared/Interfaces/product.interface';
+import { ProductsService } from '../products/products.service';
+import { Count } from 'src/app/shared/Interfaces/count.interface';
 
 @Component({
   selector: 'app-categories',
@@ -7,81 +15,87 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./categories.component.scss']
 })
 export class CategoriesComponent implements OnInit {
-  products;
-  bookData = [
-    { title: 'Chiến tranh và hòa bình', price: 1500000 },
-    { title: 'Thần Thoại Bắc Âu', price: 1500000, new: true },
-    { title: 'Không gia đình', price: 1500000 },
-    {
-      title:
-        'Lập trình hướng đối tượng dành cho người mới bắt đầu học lập trình',
-      salePrice: 1000000,
-      price: 1500000,
-      sale: true
-    },
-    {
-      title: 'Vi Điều Khiển Và Ứng Dụng - Arduino Dành Cho Người Tự Học',
-      price: 1500000
-    },
-    { title: 'Khi Hơi Thở Hóa Thinh Không ', price: 1500000, hot: true },
-    { title: 'Chiến tranh và hòa bình', price: 1500000 },
-    { title: 'Thần Thoại Bắc Âu', price: 1500000, new: true },
-    { title: 'Không gia đình', price: 1500000 },
-    {
-      title:
-        'Lập trình hướng đối tượng dành cho người mới bắt đầu học lập trình',
-      salePrice: 1000000,
-      price: 1500000,
-      sale: true
-    },
-    {
-      title: 'Vi Điều Khiển Và Ứng Dụng - Arduino Dành Cho Người Tự Học',
-      price: 1500000
-    },
-    { title: 'Khi Hơi Thở Hóa Thinh Không ', price: 1500000, hot: true }
-  ];
+  qb: RequestQueryBuilder;
+  category: Category;
+  products: Product[];
+  publishers: Count[];
+  authors: Count[];
 
-  publishers = [
-    { name: 'Nhân Trí Việt', quantity: 19 },
-    { name: 'NXB Trẻ', quantity: 103 },
-    { name: 'Nhà Sách Phương Nam', quantity: 7 },
-    { name: 'Nhã Nam', quantity: 56 }
-  ];
+  limit = 12;
+  categoryId: number;
+  totalProduct: number;
+  pageIndex: number
+  rangeValue = [0, 1000000];
+  maxPrice = 1000000;
+  demoValue = 3;
 
-  authors = [
-    { name: 'William Shakespeare', quantity: 208 },
-    { name: 'J. K. Rowling', quantity: 11 },
-    { name: 'Stephen King', quantity: 53 },
-    { name: 'Sidney Sheldon', quantity: 27 }
-  ];
-
-  rangeValue = [0, 1800000];
-  maxPrice = 2000000;
-
-  constructor(private titleService: Title) {
-    this.titleService.setTitle('Sách Khoa Học | Olymbooks');
-  }
+  constructor(
+    private titleService: Title,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private categoriesService: CategoriesService,
+    private productsService: ProductsService
+  ) { }
 
   ngOnInit() {
-    this.products = this.bookData.map((el, idx) => ({
-      ...el,
-      id: idx + 1,
-      src: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/460`
-    }));
+    this.activatedRoute.params.subscribe((paramsId) => {
+      this.categoryId = Number(paramsId.id);
+
+      this.qb = RequestQueryBuilder.create()
+        .setFilter({ field: 'categoryId', operator: CondOperator.EQUALS, value: this.categoryId })
+        .sortBy({ field: 'id', order: 'DESC' })
+        .setPage(1)
+        .setLimit(this.limit);
+
+      combineLatest(
+        this.categoriesService.categories$,
+        this.categoriesService.getPublishersByCategory(this.categoryId),
+        this.categoriesService.getAuthorsByCategory(this.categoryId),
+      )
+        .subscribe(
+          (response) => {
+            this.category = response[0].find((el) => el.id === this.categoryId);
+            this.publishers = response[1];
+            this.authors = response[2];
+            this.titleService.setTitle(`${this.category.title} | Olymbooks`);
+          });
+
+      this.renderProducts();
+    });
   }
 
-  onOptionChange(value) {
-    console.log(value);
+  renderProducts() {
+    this.productsService.getManyProducts(this.qb.queryObject).subscribe(
+      (response) => {
+        this.products = response['data'];
+        this.totalProduct = response['total'];
+        this.pageIndex = response['page']
+      },
+      (error) => this.router.navigate(['/'])
+    );
+  }
+
+  onOptionChange(value: QuerySortOperator) {
+    delete this.qb.queryObject.sort;
+    this.qb.sortBy({ field: 'price', order: value });
+    this.renderProducts();
   }
 
   onSliderAfterChange(value) {
-    console.log(value);
+    delete this.qb.queryObject.filter;
+    this.qb
+      .setFilter({ field: 'categoryId', operator: CondOperator.EQUALS, value: this.categoryId })
+      .setFilter({ field: 'price', operator: CondOperator.GREATER_THAN, value: value[0] })
+      .setFilter({ field: 'price', operator: CondOperator.LOWER_THAN, value: value[1] });
+    this.renderProducts();
+  }
+
+  changePage(value: number) {
+    this.qb.setPage(value);
+    this.renderProducts();
   }
 
   formatter(value: number): string {
-    return new Intl.NumberFormat('vn-VN', {
-      style: 'currency',
-      currency: 'VND'
-    }).format(value);
+    return new Intl.NumberFormat('vn-VN', { style: 'currency', currency: 'VND' }).format(value);
   }
 }

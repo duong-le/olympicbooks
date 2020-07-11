@@ -3,37 +3,37 @@
     <div nz-col [nzXl]="{span: 6, order: 1}" [nzMd]="{span: 8, order: 1}" [nzSm]="{span: 12, order: 1}"
       [nzXs]="{span: 24, order: 3}">
       <nz-page-header [nzGhost]="false">
-        <nz-page-header-title>Filter</nz-page-header-title>
+        <nz-page-header-title>Bộ lọc</nz-page-header-title>
         <nz-page-header-content>
           <div>
-            <nz-divider nzText="Sort By" nzOrientation="left"></nz-divider>
-            <nz-select ngModel="" nzAllowClear nzPlaceHolder="Default" (ngModelChange)="onOptionChange($event)">
-              <nz-option nzValue="lowToHigh" nzLabel="Price low to high"></nz-option>
-              <nz-option nzValue="highToLow" nzLabel="Price high to low"></nz-option>
+            <nz-divider nzText="Sắp xếp theo" nzOrientation="left"></nz-divider>
+            <nz-select ngModel="" nzAllowClear nzPlaceHolder="Mặc định" (ngModelChange)="onOptionChange($event)">
+              <nz-option nzValue="ASC" nzLabel="Giá từ thấp đến cao"></nz-option>
+              <nz-option nzValue="DESC" nzLabel="Giá từ cao đến thấp"></nz-option>
             </nz-select>
           </div>
 
           <div>
-            <nz-divider nzText="Price Range" nzOrientation="left"></nz-divider>
+            <nz-divider nzText="Khoảng giá" nzOrientation="left"></nz-divider>
             <nz-slider nzRange [ngModel]="rangeValue" [nzMax]="maxPrice" [nzTipFormatter]="formatter"
               (nzOnAfterChange)="onSliderAfterChange($event)">
             </nz-slider>
           </div>
 
           <div>
-            <nz-divider nzText="Publisher" nzOrientation="left"></nz-divider>
+            <nz-divider nzText="Nhà xuất bản" nzOrientation="left"></nz-divider>
             <nz-list nzSize="small" [nzSplit]="false">
               <nz-list-item *ngFor="let publisher of publishers">
-                {{publisher.name}} ({{publisher.quantity}})
+                {{publisher?.name}} ({{publisher?.count}})
               </nz-list-item>
             </nz-list>
           </div>
 
           <div>
-            <nz-divider nzText="Author" nzOrientation="left"></nz-divider>
+            <nz-divider nzText="Tác giả" nzOrientation="left"></nz-divider>
             <nz-list nzSize="small" [nzSplit]="false">
               <nz-list-item *ngFor="let author of authors">
-                {{author.name}} ({{author.quantity}})
+                {{author?.name}} ({{author?.count}})
               </nz-list-item>
             </nz-list>
           </div>
@@ -43,7 +43,7 @@
 
     <div nz-col [nzXl]="{span: 18, order: 2}" [nzMd]="{span: 16, order: 2}" [nzSm]="{span: 12, order: 2}"
       [nzXs]="{span: 24, order: 1}">
-      <nz-page-header nzTitle="Sách Khoa Học" [nzGhost]="false"> </nz-page-header>
+      <nz-page-header [nzTitle]="category?.title" [nzGhost]="false"> </nz-page-header>
       <div nz-row>
         <div nz-col class="ant-col-all" nzXl="6" nzLg="8" nzMd="12" nzXs="24" *ngFor="let product of products">
           <app-product [product]="product"></app-product>
@@ -52,11 +52,13 @@
     </div>
 
     <div nz-col [nzSm]="{span: 24, order: 3}" nzXs="0">
-      <nz-pagination [nzPageIndex]="1" [nzTotal]="500" [nzPageSize]="9"></nz-pagination>
+      <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="totalProduct" [nzPageSize]="limit"
+        (nzPageIndexChange)="changePage($event)" [nzHideOnSinglePage]="true"></nz-pagination>
     </div>
 
     <div nz-col nzSm="0" [nzXs]="{span: 24, order: 2}">
-      <nz-pagination [nzPageIndex]="1" [nzTotal]="500" [nzPageSize]="9" nzSimple></nz-pagination>
+      <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="totalProduct" [nzPageSize]="limit"
+        (nzPageIndexChange)="changePage($event)" [nzHideOnSinglePage]="true" nzSimple> </nz-pagination>
     </div>
   </div>
 </div>
