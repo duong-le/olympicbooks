@@ -1,6 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { forkJoin } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
+import { CheckOutService } from './check-out.service';
+import { CartService } from '../cart/cart.service';
+import { CustomerService } from '../customer/customer.service';
+import { Cart } from 'src/app/shared/Interfaces/cart.interface';
+import { Customer } from 'src/app/shared/Interfaces/customer.interface';
+import { TransactionMethod } from 'src/app/shared/Interfaces/transaction.interface';
+import { ShippingMethod } from 'src/app/shared/Interfaces/shipping.interface';
+import { Order } from 'src/app/shared/Interfaces/order.interface';
 
 @Component({
   selector: 'app-check-out',
@@ -8,77 +18,122 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./check-out.component.scss']
 })
 export class CheckOutComponent implements OnInit {
-  loading = false;
-  isProcessingOrder = false;
-  isVisible = false;
-  success = false;
-  error = false;
-
-  radioValue = 'A';
-  user = {
-    name: 'Dương Lê',
-    phone: '0848275991',
-    add: 'CT3 Bắc Từ Liêm, Phường Hoàng Liệt, Quận Hai Bà Trưng, Hà Nội'
-  };
-
-  items = [
-    {
-      name: 'Nhà Giả Kim',
-      src: 'https://picsum.photos/seed/123/50',
-      quantity: 1,
-      price: 112334
-    },
-    {
-      name: 'Lập trình hướng đối tượng dành cho người mới bắt đầu',
-      src: 'https://picsum.photos/seed/124/50',
-      quantity: 2,
-      price: 56000
-    },
-    {
-      name: 'Khi Hơi Thở Hóa Thinh Không',
-      src: 'https://picsum.photos/seed/125/50',
-      quantity: 3,
-      price: 2180000
-    }
-  ];
   addressForm: FormGroup;
+  cart: Cart;
+  customer: Customer;
+  transactionMethods: TransactionMethod[];
+  shippingMethods: ShippingMethod[];
+  order: Order;
 
-  constructor(private titleService: Title, private fb: FormBuilder) {
+  isLoading = false;
+  isUpdateLoading = false;
+  isProcessingOrder = false;
+  isModalVisible = false;
+  transactionRadioValue: string;
+  shippingRadioValue: string;
+  error = false;
+  success = false;
+  orderId: number
+
+
+  constructor(
+    private titleService: Title,
+    private fb: FormBuilder,
+    private checkOutService: CheckOutService,
+    private cartService: CartService,
+    private customerService: CustomerService
+  ) {
     this.titleService.setTitle('Thanh toán | Olymbooks');
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.addressForm = this.fb.group({
-      name: [null, [Validators.required]],
-      phone: [null, [Validators.required]],
+      phoneNumber: [null, [Validators.required]],
       address: [null, [Validators.required]]
+    });
+
+    this.cartService.cart$.subscribe((response) => (this.cart = response));
+
+    forkJoin(
+      this.customerService.getMe(),
+      this.checkOutService.getTransactionMethods(),
+      this.checkOutService.getShippingMethods()
+    ).subscribe((response) => {
+      [this.customer, this.transactionMethods, this.shippingMethods] = response;
+
+      this.transactionRadioValue = this.transactionMethods[0].method;
+      this.shippingRadioValue = this.shippingMethods[0].method;
+
+      this.order = {
+        transaction: { transactionMethodId: this.transactionMethods[0].id },
+        shipping: { shippingMethodId: this.shippingMethods[0].id, address: this.customer.address },
+        orderItems: this.cart.cartItems.map((el) => ({ quantity: el.quantity, productId: el.product.id }))
+      };
+
+      if (!this.customer.address || !this.customer.phoneNumber)
+        this.showModal();
     });
   }
 
-  showModal(): void {
-    this.isVisible = true;
+  showModal() {
+    this.addressForm.setValue({
+      phoneNumber: this.customer.phoneNumber,
+      address: this.customer.address
+    });
+    this.isModalVisible = true;
   }
 
-  handleOk(): void {
-    for (const i in this.addressForm.controls) {
-      this.addressForm.controls[i].markAsDirty();
-      this.addressForm.controls[i].updateValueAndValidity();
+  cancelModal() {
+    this.isModalVisible = false;
+  }
+
+  updateAddress() {
+    this.isUpdateLoading = true;
+    const { phoneNumber, address } = this.customer;
+    if (
+      JSON.stringify(this.addressForm.value) !==
+      JSON.stringify({ phoneNumber, address })
+    ) {
+      this.customerService
+        .updateMe(this.addressForm.value)
+        .subscribe((response) => {
+          this.customer = response;
+          this.order.shipping.address = response.address;
+          this.isUpdateLoading = false;
+          this.isModalVisible = false;
+        });
     }
-    console.log(this.addressForm.value);
-    this.isVisible = false;
   }
 
-  handleCancel(): void {
-    this.isVisible = false;
+  changeShippingMethod() {
+    const method = this.shippingMethods.find(
+      (el) => el.method === this.shippingRadioValue
+    );
+    this.order.shipping.shippingMethodId = method.id;
+    this.cartService.changeShippingValue(method.fee);
   }
 
   processOrder() {
-    this.isProcessingOrder = true;
-    setTimeout(() => {
-      this.isProcessingOrder = false;
-      if (Math.random() > 0.5) {
-        this.success = true;
-      } else this.error = true;
-    }, 2000);
+    if (!this.customer.address || !this.customer.phoneNumber) this.showModal();
+    else {
+      this.isProcessingOrder = true;
+      this.checkOutService
+        .createOrder(this.order)
+        .pipe(mergeMap((response) => {
+          this.orderId = response['id'];
+          return this.cartService.deleteCart();
+        }))
+        .subscribe(
+          (response) => {
+            this.cartService.emptyCart();
+            this.isProcessingOrder = false;
+            this.success = true;
+          },
+          (error) => {
+            this.isProcessingOrder = false;
+            this.error = true;
+          }
+        );
+    }
   }
 }
