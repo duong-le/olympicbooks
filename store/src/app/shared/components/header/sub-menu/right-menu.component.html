@@ -1,20 +1,24 @@
 <ul nz-menu [nzMode]="mode" [nzSelectable]="false" (nzClick)="onMenuTitleClick()">
   <ng-container *ngIf="(mode === 'horizontal' && mobile) || (mode === 'horizontal' && !mobile)">
     <li nz-menu-item nzMatchRouter>
-      <a routerLink="/cart"><i nz-icon nzType="shopping-cart" nzTheme="outline"></i>({{quantity}})</a></li>
+      <a routerLink="/cart"><i nz-icon nzType="shopping-cart" nzTheme="outline"></i>({{ totalQty }})</a></li>
   </ng-container>
 
   <ng-container *ngIf="(mode === 'inline') || (mode === 'horizontal' && !mobile)">
-    <ng-container *ngIf="currentUser">
-      <li nz-submenu [nzTitle]="currentUser.name" nzIcon="user">
+    <ng-container *ngIf="user">
+      <li nz-submenu [nzTitle]="user.name" nzIcon="user">
         <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/customer/profile"><i nz-icon nzType="profile" nzTheme="outline"></i>Tài khoản</a></li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/customer/orders"><i nz-icon nzType="carry-out" nzTheme="outline"></i>Đơn hàng</a></li>
           <li nz-menu-item (click)="signOut()">
             <i nz-icon nzType="logout" nzTheme="outline"></i>Đăng xuất</li>
         </ul>
       </li>
     </ng-container>
 
-    <ng-container *ngIf="!currentUser">
+    <ng-container *ngIf="!user">
       <li nz-submenu nzTitle="Tài Khoản" nzIcon="user">
         <ul>
           <li nz-menu-item nzMatchRouter>

@@ -9,7 +9,6 @@ export class HeaderComponent {
   visible = false;
   horizontalMode = 'horizontal';
   verticalMode = 'inline';
-  quantity = 12;
 
   constructor() {}
 

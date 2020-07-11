@@ -2,19 +2,9 @@
   <app-search *ngIf="mobile"></app-search>
 
   <li nz-submenu nzTitle="Danh mục sách" nzIcon="book">
-    <ul>
-      <li nz-submenu nzTitle="Sách Khoa Học">
-        <ul>
-          <li nz-menu-item nzMatchRouter><a routerLink="/categories/1">Sách Vật Lý</a></li>
-          <li nz-menu-item nzMatchRouter><a routerLink="/categories/2">Sách Toán Học</a></li>
-        </ul>
-      </li>
-
-      <li nz-submenu nzTitle="Sách Ngoại Ngữ">
-        <ul>
-          <li nz-menu-item nzMatchRouter><a routerLink="/categories/3">Sách Tiếng Anh</a></li>
-          <li nz-menu-item nzMatchRouter><a routerLink="/categories/4">Sách Tiếng Pháp</a></li>
-        </ul>
+    <ul *ngFor="let item of categories">
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/categories/{{ item.id }}">{{ item.title }}</a>
       </li>
     </ul>
   </li>
