@@ -15,6 +15,6 @@ export class Category extends BaseEntity {
   @Column({ default: null })
   parent: number;
 
-  @OneToMany((type) => Product, (product) => product.publisher)
+  @OneToMany((type) => Product, (product) => product.category)
   products: Product[];
 }

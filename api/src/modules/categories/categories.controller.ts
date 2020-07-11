@@ -1,7 +1,7 @@
-import { Controller, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { Controller, UseGuards, UseInterceptors, Get, Param } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { Crud, CrudController } from '@nestjsx/crud';
+import { Crud, CrudController, CrudRequestInterceptor } from '@nestjsx/crud';
 import { Category } from './categories.entity';
 import { CategoriesService } from './categories.service';
 import { Roles } from 'src/shared/Decorators/roles.decorator';
@@ -21,5 +21,19 @@ import { CreateCategoryDto, UpdateCategoryDto } from './categories.dto';
   dto: { create: CreateCategoryDto, update: UpdateCategoryDto }
 })
 export class CategoriesController implements CrudController<Category> {
-  constructor(public service: CategoriesService) {}
+  constructor(public service: CategoriesService) { }
+
+  @ApiOperation({ summary: 'Retrieve many Publisher by Category' })
+  @UseInterceptors(CrudRequestInterceptor)
+  @Get(':id/publishers')
+  getPublishersByCategory(@Param('id') id: number): Promise<Category[]> {
+    return this.service.getPublishersByCategory(id);
+  }
+
+  @ApiOperation({ summary: 'Retrieve many Author by Category' })
+  @UseInterceptors(CrudRequestInterceptor)
+  @Get(':id/authors')
+  getAuthorsByCategory(@Param('id') id: number): Promise<Category[]> {
+    return this.service.getAuthorsByCategory(id);
+  }
 }
