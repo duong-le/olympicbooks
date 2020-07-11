@@ -9,18 +9,18 @@ import { Authentication } from 'src/app/shared/Interfaces/authentication.interfa
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<Authentication>;
-  public currentUser: Observable<Authentication>;
+  private userSubject: BehaviorSubject<Authentication>;
+  public user$: Observable<Authentication>;
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<Authentication>(
+    this.userSubject = new BehaviorSubject<Authentication>(
       JSON.parse(localStorage.getItem('user'))
     );
-    this.currentUser = this.currentUserSubject.asObservable();
+    this.user$ = this.userSubject.asObservable();
   }
 
-  public get currentUserValue() {
-    return this.currentUserSubject.value;
+  public get userValue() {
+    return this.userSubject.value;
   }
 
   signIn(data: Authentication): Observable<Authentication> {
@@ -31,7 +31,7 @@ export class AuthenticationService {
           const payload = JSON.parse(atob(response.accessToken.split('.')[1]));
           const user = { ...payload, accessToken: response.accessToken };
           localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSubject.next(user);
+          this.userSubject.next(user);
           return user;
         })
       );
@@ -46,6 +46,6 @@ export class AuthenticationService {
 
   signOut() {
     localStorage.removeItem('user');
-    this.currentUserSubject.next(null);
+    this.userSubject.next(null);
   }
 }
