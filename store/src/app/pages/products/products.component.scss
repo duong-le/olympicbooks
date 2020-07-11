@@ -5,8 +5,8 @@ nz-carousel {
 
 nz-carousel,
 .product-image {
-  width: 385px;
-  height: 550px;
+  width: 400px;
+  height: 400px;
 }
 
 @media (max-width: 576px) {
@@ -17,7 +17,7 @@ nz-carousel,
   nz-carousel,
   .product-image {
     width: 270px;
-    height: 390px;
+    height: 270px;
   }
 }
 

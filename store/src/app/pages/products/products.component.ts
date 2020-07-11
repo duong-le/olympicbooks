@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { formatDistance, addDays } from 'date-fns';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProductsService } from './products.service';
+import { mergeMap } from 'rxjs/operators';
+import { Product } from 'src/app/shared/Interfaces/product.interface';
+import { AuthenticationService } from '../authentication/authentication.service';
+import { CartService } from '../cart/cart.service';
+import { MessageService } from 'src/app/shared/Services/message.service';
 
 @Component({
   selector: 'app-products',
@@ -8,86 +15,20 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent implements OnInit {
-  loading = true;
+  isLoading = true;
+  btnLoading = { addToCart: false, buyNow: false };
+  product: Product;
+  relatedProducts: Product[];
+  quantity = 1;
+  minQty = 1;
+  maxQty = 100;
   likes = 0;
   dislikes = 0;
-
-  like(): void {
-    this.likes = 1;
-    this.dislikes = 0;
-  }
-
-  product: any = {
-    title: 'Nhà Giả Kim',
-    new: true,
-    price: 137000,
-    originalPrice: 150000,
-    author: 'Paulo Coelho',
-    publisher: 'Nhà Xuất Bản Văn Học',
-    cover: 'Bìa mềm',
-    description:
-      '<p style="text-align: justify;"><span style="font-size: medium;"><strong>Nhà Giả Kim</strong></span></p>\r\n<p style="text-align: justify;">Tất cả những trải nghiệm trong chuyến phiêu du theo đuổi vận mệnh của mình đã giúp Santiago thấu hiểu được ý nghĩa sâu xa nhất của hạnh phúc, hòa hợp với vũ trụ và con người.</p>\r\n<p style="text-align: justify;">Tiểu thuyết <strong>Nhà giả kim </strong>của <strong>Paulo Coelho </strong>như một câu chuyện cổ tích giản dị, nhân ái, giàu chất thơ, thấm đẫm những minh triết huyền bí của phương Đông. Trong lần xuất bản đầu tiên tại Brazil vào năm 1988, sách chỉ bán được 900 bản. Nhưng, với số phận đặc biệt của cuốn sách dành cho toàn nhân loại, vượt ra ngoài biên giới quốc gia, <strong>Nhà giả kim </strong>đã làm rung động hàng triệu tâm hồn, trở thành một trong những cuốn sách bán chạy nhất mọi thời đại, và có thể làm thay đổi cuộc đời người đọc.</p>\r\n<p style="text-align: justify;">“Nhưng nhà luyện kim đan không quan tâm mấy đến những điều ấy. Ông đã từng thấy nhiều người đến rồi đi, trong khi ốc đảo và sa mạc vẫn là ốc đảo và sa mạc. Ông đã thấy vua chúa và kẻ ăn xin đi qua biển cát này, cái biển cát thường xuyên thay hình đổi dạng vì gió thổi nhưng vẫn mãi mãi là biển cát mà ông đã biết từ thuở nhỏ. Tuy vậy, tự đáy lòng mình, ông không thể không cảm thấy vui trước hạnh phúc của mỗi người lữ khách, sau bao ngày chỉ có cát vàng với trời xanh nay được thấy chà là xanh tươi hiện ra trước mắt. ‘Có thể Thượng đế tạo ra sa mạc chỉ để cho con người biết quý trọng cây chà là,’ ông nghĩ.”</p>\r\n<p style="text-align: justify;">- <strong>Trích Nhà giả kim</strong></p>'
-  };
-
-  specifications = [
-    {
-      name: 'Công ty phát hành',
-      value: 'Nhã Nam'
-    },
-    {
-      name: 'Ngày xuất bản',
-      value: '10-2013'
-    },
-    {
-      name: 'Kích thước',
-      value: '13 x 20.5 cm'
-    },
-    {
-      name: 'Dịch Giả',
-      value: 'Lê Chu Cầu'
-    },
-    {
-      name: 'Loại bìa',
-      value: 'Bìa mềm'
-    },
-    {
-      name: 'Số trang',
-      value: 228
-    },
-    {
-      name: 'SKU',
-      value: 2518407786529
-    },
-    {
-      name: 'Nhà xuất bản',
-      value: 'Nhà Xuất Bản Văn Học'
-    }
-  ];
-
-  products;
-  bookData = [
-    { title: 'Chiến tranh và hòa bình', price: 1500000 },
-    { title: 'Thần Thoại Bắc Âu', price: 1500000, new: true },
-    { title: 'Không gia đình', price: 1500000 },
-    {
-      title:
-        'Lập trình hướng đối tượng dành cho người mới bắt đầu học lập trình',
-      salePrice: 1000000,
-      price: 1500000,
-      sale: true
-    },
-    {
-      title: 'Vi Điều Khiển Và Ứng Dụng - Arduino Dành Cho Người Tự Học',
-      price: 1500000
-    },
-    { title: 'Khi Hơi Thở Hóa Thinh Không ', price: 1500000, hot: true }
-  ];
+  limit = 6;
 
   commentData: any = [
     {
-      content:
-        'We supply a series of design principles, practical patterns and high quality design resources' +
-        '(Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+      content: 'Sản phẩm chất lượng',
       datetime: formatDistance(new Date(), addDays(new Date(), 1))
     }
   ];
@@ -99,34 +40,84 @@ export class ProductsComponent implements OnInit {
   };
   inputValue = '';
 
-  constructor(private titleService: Title) {
-    this.titleService.setTitle('Nhà Giả Kim | Olymbooks');
-  }
+  constructor(
+    private titleService: Title,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private productsService: ProductsService,
+    private authenticationService: AuthenticationService,
+    private cartService: CartService,
+    private messageService: MessageService
+  ) { }
 
   ngOnInit(): void {
-    this.product.images = new Array(4)
-      .fill({})
-      .map(
-        (_) =>
-          `https://picsum.photos/seed/${Math.floor(
-            Math.random() * 1000
-          )}/385/550`
-      );
+    this.activatedRoute.params.subscribe((paramsId) => {
+      this.render(Number(paramsId.id));
+    });
+  }
 
-    this.products = this.bookData.map((el, idx) => ({
-      ...el,
-      id: idx + 1,
-      src: `https://picsum.photos/seed/${Math.floor(Math.random() * 1000)}/460`
-    }));
+  render(productId: number) {
+    this.productsService
+      .getOneProduct(productId)
+      .pipe(
+        mergeMap((response) => {
+          this.product = response;
+          this.titleService.setTitle(`${this.product.title} | Olymbooks`);
+          return this.productsService.getManyProducts({
+            filter: [`categoryId||$eq||${this.product.category.id}`, `id||$ne||${this.product.id}`],
+            limit: this.limit
+          });
+        })
+      )
+      .subscribe(
+        (response) => (this.relatedProducts = response),
+        (error) => this.router.navigate(['/'])
+      );
   }
 
   onLoadImage(event) {
-    if (event && event.target) {
-      this.loading = false;
+    if (event && event.target) this.isLoading = false;
+  }
+
+  addItemToCart(btn: string) {
+    if (!this.authenticationService.userValue)
+      this.router.navigate(['signin'], {
+        queryParams: { returnUrl: this.router.url }
+      });
+    else {
+      this.btnLoading[btn] = true;
+
+      const exist = this.cartService.cartValue.cartItems.find(
+        (el) => el.product.id === this.product.id
+      );
+
+      this.cartService[exist ? 'updateCartItem' : 'createCartItem'](
+        exist ? exist.id : this.product.id,
+        exist ? this.quantity + exist.quantity : this.quantity
+      )
+        .pipe(mergeMap((response) => this.cartService.getCart()))
+        .subscribe(
+          (response) => {
+            this.cartService.setCart(response);
+            this.btnLoading[btn] = false;
+            this.messageService.createMessage(
+              'success',
+              'Thêm vào giỏ hàng thành công!'
+            );
+            if (btn === 'buyNow') this.router.navigate(['cart']);
+          },
+          (error) => {
+            this.btnLoading[btn] = false;
+            this.messageService.createMessage(
+              'error',
+              'Có lỗi xảy ra, vui lòng thử lại sau!'
+            );
+          }
+        );
     }
   }
 
-  handleSubmit(): void {
+  submitComment(): void {
     this.submitting = true;
     const content = this.inputValue;
     this.inputValue = '';
@@ -140,5 +131,10 @@ export class ProductsComponent implements OnInit {
         }
       ];
     }, 800);
+  }
+
+  like(): void {
+    this.likes = 1;
+    this.dislikes = 0;
   }
 }
