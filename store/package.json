@@ -22,6 +22,7 @@
     "@angular/platform-server": "~9.1.11",
     "@angular/router": "~9.1.11",
     "@angular/service-worker": "~9.1.11",
+    "@nestjsx/crud-request": "^4.6.2",
     "@nguniversal/express-engine": "^9.1.1",
     "device-detector-js": "^2.2.1",
     "express": "^4.17.1",
