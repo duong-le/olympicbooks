@@ -3,7 +3,12 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { CrudConfigService } from '@nestjsx/crud';
-CrudConfigService.load({ routes: { exclude: ['replaceOneBase'] } });
+CrudConfigService.load({
+  routes: {
+    exclude: ['replaceOneBase'],
+    createOneBase: { returnShallow: true }
+  }
+});
 
 import { AppModule } from './app.module';
 import helmet from 'helmet';
