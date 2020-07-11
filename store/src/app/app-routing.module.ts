@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { NotExistComponent } from './shared/components/error/not-exist.component';
+import { NotExistComponent } from './shared/components/result/error/not-exist.component';
 import { AuthGuard } from './shared/Guards/auth.guard';
 import { UnAuthGuard } from './shared/Guards/unauth.guard';
 
@@ -27,6 +27,12 @@ const routes: Routes = [
     path: 'products',
     loadChildren: () =>
       import('./pages/products/products.module').then((m) => m.ProductsModule)
+  },
+  {
+    path: 'customer',
+    loadChildren: () =>
+      import('./pages/customer/customer.module').then((m) => m.CustomerModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'cart',

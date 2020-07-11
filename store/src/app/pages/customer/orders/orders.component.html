@@ -1,0 +1,28 @@
+<div class="container">
+  <nz-table #table [nzData]="orders" [nzScroll]="{ x: '1280px' }" [nzLoading]="isLoading"
+    [nzLoadingIndicator]="indicatorTemplate" [nzHideOnSinglePage]="true">
+    <thead>
+      <tr>
+        <th>Mã đơn hàng</th>
+        <th>Ngày mua</th>
+        <th nzWidth="60%">Sản phẩm</th>
+        <th>Tổng tiền</th>
+        <th>Trạng thái đơn hàng</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of table.data">
+        <td><a routerLink="{{ data?.id }}">{{ data?.id }}</a></td>
+        <td>{{ data?.createdAt | date: 'dd/MM/yyyy' }}</td>
+        <td>
+          <ng-container *ngFor="let item of data?.orderItems; let isLast=last">
+            {{ item?.product?.title }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </td>
+        <td>{{ data?.transaction?.value | currency:"VND":"symbol":null:"vi-VN" }}</td>
+        <td>{{ data?.state }}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <ng-template #indicatorTemplate><i nz-icon nzType="loading" class="loading"></i></ng-template>
+</div>
