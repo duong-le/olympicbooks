@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { mergeMap } from 'rxjs/operators';
+import { Cart } from 'src/app/shared/Interfaces/cart.interface';
+import { CartService } from './cart.service';
+import { MessageService } from 'src/app/shared/Services/message.service';
 
 @Component({
   selector: 'app-cart',
@@ -7,39 +11,62 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
-  loading = true;
-  minQty = 1;
-  maxQty = 10;
-  cartItems = [
-    {
-      name: 'Nhà Giả Kim',
-      src: 'https://picsum.photos/seed/123/80',
-      quantity: 1,
-      price: 112334
-    },
-    {
-      name: 'Lập trình hướng đối tượng dành cho người mới bắt đầu',
-      src: 'https://picsum.photos/seed/124/80',
-      quantity: 2,
-      price: 56000
-    },
-    {
-      name: 'Khi Hơi Thở Hóa Thinh Không',
-      src: 'https://picsum.photos/seed/125/80',
-      quantity: 3,
-      price: 2180000
-    }
-  ];
+  cart: Cart;
 
-  constructor(private titleService: Title) {
+  isLoading = true;
+  isDisabled = false;
+  minQty = 1;
+  maxQty = 99;
+
+  constructor(
+    private titleService: Title,
+    private cartService: CartService,
+    private messageService: MessageService
+  ) {
     this.titleService.setTitle('Giỏ hàng | Olymbooks');
   }
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.cartService.cart$.subscribe((response) => (this.cart = response));
+  }
+
+  changeQuantity(id: number, quantity: number) {
+    this.isDisabled = true;
+    this.cartService
+      .updateCartItem(id, quantity)
+      .pipe(mergeMap((response) => this.cartService.getCart()))
+      .subscribe(
+        (response) => {
+          this.cartService.setCart(response);
+          this.isDisabled = false;
+          this.messageService.createMessage('success', 'Cập nhật số lượng thành công!');
+        },
+        (error) => {
+          this.isDisabled = false;
+          this.messageService.createMessage('error', 'Có lỗi xảy ra, vui lòng thử lại sau!');
+        }
+      );
+  }
+
+  deleteCartItem(id: number) {
+    this.isDisabled = true;
+    this.cartService
+      .deleteCartItem(id)
+      .pipe(mergeMap((response) => this.cartService.getCart()))
+      .subscribe(
+        (response) => {
+          this.cartService.setCart(response);
+          this.isDisabled = false;
+          this.messageService.createMessage('success', 'Xoá khỏi giỏ hàng thành công!');
+        },
+        (error) => {
+          this.isDisabled = false;
+          this.messageService.createMessage('error', 'Có lỗi xảy ra, vui lòng thử lại sau!');
+        }
+      );
+  }
 
   onLoadImage(event) {
-    if (event && event.target) {
-      this.loading = false;
-    }
+    if (event && event.target) this.isLoading = false;
   }
 }

@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IconsProviderModule } from '../../icons-provider.module';
+import { SharedComponentsModule } from 'src/app/shared/components/shared-components.module';
+import { IconsProviderModule } from 'src/app/icons-provider.module';
 
 import { CartRoutingModule } from './cart-routing.module';
 import { CartComponent } from './cart.component';
@@ -18,6 +19,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
   imports: [
     CommonModule,
     FormsModule,
+    SharedComponentsModule,
     IconsProviderModule,
     CartRoutingModule,
     NzCardModule,
