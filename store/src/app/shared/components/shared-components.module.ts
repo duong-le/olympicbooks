@@ -9,9 +9,10 @@ import { FooterComponent } from './footer/footer.component';
 import { SearchComponent } from './search/search.component';
 import { ProductComponent } from './product/product.component';
 import { CategoryComponent } from './category/category.component';
-import { NotExistComponent } from './error/not-exist.component';
-import { OrderSuccessComponent } from './success/order-success.component';
-import { OrderErrorComponent } from './error/order-error.component';
+import { NotExistComponent } from './result/error/not-exist.component';
+import { OrderSuccessComponent } from './result/success/order-success.component';
+import { OrderErrorComponent } from './result/error/order-error.component';
+import { CartEmptyComponent } from './result/empty/cart-empty.component';
 
 import { IconsProviderModule } from '../../icons-provider.module';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
@@ -34,7 +35,8 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     CategoryComponent,
     NotExistComponent,
     OrderSuccessComponent,
-    OrderErrorComponent
+    OrderErrorComponent,
+    CartEmptyComponent
   ],
   imports: [
     CommonModule,
@@ -59,7 +61,8 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     CategoryComponent,
     NotExistComponent,
     OrderSuccessComponent,
-    OrderErrorComponent
+    OrderErrorComponent,
+    CartEmptyComponent
   ]
 })
-export class SharedComponentsModule {}
+export class SharedComponentsModule { }
