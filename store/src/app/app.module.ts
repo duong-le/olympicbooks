@@ -22,7 +22,7 @@ registerLocaleData(en);
 registerLocaleData(localeVi, 'vi-VN');
 
 const ngZorroConfig: NzConfig = {
-  message: { nzDuration: 1000, nzTop: 80 }
+  message: { nzDuration: 1000, nzTop: 60 }
 };
 
 @NgModule({

@@ -12,7 +12,6 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
-import { NzMessageModule } from 'ng-zorro-antd/message';
 
 @NgModule({
   declarations: [SignInComponent, SignUpComponent],
@@ -26,8 +25,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     NzFormModule,
     NzInputModule,
     NzButtonModule,
-    NzCheckboxModule,
-    NzMessageModule
+    NzCheckboxModule
   ]
 })
 export class AuthenticationModule {}

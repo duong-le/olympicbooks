@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NzMessageService } from 'ng-zorro-antd/message';
 import { first } from 'rxjs/operators';
 import { Authentication } from 'src/app/shared/Interfaces/authentication.interface';
 import { AuthenticationService } from '../authentication.service';
+import { MessageService } from 'src/app/shared/Services/message.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -24,7 +24,7 @@ export class SignInComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
-    private message: NzMessageService
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -45,23 +45,19 @@ export class SignInComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (response) => {
-          this.createMessage('success', 'Đăng nhập thành công');
+          this.messageService.createMessage('success', 'Đăng nhập thành công');
           this.isLoading = false;
           this.router.navigate([this.returnUrl]);
         },
         (error) => {
           if (error.status === 401)
-            this.createMessage('error', 'Email hoặc mật khẩu không đúng');
+            this.messageService.createMessage('error', 'Email hoặc mật khẩu không đúng');
           else if (error.status === 403)
-            this.createMessage('error', 'Tài khoản đã bị khóa');
+            this.messageService.createMessage('error', 'Tài khoản đã bị khóa');
           else
-            this.createMessage('error', 'Có lỗi xảy ra, vui lòng thử lại sau!');
+            this.messageService.createMessage('error', 'Có lỗi xảy ra, vui lòng thử lại sau!');
           this.isLoading = false;
         }
       );
-  }
-
-  createMessage(type: string, message: string): void {
-    this.message.create(type, message);
   }
 }
