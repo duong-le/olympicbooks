@@ -1,4 +1,4 @@
-FROM node:lts-alpine as node
+FROM node:lts-alpine as development
 
 WORKDIR /usr/src/app
 
@@ -15,13 +15,13 @@ COPY . ./
 
 RUN npm run build
 
-FROM node:lts-alpine
+FROM node:lts-alpine as production
 
 WORKDIR /usr/src/app
 
-COPY --from=node /usr/src/app/dist /usr/src/app/dist
+COPY --from=development /usr/src/app/dist ./dist
 
-COPY --from=node /usr/src/app/package.json ./package.json
+COPY --from=development /usr/src/app/package.json ./package.json
 
 EXPOSE 8080
 
