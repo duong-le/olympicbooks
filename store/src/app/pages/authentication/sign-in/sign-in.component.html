@@ -1,6 +1,6 @@
 <nz-card>
   <h2>Đăng Nhập</h2>
-  <form nz-form [formGroup]="signInForm" nzLayout="vertical" (ngSubmit)="submitForm(signInForm.value)">
+  <form nz-form [formGroup]="signInForm" nzLayout="vertical" (ngSubmit)="submitForm()">
     <nz-form-item>
       <nz-form-label nzRequired nzFor="email">Email</nz-form-label>
       <nz-form-control nzErrorTip="Email không hợp lệ!">

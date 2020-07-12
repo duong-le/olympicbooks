@@ -1,6 +1,6 @@
 <nz-card>
   <h2>Đăng Ký</h2>
-  <form nz-form [formGroup]="signUpForm" nzLayout="vertical" (ngSubmit)="submitForm(signUpForm.value)">
+  <form nz-form [formGroup]="signUpForm" nzLayout="vertical" (ngSubmit)="submitForm()">
     <nz-form-item>
       <nz-form-label nzRequired nzFor="name">Họ tên</nz-form-label>
       <nz-form-control nzErrorTip="Tên phải chứa ít nhất 2 ký tự">

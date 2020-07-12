@@ -38,10 +38,10 @@ export class SignInComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  submitForm(data: Authentication): void {
+  submitForm(): void {
     this.isLoading = true;
     this.authenticationService
-      .signIn(data)
+      .signIn(this.signInForm.value)
       .pipe(first())
       .subscribe(
         (response) => {

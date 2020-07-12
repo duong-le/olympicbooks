@@ -36,9 +36,9 @@ export class SignUpComponent implements OnInit {
     });
   }
 
-  submitForm(data: Authentication): void {
+  submitForm(): void {
     this.isLoading = true;
-    this.authenticationService.signUp(data).subscribe(
+    this.authenticationService.signUp(this.signUpForm.value).subscribe(
       (response) => {
         this.messageService.createMessage('success', 'Đăng ký thành công');
         this.isLoading = false;
