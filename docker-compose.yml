@@ -1,8 +1,8 @@
 version: "3.7"
 
 services:
-  olymbooks-store:
-    container_name: olymbooks-store
+  olympicbooks-store:
+    container_name: olympicbooks-store
     working_dir: /usr/src/app
     build:
       context: ./store
@@ -14,10 +14,10 @@ services:
       - 4200:4200
     command: yarn start:dev
     networks:
-      - olymbooks-network
+      - olympicbooks-network
 
-  olymbooks-api:
-    container_name: olymbooks-api
+  olympicbooks-api:
+    container_name: olympicbooks-api
     build:
       context: ./api
       target: development
@@ -28,8 +28,8 @@ services:
       - 4000:4000
     command: yarn start:dev
     networks:
-      - olymbooks-network
+      - olympicbooks-network
 
 networks:
-  olymbooks-network:
+  olympicbooks-network:
     driver: bridge

@@ -22,7 +22,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
 
   if (process.env.NODE_ENV !== 'PRODUCTION') {
-    const options = new DocumentBuilder().setTitle('Olymbooks API v1').addBearerAuth().build();
+    const options = new DocumentBuilder().setTitle('Olympicbooks API v1').addBearerAuth().build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('/', app, document, { swaggerOptions: { docExpansion: 'none' } });
   }

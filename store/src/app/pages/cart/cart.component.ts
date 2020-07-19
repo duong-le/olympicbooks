@@ -23,7 +23,7 @@ export class CartComponent implements OnInit {
     private cartService: CartService,
     private messageService: MessageService
   ) {
-    this.titleService.setTitle('Giỏ hàng | Olymbooks');
+    this.titleService.setTitle('Giỏ hàng | Olympicbooks');
   }
 
   ngOnInit() {

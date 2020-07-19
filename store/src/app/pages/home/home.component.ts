@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
     private categoriesService: CategoriesService,
     private productsService: ProductsService
   ) {
-    this.titleService.setTitle('Trang chủ | Olymbooks');
+    this.titleService.setTitle('Trang chủ | Olympicbooks');
   }
 
   ngOnInit() {

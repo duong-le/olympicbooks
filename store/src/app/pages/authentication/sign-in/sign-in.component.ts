@@ -28,7 +28,7 @@ export class SignInComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('Đăng nhập | Olymbooks');
+    this.titleService.setTitle('Đăng nhập | Olympicbooks');
 
     this.signInForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],

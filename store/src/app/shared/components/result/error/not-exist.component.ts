@@ -19,7 +19,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class NotExistComponent implements OnInit {
   constructor(private titleService: Title) {
-    this.titleService.setTitle('Không tìm thấy trang yêu cầu | Olymbooks');
+    this.titleService.setTitle('Không tìm thấy trang yêu cầu | Olympicbooks');
   }
 
   ngOnInit(): void {}

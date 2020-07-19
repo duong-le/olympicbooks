@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.olymbooks.com/v1'
+  apiUrl: 'https://api.olympicbooks.com/v1'
 };

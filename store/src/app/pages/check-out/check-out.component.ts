@@ -43,7 +43,7 @@ export class CheckOutComponent implements OnInit {
     private cartService: CartService,
     private customerService: CustomerService
   ) {
-    this.titleService.setTitle('Thanh toán | Olymbooks');
+    this.titleService.setTitle('Thanh toán | Olympicbooks');
   }
 
   ngOnInit() {

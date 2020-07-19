@@ -62,7 +62,7 @@ export class ProductsComponent implements OnInit {
       .pipe(
         mergeMap((response) => {
           this.product = response;
-          this.titleService.setTitle(`${this.product.title} | Olymbooks`);
+          this.titleService.setTitle(`${this.product.title} | Olympicbooks`);
           return this.productsService.getManyProducts({
             filter: [`categoryId||$eq||${this.product.category.id}`, `id||$ne||${this.product.id}`],
             limit: this.limit
