@@ -27,9 +27,18 @@ export class AuthenticationService {
     return this.http
       .post<Authentication>(`${environment.apiUrl}/auth/signin`, data)
       .pipe(
-        map((response: any) => {
-          const payload = JSON.parse(atob(response.accessToken.split('.')[1]));
-          const user = { ...payload, accessToken: response.accessToken };
+        map(({ accessToken }) => {
+          const base64Url = accessToken.split('.')[1];
+          const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+          const payload = JSON.parse(
+            decodeURIComponent(
+              atob(base64)
+                .split('')
+                .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+                .join('')
+            ));
+
+          const user = { ...payload, accessToken };
           localStorage.setItem('user', JSON.stringify(user));
           this.userSubject.next(user);
           return user;
@@ -38,10 +47,7 @@ export class AuthenticationService {
   }
 
   signUp(data: Authentication): Observable<Authentication> {
-    return this.http.post<Authentication>(
-      `${environment.apiUrl}/auth/signup`,
-      data
-    );
+    return this.http.post<Authentication>(`${environment.apiUrl}/auth/signup`, data);
   }
 
   signOut() {

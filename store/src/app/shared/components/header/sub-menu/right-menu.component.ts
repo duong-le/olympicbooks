@@ -20,7 +20,7 @@ export class RightMenuComponent implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     private cartService: CartService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.authenticationService.user$.subscribe((user) => (this.user = user));
