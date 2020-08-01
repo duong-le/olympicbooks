@@ -30,6 +30,22 @@ services:
     networks:
       - olympicbooks-network
 
+  olympicbooks-db:
+    image: postgres:12
+    container_name: olympicbooks-db
+    restart: always
+    environment:
+      POSTGRES_DB: olympicbooks
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
+    tty: true
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+    networks:
+      - olympicbooks-network
+
 networks:
   olympicbooks-network:
     driver: bridge
