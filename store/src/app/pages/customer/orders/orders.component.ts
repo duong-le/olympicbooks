@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Order } from 'src/app/shared/Interfaces/order.interface';
 import { CustomerService } from '../customer.service';
 
@@ -11,7 +12,12 @@ export class OrdersComponent implements OnInit {
   orders: Order[];
   isLoading = false;
 
-  constructor(private customerService: CustomerService) { }
+  constructor(
+    private titleService: Title,
+    private customerService: CustomerService
+  ) {
+    this.titleService.setTitle('Quảng lý đơn hàng | Olympicbooks');
+  }
 
   ngOnInit(): void {
     this.isLoading = true;
