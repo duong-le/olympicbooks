@@ -19,13 +19,13 @@
 
         <nz-descriptions [nzColumn]="3" [nzColon]="false">
           <nz-descriptions-item>
-            <nz-statistic [nzValue]="4.8 | number" [nzSuffix]="'/ 5'" [nzTitle]="'Đánh Giá'"></nz-statistic>
+            <nz-statistic [nzValue]="4.8 | number" nzSuffix="/ 5" nzTitle="Đánh Giá"></nz-statistic>
           </nz-descriptions-item>
           <nz-descriptions-item>
-            <nz-statistic [nzValue]="36 | number" [nzTitle]="'Đã Bán'"></nz-statistic>
+            <nz-statistic [nzValue]="36 | number" nzTitle="Đã Bán"></nz-statistic>
           </nz-descriptions-item>
           <nz-descriptions-item>
-            <nz-statistic [nzValue]="11 | number" [nzTitle]="'Nhận xét'"></nz-statistic>
+            <nz-statistic [nzValue]="11 | number" nzTitle="Nhận xét"></nz-statistic>
           </nz-descriptions-item>
         </nz-descriptions>
 
@@ -54,7 +54,7 @@
 </nz-card>
 
 <nz-card [nzLoading]="isLoading" class="container">
-  <nz-descriptions nzTitle="Thông Tin Chi Tiết" nzBordered [nzColumn]="1" [nzSize]="'middle'">
+  <nz-descriptions nzTitle="Thông Tin Chi Tiết" nzBordered [nzColumn]="1" nzSize="middle">
     <nz-descriptions-item nzTitle="Nhà xuất bản">{{ product?.publisher.name }}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Tác giả">
       <ng-container *ngFor="let author of product?.authors"> {{ author.name }} <br /> </ng-container>
@@ -72,7 +72,7 @@
 
 <nz-card [nzLoading]="isLoading" class="container">
   <h3 class="block-header">Khách Hàng Nhận Xét</h3>
-  <nz-list *ngIf="commentData.length" [nzDataSource]="commentData" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">
+  <nz-list *ngIf="commentData.length" [nzDataSource]="commentData" [nzRenderItem]="item" nzItemLayout="horizontal">
     <ng-template #item let-item>
       <nz-comment [nzAuthor]="user.author" [nzDatetime]="item.datetime">
         <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="user.avatar"></nz-avatar>

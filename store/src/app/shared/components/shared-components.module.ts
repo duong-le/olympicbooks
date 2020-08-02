@@ -65,4 +65,4 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     CartEmptyComponent
   ]
 })
-export class SharedComponentsModule { }
+export class SharedComponentsModule {}

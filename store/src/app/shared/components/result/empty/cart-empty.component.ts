@@ -4,8 +4,8 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-cart-empty',
   template: `
     <nz-result
-      [nzIcon]="'shopping-twotone'"
-      [nzTitle]="'Không có sản phẩm nào trong giỏ hàng của bạn'"
+      nzIcon="shopping-twotone"
+      nzTitle="Không có sản phẩm nào trong giỏ hàng của bạn"
     >
       <div nz-result-extra>
         <button nz-button nzType="primary" routerLink="/">

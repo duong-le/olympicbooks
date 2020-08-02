@@ -3,7 +3,6 @@ import { Title } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
-import { Authentication } from 'src/app/shared/Interfaces/authentication.interface';
 import { AuthenticationService } from '../authentication.service';
 import { MessageService } from 'src/app/shared/Services/message.service';
 
@@ -25,11 +24,11 @@ export class SignInComponent implements OnInit {
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
     private messageService: MessageService
-  ) {}
+  ) {
+    this.titleService.setTitle('Đăng nhập | Olympicbooks');
+  }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Đăng nhập | Olympicbooks');
-
     this.signInForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]

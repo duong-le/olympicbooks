@@ -24,7 +24,7 @@ export class CategoriesComponent implements OnInit {
   limit = 12;
   categoryId: number;
   totalProduct: number;
-  pageIndex: number
+  pageIndex: number;
   rangeValue = [0, 1000000];
   maxPrice = 1000000;
   demoValue = 3;
@@ -35,7 +35,7 @@ export class CategoriesComponent implements OnInit {
     private router: Router,
     private categoriesService: CategoriesService,
     private productsService: ProductsService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((paramsId) => {
@@ -69,7 +69,7 @@ export class CategoriesComponent implements OnInit {
       (response) => {
         this.products = response['data'];
         this.totalProduct = response['total'];
-        this.pageIndex = response['page']
+        this.pageIndex = response['page'];
       },
       (error) => this.router.navigate(['/'])
     );

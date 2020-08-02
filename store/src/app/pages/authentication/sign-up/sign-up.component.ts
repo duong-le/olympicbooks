@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Authentication } from 'src/app/shared/Interfaces/authentication.interface';
 import { AuthenticationService } from '../authentication.service';
 import { constant } from 'src/app/shared/constant';
 import { MessageService } from 'src/app/shared/Services/message.service';
@@ -23,16 +22,15 @@ export class SignUpComponent implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     private messageService: MessageService
-  ) {}
+  ) {
+    this.titleService.setTitle('Đăng ký | Olympicbooks');
+  }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Đăng ký | Olympicbooks');
-
     this.signUpForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(constant.pwdPattern)]
-      ]
+      password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(constant.pwdPattern)]]
     });
   }
 

@@ -25,7 +25,7 @@
       <nz-form-control>
         <div class="authentication-form-button-wrapper">
           <span>Chưa có tài khoản? <a [routerLink]="['/signup']"> Đăng ký</a> </span>
-          <button nz-button [nzType]="'primary'" [disabled]="!signInForm.valid" [nzLoading]="isLoading">
+          <button nz-button nzType="primary" [disabled]="signInForm.invalid" [nzLoading]="isLoading">
             Đăng nhập</button>
         </div>
       </nz-form-control>
