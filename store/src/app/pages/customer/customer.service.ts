@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Customer } from 'src/app/shared/Interfaces/customer.interface';
-import { Order } from '../../shared/Interfaces/order.interface';
+import { Customer, UpdateCustomer } from 'src/app/shared/Interfaces/customer.interface';
+import { Order } from 'src/app/shared/Interfaces/order.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,8 @@ export class CustomerService {
     return this.http.get<Customer>(`${environment.apiUrl}/users/me`);
   }
 
-  updateMe(data: Customer): Observable<Customer> {
-    return this.http.patch<Customer>(`${environment.apiUrl}/users/me`, data);
+  updateMe(data: UpdateCustomer): Observable<UpdateCustomer> {
+    return this.http.patch<UpdateCustomer>(`${environment.apiUrl}/users/me`, data);
   }
 
   getOrders(params): Observable<Order[]> {

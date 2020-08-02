@@ -10,3 +10,10 @@ export interface Customer {
   role?: number;
   cartItems?: CartItem[];
 }
+
+export interface UpdateCustomer {
+  name?: string;
+  address?: string;
+  phoneNumber?: string;
+  password?: string;
+}
