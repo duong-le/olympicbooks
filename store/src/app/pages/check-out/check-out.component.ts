@@ -33,8 +33,7 @@ export class CheckOutComponent implements OnInit {
   shippingRadioValue: string;
   error = false;
   success = false;
-  orderId: number
-
+  orderId: number;
 
   constructor(
     private titleService: Title,
@@ -89,20 +88,16 @@ export class CheckOutComponent implements OnInit {
 
   updateAddress() {
     this.isUpdateLoading = true;
-    const { phoneNumber, address } = this.customer;
-    if (
-      JSON.stringify(this.addressForm.value) !==
-      JSON.stringify({ phoneNumber, address })
-    ) {
-      this.customerService
-        .updateMe(this.addressForm.value)
-        .subscribe((response) => {
-          this.customer = response;
-          this.order.shipping.address = response.address;
-          this.isUpdateLoading = false;
-          this.isModalVisible = false;
-        });
-    }
+    this.customerService
+      .updateMe(this.addressForm.value)
+      .subscribe((response) => {
+        this.customer = response;
+        this.order.shipping.address = response.address;
+        this.isUpdateLoading = false;
+        this.isModalVisible = false;
+        this.addressForm.markAsPristine()
+        this.addressForm.updateValueAndValidity();
+      });
   }
 
   changeShippingMethod() {
