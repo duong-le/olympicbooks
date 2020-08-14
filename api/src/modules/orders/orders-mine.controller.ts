@@ -20,8 +20,10 @@ import { Role } from 'src/shared/Enums/roles.enum';
     join: {
       orderItems: { eager: true, exclude: ['orderId', 'productId'] },
       'orderItems.product': { eager: true },
-      transaction: { eager: true },
-      shipping: { eager: true },
+      transaction: { eager: true, exclude: ['transactionMethodId'] },
+      'transaction.transactionMethod': { eager: true },
+      shipping: { eager: true, exclude: ['shippingMethodId'] },
+      'shipping.shippingMethod': { eager: true },
       discount: { eager: true }
     },
     exclude: ['transactionId', 'shippingId', 'discountId']

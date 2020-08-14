@@ -10,7 +10,13 @@ export class Shipping extends BaseEntity {
   address: string;
 
   @Column()
-  estimation: Date;
+  phoneNumber: string;
+
+  @Column()
+  estimationDate: Date;
+
+  @Column({ default: null })
+  deliveryDate: Date;
 
   @Column()
   shippingMethodId: number;

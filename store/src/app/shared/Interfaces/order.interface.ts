@@ -7,7 +7,8 @@ export interface Order {
   state?: string;
   transaction?: {
     id?: number;
-    transactionMethodId: TransactionMethod['id'];
+    transactionMethodId?: TransactionMethod['id'];
+    transactionMethod?: TransactionMethod;
     state?: string;
     value?: number;
     createdAt?: Date;
@@ -15,9 +16,12 @@ export interface Order {
   };
   shipping?: {
     id?: number;
-    address: string;
-    shippingMethodId: ShippingMethod['id'];
-    estimation?: Date;
+    address?: string;
+    phoneNumber?: string;
+    shippingMethodId?: ShippingMethod['id'];
+    shippingMethod?: ShippingMethod;
+    estimationDate?: Date;
+    deliveryDate?: Date;
   };
   orderItems?: OrderItem[];
   discount?: any;

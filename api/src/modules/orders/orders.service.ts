@@ -8,6 +8,7 @@ import { CreateOrderDto, UpdateOrderDto } from './orders.dto';
 import { CreateOrderItemDto } from './orders-item/orders-item.dto';
 import { Product } from '../products/products.entity';
 import { ShippingMethod } from '../shippings/shipping-methods.entity';
+import { OrderState } from 'src/shared/Enums/order-state.enum';
 
 @Injectable()
 export class OrdersService extends TypeOrmCrudService<Order> {
@@ -24,9 +25,12 @@ export class OrdersService extends TypeOrmCrudService<Order> {
     const order = await this.orderRepository.findOne(id);
     if (!order) throw new NotFoundException('Order not found');
 
-    if (dto?.state) order.state = dto.state;
+    if (dto?.state) {
+      order.state = dto.state;
+      if (order.state === OrderState.DELIVERED) order.shipping.deliveryDate = new Date();
+    }
     if (dto?.transaction?.state) order.transaction.state = dto.transaction.state;
-    if (dto?.shipping?.estimation) order.shipping.estimation = dto.shipping.estimation;
+    if (dto?.shipping?.estimationDate) order.shipping.estimationDate = dto.shipping.estimationDate;
     return await order.save();
   }
 
@@ -35,7 +39,7 @@ export class OrdersService extends TypeOrmCrudService<Order> {
     const products = await this.productRepository.findByIds(dto.orderItems.map((el) => el.productId));
 
     dto.orderItems = this.addValueToOrderItem(dto.orderItems, products);
-    dto.shipping.estimation = this.calculateEstimation(shippingMethod);
+    dto.shipping.estimationDate = this.calculateEstimation(shippingMethod);
     dto.transaction.value = this.calculateTransactionValue(dto.orderItems) + shippingMethod.fee;
 
     const order = await this.orderRepository.save(dto);

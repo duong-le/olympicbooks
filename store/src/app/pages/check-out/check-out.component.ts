@@ -53,6 +53,7 @@ export class CheckOutComponent implements OnInit {
 
     this.cartService.cart$.subscribe((response) => (this.cart = response));
 
+    this.isLoading = true;
     forkJoin(
       this.customerService.getMe(),
       this.checkOutService.getTransactionMethods(),
@@ -65,12 +66,12 @@ export class CheckOutComponent implements OnInit {
 
       this.order = {
         transaction: { transactionMethodId: this.transactionMethods[0].id },
-        shipping: { shippingMethodId: this.shippingMethods[0].id, address: this.customer.address },
+        shipping: { shippingMethodId: this.shippingMethods[0].id, address: this.customer.address, phoneNumber: this.customer.phoneNumber },
         orderItems: this.cart.cartItems.map((el) => ({ quantity: el.quantity, productId: el.product.id }))
       };
 
-      if (!this.customer.address || !this.customer.phoneNumber)
-        this.showModal();
+      if (!this.customer.address || !this.customer.phoneNumber) this.showModal();
+      this.isLoading = false;
     });
   }
 
@@ -93,6 +94,7 @@ export class CheckOutComponent implements OnInit {
       .subscribe((response) => {
         this.customer = response;
         this.order.shipping.address = response.address;
+        this.order.shipping.phoneNumber = response.phoneNumber;
         this.isUpdateLoading = false;
         this.isModalVisible = false;
         this.addressForm.markAsPristine()

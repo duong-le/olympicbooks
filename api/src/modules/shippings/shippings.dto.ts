@@ -9,15 +9,20 @@ export class CreateShippingDto {
 
   @ApiProperty()
   @IsDefined()
+  @IsString()
+  phoneNumber: string;
+
+  @ApiProperty()
+  @IsDefined()
   @IsNumber()
   shippingMethodId: number;
 
-  estimation: Date;
+  estimationDate: Date;
 }
 
 export class UpdateShippingDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsDateString()
-  estimation: Date;
+  estimationDate: Date;
 }

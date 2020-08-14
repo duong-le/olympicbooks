@@ -22,4 +22,8 @@ export class CustomerService {
   getOrders(params): Observable<Order[]> {
     return this.http.get<Order[]>(`${environment.apiUrl}/mine/orders`, { params });
   }
+
+  getOrderDetail(orderId): Observable<Order> {
+    return this.http.get<Order>(`${environment.apiUrl}/mine/orders/${orderId}`);
+  }
 }

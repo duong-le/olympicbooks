@@ -1,0 +1,29 @@
+.order-detail {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.display-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3,
+  h4,
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.order-date {
+  margin-bottom: 0;
+  color: #9e9e9e;
+}
+
+.summary {
+  cursor: auto;
+  padding: 0 24px;
+  p {
+    color: #1890ff;
+  }
+}

@@ -1,0 +1,128 @@
+<div class="order-detail">
+  <div nz-row [nzGutter]="[16,16]">
+    <div nz-col nzSm="24" nzXs="0">
+      <nz-card [nzLoading]="isLoading" [nzBodyStyle]="{ padding: '8px 12px' }" [nzBordered]="false">
+        <div class="display-between">
+          <div>
+            <h3>Đơn hàng #{{ order?.id }}</h3>
+            <p class="order-date">Ngày đặt hàng: {{ order?.createdAt | date:'hh:mm aaaa dd/MM/yyyy' }}</p>
+          </div>
+          <nz-tag nzColor="{{ order?.state | state:true }}">{{ order?.state | state }}</nz-tag>
+        </div>
+      </nz-card>
+    </div>
+
+    <div nz-col nzSm="0" nzXs="24">
+      <nz-card [nzLoading]="isLoading" [nzBodyStyle]="{ padding: '8px 12px' }" [nzBordered]="false">
+        <div class="display-between">
+          <h3>Đơn hàng #{{ order?.id }}</h3>
+          <nz-tag nzColor="{{ order?.state | state:true }}">{{ order?.state | state }}</nz-tag>
+        </div>
+        <p class="order-date">Ngày đặt hàng: {{ order?.createdAt | date:'hh:mm aaaa dd/MM/yyyy' }}</p>
+      </nz-card>
+    </div>
+
+    <div nz-col nzSm="12" nzXs="24">
+      <nz-card [nzLoading]="isLoading" nzTitle="Người Nhận" [nzBordered]="false">
+        <div class="display-between">
+          <h4>Địa chỉ</h4>
+          <p>{{ order?.shipping?.address }}</p>
+        </div>
+
+        <div class="display-between">
+          <h4>Số điện thoại</h4>
+          <p>{{ order?.shipping?.phoneNumber }}</p>
+        </div>
+      </nz-card>
+    </div>
+
+    <div nz-col nzSm="12" nzXs="24">
+      <nz-card [nzLoading]="isLoading" nzTitle="Giao Hàng" [nzBordered]="false">
+        <div *ngIf="order?.state === 'DELIVERED'; else elseBlock" class="display-between">
+          <h4>Thời gian giao hàng</h4>
+          <p>{{ order?.shipping?.deliveryDate | date:'dd/MM/yyyy' }}</p>
+        </div>
+        <ng-template #elseBlock>
+          <div class="display-between">
+            <h4>Dự kiến giao hàng</h4>
+            <p>{{ order?.shipping?.estimationDate | date:'dd/MM/yyyy' }}</p>
+          </div>
+        </ng-template>
+
+        <div class="display-between">
+          <h4>Phương thức giao hàng</h4>
+          <p>{{ order?.shipping?.shippingMethod?.description }}</p>
+        </div>
+
+        <div class="display-between">
+          <h4>Phí vận chuyển</h4>
+          <p>{{ order?.shipping?.shippingMethod?.fee | price }}</p>
+        </div>
+      </nz-card>
+    </div>
+
+    <div nz-col nzSpan="24">
+      <nz-table #table [nzData]="order?.orderItems" [nzLoading]="isLoading" [nzFrontPagination]="false"
+        [nzScroll]="{ x: '576px' }" [nzLoadingIndicator]="indicatorTemplate">
+        <thead>
+          <tr>
+            <th nzWidth="55%">Sản phẩm</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Tạm tính</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of table.data">
+            <td id="title"><a routerLink="/products/{{ data?.product?.id }}">{{ data?.product?.title }}</a></td>
+            <td>{{ data?.product?.price | price }}</td>
+            <td>{{ data?.quantity }}</td>
+            <td>{{ data?.totalValue | price }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <ng-template #indicatorTemplate><i nz-icon nzType="loading" class="loading"></i></ng-template>
+    </div>
+
+    <div nz-col nzSm="12" nzXs="24">
+      <nz-card [nzLoading]="isLoading" nzTitle="Thanh Toán" [nzBordered]="false">
+        <div class="display-between">
+          <h4>Tình trạng</h4>
+          <p>{{ order?.transaction?.state | state }}</p>
+        </div>
+
+        <div class="display-between">
+          <h4>Phương thức</h4>
+          <p>{{ order?.transaction?.transactionMethod?.description }}</p>
+        </div>
+      </nz-card>
+    </div>
+
+    <div nz-col nzSm="12" nzXs="24">
+      <nz-card [nzLoading]="isLoading" nzTitle="Tổng cộng" [nzBordered]="false" [nzActions]="[summary]">
+        <div class="display-between">
+          <h4>Tạm tính</h4>
+          <p>
+            {{ order?.transaction?.value - order?.shipping?.shippingMethod?.fee | price }}
+          </p>
+        </div>
+
+        <div class="display-between">
+          <h4>Giảm giá</h4>
+          <p>{{ 0 | price }}</p>
+        </div>
+
+        <div class="display-between">
+          <h4>Phí vận chuyển</h4>
+          <p>{{ order?.shipping?.shippingMethod?.fee | price }}</p>
+        </div>
+      </nz-card>
+      <ng-template #summary>
+        <div class="display-between summary">
+          <h4>Tổng cộng</h4>
+          <p>{{ order?.transaction?.value | price }}</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

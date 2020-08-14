@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CustomerRoutingModule } from './customer-routing.module';
 import { IconsProviderModule } from 'src/app/icons-provider.module';
+import { SharedComponentsModule } from 'src/app/shared/components/shared-components.module';
 
 import { CustomerComponent } from './customer.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -18,6 +19,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,10 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     NzInputModule,
     NzSelectModule,
     NzButtonModule,
-    NzCardModule
+    NzCardModule,
+    NzGridModule,
+    NzTagModule,
+    SharedComponentsModule
   ]
 })
 export class CustomerModule {}
