@@ -22,8 +22,7 @@
                 </nz-input-number>
               </div>
               <div nz-col nzXl="3">
-                <span
-                  class="price">{{ item?.quantity * item?.product.price | currency:"VND":"symbol":null:"vi-VN" }}</span>
+                <span class="price">{{ item?.quantity * item?.product.price | price }}</span>
               </div>
               <div nz-col>
                 <button nz-button (click)="deleteCartItem(item.id)" [disabled]="isDisabled">
@@ -53,15 +52,14 @@
             <div nz-row nzJustify="space-between" class="summary-row">
               <div nz-col> <span>Tạm tính</span> </div>
               <div nz-col>
-                <span class="summary-price price">{{ cart?.totalValue | currency:"VND":"symbol":null:"vi-VN" }}</span>
+                <span class="summary-price price">{{ cart?.totalValue | price }}</span>
               </div>
             </div>
 
             <div nz-row nzJustify="space-between" class="summary-row">
               <div nz-col> <span>Giảm giá</span> </div>
               <div nz-col>
-                <span
-                  class="summary-price price">{{ cart?.discountValue | currency:"VND":"symbol":null:"vi-VN" }}</span>
+                <span class="summary-price price">{{ cart?.discountValue | price }}</span>
               </div>
             </div>
 
@@ -70,8 +68,7 @@
             <div nz-row nzJustify="space-between" class="summary-row">
               <div nz-col> <span>Tổng cộng</span> </div>
               <div nz-col>
-                <span
-                  class="summary-price price">{{ cart?.totalValue - cart?.discountValue | currency:"VND":"symbol":null:"vi-VN" }}</span>
+                <span class="summary-price price">{{ cart?.totalValue - cart?.discountValue | price }}</span>
               </div>
             </div>
             <button nz-button nzType="primary" routerLink="/checkout" nzBlock [disabled]="isDisabled">Xác nhận</button>

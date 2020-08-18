@@ -1,9 +1,8 @@
 <a routerLink="/products/{{ product.id }}">
   <nz-card nzHoverable [nzCover]="coverTemplate" [nzLoading]="isLoading">
     <p>{{ product.title | slice:0:maxLength }}{{ product.title.length > maxLength ? '...' : '' }}</p>
-    <h3 class="price"> {{ product.price | currency:"VND":"symbol":null:"vi-VN" }} </h3>
-    <span
-      *ngIf="product.price !== product.originalPrice"><del>{{ product.originalPrice | currency:"VND":"symbol":null:"vi-VN" }}</del></span>
+    <h3 class="price"> {{ product.price | price }} </h3>
+    <span *ngIf="product.price !== product.originalPrice"><del>{{ product.originalPrice | price }}</del></span>
   </nz-card>
 
   <ng-template #coverTemplate>

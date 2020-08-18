@@ -48,7 +48,7 @@
               (ngModelChange)="changeShippingMethod()">
               <label nz-radio [nzValue]="item.method">
                 <nz-tag nzColor="{{ item.fee === 0 ? 'success' : 'warning' }}">
-                  {{ item.fee === 0 ? 'Miễn phí' : (item.fee  | currency:"VND":"symbol":null:"vi-VN") }}</nz-tag>
+                  {{ item.fee === 0 ? 'Miễn phí' : (item.fee  | price) }}</nz-tag>
                 {{ item.description }}
               </label>
             </nz-radio-group>
@@ -80,7 +80,7 @@
                   <span>Số lượng: {{ item?.quantity }}</span>
                 </div>
               </div>
-              <div class="price">{{ item?.quantity * item?.product.price | currency:"VND":"symbol":null:"vi-VN" }}</div>
+              <div class="price">{{ item?.quantity * item?.product.price | price }}</div>
             </div>
           </nz-card>
           <ng-template #editOrder>
@@ -93,23 +93,21 @@
             <div nz-row nzJustify="space-between" class="summary-row">
               <div nz-col> <span>Tạm tính</span> </div>
               <div nz-col>
-                <span class="summary-price price">{{ cart?.totalValue | currency:"VND":"symbol":null:"vi-VN" }}</span>
+                <span class="summary-price price">{{ cart?.totalValue | price }}</span>
               </div>
             </div>
 
             <div nz-row nzJustify="space-between" class="summary-row">
               <div nz-col> <span>Giảm giá</span> </div>
               <div nz-col>
-                <span
-                  class="summary-price price">{{ cart?.discountValue | currency:"VND":"symbol":null:"vi-VN" }}</span>
+                <span class="summary-price price">{{ cart?.discountValue | price }}</span>
               </div>
             </div>
 
             <div nz-row nzJustify="space-between" class="summary-row">
               <div nz-col> <span>Phí vận chuyển</span> </div>
               <div nz-col>
-                <span
-                  class="summary-price price">{{ cart?.shippingValue | currency:"VND":"symbol":null:"vi-VN" }}</span>
+                <span class="summary-price price">{{ cart?.shippingValue | price }}</span>
               </div>
             </div>
 
@@ -119,7 +117,7 @@
               <div nz-col> <span>Tổng cộng</span> </div>
               <div nz-col>
                 <span
-                  class="summary-price price">{{ cart?.totalValue - cart?.discountValue + cart?.shippingValue | currency:"VND":"symbol":null:"vi-VN" }}</span>
+                  class="summary-price price">{{ cart?.totalValue - cart?.discountValue + cart?.shippingValue | price }}</span>
               </div>
             </div>
             <button nz-button nzType="primary" (click)="processOrder()" [nzLoading]="isProcessingOrder" nzBlock>

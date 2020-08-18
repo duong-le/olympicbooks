@@ -30,9 +30,9 @@
         </nz-descriptions>
 
         <div class="price-wrapper">
-          <h1 class="price">{{ product?.price | currency:"VND":"symbol":null:"vi-VN" }}</h1>
+          <h1 class="price">{{ product?.price | price }}</h1>
           <h3 *ngIf="product?.price !== product?.originalPrice">
-            <del>{{ product?.originalPrice | currency:"VND":"symbol":null:"vi-VN" }}</del></h3>
+            <del>{{ product?.originalPrice | price }}</del></h3>
         </div>
 
         <nz-divider></nz-divider>
