@@ -59,4 +59,4 @@ const icons: IconDefinition[] = [
   exports: [NzIconModule],
   providers: [{ provide: NZ_ICONS, useValue: icons }]
 })
-export class IconsProviderModule {}
+export class IconModule {}

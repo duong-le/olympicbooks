@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedComponentsModule } from '../../shared/components/shared-components.module';
-import { IconsProviderModule } from '../../icons-provider.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { SharedModule } from 'src/app/shared/shared.module';
+import { IconModule } from 'src/app/shared/icon.module';
 
 import { CategoriesRoutingModule } from './categories-routing.module';
 import { CategoriesComponent } from './categories.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -20,8 +21,8 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
   declarations: [CategoriesComponent],
   imports: [
     CommonModule,
-    SharedComponentsModule,
-    IconsProviderModule,
+    SharedModule,
+    IconModule,
     CategoriesRoutingModule,
     FormsModule,
     ReactiveFormsModule,

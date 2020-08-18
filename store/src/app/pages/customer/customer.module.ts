@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { CustomerRoutingModule } from './customer-routing.module';
-import { IconsProviderModule } from 'src/app/icons-provider.module';
-import { SharedComponentsModule } from 'src/app/shared/components/shared-components.module';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { IconModule } from 'src/app/shared/icon.module';
 
+import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerComponent } from './customer.component';
 import { ProfileComponent } from './profile/profile.component';
 import { OrdersComponent } from './orders/orders.component';
@@ -32,7 +32,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
   imports: [
     CommonModule,
     CustomerRoutingModule,
-    IconsProviderModule,
+    IconModule,
     FormsModule,
     ReactiveFormsModule,
     NzLayoutModule,
@@ -45,7 +45,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     NzCardModule,
     NzGridModule,
     NzTagModule,
-    SharedComponentsModule
+    SharedModule
   ]
 })
 export class CustomerModule {}

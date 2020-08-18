@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
-import { NotExistComponent } from './shared/components/result/error/not-exist.component';
+import { NotExistComponent } from './shared/Components/result/error/not-exist.component';
 import { AuthGuard } from './shared/Guards/auth.guard';
 import { UnAuthGuard } from './shared/Guards/unauth.guard';
 

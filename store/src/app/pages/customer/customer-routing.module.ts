@@ -4,7 +4,7 @@ import { CustomerComponent } from './customer.component';
 import { ProfileComponent } from './profile/profile.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
-import { NotExistComponent } from 'src/app/shared/components/result/error/not-exist.component';
+import { NotExistComponent } from 'src/app/shared/Components/result/error/not-exist.component';
 
 const routes: Routes = [
   {

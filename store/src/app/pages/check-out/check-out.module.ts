@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IconsProviderModule } from '../../icons-provider.module';
-import { SharedComponentsModule } from '../../shared/components/shared-components.module';
+
+import { SharedModule } from 'src/app/shared/shared.module';
+import { IconModule } from 'src/app/shared/icon.module';
 
 import { CheckOutRoutingModule } from './check-out-routing.module';
 import { CheckOutComponent } from './check-out.component';
@@ -24,8 +25,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    IconsProviderModule,
-    SharedComponentsModule,
+    IconModule,
+    SharedModule,
     CheckOutRoutingModule,
     NzGridModule,
     NzCardModule,

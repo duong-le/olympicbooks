@@ -2,22 +2,23 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { HeaderComponent } from './header/header.component';
-import { RightMenuComponent } from './header/sub-menu/right-menu.component';
-import { LeftMenuComponent } from './header/sub-menu/left-menu.component';
-import { FooterComponent } from './footer/footer.component';
-import { SearchComponent } from './search/search.component';
-import { ProductComponent } from './product/product.component';
-import { CategoryComponent } from './category/category.component';
-import { NotExistComponent } from './result/error/not-exist.component';
-import { OrderSuccessComponent } from './result/success/order-success.component';
-import { OrderErrorComponent } from './result/error/order-error.component';
-import { CartEmptyComponent } from './result/empty/cart-empty.component';
+import { IconModule } from './icon.module';
 
-import { PricePipe } from '../Pipes/price.pipe';
-import { StatePipe } from '../Pipes/state.pipe';
+import { HeaderComponent } from './Components/header/header.component';
+import { RightMenuComponent } from './Components/header/sub-menu/right-menu.component';
+import { LeftMenuComponent } from './Components/header/sub-menu/left-menu.component';
+import { FooterComponent } from './Components/footer/footer.component';
+import { SearchComponent } from './Components/search/search.component';
+import { ProductComponent } from './Components/product/product.component';
+import { CategoryComponent } from './Components/category/category.component';
+import { NotExistComponent } from './Components/result/error/not-exist.component';
+import { OrderSuccessComponent } from './Components/result/success/order-success.component';
+import { OrderErrorComponent } from './Components/result/error/order-error.component';
+import { CartEmptyComponent } from './Components/result/empty/cart-empty.component';
 
-import { IconsProviderModule } from '../../icons-provider.module';
+import { PricePipe } from './Pipes/price.pipe';
+import { StatePipe } from './Pipes/state.pipe';
+
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -46,7 +47,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
   imports: [
     CommonModule,
     RouterModule,
-    IconsProviderModule,
+    IconModule,
     NzMenuModule,
     NzDrawerModule,
     NzGridModule,
@@ -72,4 +73,4 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     StatePipe
   ]
 })
-export class SharedComponentsModule {}
+export class SharedModule {}
