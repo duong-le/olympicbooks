@@ -16,7 +16,7 @@ export class OrdersComponent implements OnInit {
     private titleService: Title,
     private customerService: CustomerService
   ) {
-    this.titleService.setTitle('Quảng lý đơn hàng | Olympicbooks');
+    this.titleService.setTitle('Quản lý đơn hàng | Olympicbooks');
   }
 
   ngOnInit(): void {

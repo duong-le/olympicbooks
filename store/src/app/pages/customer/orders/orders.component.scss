@@ -8,4 +8,19 @@
 
 th {
   font-weight: bold !important;
+  text-align: center !important;
+}
+
+td:not(#title) {
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.tag {
+  white-space: normal !important;
+
+  .ant-tag {
+    white-space: normal !important;
+  }
 }
