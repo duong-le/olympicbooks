@@ -13,7 +13,6 @@ import { ProductsService } from '../products/products.service';
 })
 export class HomeComponent implements OnInit {
   categories: Category[];
-  hotDeals: Product[];
   recommendations: Product[];
 
   limit = 6;
