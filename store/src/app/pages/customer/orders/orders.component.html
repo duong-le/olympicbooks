@@ -2,8 +2,8 @@
   [nzLoadingIndicator]="indicatorTemplate" [nzHideOnSinglePage]="true">
   <thead>
     <tr>
-      <th>Mã đơn hàng</th>
       <th>Ngày mua</th>
+      <th>Mã đơn hàng</th>
       <th nzWidth="40%">Sản phẩm</th>
       <th>Tổng tiền</th>
       <th>Trạng thái</th>
@@ -11,11 +11,11 @@
   </thead>
   <tbody>
     <tr *ngFor="let data of table.data">
-      <td><a [routerLink]="[data?.id]">{{ data?.id }}</a></td>
       <td>{{ data?.createdAt | date: 'dd/MM/yyyy' }}</td>
+      <td><a [routerLink]="[data?.id]">{{ data?.id }}</a></td>
       <td id="title">
-        <ng-container *ngFor="let item of data?.orderItems; let isLast = last">
-          {{ item?.product?.title }}{{ isLast ? '' : ', ' }}
+        <ng-container *ngFor="let item of data?.orderItems">
+          {{ item?.product?.title }} <br />
         </ng-container>
       </td>
       <td>{{ data?.transaction?.value | price }}</td>
