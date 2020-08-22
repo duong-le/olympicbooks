@@ -15,12 +15,14 @@ export class HomeComponent implements OnInit {
   categories: Category[];
   recommendations: Product[];
 
+  isLoading = false;
   limit = 6;
   hero = 'assets/images/hero.jpg';
   banner = {
     left: { src: 'assets/images/community.jpg', caption: 'Cộng Đồng' },
     right: { src: 'assets/images/new-arrivals.jpg', caption: 'Sản Phẩm Mới' }
   };
+  cardStyle = null;
 
   constructor(
     private titleService: Title,
@@ -31,11 +33,16 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoading = true;
     combineLatest(
       this.categoriesService.categories$,
       this.productsService.getManyProducts({ limit: this.limit })
     ).subscribe(
-      (response) => ([this.categories, this.hotDeals] = response),
+      (response) => {
+        [this.categories, this.recommendations] = response;
+        this.isLoading = false;
+        this.cardStyle = { padding: '1px' };
+      },
       (error) => {}
     );
   }

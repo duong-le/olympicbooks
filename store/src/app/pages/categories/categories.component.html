@@ -39,7 +39,7 @@
 
     <div nz-col [nzXl]="{span: 18, order: 2}" [nzMd]="{span: 16, order: 2}" [nzSm]="{span: 12, order: 2}"
       [nzXs]="{span: 24, order: 1}">
-      <nz-card [nzTitle]="category?.title">
+      <nz-card [nzTitle]="category?.title" [nzLoading]="isLoading" [nzBodyStyle]="productsStyle">
         <div nz-row>
           <div nz-col class="ant-col-all" nzXl="6" nzLg="8" nzMd="12" nzXs="24" *ngFor="let product of products">
             <app-product [product]="product"></app-product>

@@ -25,7 +25,7 @@
   </div>
 </div>
 
-<nz-card class="container" nzTitle="Danh mục sách" [nzBodyStyle]="cardStyle">
+<nz-card class="container" nzTitle="Danh mục sách" [nzBodyStyle]="cardStyle" [nzLoading]="isLoading">
   <div nz-row>
     <div nz-col class="ant-col-all" nzXl="4" nzLg="6" nzMd="8" nzSm="12" nzXs="24" *ngFor="let item of categories">
       <app-category [category]="item"></app-category>
@@ -33,7 +33,7 @@
   </div>
 </nz-card>
 
-<nz-card class="container" nzTitle="Dành riêng cho bạn" [nzBodyStyle]="cardStyle">
+<nz-card class="container" nzTitle="Dành riêng cho bạn" [nzBodyStyle]="cardStyle" [nzLoading]="isLoading">
   <div nz-row>
     <div nz-col class="ant-col-all" nzXl="4" nzLg="6" nzMd="8" nzSm="12" nzXs="24" *ngFor="let item of recommendations">
       <app-product [product]="item"></app-product>

@@ -21,6 +21,7 @@ export class CategoriesComponent implements OnInit {
   publishers: Count[];
   authors: Count[];
 
+  isLoading = false;
   limit = 12;
   categoryId: number;
   totalProduct: number;
@@ -28,6 +29,7 @@ export class CategoriesComponent implements OnInit {
   rangeValue = [0, 1000000];
   maxPrice = 1000000;
   demoValue = 3;
+  productsStyle = null;
 
   constructor(
     private titleService: Title,
@@ -52,6 +54,13 @@ export class CategoriesComponent implements OnInit {
   }
 
   renderCategory() {
+    if (this.category) {
+      this.category = null;
+      this.publishers = null;
+      this.authors = null;
+      this.totalProduct = this.limit;
+    }
+
     combineLatest(
       this.categoriesService.categories$,
       this.categoriesService.getPublishersByCategory(this.categoryId),
@@ -65,11 +74,19 @@ export class CategoriesComponent implements OnInit {
   }
 
   renderProducts() {
+    if (this.products) {
+      this.products = null;
+      this.productsStyle = null;
+    }
+    this.isLoading = true;
+
     this.productsService.getManyProducts(this.qb.queryObject).subscribe(
       (response) => {
         this.products = response['data'];
         this.totalProduct = response['total'];
         this.pageIndex = response['page'];
+        this.isLoading = false;
+        this.productsStyle = { padding: '1px' };
       },
       (error) => this.router.navigate(['/'])
     );

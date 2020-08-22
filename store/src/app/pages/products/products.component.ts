@@ -19,6 +19,7 @@ export class ProductsComponent implements OnInit {
   relatedProducts: Product[];
 
   isProductLoading = false;
+  isRelatedProductsLoading = false;
   isBtnLoading = { addToCart: false, buyNow: false, comment: false };
   quantity = 1;
   minQty = 1;
@@ -26,6 +27,7 @@ export class ProductsComponent implements OnInit {
   likes = 0;
   dislikes = 0;
   limit = 6;
+  relatedProductStyle = null;
 
   commentValue = '';
   commentData = [
@@ -56,12 +58,20 @@ export class ProductsComponent implements OnInit {
   }
 
   render(productId: number) {
+    if (this.product) {
+      this.product.images = null;
+      this.relatedProductStyle = null;
+      this.quantity = 1;
+    }
+    this.isProductLoading = true;
     this.productsService
       .getOneProduct(productId)
       .pipe(
         mergeMap((response) => {
           this.product = response;
           this.titleService.setTitle(`${this.product.title} | Olympicbooks`);
+
+          this.isRelatedProductsLoading = true;
           return this.productsService.getManyProducts({
             filter: [`categoryId||$eq||${this.product.category.id}`, `id||$ne||${this.product.id}`],
             limit: this.limit
@@ -69,7 +79,11 @@ export class ProductsComponent implements OnInit {
         })
       )
       .subscribe(
-        (response) => (this.relatedProducts = response),
+        (response) => {
+          this.relatedProducts = response;
+          this.isRelatedProductsLoading = false;
+          this.relatedProductStyle = { padding: '1px' };
+        },
         (error) => this.router.navigate(['/'])
       );
   }
