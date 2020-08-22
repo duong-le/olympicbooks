@@ -10,7 +10,6 @@ import { CategoriesComponent } from './categories.component';
 
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
@@ -28,7 +27,6 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
     ReactiveFormsModule,
     NzGridModule,
     NzCardModule,
-    NzPageHeaderModule,
     NzDividerModule,
     NzSelectModule,
     NzSliderModule,

@@ -40,27 +40,27 @@ export class CategoriesComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.params.subscribe((paramsId) => {
       this.categoryId = Number(paramsId.id);
+      this.renderCategory();
 
       this.qb = RequestQueryBuilder.create()
         .setFilter({ field: 'categoryId', operator: CondOperator.EQUALS, value: this.categoryId })
         .sortBy({ field: 'id', order: 'DESC' })
         .setPage(1)
         .setLimit(this.limit);
-
-      combineLatest(
-        this.categoriesService.categories$,
-        this.categoriesService.getPublishersByCategory(this.categoryId),
-        this.categoriesService.getAuthorsByCategory(this.categoryId),
-      )
-        .subscribe(
-          (response) => {
-            this.category = response[0].find((el) => el.id === this.categoryId);
-            this.publishers = response[1];
-            this.authors = response[2];
-            this.titleService.setTitle(`${this.category.title} | Olympicbooks`);
-          });
-
       this.renderProducts();
+    });
+  }
+
+  renderCategory() {
+    combineLatest(
+      this.categoriesService.categories$,
+      this.categoriesService.getPublishersByCategory(this.categoryId),
+      this.categoriesService.getAuthorsByCategory(this.categoryId)
+    ).subscribe((response) => {
+      this.category = response[0].find((el) => el.id === this.categoryId);
+      this.publishers = response[1];
+      this.authors = response[2];
+      this.titleService.setTitle(`${this.category.title} | Olympicbooks`);
     });
   }
 
@@ -75,13 +75,13 @@ export class CategoriesComponent implements OnInit {
     );
   }
 
-  onOptionChange(value: QuerySortOperator) {
+  onSortingChange(value: QuerySortOperator) {
     delete this.qb.queryObject.sort;
     this.qb.sortBy({ field: 'price', order: value });
     this.renderProducts();
   }
 
-  onSliderAfterChange(value) {
+  onPriceRangeChange(value) {
     delete this.qb.queryObject.filter;
     this.qb
       .setFilter({ field: 'categoryId', operator: CondOperator.EQUALS, value: this.categoryId })
@@ -90,7 +90,7 @@ export class CategoriesComponent implements OnInit {
     this.renderProducts();
   }
 
-  changePage(value: number) {
+  onPageChange(value: number) {
     this.qb.setPage(value);
     this.renderProducts();
   }
