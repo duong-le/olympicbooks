@@ -17,7 +17,6 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -41,7 +40,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzStatisticModule,
     NzInputNumberModule,
     NzButtonModule,
-    NzPageHeaderModule,
     NzListModule,
     NzCommentModule,
     NzAvatarModule,

@@ -55,12 +55,6 @@ nz-carousel,
   margin-bottom: 5px;
 }
 
-.block-header {
-  font-size: 17px;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
 app-product {
   display: flex;
   width: inherit;
@@ -69,4 +63,8 @@ app-product {
 .count {
   padding-left: 8px;
   cursor: auto;
+}
+
+:host ::ng-deep .ant-card-head-title {
+  font-weight: bold;
 }

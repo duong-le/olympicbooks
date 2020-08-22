@@ -15,10 +15,11 @@ import { MessageService } from 'src/app/shared/Services/message.service';
   styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent implements OnInit {
-  isLoading = true;
-  btnLoading = { addToCart: false, buyNow: false };
   product: Product;
   relatedProducts: Product[];
+
+  isProductLoading = false;
+  isBtnLoading = { addToCart: false, buyNow: false, comment: false };
   quantity = 1;
   minQty = 1;
   maxQty = 100;
@@ -26,19 +27,17 @@ export class ProductsComponent implements OnInit {
   dislikes = 0;
   limit = 6;
 
-  commentData: any = [
+  commentValue = '';
+  commentData = [
     {
       content: 'Sản phẩm chất lượng',
       datetime: formatDistance(new Date(), addDays(new Date(), 1))
     }
   ];
-
-  submitting = false;
-  user = {
+  commentator = {
     author: 'Han Solo',
     avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
   };
-  inputValue = '';
 
   constructor(
     private titleService: Title,
@@ -48,7 +47,7 @@ export class ProductsComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private cartService: CartService,
     private messageService: MessageService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((paramsId) => {
@@ -76,61 +75,49 @@ export class ProductsComponent implements OnInit {
   }
 
   onLoadImage(event) {
-    if (event && event.target) this.isLoading = false;
+    if (event && event.target) this.isProductLoading = false;
   }
 
   addItemToCart(btn: string) {
-    if (!this.authenticationService.userValue)
-      this.router.navigate(['signin'], {
-        queryParams: { returnUrl: this.router.url }
-      });
-    else {
-      this.btnLoading[btn] = true;
-
-      const exist = this.cartService.cartValue.cartItems.find(
-        (el) => el.product.id === this.product.id
-      );
-
-      this.cartService[exist ? 'updateCartItem' : 'createCartItem'](
-        exist ? exist.id : this.product.id,
-        exist ? this.quantity + exist.quantity : this.quantity
-      )
-        .pipe(mergeMap((response) => this.cartService.getCart()))
-        .subscribe(
-          (response) => {
-            this.cartService.setCart(response);
-            this.btnLoading[btn] = false;
-            this.messageService.createMessage(
-              'success',
-              'Thêm vào giỏ hàng thành công!'
-            );
-            if (btn === 'buyNow') this.router.navigate(['cart']);
-          },
-          (error) => {
-            this.btnLoading[btn] = false;
-            this.messageService.createMessage(
-              'error',
-              'Có lỗi xảy ra, vui lòng thử lại sau!'
-            );
-          }
-        );
+    if (!this.authenticationService.userValue) {
+      this.router.navigate(['signin'], { queryParams: { returnUrl: this.router.url } });
+      return;
     }
+
+    this.isBtnLoading[btn] = true;
+    const exist = this.cartService.cartValue.cartItems.find(
+      (el) => el.product.id === this.product.id
+    );
+
+    this.cartService[exist ? 'updateCartItem' : 'createCartItem'](
+      exist ? exist.id : this.product.id,
+      exist ? this.quantity + exist.quantity : this.quantity
+    )
+      .pipe(mergeMap((response) => this.cartService.getCart()))
+      .subscribe(
+        (response) => {
+          this.cartService.setCart(response);
+          this.isBtnLoading[btn] = false;
+          this.messageService.createMessage('success', 'Thêm vào giỏ hàng thành công!');
+          if (btn === 'buyNow') this.router.navigate(['cart']);
+        },
+        (error) => {
+          this.isBtnLoading[btn] = false;
+          this.messageService.createMessage('error', 'Có lỗi xảy ra, vui lòng thử lại sau!');
+        }
+      );
   }
 
   submitComment(): void {
-    this.submitting = true;
-    const content = this.inputValue;
-    this.inputValue = '';
+    this.isBtnLoading.comment = true;
     setTimeout(() => {
-      this.submitting = false;
       this.commentData = [
         ...this.commentData,
-        {
-          content,
-          datetime: formatDistance(new Date(), addDays(new Date(), 1))
-        }
+        { content: this.commentValue, datetime: formatDistance(new Date(), addDays(new Date(), 1)) }
       ];
-    }, 800);
+      this.isBtnLoading.comment = false;
+      this.commentValue = '';
+    }, 1000);
   }
 
   like(): void {
