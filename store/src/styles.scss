@@ -38,6 +38,12 @@
   margin: 30px 10%;
 }
 
+@media (max-width: 576px) {
+  .container {
+    margin: 10px 0;
+  }
+}
+
 .ant-col-all {
   display: flex;
   width: 100%;
