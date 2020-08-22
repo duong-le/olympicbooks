@@ -74,7 +74,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let data of table.data">
-            <td id="title"><a routerLink="/products/{{ data?.product?.id }}">{{ data?.product?.title }}</a></td>
+            <td id="title"><a [routerLink]="['/products/', data?.product?.id ]">{{ data?.product?.title }}</a></td>
             <td>{{ data?.product?.price | price }}</td>
             <td>{{ data?.quantity }}</td>
             <td>{{ data?.totalValue | price }}</td>

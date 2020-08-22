@@ -12,7 +12,7 @@
 
     <nz-form-item class="authentication-form-password">
       <nz-form-label nzRequired nzFor="password">Mật khẩu</nz-form-label>
-      <a class="authentication-form-forgot" [routerLink]="['/signin']">Quên mật khẩu?</a>
+      <a class="authentication-form-forgot" routerLink="/signin">Quên mật khẩu?</a>
       <nz-form-control nzErrorTip="Mật khẩu không hợp lệ!">
         <nz-input-group [nzPrefix]="prefixPassword" [nzSuffix]="suffixPassword">
           <input [type]="passwordVisible ? 'text' : 'password'" nz-input formControlName="password"
@@ -24,7 +24,7 @@
     <nz-form-item>
       <nz-form-control>
         <div class="authentication-form-button-wrapper">
-          <span>Chưa có tài khoản? <a [routerLink]="['/signup']"> Đăng ký</a> </span>
+          <span>Chưa có tài khoản? <a routerLink="/signup">Đăng ký</a> </span>
           <button nz-button nzType="primary" [disabled]="signInForm.invalid" [nzLoading]="isLoading">
             Đăng nhập</button>
         </div>

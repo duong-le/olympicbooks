@@ -4,13 +4,14 @@
   <li nz-submenu nzTitle="Danh mục sách" nzIcon="book">
     <ul *ngFor="let item of categories">
       <li nz-menu-item nzMatchRouter>
-        <a routerLink="/categories/{{ item.id }}">{{ item.title }}</a>
+        <a [routerLink]="['/categories', item.id]">{{ item.title }}</a>
       </li>
     </ul>
   </li>
 
   <li nz-menu-item nzMatchRouter>
-    <a routerLink="/community"> <i nz-icon nzType="team" nzTheme="outline"></i>Cộng đồng</a></li>
+    <a href="https://medium.com/olympicbooks" target="_blank">
+      <i nz-icon nzType="team" nzTheme="outline"></i>Cộng đồng</a></li>
 
   <li nz-menu-item nzMatchRouter>
     <a routerLink="/contact"><i nz-icon nzType="comment" nzTheme="outline"></i>Liên hệ</a></li>

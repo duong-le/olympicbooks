@@ -1,4 +1,4 @@
-<a routerLink="/products/{{ product.id }}">
+<a [routerLink]="['/products', product.id]">
   <nz-card nzHoverable [nzCover]="coverTemplate" [nzBordered]="false" [nzLoading]="isLoading">
     <p>{{ product.title | slice:0:maxLength }}{{ product.title.length > maxLength ? '...' : '' }}</p>
     <h3 class="price"> {{ product.price | price }} </h3>
