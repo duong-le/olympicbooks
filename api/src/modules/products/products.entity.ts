@@ -26,7 +26,7 @@ export class Product extends BaseEntity {
   originalPrice: number;
 
   @Column()
-  availableQuantity: number;
+  stock: number;
 
   @Column()
   description: string;

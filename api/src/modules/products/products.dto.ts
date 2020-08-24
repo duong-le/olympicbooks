@@ -38,7 +38,7 @@ export class CreateProductDto {
   @ApiProperty()
   @IsDefined()
   @IsNumber()
-  availableQuantity: number;
+  stock: number;
 
   @ApiProperty()
   @IsDefined()
