@@ -1,0 +1,75 @@
+<div nz-row nzJustify="space-between" [nzGutter]="[16, 16]" class="header">
+  <div nz-col>
+    <div nz-row nzJustify="space-between" [nzGutter]="[16, 16]">
+      <div nz-col>
+        <nz-input-group [nzPrefix]="inputSearch" [nzSuffix]="inputClearById">
+          <input #input type="number" nz-input placeholder="Tìm kiếm theo ID" [(ngModel)]="searchInputById"
+            (keyup.enter)="onSearch()">
+        </nz-input-group>
+      </div>
+
+      <div nz-col>
+        <nz-input-group [nzPrefix]="inputSearch" [nzSuffix]="inputClearByName">
+          <input type="text" nz-input placeholder="Tìm kiếm theo Tên" [(ngModel)]="searchInputByTitle"
+            (keyup.enter)="onSearch()">
+        </nz-input-group>
+      </div>
+    </div>
+  </div>
+
+  <div nz-col>
+    <button nz-button nzType="primary">
+      <i nz-icon nzType="plus-circle" theme="outline"></i>
+      <span>Thêm sách</span>
+    </button>
+  </div>
+</div>
+
+<nz-card [nzBodyStyle]="{ padding: 0 }">
+  <nz-table #productsListTable [nzLoading]="isLoading" [nzLoadingIndicator]="loadingIndicator"
+    [nzScroll]="{ x: '1150px' }" [nzData]="products" nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total"
+    [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" (nzQueryParams)="onTableQueryParamsChange($event)">
+    <thead>
+      <tr>
+        <th *ngFor="let column of columns" [nzSortFn]="column.sort" [nzColumnKey]="column.key">{{ column.title }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of productsListTable.data">
+        <td>
+          <nz-space>
+            <nz-space-item>
+              <button nz-button nzType="primary" nzShape="circle" nz-tooltip nzTooltipTitle="Edit" nzGhost>
+                <i nz-icon nzType="edit" theme="outline"></i>
+              </button>
+            </nz-space-item>
+            <nz-space-item>
+              <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Delete" nzDanger>
+                <i nz-icon nzType="delete" theme="outline"></i>
+              </button>
+            </nz-space-item>
+          </nz-space>
+        </td>
+        <td>{{ item?.id }}</td>
+        <td>{{ item?.title }}</td>
+        <td>{{ item?.category?.title }}</td>
+        <td>{{ item?.pages }}</td>
+        <td>{{ item?.publicationYear }}</td>
+        <td>{{ item?.price | price }}</td>
+        <td>{{ item?.originalPrice | price }}</td>
+        <td>{{ item?.stock }}</td>
+        <td>{{ item?.publisher?.name }}</td>
+        <td>
+          <ng-container *ngFor="let author of item?.authors">{{ author.name }} <br /></ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>
+
+<ng-template #inputSearch><i nz-icon nzType="search"></i></ng-template>
+<ng-template #inputClearById><i nz-icon nzType="close-circle" class="ant-input-clear-icon" nzTheme="fill"
+    *ngIf="searchInputById" (click)="searchInputById = null; onSearch()"></i></ng-template>
+<ng-template #inputClearByName><i nz-icon nzType="close-circle" class="ant-input-clear-icon" nzTheme="fill"
+    *ngIf="searchInputByTitle" (click)="searchInputByTitle = null; onSearch()"></i></ng-template>
+<ng-template #loadingIndicator><i nz-icon nzType="loading" class="loading"></i></ng-template>

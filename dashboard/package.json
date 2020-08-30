@@ -19,6 +19,7 @@
     "@angular/platform-browser": "~9.1.12",
     "@angular/platform-browser-dynamic": "~9.1.12",
     "@angular/router": "~9.1.12",
+    "@nestjsx/crud-request": "^4.6.2",
     "ng-zorro-antd": "^9.3.0",
     "rxjs": "~6.6.2",
     "tslib": "^1.13.0",
