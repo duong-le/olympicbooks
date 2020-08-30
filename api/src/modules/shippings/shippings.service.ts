@@ -15,6 +15,6 @@ export class ShippingsService extends TypeOrmCrudService<Shipping> {
   }
 
   async getShippingMethods(): Promise<ShippingMethod[]> {
-    return this.shippingMethodRepository.find();
+    return await this.shippingMethodRepository.createQueryBuilder('shipping-method').orderBy('id', 'ASC').getMany();
   }
 }

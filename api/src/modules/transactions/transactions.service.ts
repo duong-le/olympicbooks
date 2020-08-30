@@ -15,6 +15,6 @@ export class TransactionsService extends TypeOrmCrudService<Transaction> {
   }
 
   async getTransactionMethods(): Promise<TransactionMethod[]> {
-    return this.transactionMethodRepository.find();
+    return await this.transactionMethodRepository.createQueryBuilder('transaction-method').orderBy('id', 'ASC').getMany();
   }
 }
