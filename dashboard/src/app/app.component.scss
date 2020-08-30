@@ -19,6 +19,10 @@ nz-sider {
   left: 0;
 }
 
+.ant-menu-inline {
+  border-right: none;
+}
+
 :host ::ng-deep .ant-layout-sider-trigger {
   color: black;
   background: white;
@@ -30,6 +34,7 @@ nz-header {
   border-bottom: 1px solid #edf2f9;
   position: fixed;
   width: 100%;
+  z-index: 2;
 }
 
 nz-content {
