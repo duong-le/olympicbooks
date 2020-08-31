@@ -3,8 +3,7 @@ import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { join } from 'path';
-import { SqlFormat } from './shared/Loggers/sql-format.logger';
+import { ormConfig } from './ormconfig';
 import { HttpRequestLogger } from './shared/Loggers/http-request.logger';
 
 import { AuthModule } from './modules/auth/auth.module';
@@ -26,17 +25,7 @@ import { ArrayExist } from './shared/Validators/array-exist/array-exist.service'
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.SQL_HOST,
-      port: 5432,
-      username: process.env.SQL_USER,
-      password: process.env.SQL_PASSWORD,
-      database: process.env.SQL_NAME,
-      entities: [join(__dirname, '**/**.entity{.ts,.js}')],
-      synchronize: true,
-      logger: new SqlFormat(['schema', 'error', 'warn', 'info', 'log', 'migration'])
-    }),
+    TypeOrmModule.forRoot(ormConfig),
     AuthModule,
     ProductsModule,
     CategoriesModule,

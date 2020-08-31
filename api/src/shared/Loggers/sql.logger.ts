@@ -1,13 +1,13 @@
+import { Logger } from '@nestjs/common';
 import { Logger as TypeOrmLogger, QueryRunner } from 'typeorm';
 import { LoggerOptions } from 'typeorm/logger/LoggerOptions';
 import sqlFormatter from 'sql-formatter';
-import { Logger } from '@nestjs/common';
 
 /**
  * Effectively ripped out from:
  * https://github.com/typeorm/typeorm/blob/master/src/logger/SimpleConsoleLogger.ts
  */
-export class SqlFormat implements TypeOrmLogger {
+export class SqlLogger implements TypeOrmLogger {
   private logger = new Logger();
 
   constructor(private options?: LoggerOptions) {}
