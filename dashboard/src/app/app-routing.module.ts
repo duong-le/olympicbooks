@@ -13,6 +13,10 @@ const routes: Routes = [
   {
     path: 'authors',
     loadChildren: () => import('./pages/authors/authors.module').then((m) => m.AuthorsModule)
+  },
+  {
+    path: 'publishers',
+    loadChildren: () => import('./pages/publishers/publishers.module').then((m) => m.PublishersModule)
   }
 ];
 
