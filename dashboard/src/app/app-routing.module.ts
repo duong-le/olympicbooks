@@ -17,6 +17,10 @@ const routes: Routes = [
   {
     path: 'publishers',
     loadChildren: () => import('./pages/publishers/publishers.module').then((m) => m.PublishersModule)
+  },
+  {
+    path: 'orders',
+    loadChildren: () => import('./pages/orders/orders.module').then((m) => m.OrdersModule)
   }
 ];
 
