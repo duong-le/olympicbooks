@@ -25,7 +25,7 @@ import { ArrayExist } from './shared/Validators/array-exist/array-exist.service'
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.SQL_HOST,
