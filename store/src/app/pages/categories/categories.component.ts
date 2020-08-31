@@ -7,7 +7,9 @@ import { Category } from 'src/app/shared/Interfaces/category.interface';
 import { CategoriesService } from './categories.service';
 import { Product } from 'src/app/shared/Interfaces/product.interface';
 import { ProductsService } from '../products/products.service';
-import { Count } from 'src/app/shared/Interfaces/count.interface';
+import { Summary } from 'src/app/shared/Interfaces/summary';
+import { Publisher } from 'src/app/shared/Interfaces/publisher.interface';
+import { Author } from 'src/app/shared/Interfaces/author.interface';
 
 @Component({
   selector: 'app-categories',
@@ -18,8 +20,8 @@ export class CategoriesComponent implements OnInit {
   qb: RequestQueryBuilder;
   category: Category;
   products: Product[];
-  publishers: Count[];
-  authors: Count[];
+  publishers: Summary<Publisher>[];
+  authors: Summary<Author>[];
 
   isLoading = false;
   limit = 12;

@@ -11,24 +11,26 @@ export class CategoriesService extends TypeOrmCrudService<Category> {
   }
 
   async getPublishersByCategory(id: number): Promise<Category[]> {
-    return await this.categoryRepository.createQueryBuilder('category')
+    return await this.categoryRepository
+      .createQueryBuilder('category')
       .innerJoinAndSelect('category.products', 'products')
       .innerJoinAndSelect('products.publisher', 'publisher')
-      .where("category.id = :id", { id })
-      .select("publisher.name AS name")
-      .addSelect("COUNT(*) AS count")
-      .groupBy("publisher.name")
+      .where('category.id = :id', { id })
+      .select('publisher.name AS name')
+      .addSelect('COUNT(*) AS count')
+      .groupBy('publisher.name')
       .getRawMany();
   }
 
   async getAuthorsByCategory(id: number): Promise<Category[]> {
-    return await this.categoryRepository.createQueryBuilder('category')
+    return await this.categoryRepository
+      .createQueryBuilder('category')
       .innerJoinAndSelect('category.products', 'products')
       .innerJoinAndSelect('products.authors', 'authors')
-      .where("category.id = :id", { id })
-      .select("authors.name AS name")
-      .addSelect("COUNT(*) AS count")
-      .groupBy("authors.name")
+      .where('category.id = :id', { id })
+      .select('authors.name AS name')
+      .addSelect('COUNT(*) AS count')
+      .groupBy('authors.name')
       .getRawMany();
   }
 }
