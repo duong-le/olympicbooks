@@ -29,7 +29,7 @@ export class ProductsComponent implements OnInit {
     { title: 'Năm xuất bản', key: 'publicationYear', sort: true },
     { title: 'Giá bán', key: 'price', sort: true },
     { title: 'Giá gốc', key: 'originalPrice', sort: true },
-    { title: 'Stock', key: 'stock', sort: true },
+    { title: 'Có hàng', key: 'stock', sort: true },
     { title: 'Nhà xuất bản', key: 'publisher.id', sort: true },
     { title: 'Tác giả' }
   ];

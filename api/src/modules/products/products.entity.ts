@@ -25,8 +25,8 @@ export class Product extends BaseEntity {
   @Column()
   originalPrice: number;
 
-  @Column()
-  stock: number;
+  @Column({ default: true })
+  stock: boolean;
 
   @Column()
   description: string;

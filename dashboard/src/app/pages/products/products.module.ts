@@ -15,6 +15,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 @NgModule({
   declarations: [ProductsComponent],
@@ -30,7 +31,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     NzButtonModule,
     NzToolTipModule,
     NzSpaceModule,
-    NzGridModule
+    NzGridModule,
+    NzSwitchModule
   ]
 })
 export class ProductsModule {}

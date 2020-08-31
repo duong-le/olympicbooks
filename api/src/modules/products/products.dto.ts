@@ -1,5 +1,5 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsDefined, IsString, IsNumber, IsArray, ValidateNested, Validate } from 'class-validator';
+import { IsDefined, IsString, IsNumber, IsArray, ValidateNested, Validate, IsBoolean } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Exist } from 'src/shared/Validators/exist/exist.service';
 import { ArrayExist } from 'src/shared/Validators/array-exist/array-exist.service';
@@ -37,11 +37,6 @@ export class CreateProductDto {
 
   @ApiProperty()
   @IsDefined()
-  @IsNumber()
-  stock: number;
-
-  @ApiProperty()
-  @IsDefined()
   @IsString()
   description: string;
 
@@ -73,4 +68,9 @@ export class CreateProductDto {
   authors: CreateAuthorWithProductDto[];
 }
 
-export class UpdateProductDto extends PartialType(CreateProductDto) {}
+export class UpdateProductDto extends PartialType(CreateProductDto) {
+  @ApiProperty()
+  @IsDefined()
+  @IsBoolean()
+  stock: boolean;
+}

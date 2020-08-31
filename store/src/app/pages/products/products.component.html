@@ -37,17 +37,26 @@
 
         <nz-divider></nz-divider>
 
-        <nz-descriptions [nzColumn]="2" [nzColon]="false">
-          <nz-descriptions-item nzTitle="Số lượng"></nz-descriptions-item>
-          <nz-descriptions-item>
-            <nz-input-number [(ngModel)]="quantity" [nzMin]="minQty" [nzMax]="maxQty" [nzStep]="1"></nz-input-number>
-          </nz-descriptions-item>
-        </nz-descriptions>
+        <ng-container *ngIf="product?.stock; else outOfStock">
+          <nz-descriptions [nzColumn]="2" [nzColon]="false">
+            <nz-descriptions-item nzTitle="Số lượng"></nz-descriptions-item>
+            <nz-descriptions-item>
+              <nz-input-number [(ngModel)]="quantity" [nzMin]="minQty" [nzMax]="maxQty" [nzStep]="1"></nz-input-number>
+            </nz-descriptions-item>
+          </nz-descriptions>
 
-        <button nz-button class="btn" nzType="default" nzBlock (click)="addItemToCart('addToCart')"
-          [nzLoading]="isBtnLoading.addToCart" [disabled]="isBtnLoading.buyNow">Thêm Vào Giỏ Hàng</button>
-        <button nz-button class="btn" nzType="primary" nzBlock (click)="addItemToCart('buyNow')"
-          [nzLoading]="isBtnLoading.buyNow" [disabled]="isBtnLoading.addToCart">Mua Ngay</button>
+          <button nz-button nzType="dashed" nzBlock>
+            <a href="tel:0984803198"><i nz-icon nzType="phone"></i> 0984.803.198</a></button>
+          <button nz-button nzType="default" nzBlock [nzLoading]="isBtnLoading.addToCart"
+            (click)="addItemToCart('addToCart')" [disabled]="isBtnLoading.buyNow">Thêm Vào Giỏ Hàng</button>
+          <button nz-button nzType="primary" nzBlock [nzLoading]="isBtnLoading.buyNow" (click)="addItemToCart('buyNow')"
+            [disabled]="isBtnLoading.addToCart">Mua Ngay</button>
+        </ng-container>
+        <ng-template #outOfStock>
+          <button nz-button nzType="default" nzBlock disabled>Hết hàng</button>
+          <button nz-button nzType="primary" nzBlock>
+            <a href="tel:0984803198"><i nz-icon nzType="phone"></i> 0984.803.198</a></button>
+        </ng-template>
       </nz-skeleton>
     </div>
   </div>

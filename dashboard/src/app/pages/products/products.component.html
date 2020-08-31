@@ -57,7 +57,9 @@
         <td>{{ item?.publicationYear }}</td>
         <td>{{ item?.price | price }}</td>
         <td>{{ item?.originalPrice | price }}</td>
-        <td>{{ item?.stock }}</td>
+        <td>
+          <nz-switch [ngModel]="item?.stock" [nzDisabled]="true"></nz-switch>
+        </td>
         <td>{{ item?.publisher?.name }}</td>
         <td>
           <ng-container *ngFor="let author of item?.authors">{{ author.name }} <br /></ng-container>

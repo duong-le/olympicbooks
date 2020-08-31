@@ -14,7 +14,7 @@ export interface Product {
   category: Category;
   publisher: Publisher;
   authors: Author[];
-  stock: number;
+  stock: boolean;
 }
 
 export interface ProductImage {
