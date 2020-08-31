@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductsService } from './products.service';
-import { Product } from 'src/app/shared/Interfaces/product.interface';
 import { RequestQueryBuilder, CondOperator } from '@nestjsx/crud-request';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { ProductsService } from './products.service';
+import { Product } from 'src/app/shared/Interfaces/product.interface';
 
 @Component({
   selector: 'app-products',

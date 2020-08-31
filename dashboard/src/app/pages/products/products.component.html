@@ -1,4 +1,4 @@
-<div nz-row nzJustify="space-between" [nzGutter]="[16, 16]" class="header">
+<div nz-row nzJustify="space-between" [nzGutter]="[16, 16]" class="p-b-16">
   <div nz-col>
     <div nz-row nzJustify="space-between" [nzGutter]="[16, 16]">
       <div nz-col>
@@ -26,16 +26,16 @@
 </div>
 
 <nz-card [nzBodyStyle]="{ padding: 0 }">
-  <nz-table #productsListTable [nzLoading]="isLoading" [nzLoadingIndicator]="loadingIndicator"
-    [nzScroll]="{ x: '1150px' }" [nzData]="products" nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total"
-    [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" (nzQueryParams)="onTableQueryParamsChange($event)">
+  <nz-table #table [nzLoading]="isLoading" [nzLoadingIndicator]="loadingIndicator" [nzScroll]="{ x: '1150px' }"
+    [nzData]="products" nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total" [nzPageSize]="pageSize"
+    [nzPageIndex]="pageIndex" (nzQueryParams)="onTableQueryParamsChange($event)">
     <thead>
       <tr>
         <th *ngFor="let column of columns" [nzSortFn]="column.sort" [nzColumnKey]="column.key">{{ column.title }}</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of productsListTable.data">
+      <tr *ngFor="let item of table.data">
         <td>
           <nz-space>
             <nz-space-item>
