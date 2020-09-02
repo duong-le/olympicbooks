@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { Pagination } from 'src/app/shared/Interfaces/pagination.interface';
+import { BaseService } from 'src/app/shared/Base/base.service';
 import { Category } from 'src/app/shared/Interfaces/category.interface';
+import { Pagination } from 'src/app/shared/Interfaces/pagination.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriesService {
-  constructor(private http: HttpClient) {}
-
-  getManyCategories(params): Observable<Pagination<Category[]>> {
-    return this.http.get<Pagination<Category[]>>(`${environment.apiUrl}/categories`, { params });
+export class CategoriesService extends BaseService<Category> {
+  getMany(params: { [key: string]: string | string[] }): Observable<Pagination<Category[]>> {
+    return this.http.get<Pagination<Category[]>>(`${this.baseUrl}/categories`, { params });
   }
 }

@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { Pagination } from 'src/app/shared/Interfaces/pagination.interface';
+import { BaseService } from 'src/app/shared/Base/base.service';
 import { Author } from 'src/app/shared/Interfaces/author.interface';
+import { Pagination } from 'src/app/shared/Interfaces/pagination.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthorsService {
-  constructor(private http: HttpClient) {}
-
-  getManyAuthors(params): Observable<Pagination<Author[]>> {
-    return this.http.get<Pagination<Author[]>>(`${environment.apiUrl}/authors`, { params });
+export class AuthorsService extends BaseService<Author> {
+  getMany(params: { [key: string]: string | string[] }): Observable<Pagination<Author[]>> {
+    return this.http.get<Pagination<Author[]>>(`${this.baseUrl}/authors`, { params });
   }
 }

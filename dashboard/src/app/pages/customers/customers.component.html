@@ -2,21 +2,21 @@
   <div nz-col>
     <nz-input-group [nzPrefix]="inputSearch" [nzSuffix]="inputClearById">
       <input #input type="number" nz-input placeholder="Tìm kiếm theo ID" [(ngModel)]="searchInputById"
-        (keyup.enter)="onSearch()">
+        (keyup.enter)="onSearchById()">
     </nz-input-group>
   </div>
 
   <div nz-col>
     <nz-input-group [nzPrefix]="inputSearch" [nzSuffix]="inputClearByName">
-      <input type="text" nz-input placeholder="Tìm kiếm theo Tên" [(ngModel)]="searchInputByTitle"
-        (keyup.enter)="onSearch()">
+      <input type="text" nz-input placeholder="Tìm kiếm theo Tên" [(ngModel)]="searchInputByName"
+        (keyup.enter)="onSearchByName()">
     </nz-input-group>
   </div>
 </div>
 
 <nz-card [nzBodyStyle]="{ padding: 0 }">
   <nz-table #table [nzLoading]="isLoading" [nzLoadingIndicator]="loadingIndicator" [nzScroll]="{ x: '1150px' }"
-    [nzData]="customers" nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total" [nzPageSize]="pageSize"
+    [nzData]="data" nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total" [nzPageSize]="pageSize"
     [nzPageIndex]="pageIndex" (nzQueryParams)="onTableQueryParamsChange($event)">
     <thead>
       <tr>
@@ -51,7 +51,7 @@
 
 <ng-template #inputSearch><i nz-icon nzType="search"></i></ng-template>
 <ng-template #inputClearById><i nz-icon nzType="close-circle" class="ant-input-clear-icon" nzTheme="fill"
-    *ngIf="searchInputById" (click)="searchInputById = null; onSearch()"></i></ng-template>
+    *ngIf="searchInputById" (click)="searchInputById = null; onSearchById()"></i></ng-template>
 <ng-template #inputClearByName><i nz-icon nzType="close-circle" class="ant-input-clear-icon" nzTheme="fill"
-    *ngIf="searchInputByTitle" (click)="searchInputByTitle = null; onSearch()"></i></ng-template>
+    *ngIf="searchInputByName" (click)="searchInputByName = null; onSearchByName()"></i></ng-template>
 <ng-template #loadingIndicator><i nz-icon nzType="loading" class="loading"></i></ng-template>

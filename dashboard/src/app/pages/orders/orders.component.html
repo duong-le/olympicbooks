@@ -2,14 +2,14 @@
   <div nz-col>
     <nz-input-group [nzPrefix]="inputSearch" [nzSuffix]="inputClearById">
       <input #input type="number" nz-input placeholder="Tìm kiếm theo ID" [(ngModel)]="searchInputById"
-        (keyup.enter)="onSearch()">
+        (keyup.enter)="onSearchById()">
     </nz-input-group>
   </div>
 </div>
 
 <nz-card [nzBodyStyle]="{ padding: 0 }">
   <nz-table #table [nzLoading]="isLoading" [nzLoadingIndicator]="loadingIndicator" [nzScroll]="{ x: '1150px' }"
-    [nzData]="orders" nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total" [nzPageSize]="pageSize"
+    [nzData]="data" nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total" [nzPageSize]="pageSize"
     [nzPageIndex]="pageIndex" (nzQueryParams)="onTableQueryParamsChange($event)">
     <thead>
       <tr>
@@ -61,5 +61,5 @@
 
 <ng-template #inputSearch><i nz-icon nzType="search"></i></ng-template>
 <ng-template #inputClearById><i nz-icon nzType="close-circle" class="ant-input-clear-icon" nzTheme="fill"
-    *ngIf="searchInputById" (click)="searchInputById = null; onSearch()"></i></ng-template>
+    *ngIf="searchInputById" (click)="searchInputById = null; onSearchById()"></i></ng-template>
 <ng-template #loadingIndicator><i nz-icon nzType="loading" class="loading"></i></ng-template>
