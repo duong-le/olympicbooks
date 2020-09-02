@@ -8,21 +8,14 @@ import { Order } from 'src/app/shared/Interfaces/order.interface';
 @Component({
   selector: 'app-order-detail',
   templateUrl: './order-detail.component.html',
-  styleUrls: [
-    './order-detail.component.scss',
-    '../orders/orders.component.scss'
-  ]
+  styleUrls: ['./order-detail.component.scss', '../orders/orders.component.scss']
 })
 export class OrderDetailComponent implements OnInit {
   subscription$$: Subscription;
   isLoading = false;
   order: Order;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private titleService: Title,
-    private customerService: CustomerService
-  ) {}
+  constructor(private activatedRoute: ActivatedRoute, private titleService: Title, private customerService: CustomerService) {}
 
   ngOnInit(): void {
     this.subscription$$ = this.activatedRoute.params.subscribe((paramsId) => {

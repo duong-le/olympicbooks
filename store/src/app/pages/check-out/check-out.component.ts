@@ -89,23 +89,19 @@ export class CheckOutComponent implements OnInit {
 
   updateAddress() {
     this.isUpdateLoading = true;
-    this.customerService
-      .updateMe(this.addressForm.value)
-      .subscribe((response) => {
-        this.customer = response;
-        this.order.shipping.address = response.address;
-        this.order.shipping.phoneNumber = response.phoneNumber;
-        this.isUpdateLoading = false;
-        this.isModalVisible = false;
-        this.addressForm.markAsPristine()
-        this.addressForm.updateValueAndValidity();
-      });
+    this.customerService.updateMe(this.addressForm.value).subscribe((response) => {
+      this.customer = response;
+      this.order.shipping.address = response.address;
+      this.order.shipping.phoneNumber = response.phoneNumber;
+      this.isUpdateLoading = false;
+      this.isModalVisible = false;
+      this.addressForm.markAsPristine();
+      this.addressForm.updateValueAndValidity();
+    });
   }
 
   changeShippingMethod() {
-    const method = this.shippingMethods.find(
-      (el) => el.method === this.shippingRadioValue
-    );
+    const method = this.shippingMethods.find((el) => el.method === this.shippingRadioValue);
     this.order.shipping.shippingMethodId = method.id;
     this.cartService.changeShippingValue(method.fee);
   }
@@ -116,10 +112,12 @@ export class CheckOutComponent implements OnInit {
       this.isProcessingOrder = true;
       this.checkOutService
         .createOrder(this.order)
-        .pipe(mergeMap((response) => {
-          this.orderId = response['id'];
-          return this.cartService.deleteCart();
-        }))
+        .pipe(
+          mergeMap((response) => {
+            this.orderId = response['id'];
+            return this.cartService.deleteCart();
+          })
+        )
         .subscribe(
           (response) => {
             this.cartService.emptyCart();

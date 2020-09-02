@@ -49,12 +49,9 @@ export class SignInComponent implements OnInit {
           this.router.navigate([this.returnUrl]);
         },
         (error) => {
-          if (error.status === 401)
-            this.messageService.createMessage('error', 'Email hoặc mật khẩu không đúng');
-          else if (error.status === 403)
-            this.messageService.createMessage('error', 'Tài khoản đã bị khóa');
-          else
-            this.messageService.createMessage('error', 'Có lỗi xảy ra, vui lòng thử lại sau!');
+          if (error.status === 401) this.messageService.createMessage('error', 'Email hoặc mật khẩu không đúng');
+          else if (error.status === 403) this.messageService.createMessage('error', 'Tài khoản đã bị khóa');
+          else this.messageService.createMessage('error', 'Có lỗi xảy ra, vui lòng thử lại sau!');
           this.isLoading = false;
         }
       );

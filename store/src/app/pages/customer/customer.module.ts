@@ -23,12 +23,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @NgModule({
-  declarations: [
-    CustomerComponent,
-    ProfileComponent,
-    OrdersComponent,
-    OrderDetailComponent
-  ],
+  declarations: [CustomerComponent, ProfileComponent, OrdersComponent, OrderDetailComponent],
   imports: [
     CommonModule,
     CustomerRoutingModule,

@@ -18,11 +18,7 @@ export class CartComponent implements OnInit {
   minQty = 1;
   maxQty = 99;
 
-  constructor(
-    private titleService: Title,
-    private cartService: CartService,
-    private messageService: MessageService
-  ) {
+  constructor(private titleService: Title, private cartService: CartService, private messageService: MessageService) {
     this.titleService.setTitle('Giỏ hàng | Olympicbooks');
   }
 

@@ -13,9 +13,7 @@ export class AuthenticationService {
   public user$: Observable<Authentication>;
 
   constructor(private http: HttpClient) {
-    this.userSubject = new BehaviorSubject<Authentication>(
-      JSON.parse(localStorage.getItem('user'))
-    );
+    this.userSubject = new BehaviorSubject<Authentication>(JSON.parse(localStorage.getItem('user')));
     this.user$ = this.userSubject.asObservable();
   }
 
@@ -24,26 +22,15 @@ export class AuthenticationService {
   }
 
   signIn(data: Authentication): Observable<Authentication> {
-    return this.http
-      .post<Authentication>(`${environment.apiUrl}/auth/signin`, data)
-      .pipe(
-        map(({ accessToken }) => {
-          const base64Url = accessToken.split('.')[1];
-          const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-          const payload = JSON.parse(
-            decodeURIComponent(
-              atob(base64)
-                .split('')
-                .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-                .join('')
-            ));
-
-          const user = { ...payload, accessToken };
-          localStorage.setItem('user', JSON.stringify(user));
-          this.userSubject.next(user);
-          return user;
-        })
-      );
+    return this.http.post<Authentication>(`${environment.apiUrl}/auth/signin`, data).pipe(
+      map(({ accessToken }) => {
+        const payload = this.decodeToken(accessToken);
+        const user = { ...payload, accessToken };
+        localStorage.setItem('user', JSON.stringify(user));
+        this.userSubject.next(user);
+        return user;
+      })
+    );
   }
 
   signUp(data: Authentication): Observable<Authentication> {
@@ -53,5 +40,18 @@ export class AuthenticationService {
   signOut() {
     localStorage.removeItem('user');
     this.userSubject.next(null);
+  }
+
+  decodeToken(accessToken: string) {
+    const base64Url = accessToken.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(
+      decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      )
+    );
   }
 }

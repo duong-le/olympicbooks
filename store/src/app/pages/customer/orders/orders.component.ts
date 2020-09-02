@@ -12,10 +12,7 @@ export class OrdersComponent implements OnInit {
   orders: Order[];
   isLoading = false;
 
-  constructor(
-    private titleService: Title,
-    private customerService: CustomerService
-  ) {
+  constructor(private titleService: Title, private customerService: CustomerService) {
     this.titleService.setTitle('Quản lý đơn hàng | Olympicbooks');
   }
 

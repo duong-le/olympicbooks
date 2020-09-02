@@ -43,10 +43,8 @@ export class SignUpComponent implements OnInit {
         this.router.navigate(['signin']);
       },
       (error) => {
-        if (error.status === 409)
-          this.messageService.createMessage('error', 'Email đã tồn tại');
-        else
-          this.messageService.createMessage('error', 'Có lỗi xảy ra, vui lòng thử lại sau!');
+        if (error.status === 409) this.messageService.createMessage('error', 'Email đã tồn tại');
+        else this.messageService.createMessage('error', 'Có lỗi xảy ra, vui lòng thử lại sau!');
         this.isLoading = false;
       }
     );

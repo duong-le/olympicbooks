@@ -24,20 +24,13 @@ export class HomeComponent implements OnInit {
   };
   cardStyle = null;
 
-  constructor(
-    private titleService: Title,
-    private categoriesService: CategoriesService,
-    private productsService: ProductsService
-  ) {
+  constructor(private titleService: Title, private categoriesService: CategoriesService, private productsService: ProductsService) {
     this.titleService.setTitle('Trang chủ | Olympicbooks');
   }
 
   ngOnInit() {
     this.isLoading = true;
-    combineLatest(
-      this.categoriesService.categories$,
-      this.productsService.getManyProducts({ limit: this.limit })
-    ).subscribe(
+    combineLatest(this.categoriesService.categories$, this.productsService.getManyProducts({ limit: this.limit })).subscribe(
       (response) => {
         [this.categories, this.recommendations] = response;
         this.isLoading = false;

@@ -7,12 +7,12 @@ import { AuthenticationService } from 'src/app/pages/authentication/authenticati
   providedIn: 'root'
 })
 export class UnAuthGuard implements CanActivate {
-  constructor(
-    private router: Router,
-    private authenticationService: AuthenticationService
-  ) {}
+  constructor(private router: Router, private authenticationService: AuthenticationService) {}
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const user = this.authenticationService.userValue;
     if (!user) return true;
 

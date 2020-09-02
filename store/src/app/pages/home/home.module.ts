@@ -11,12 +11,6 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 
 @NgModule({
   declarations: [HomeComponent],
-  imports: [
-    CommonModule,
-    HomeRoutingModule,
-    SharedModule,
-    NzGridModule,
-    NzCardModule
-  ]
+  imports: [CommonModule, HomeRoutingModule, SharedModule, NzGridModule, NzCardModule]
 })
 export class HomeModule {}

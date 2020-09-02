@@ -13,15 +13,11 @@ export class CheckOutService {
   constructor(private http: HttpClient) {}
 
   getTransactionMethods(): Observable<TransactionMethod[]> {
-    return this.http.get<TransactionMethod[]>(
-      `${environment.apiUrl}/transactions/methods`
-    );
+    return this.http.get<TransactionMethod[]>(`${environment.apiUrl}/transactions/methods`);
   }
 
   getShippingMethods(): Observable<ShippingMethod[]> {
-    return this.http.get<ShippingMethod[]>(
-      `${environment.apiUrl}/shippings/methods`
-    );
+    return this.http.get<ShippingMethod[]>(`${environment.apiUrl}/shippings/methods`);
   }
 
   createOrder(data: Order): Observable<Order> {

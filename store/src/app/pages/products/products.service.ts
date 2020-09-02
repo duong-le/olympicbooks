@@ -8,7 +8,7 @@ import { Product } from 'src/app/shared/Interfaces/product.interface';
   providedIn: 'root'
 })
 export class ProductsService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getOneProduct(id: number): Observable<Product> {
     return this.http.get<Product>(`${environment.apiUrl}/products/${id}`);

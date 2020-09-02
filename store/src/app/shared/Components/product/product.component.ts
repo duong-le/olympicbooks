@@ -14,6 +14,6 @@ export class ProductComponent {
   constructor() {}
 
   onLoadImage(evt) {
-    if (evt && evt.target) this.isLoading = false
+    if (evt && evt.target) this.isLoading = false;
   }
 }

@@ -17,10 +17,7 @@ export class CategoriesService {
   constructor(private http: HttpClient) {
     this.categoriesSubject = new BehaviorSubject<Category[]>([]);
     this.categories$ = this.categoriesSubject.asObservable();
-
-    this.getManyCategories(null).subscribe((response) =>
-      this.categoriesSubject.next(response)
-    );
+    this.getManyCategories({ sort: 'id,ASC' }).subscribe((response) => this.categoriesSubject.next(response));
   }
 
   public get categoriesValue() {

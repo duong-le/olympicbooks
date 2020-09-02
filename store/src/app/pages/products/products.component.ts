@@ -99,9 +99,7 @@ export class ProductsComponent implements OnInit {
     }
 
     this.isBtnLoading[btn] = true;
-    const exist = this.cartService.cartValue.cartItems.find(
-      (el) => el.product.id === this.product.id
-    );
+    const exist = this.cartService.cartValue.cartItems.find((el) => el.product.id === this.product.id);
 
     this.cartService[exist ? 'updateCartItem' : 'createCartItem'](
       exist ? exist.id : this.product.id,

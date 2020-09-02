@@ -12,16 +12,12 @@ export class CartService {
   private cartSubject: BehaviorSubject<Cart>;
   public cart$: Observable<Cart>;
 
-  constructor(
-    private http: HttpClient,
-    private authenticationService: AuthenticationService
-  ) {
+  constructor(private http: HttpClient, private authenticationService: AuthenticationService) {
     this.cartSubject = new BehaviorSubject<Cart>({ totalQty: 0, discountValue: 0, shippingValue: 0 });
     this.cart$ = this.cartSubject.asObservable();
 
     this.authenticationService.user$.subscribe((user) => {
-      if (user)
-        this.getCart().subscribe((response) => (this.setCart(response)));
+      if (user) this.getCart().subscribe((response) => this.setCart(response));
       else this.emptyCart();
     });
   }
