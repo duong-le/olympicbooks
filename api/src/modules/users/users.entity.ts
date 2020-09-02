@@ -17,11 +17,7 @@ export class User extends BaseEntity {
 
   @Column()
   @Exclude()
-  password: string;
-
-  @Column()
-  @Exclude()
-  salt: string;
+  hashedPassword: string;
 
   @Column({ default: null })
   address: string;

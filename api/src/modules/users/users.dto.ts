@@ -36,8 +36,6 @@ export class UpdateUserDto {
     message: 'Password is too weak'
   })
   password: string;
-
-  salt: string;
 }
 
 export class UpdateMeDto extends OmitType(UpdateUserDto, ['email', 'isBlock'] as const) {}

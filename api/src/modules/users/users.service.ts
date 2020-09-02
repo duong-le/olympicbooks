@@ -13,12 +13,12 @@ export class UsersService extends TypeOrmCrudService<User> {
   }
 
   async updateUser(dto: UpdateUserDto | UpdateMeDto, id: number): Promise<User> {
-    if (dto.hasOwnProperty('password')) {
-      const { hashedPassword, salt } = await this.authService.hashPassword(dto.password);
-      dto.password = hashedPassword;
-      dto.salt = salt;
+    const { password, ...others } = dto;
+    if (password) {
+      const hashedPassword = this.authService.hashPassword(dto.password);
+      return await this.userRepository.updateUser({ ...others, hashedPassword }, id);
     }
-    return await this.userRepository.updateUser(dto, id);
+    return await this.userRepository.updateUser(others, id);
   }
 
   async getMe(user: User): Promise<User> {
