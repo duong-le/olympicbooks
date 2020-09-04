@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --open --port 3000",
-    "build": "ng build",
+    "start": "ng serve --open --port 8080",
+    "start:dev": "ng serve --open --host 0.0.0.0 --port 3000",
+    "build": "ng build --prod --outputHashing=all",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

@@ -1,4 +1,4 @@
-version: "3.7"
+version: '3.7'
 
 services:
   olympicbooks-store:
@@ -12,6 +12,21 @@ services:
       - /usr/src/app/node_modules
     ports:
       - 4200:4200
+    command: yarn start:dev
+    networks:
+      - olympicbooks-network
+
+  olympicbooks-dashboard:
+    container_name: olympicbooks-dashboard
+    working_dir: /usr/src/app
+    build:
+      context: ./dashboard
+      target: development
+    volumes:
+      - ./dashboard:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
     command: yarn start:dev
     networks:
       - olympicbooks-network
