@@ -1,0 +1,19 @@
+.container {
+  height: 100% !important;
+  justify-content: space-between !important;
+  flex-direction: column !important;
+  display: flex !important;
+}
+
+.d-block {
+  display: block !important;
+}
+
+nz-card {
+  margin: 0 auto;
+  max-width: 450px;
+}
+
+i {
+  cursor: pointer;
+}

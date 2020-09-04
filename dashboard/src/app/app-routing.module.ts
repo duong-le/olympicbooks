@@ -1,35 +1,29 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { UnAuthGuard } from './shared/Guards/unauth.guard';
+import { AuthGuard } from './shared/Guards/auth.guard';
 
 const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: '/auth' },
   {
-    path: 'products',
-    loadChildren: () => import('./pages/products/products.module').then((m) => m.ProductsModule)
+    path: 'auth',
+    loadChildren: () => import('./pages/authentication/authentication.module').then((m) => m.AuthenticationModule),
+    canActivate: [UnAuthGuard]
   },
   {
-    path: 'categories',
-    loadChildren: () => import('./pages/categories/categories.module').then((m) => m.CategoriesModule)
-  },
-  {
-    path: 'authors',
-    loadChildren: () => import('./pages/authors/authors.module').then((m) => m.AuthorsModule)
-  },
-  {
-    path: 'publishers',
-    loadChildren: () => import('./pages/publishers/publishers.module').then((m) => m.PublishersModule)
-  },
-  {
-    path: 'orders',
-    loadChildren: () => import('./pages/orders/orders.module').then((m) => m.OrdersModule)
-  },
-  {
-    path: 'customers',
-    loadChildren: () => import('./pages/customers/customers.module').then((m) => m.CustomersModule)
+    path: '',
+    loadChildren: () => import('./pages/layout/layout.module').then((m) => m.LayoutModule),
+    canActivate: [AuthGuard]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'enabled',
+      preloadingStrategy: PreloadAllModules
+    })
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}

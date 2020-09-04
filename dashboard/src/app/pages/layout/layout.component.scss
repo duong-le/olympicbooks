@@ -1,0 +1,47 @@
+.app-layout {
+  min-height: 100vh;
+}
+
+.logo {
+  height: 64px;
+  line-height: 64px;
+  padding-left: 24px;
+  border-bottom: 1px solid #edf2f9;
+}
+
+nz-sider {
+  background: white;
+  border-right: 1px solid #edf2f9;
+  height: 100vh;
+  position: sticky;
+  overflow: auto;
+  top: 0;
+  left: 0;
+}
+
+.ant-menu-inline {
+  border-right: none;
+}
+
+:host ::ng-deep .ant-layout-sider-trigger {
+  color: black;
+  background: white;
+  border-right: 1px solid #edf2f9;
+}
+
+nz-header {
+  background: white;
+  border-bottom: 1px solid #edf2f9;
+  position: fixed;
+  z-index: 2;
+}
+
+nz-content {
+  margin-top: 64px;
+}
+
+.inner-content {
+  background: #fff;
+  padding: 24px;
+  height: 100%;
+}
