@@ -26,7 +26,6 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzResultModule } from 'ng-zorro-antd/result';
-import { NzMessageModule } from 'ng-zorro-antd/message';
 
 @NgModule({
   declarations: [
@@ -54,8 +53,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     NzButtonModule,
     NzInputModule,
     NzCardModule,
-    NzResultModule,
-    NzMessageModule
+    NzResultModule
   ],
   exports: [
     HeaderComponent,

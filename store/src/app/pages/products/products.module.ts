@@ -22,6 +22,7 @@ import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 
 @NgModule({
   declarations: [ProductsComponent],
@@ -44,7 +45,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzCommentModule,
     NzAvatarModule,
     NzFormModule,
-    NzInputModule
+    NzInputModule,
+    NzMessageModule
   ]
 })
 export class ProductsModule {}

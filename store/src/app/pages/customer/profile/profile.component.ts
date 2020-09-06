@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { constant } from 'src/app/shared/constant';
 import { CustomerService } from '../customer.service';
-import { MessageService } from 'src/app/shared/Services/message.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
     private titleService: Title,
     private fb: FormBuilder,
     private customerService: CustomerService,
-    private messageService: MessageService
+    private messageService: NzMessageService
   ) {
     this.titleService.setTitle('Thông tin tài khoản | Olympicbooks');
   }
@@ -70,9 +70,9 @@ export class ProfileComponent implements OnInit {
           });
           this.profileForm.markAsPristine();
           this.profileForm.updateValueAndValidity();
-          this.messageService.createMessage('success', 'Cập nhật hồ sơ thành công!');
+          this.messageService.success('Cập nhật hồ sơ thành công!');
         },
-        (error) => this.messageService.createMessage('error', 'Có lỗi xảy ra, vui lòng thử lại sau!')
+        (error) => this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!')
       );
   }
 
@@ -92,9 +92,9 @@ export class ProfileComponent implements OnInit {
         (response) => {
           this.passwordForm.reset();
           this.passwordForm.updateValueAndValidity();
-          this.messageService.createMessage('success', 'Cập nhật mật khẩu thành công!');
+          this.messageService.success('Cập nhật mật khẩu thành công!');
         },
-        (error) => this.messageService.createMessage('error', 'Có lỗi xảy ra, vui lòng thử lại sau!')
+        (error) => this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!')
       );
   }
 

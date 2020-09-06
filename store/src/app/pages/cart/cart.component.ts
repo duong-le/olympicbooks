@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { mergeMap } from 'rxjs/operators';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { Cart } from 'src/app/shared/Interfaces/cart.interface';
 import { CartService } from './cart.service';
-import { MessageService } from 'src/app/shared/Services/message.service';
 
 @Component({
   selector: 'app-cart',
@@ -18,7 +18,7 @@ export class CartComponent implements OnInit {
   minQty = 1;
   maxQty = 99;
 
-  constructor(private titleService: Title, private cartService: CartService, private messageService: MessageService) {
+  constructor(private titleService: Title, private cartService: CartService, private messageService: NzMessageService) {
     this.titleService.setTitle('Giỏ hàng | Olympicbooks');
   }
 
@@ -35,11 +35,11 @@ export class CartComponent implements OnInit {
         (response) => {
           this.cartService.setCart(response);
           this.isDisabled = false;
-          this.messageService.createMessage('success', 'Cập nhật số lượng thành công!');
+          this.messageService.success('Cập nhật số lượng thành công!');
         },
         (error) => {
           this.isDisabled = false;
-          this.messageService.createMessage('error', 'Có lỗi xảy ra, vui lòng thử lại sau!');
+          this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
         }
       );
   }
@@ -53,11 +53,11 @@ export class CartComponent implements OnInit {
         (response) => {
           this.cartService.setCart(response);
           this.isDisabled = false;
-          this.messageService.createMessage('success', 'Xoá khỏi giỏ hàng thành công!');
+          this.messageService.success('Xoá khỏi giỏ hàng thành công!');
         },
         (error) => {
           this.isDisabled = false;
-          this.messageService.createMessage('error', 'Có lỗi xảy ra, vui lòng thử lại sau!');
+          this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
         }
       );
   }

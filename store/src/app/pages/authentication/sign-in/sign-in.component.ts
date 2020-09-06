@@ -3,8 +3,8 @@ import { Title } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { AuthenticationService } from '../authentication.service';
-import { MessageService } from 'src/app/shared/Services/message.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -23,7 +23,7 @@ export class SignInComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
-    private messageService: MessageService
+    private messageService: NzMessageService
   ) {
     this.titleService.setTitle('Đăng nhập | Olympicbooks');
   }
@@ -44,14 +44,14 @@ export class SignInComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (response) => {
-          this.messageService.createMessage('success', 'Đăng nhập thành công');
+          this.messageService.success('Đăng nhập thành công');
           this.isLoading = false;
           this.router.navigate([this.returnUrl]);
         },
         (error) => {
-          if (error.status === 401) this.messageService.createMessage('error', 'Email hoặc mật khẩu không đúng');
-          else if (error.status === 403) this.messageService.createMessage('error', 'Tài khoản đã bị khóa');
-          else this.messageService.createMessage('error', 'Có lỗi xảy ra, vui lòng thử lại sau!');
+          if (error.status === 401) this.messageService.error('Email hoặc mật khẩu không đúng');
+          else if (error.status === 403) this.messageService.error('Tài khoản đã bị khóa');
+          else this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
           this.isLoading = false;
         }
       );

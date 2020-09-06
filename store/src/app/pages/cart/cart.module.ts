@@ -14,6 +14,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 
 @NgModule({
   declarations: [CartComponent],
@@ -28,7 +29,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzInputNumberModule,
     NzInputModule,
     NzDividerModule,
-    NzButtonModule
+    NzButtonModule,
+    NzMessageModule
   ]
 })
 export class CartModule {}

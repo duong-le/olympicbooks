@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { formatDistance, addDays } from 'date-fns';
-import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProductsService } from './products.service';
+import { Title } from '@angular/platform-browser';
+import { formatDistance, addDays } from 'date-fns';
 import { mergeMap } from 'rxjs/operators';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { ProductsService } from './products.service';
 import { Product } from 'src/app/shared/Interfaces/product.interface';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { CartService } from '../cart/cart.service';
-import { MessageService } from 'src/app/shared/Services/message.service';
 
 @Component({
   selector: 'app-products',
@@ -48,7 +48,7 @@ export class ProductsComponent implements OnInit {
     private productsService: ProductsService,
     private authenticationService: AuthenticationService,
     private cartService: CartService,
-    private messageService: MessageService
+    private messageService: NzMessageService
   ) {}
 
   ngOnInit(): void {
@@ -110,12 +110,12 @@ export class ProductsComponent implements OnInit {
         (response) => {
           this.cartService.setCart(response);
           this.isBtnLoading[btn] = false;
-          this.messageService.createMessage('success', 'Thêm vào giỏ hàng thành công!');
+          this.messageService.success('Thêm vào giỏ hàng thành công!');
           if (btn === 'buyNow') this.router.navigate(['cart']);
         },
         (error) => {
           this.isBtnLoading[btn] = false;
-          this.messageService.createMessage('error', 'Có lỗi xảy ra, vui lòng thử lại sau!');
+          this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
         }
       );
   }

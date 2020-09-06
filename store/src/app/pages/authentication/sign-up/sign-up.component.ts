@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../authentication.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { constant } from 'src/app/shared/constant';
-import { MessageService } from 'src/app/shared/Services/message.service';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -21,7 +21,7 @@ export class SignUpComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private messageService: MessageService
+    private messageService: NzMessageService
   ) {
     this.titleService.setTitle('Đăng ký | Olympicbooks');
   }
@@ -38,13 +38,13 @@ export class SignUpComponent implements OnInit {
     this.isLoading = true;
     this.authenticationService.signUp(this.signUpForm.value).subscribe(
       (response) => {
-        this.messageService.createMessage('success', 'Đăng ký thành công');
+        this.messageService.success('Đăng ký thành công');
         this.isLoading = false;
         this.router.navigate(['signin']);
       },
       (error) => {
-        if (error.status === 409) this.messageService.createMessage('error', 'Email đã tồn tại');
-        else this.messageService.createMessage('error', 'Có lỗi xảy ra, vui lòng thử lại sau!');
+        if (error.status === 409) this.messageService.error('Email đã tồn tại');
+        else this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
         this.isLoading = false;
       }
     );
