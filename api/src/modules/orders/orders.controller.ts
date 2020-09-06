@@ -15,7 +15,7 @@ import { Role } from 'src/shared/Enums/roles.enum';
 @Crud({
   model: { type: Order },
   routes: {
-    exclude: ['createOneBase', 'createManyBase', 'replaceOneBase', 'deleteOneBase'],
+    only: ['getOneBase', 'getManyBase', 'updateOneBase'],
     getOneBase: { decorators: [Roles(Role.ADMIN)] },
     getManyBase: { decorators: [Roles(Role.ADMIN)] }
   },

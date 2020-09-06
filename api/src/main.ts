@@ -5,7 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { CrudConfigService } from '@nestjsx/crud';
 CrudConfigService.load({
   routes: {
-    exclude: ['replaceOneBase'],
+    exclude: ['createManyBase', 'replaceOneBase'],
     createOneBase: { returnShallow: true }
   }
 });

@@ -22,7 +22,6 @@ import { CreateProductDto, UpdateProductDto } from './products.dto';
     exclude: ['categoryId', 'publisherId']
   },
   routes: {
-    exclude: ['createManyBase', 'replaceOneBase'],
     createOneBase: { decorators: [ApiBearerAuth(), UseGuards(AuthGuard()), Roles(Role.ADMIN)] },
     updateOneBase: { decorators: [ApiBearerAuth(), UseGuards(AuthGuard()), Roles(Role.ADMIN)] },
     deleteOneBase: { decorators: [ApiBearerAuth(), UseGuards(AuthGuard()), Roles(Role.ADMIN)] }

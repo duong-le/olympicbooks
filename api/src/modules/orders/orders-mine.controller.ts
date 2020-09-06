@@ -15,7 +15,7 @@ import { Role } from 'src/shared/Enums/roles.enum';
 @UseGuards(AuthGuard())
 @Crud({
   model: { type: Order },
-  routes: { exclude: ['createManyBase', 'updateOneBase', 'replaceOneBase', 'deleteOneBase'] },
+  routes: { only: ['getOneBase', 'getManyBase', 'createOneBase'] },
   query: {
     join: {
       orderItems: { eager: true, exclude: ['orderId', 'productId'] },
