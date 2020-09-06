@@ -1,9 +1,10 @@
-import { OnInit } from '@angular/core';
+import { OnInit, Directive } from '@angular/core';
 import { RequestQueryBuilder, CondOperator } from '@nestjsx/crud-request';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { Pagination } from '../Interfaces/pagination.interface';
 import { BaseService } from './base.service';
 
+@Directive()
 export abstract class BaseComponent<T> implements OnInit {
   qb: RequestQueryBuilder;
   data: T[];
@@ -24,11 +25,16 @@ export abstract class BaseComponent<T> implements OnInit {
 
   renderPage() {
     this.isLoading = true;
-    this.service.getMany(this.qb.queryObject).subscribe((response: Pagination<T[]>) => {
-      this.data = response.data;
-      this.total = response.total;
-      this.isLoading = false;
-    });
+    this.service.getMany(this.qb.queryObject).subscribe(
+      (response: Pagination<T[]>) => {
+        this.data = response.data;
+        this.total = response.total;
+        this.isLoading = false;
+      },
+      (error) => {
+        this.isLoading = false;
+      }
+    );
   }
 
   onSearchById() {
