@@ -18,7 +18,7 @@
   </div>
 
   <div nz-col>
-    <button nz-button nzType="primary">
+    <button nz-button nzType="primary" routerLink="new">
       <i nz-icon nzType="plus-circle" theme="outline"></i>
       <span>Thêm tác giả</span>
     </button>
@@ -39,12 +39,14 @@
         <td>
           <nz-space>
             <nz-space-item>
-              <button nz-button nzType="primary" nzShape="circle" nz-tooltip nzTooltipTitle="Edit" nzGhost>
+              <button nz-button nzType="primary" nzShape="circle" nz-tooltip nzTooltipTitle="Edit" nzGhost
+                [routerLink]="item?.id">
                 <i nz-icon nzType="edit" theme="outline"></i>
               </button>
             </nz-space-item>
             <nz-space-item>
-              <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Delete" nzDanger>
+              <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Delete" nzDanger
+                (click)="showDeleteConfirm(item?.id)">
                 <i nz-icon nzType="delete" theme="outline"></i>
               </button>
             </nz-space-item>
