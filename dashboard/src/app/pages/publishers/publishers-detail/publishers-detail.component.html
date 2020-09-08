@@ -1,19 +1,5 @@
-<nz-page-header class="site-page-header" nzBackIcon>
-  <nz-page-header-title *ngIf="isNew; else detailHeader">Thêm mới Nhà Xuất Bản</nz-page-header-title>
-  <ng-template #detailHeader>
-    <nz-page-header-title>Chi tiết Nhà Xuất Bản</nz-page-header-title>
-  </ng-template>
-  <nz-page-header-extra>
-    <button nz-button nzType="primary" *ngIf="isNew; else detailBtn" [nzLoading]="isBtnLoading" (click)="create()"
-      [disabled]="publisherForm.invalid || publisherForm.pristine">Thêm mới</button>
-    <ng-template #detailBtn>
-      <button nz-button nzType="primary" *ngIf="!isNew" [nzLoading]="isBtnLoading" (click)="save()"
-        [disabled]="publisherForm.invalid || publisherForm.pristine">Cập nhật</button>
-    </ng-template>
-  </nz-page-header-extra>
-</nz-page-header>
-
-<nz-card [nzLoading]="isLoading">
+<nz-card [nzLoading]="isLoading" nzTitle="{{ isNew ? 'Thêm mới Nhà Xuất Bản' : 'Chi tiết Nhà Xuất Bản' }}"
+  [nzExtra]="buttonGroup">
   <form nz-form nzLayout="vertical" [formGroup]="publisherForm">
     <nz-form-item *ngIf="!isNew">
       <nz-form-label nzFor="id">ID</nz-form-label>
@@ -29,3 +15,11 @@
     </nz-form-item>
   </form>
 </nz-card>
+<ng-template #buttonGroup>
+  <button nz-button nzType="primary" *ngIf="isNew; else detailBtn" [nzLoading]="isBtnLoading" (click)="create()"
+    [disabled]="publisherForm.invalid || publisherForm.pristine">Thêm mới</button>
+  <ng-template #detailBtn>
+    <button nz-button nzType="primary" *ngIf="!isNew" [nzLoading]="isBtnLoading" (click)="save()"
+      [disabled]="publisherForm.invalid || publisherForm.pristine">Cập nhật</button>
+  </ng-template>
+</ng-template>
