@@ -49,7 +49,7 @@ export class PublishersDetailComponent implements OnInit {
     });
   }
 
-  save() {
+  update() {
     this.isBtnLoading = true;
     this.publishersService.updateOne(this.publisherForm.controls['id'].value, this.publisherForm.value).subscribe(
       (response) => {

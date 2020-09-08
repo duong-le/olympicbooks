@@ -49,7 +49,7 @@ export class AuthorsDetailComponent implements OnInit {
     });
   }
 
-  save() {
+  update() {
     this.isBtnLoading = true;
     this.authorsService.updateOne(this.authorForm.controls['id'].value, this.authorForm.value).subscribe(
       (response) => {
