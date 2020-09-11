@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RequestQueryBuilder, CondOperator, QuerySortOperator } from '@nestjsx/crud-request';
 import { combineLatest } from 'rxjs';
+import { NzSliderValue } from 'ng-zorro-antd/slider';
 import { Category } from 'src/app/shared/Interfaces/category.interface';
 import { CategoriesService } from './categories.service';
 import { Product } from 'src/app/shared/Interfaces/product.interface';
@@ -63,14 +64,12 @@ export class CategoriesComponent implements OnInit {
       this.totalProduct = this.limit;
     }
 
-    combineLatest(
-      this.categoriesService.categories$,
+    combineLatest([
+      this.categoriesService.getOneCategory(this.categoryId),
       this.categoriesService.getPublishersByCategory(this.categoryId),
       this.categoriesService.getAuthorsByCategory(this.categoryId)
-    ).subscribe((response) => {
-      this.category = response[0].find((el) => el.id === this.categoryId);
-      this.publishers = response[1];
-      this.authors = response[2];
+    ]).subscribe((response) => {
+      [this.category, this.publishers, this.authors] = response;
       this.titleService.setTitle(`${this.category.title} | OlympicBooks`);
     });
   }
@@ -100,7 +99,7 @@ export class CategoriesComponent implements OnInit {
     this.renderProducts();
   }
 
-  onPriceRangeChange(value) {
+  onPriceRangeChange(value: NzSliderValue) {
     delete this.qb.queryObject.filter;
     this.qb
       .setFilter({ field: 'categoryId', operator: CondOperator.EQUALS, value: this.categoryId })

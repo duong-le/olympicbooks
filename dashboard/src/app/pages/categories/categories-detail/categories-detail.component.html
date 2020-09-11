@@ -1,0 +1,43 @@
+<nz-card [nzLoading]="isLoading" nzTitle="{{ isNew ? 'Thêm mới Danh Mục' : 'Chi tiết Danh Mục' }}"
+  [nzExtra]="buttonGroup">
+  <form nz-form nzLayout="vertical" [formGroup]="categoryForm">
+    <nz-form-item *ngIf="!isNew">
+      <nz-form-label nzFor="id">ID</nz-form-label>
+      <nz-form-control>
+        <input nz-input formControlName="id" type="text">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="title">Tên danh mục</nz-form-label>
+      <nz-form-control nzErrorTip="Please input this field!">
+        <input nz-input formControlName="title" type="text">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>Danh mục cha</nz-form-label>
+      <nz-form-control nzExtra="Để trống nếu là thư mục gốc">
+        <nz-tree-select [nzNodes]="nodes" nzShowSearch [nzHideUnMatched]="true" [nzDefaultExpandAll]="true"
+          [(ngModel)]="parentId" [nzDisabled]="!isNew" [ngModelOptions]="{ standalone: true }">
+        </nz-tree-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="img">Hình ảnh</nz-form-label>
+      <nz-form-control nzErrorTip="Please input this field!">
+        <input nz-input formControlName="img" type="url">
+      </nz-form-control>
+      <img [src]="categoryForm.controls['img'].value" width="500px">
+    </nz-form-item>
+  </form>
+</nz-card>
+<ng-template #buttonGroup>
+  <nz-space>
+    <nz-space-item *ngIf="!isNew && category?.isLeaf">
+      <button nz-button nzType="primary" nzDanger (click)="showDeleteConfirm()">Delete</button>
+    </nz-space-item>
+    <nz-space-item>
+      <button nz-button nzType="primary" [nzLoading]="isBtnLoading" (click)="isNew ? create() : update()"
+        [disabled]="categoryForm.invalid || categoryForm.pristine">Save</button>
+    </nz-space-item>
+  </nz-space>
+</ng-template>

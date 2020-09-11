@@ -7,6 +7,7 @@ import { IconModule } from './icon.module';
 import { HeaderComponent } from './Components/header/header.component';
 import { RightMenuComponent } from './Components/header/sub-menu/right-menu.component';
 import { LeftMenuComponent } from './Components/header/sub-menu/left-menu.component';
+import { CategoryMenuComponent } from './Components/header/sub-menu/category-menu.component';
 import { FooterComponent } from './Components/footer/footer.component';
 import { SearchComponent } from './Components/search/search.component';
 import { ProductComponent } from './Components/product/product.component';
@@ -32,6 +33,7 @@ import { NzResultModule } from 'ng-zorro-antd/result';
     HeaderComponent,
     RightMenuComponent,
     LeftMenuComponent,
+    CategoryMenuComponent,
     FooterComponent,
     SearchComponent,
     ProductComponent,
@@ -59,6 +61,7 @@ import { NzResultModule } from 'ng-zorro-antd/result';
     HeaderComponent,
     RightMenuComponent,
     LeftMenuComponent,
+    CategoryMenuComponent,
     FooterComponent,
     SearchComponent,
     ProductComponent,

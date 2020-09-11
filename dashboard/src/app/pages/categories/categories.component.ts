@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
-import { CondOperator } from '@nestjsx/crud-request';
-import { BaseComponent } from 'src/app/shared/Base/base.component';
-import { Category } from 'src/app/shared/Interfaces/category.interface';
+import { Component, OnInit } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzFormatEmitEvent, NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { CategoriesService } from './categories.service';
 
 @Component({
@@ -9,23 +8,35 @@ import { CategoriesService } from './categories.service';
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.scss']
 })
-export class CategoriesComponent extends BaseComponent<Category> {
-  searchInputByTitle: string;
+export class CategoriesComponent implements OnInit {
+  dataTree: NzTreeNodeOptions[];
+  isNew = true;
+  categoryId: number;
 
-  columns = [
-    { title: 'Actions' },
-    { title: 'ID', key: 'id', sort: true },
-    { title: 'Danh mục', key: 'title', sort: true },
-    { title: 'Hình ảnh' }
-  ];
+  constructor(private categoriesService: CategoriesService, private messageService: NzMessageService) {}
 
-  constructor(private categoriesService: CategoriesService) {
-    super(categoriesService);
+  ngOnInit(): void {
+    this.renderPage();
   }
 
-  onSearchByTitle() {
-    delete this.qb.queryObject.filter;
-    if (this.searchInputByTitle) this.qb.setFilter({ field: 'title', operator: CondOperator.CONTAINS_LOW, value: this.searchInputByTitle });
+  renderPage() {
+    this.categoriesService.getMany().subscribe(
+      (response) => (this.dataTree = response),
+      (error) => this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!')
+    );
+  }
+
+  onSelectNode(event: NzFormatEmitEvent): void {
+    this.isNew = false;
+    this.categoryId = event.node.origin.id;
+  }
+
+  onClickCreateBtn() {
+    this.isNew = true;
+  }
+
+  notifyDelete() {
+    this.isNew = true;
     this.renderPage();
   }
 }

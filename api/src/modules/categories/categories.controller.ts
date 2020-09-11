@@ -1,7 +1,6 @@
-import { Controller, UseGuards, UseInterceptors, Get, Param } from '@nestjs/common';
+import { Controller, UseGuards, Get, Post, Patch, Param, ParseIntPipe, Body, Delete } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { Crud, CrudController, CrudRequestInterceptor } from '@nestjsx/crud';
 import { Category } from './categories.entity';
 import { CategoriesService } from './categories.service';
 import { Roles } from 'src/shared/Decorators/roles.decorator';
@@ -10,28 +9,56 @@ import { CreateCategoryDto, UpdateCategoryDto } from './categories.dto';
 
 @ApiTags('Categories')
 @Controller('categories')
-@Crud({
-  model: { type: Category },
-  routes: {
-    createOneBase: { decorators: [ApiBearerAuth(), UseGuards(AuthGuard()), Roles(Role.ADMIN)] },
-    updateOneBase: { decorators: [ApiBearerAuth(), UseGuards(AuthGuard()), Roles(Role.ADMIN)] },
-    deleteOneBase: { decorators: [ApiBearerAuth(), UseGuards(AuthGuard()), Roles(Role.ADMIN)] }
-  },
-  dto: { create: CreateCategoryDto, update: UpdateCategoryDto }
-})
-export class CategoriesController implements CrudController<Category> {
-  constructor(public service: CategoriesService) { }
+export class CategoriesController {
+  constructor(public service: CategoriesService) {}
 
-  @ApiOperation({ summary: 'Retrieve many Publisher by Category' })
-  @UseInterceptors(CrudRequestInterceptor)
+  @Get()
+  @ApiOperation({ summary: 'Retrieve many Category' })
+  getMany(): Promise<Category[]> {
+    return this.service.getMany();
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Retrieve one Category' })
+  getOne(@Param('id', ParseIntPipe) id: number): Promise<Category> {
+    return this.service.getOne(id);
+  }
+
+  @Post()
+  @ApiOperation({ summary: 'Create one Category' })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Roles(Role.ADMIN)
+  createOne(@Body() dto: CreateCategoryDto): Promise<Category> {
+    return this.service.createOne(dto);
+  }
+
+  @Patch(':id')
+  @ApiOperation({ summary: 'Update one Category' })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Roles(Role.ADMIN)
+  updateOne(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateCategoryDto): Promise<Category> {
+    return this.service.updateOne(id, dto);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete one Category' })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Roles(Role.ADMIN)
+  deleteOne(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.service.deleteOne(id);
+  }
+
   @Get(':id/publishers')
+  @ApiOperation({ summary: 'Retrieve many Publisher by Category' })
   getPublishersByCategory(@Param('id') id: number): Promise<Category[]> {
     return this.service.getPublishersByCategory(id);
   }
 
-  @ApiOperation({ summary: 'Retrieve many Author by Category' })
-  @UseInterceptors(CrudRequestInterceptor)
   @Get(':id/authors')
+  @ApiOperation({ summary: 'Retrieve many Author by Category' })
   getAuthorsByCategory(@Param('id') id: number): Promise<Category[]> {
     return this.service.getAuthorsByCategory(id);
   }

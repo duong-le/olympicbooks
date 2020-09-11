@@ -27,8 +27,7 @@
             <i nz-icon nzType="menu" nzTheme="outline"></i>
           </button>
 
-          <nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="Menu"
-            (nzOnClose)="close()">
+          <nz-drawer nzTitle="Menu" [nzVisible]="visible" nzPlacement="right" nzWidth="100%" (nzOnClose)="close()">
             <app-left-menu [mode]="verticalMode" [mobile]="true" (onNavigate)="close()"></app-left-menu>
             <app-right-menu [mode]="verticalMode" (onNavigate)="close()"></app-right-menu>
           </nz-drawer>

@@ -2,5 +2,8 @@ export interface Category {
   id: number;
   title: string;
   img: string;
-  parent: number;
+  key: string;
+  parent: Category;
+  children: Category[];
+  isLeaf: boolean;
 }
