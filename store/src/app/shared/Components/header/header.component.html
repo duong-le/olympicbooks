@@ -1,17 +1,14 @@
 <nz-card [nzBordered]="false" [nzBodyStyle]="{ padding: '5px 10% 1px' }">
   <div nz-row nzJustify="space-between" nzAlign="middle">
     <div nz-col>
-      <a routerLink="/">
-        <h4>Olym</h4>
-        <h4 style="color:#337ab7;">books</h4>
-      </a>
+      <a routerLink="/"><embed src="assets/icons/logo.svg" alt="logo"></a>
     </div>
 
     <div nz-col class="hidden-lg">
       <app-left-menu [mode]="horizontalMode" [mobile]="false"></app-left-menu>
     </div>
 
-    <div nz-col class="hidden-lg">
+    <div nz-col class="hidden-lg" [style.width.px]="260">
       <app-search></app-search>
     </div>
 

@@ -25,7 +25,7 @@ export class SignInComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private messageService: NzMessageService
   ) {
-    this.titleService.setTitle('Đăng nhập | Olympicbooks');
+    this.titleService.setTitle('Đăng nhập | OlympicBooks');
   }
 
   ngOnInit(): void {

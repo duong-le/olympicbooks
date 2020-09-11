@@ -13,7 +13,7 @@ export class OrdersComponent implements OnInit {
   isLoading = false;
 
   constructor(private titleService: Title, private customerService: CustomerService) {
-    this.titleService.setTitle('Quản lý đơn hàng | Olympicbooks');
+    this.titleService.setTitle('Quản lý đơn hàng | OlympicBooks');
   }
 
   ngOnInit(): void {

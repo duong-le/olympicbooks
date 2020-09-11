@@ -71,7 +71,7 @@ export class CategoriesComponent implements OnInit {
       this.category = response[0].find((el) => el.id === this.categoryId);
       this.publishers = response[1];
       this.authors = response[2];
-      this.titleService.setTitle(`${this.category.title} | Olympicbooks`);
+      this.titleService.setTitle(`${this.category.title} | OlympicBooks`);
     });
   }
 

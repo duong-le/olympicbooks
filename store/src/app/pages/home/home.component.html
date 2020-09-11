@@ -1,27 +1,12 @@
-<div class="hero-section">
-  <div class="image-wrapper">
-    <img class="hero-image" role="presentation" [src]="hero">
-  </div>
-
-  <div class="caption-section">
-    <div class="caption-area">
-      <div class="caption-wrapper">
-        <span class="main-caption">Olympicbooks</span>
-        <p class="sub-caption">Powered by creators everywhere.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div nz-row class="banner-section">
+<div nz-row class="banner-section" [nzGutter]="[16, 16]">
   <div nz-col nzLg="15" nzXs="24" class="banner">
-    <div class="banner-image" style="background-image: url({{banner.left.src}});"> </div>
-    <div class="banner-caption"> <a routerLink="/community"> {{banner.left.caption}} </a></div>
+    <div class="banner-image" style="background-image: url({{banner.left}})"></div>
   </div>
 
   <div nz-col nzLg="9" nzXs="24" class="banner">
-    <div class="banner-image" style="background-image: url({{banner.right.src}});"> </div>
-    <div class="banner-caption"> <a routerLink="/products/1"> {{banner.right.caption}} </a></div>
+    <a href="https://medium.com/olympicbooks" target="_blank">
+      <div class="banner-image" style="background-image: url({{banner.right}})"></div>
+    </a>
   </div>
 </div>
 

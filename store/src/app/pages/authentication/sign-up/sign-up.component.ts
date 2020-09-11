@@ -23,7 +23,7 @@ export class SignUpComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private messageService: NzMessageService
   ) {
-    this.titleService.setTitle('Đăng ký | Olympicbooks');
+    this.titleService.setTitle('Đăng ký | OlympicBooks');
   }
 
   ngOnInit(): void {

@@ -23,7 +23,7 @@ export class ProfileComponent implements OnInit {
     private customerService: CustomerService,
     private messageService: NzMessageService
   ) {
-    this.titleService.setTitle('Thông tin tài khoản | Olympicbooks');
+    this.titleService.setTitle('Thông tin tài khoản | OlympicBooks');
   }
 
   ngOnInit() {

@@ -17,20 +17,16 @@ export class HomeComponent implements OnInit {
 
   isLoading = false;
   limit = 6;
-  hero = 'assets/images/hero.jpg';
-  banner = {
-    left: { src: 'assets/images/community.jpg', caption: 'Cộng Đồng' },
-    right: { src: 'assets/images/new-arrivals.jpg', caption: 'Sản Phẩm Mới' }
-  };
+  banner = { left: 'assets/images/cover.png', right: 'assets/images/community.jpg' };
   cardStyle = null;
 
   constructor(private titleService: Title, private categoriesService: CategoriesService, private productsService: ProductsService) {
-    this.titleService.setTitle('Trang chủ | Olympicbooks');
+    this.titleService.setTitle('Trang chủ | OlympicBooks');
   }
 
   ngOnInit() {
     this.isLoading = true;
-    combineLatest(this.categoriesService.categories$, this.productsService.getManyProducts({ limit: this.limit })).subscribe(
+    combineLatest([this.categoriesService.categories$, this.productsService.getManyProducts({ limit: this.limit })]).subscribe(
       (response) => {
         [this.categories, this.recommendations] = response;
         this.isLoading = false;

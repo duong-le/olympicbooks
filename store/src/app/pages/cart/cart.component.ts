@@ -19,7 +19,7 @@ export class CartComponent implements OnInit {
   maxQty = 99;
 
   constructor(private titleService: Title, private cartService: CartService, private messageService: NzMessageService) {
-    this.titleService.setTitle('Giỏ hàng | Olympicbooks');
+    this.titleService.setTitle('Giỏ hàng | OlympicBooks');
   }
 
   ngOnInit() {

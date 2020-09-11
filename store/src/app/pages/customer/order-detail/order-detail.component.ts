@@ -26,7 +26,7 @@ export class OrderDetailComponent implements OnInit {
     this.isLoading = true;
     this.customerService.getOrderDetail(orderId).subscribe((response) => {
       this.order = response;
-      this.titleService.setTitle(`Đơn hàng #${response.id} | Olympicbooks`);
+      this.titleService.setTitle(`Đơn hàng #${response.id} | OlympicBooks`);
       this.isLoading = false;
     });
   }

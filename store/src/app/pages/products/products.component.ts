@@ -69,7 +69,7 @@ export class ProductsComponent implements OnInit {
       .pipe(
         mergeMap((response) => {
           this.product = response;
-          this.titleService.setTitle(`${this.product.title} | Olympicbooks`);
+          this.titleService.setTitle(`${this.product.title} | OlympicBooks`);
 
           this.isRelatedProductsLoading = true;
           return this.productsService.getManyProducts({
