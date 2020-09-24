@@ -19,6 +19,7 @@ import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 @NgModule({
   declarations: [CategoriesComponent, CategoriesDetailComponent],
@@ -39,7 +40,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     NzTreeModule,
     NzTreeSelectModule,
     NzEmptyModule,
-    NzSpaceModule
+    NzSpaceModule,
+    NzUploadModule
   ]
 })
 export class CategoriesModule {}

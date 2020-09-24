@@ -1,11 +1,14 @@
-import { Controller, UseGuards, Get, Post, Patch, Param, ParseIntPipe, Body, Delete } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { Controller, UseGuards, Get, Post, Patch, Param, ParseIntPipe, Body, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiConsumes } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { UploadOptions } from 'src/shared/Services/cloud-storage.service';
 import { Category } from './categories.entity';
 import { CategoriesService } from './categories.service';
 import { Roles } from 'src/shared/Decorators/roles.decorator';
 import { Role } from 'src/shared/Enums/roles.enum';
 import { CreateCategoryDto, UpdateCategoryDto } from './categories.dto';
+import { File } from 'src/shared/Interfaces/file.interface';
 
 @ApiTags('Categories')
 @Controller('categories')
@@ -25,21 +28,25 @@ export class CategoriesController {
   }
 
   @Post()
+  @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Create one Category' })
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @Roles(Role.ADMIN)
-  createOne(@Body() dto: CreateCategoryDto): Promise<Category> {
-    return this.service.createOne(dto);
+  @UseInterceptors(FileInterceptor('attachment', UploadOptions))
+  async createOne(@Body() dto: CreateCategoryDto, @UploadedFile() uploadedFile: File): Promise<Category> {
+    return this.service.createOne(dto, uploadedFile);
   }
 
   @Patch(':id')
+  @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Update one Category' })
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @Roles(Role.ADMIN)
-  updateOne(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateCategoryDto): Promise<Category> {
-    return this.service.updateOne(id, dto);
+  @UseInterceptors(FileInterceptor('attachment', UploadOptions))
+  updateOne(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateCategoryDto, @UploadedFile() uploadedFile: File): Promise<Category> {
+    return this.service.updateOne(id, dto, uploadedFile);
   }
 
   @Delete(':id')

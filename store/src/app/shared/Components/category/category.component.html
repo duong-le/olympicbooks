@@ -3,7 +3,7 @@
     <h3>{{ category.title }}</h3>
   </nz-card>
   <ng-template #coverTemplate>
-    <img [src]="category.img" loading="lazy" (load)="onLoadImage($event)" />
+    <img [src]="category.imgUrl" loading="lazy" (load)="onLoadImage($event)" />
   </ng-template>
   <!-- <div class="item-extra item-new" *ngIf="category.new && !isLoading">New</div> -->
 </a>

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Product } from 'src/app/shared/Interfaces/product.interface';
 
 @Component({
   selector: 'app-product',
@@ -6,7 +7,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent {
-  @Input() product: any;
+  @Input() product: Product;
 
   isLoading = true;
   maxLength = 48;

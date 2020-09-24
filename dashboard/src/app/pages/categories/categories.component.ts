@@ -9,7 +9,7 @@ import { CategoriesService } from './categories.service';
   styleUrls: ['./categories.component.scss']
 })
 export class CategoriesComponent implements OnInit {
-  dataTree: NzTreeNodeOptions[];
+  categoryTree: NzTreeNodeOptions[] = [];
   isNew = true;
   categoryId: number;
 
@@ -21,7 +21,7 @@ export class CategoriesComponent implements OnInit {
 
   renderPage() {
     this.categoriesService.getMany().subscribe(
-      (response) => (this.dataTree = response),
+      (response) => (this.categoryTree = response),
       (error) => this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!')
     );
   }

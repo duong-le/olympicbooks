@@ -2,13 +2,15 @@ FROM node:lts-alpine as development
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json ./
+
+COPY yarn.lock ./
 
 RUN apk add --no-cache --virtual .gyp \
   python \
   make \
   g++ \
-  && npm install \
+  && yarn install \
   && apk del .gyp
 
 COPY . ./

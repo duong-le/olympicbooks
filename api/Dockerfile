@@ -2,9 +2,11 @@ FROM node:lts-alpine as development
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json ./
 
-RUN npm install
+COPY yarn.lock ./
+
+RUN yarn install
 
 COPY . ./
 
@@ -17,9 +19,11 @@ ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json ./
 
-RUN npm install
+COPY yarn.lock ./
+
+RUN yarn install
 
 COPY --from=development /usr/src/app/dist ./dist
 

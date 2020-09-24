@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { Category } from 'src/app/shared/Interfaces/category.interface';
 import { CategoriesService } from 'src/app/pages/categories/categories.service';
 
@@ -14,24 +15,19 @@ import { CategoriesService } from 'src/app/pages/categories/categories.service';
 export class CategoriesDetailComponent implements OnInit, OnChanges {
   @Input() id: number;
   @Input() isNew: boolean;
-  @Input() dataTree: NzTreeNodeOptions[];
+  @Input() categoryData: NzTreeNodeOptions[];
   @Output() notifyRender: EventEmitter<any> = new EventEmitter();
   @Output() notifyDelete: EventEmitter<any> = new EventEmitter();
 
   categoryForm: FormGroup;
   category: Category;
+  categoryTree: NzTreeNodeOptions[] = [];
+  fileList: NzUploadFile[] = [];
+
   isLoading = false;
   isBtnLoading = false;
-  parentId: string;
-
-  nodes: NzTreeNodeOptions[] = [
-    {
-      title: 'Init data',
-      key: '000',
-      expanded: true,
-      children: []
-    }
-  ];
+  fileSizeLimit = 500;
+  fileTypeLimit = 'image/jpg,image/jpeg,image/png,image/gif';
 
   constructor(
     private fb: FormBuilder,
@@ -44,20 +40,22 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
     this.categoryForm = this.fb.group({
       id: { value: '', disabled: true },
       title: ['', [Validators.required]],
-      img: ['', [Validators.required]]
+      parentId: ['']
     });
 
     if (!this.isNew) this.render();
-    if (this.dataTree) this.nodes = this.dataTree;
+    if (this.categoryData) this.categoryTree = this.categoryData;
   }
 
   ngOnChanges() {
     if (this.isNew && this.categoryForm) {
-      this.parentId = null;
+      this.category = null;
       this.categoryForm.reset();
       this.categoryForm.updateValueAndValidity();
     } else if (this.id) this.render();
-    if (this.dataTree) this.nodes = this.dataTree;
+    if (this.categoryData) this.categoryTree = this.categoryData;
+    this.fileList = [];
+    this.categoryForm.controls['parentId'][this.isNew ? 'enable' : 'disable']();
   }
 
   render() {
@@ -67,33 +65,51 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
       this.categoryForm.setValue({
         id: this.category.id,
         title: this.category.title,
-        img: this.category.img
+        parentId: this.category.parent?.key || null
       });
-      this.parentId = this.category?.parent?.key;
+      if (this.category.imgName && this.category.imgUrl) {
+        this.fileList = [
+          {
+            uid: String(this.category.id),
+            status: 'done',
+            name: this.category.imgName,
+            url: this.category.imgUrl,
+            thumbUrl: this.category.imgUrl
+          }
+        ];
+      }
+      this.categoryForm.markAsPristine();
       this.isLoading = false;
     });
   }
 
   update() {
     this.isBtnLoading = true;
-    this.categoriesService
-      .updateOne(this.categoryForm.controls['id'].value, { ...this.categoryForm.value, parentId: this.parentId || 0 })
-      .subscribe(
-        (response) => {
-          this.isBtnLoading = false;
-          this.messageService.success('Cập nhật thành công!');
-          this.notifyRender.emit();
-        },
-        (error) => {
-          this.isBtnLoading = false;
-          this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
-        }
-      );
+    const formData = new FormData();
+    formData.append('title', this.categoryForm.controls['title'].value);
+    if (this.fileList.length) formData.append('attachment', this.fileList[0] as any);
+
+    this.categoriesService.updateOne(this.category.id, formData).subscribe(
+      (response) => {
+        this.isBtnLoading = false;
+        this.messageService.success('Cập nhật thành công!');
+        this.notifyRender.emit();
+      },
+      (error) => {
+        this.isBtnLoading = false;
+        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+      }
+    );
   }
 
   create() {
     this.isBtnLoading = true;
-    this.categoriesService.createOne({ ...this.categoryForm.value, parentId: this.parentId || 0 }).subscribe(
+    const formData = new FormData();
+    formData.append('title', this.categoryForm.controls['title'].value);
+    formData.append('parentId', this.categoryForm.controls['parentId'].value || 0);
+    if (this.fileList.length) formData.append('attachment', this.fileList[0] as any);
+
+    this.categoriesService.createOne(formData).subscribe(
       (response) => {
         this.isBtnLoading = false;
         this.messageService.success('Thêm mới thành công!');
@@ -127,4 +143,10 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
       }
     );
   }
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    this.fileList = this.fileList.concat(file);
+    this.categoryForm.markAsDirty();
+    return false;
+  };
 }

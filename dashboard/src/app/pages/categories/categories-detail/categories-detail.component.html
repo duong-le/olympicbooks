@@ -8,27 +8,31 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzFor="title">Tên danh mục</nz-form-label>
+      <nz-form-label nzFor="title" nzRequired>Tên danh mục</nz-form-label>
       <nz-form-control nzErrorTip="Please input this field!">
         <input nz-input formControlName="title" type="text">
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label>Danh mục cha</nz-form-label>
-      <nz-form-control nzExtra="Để trống nếu là thư mục gốc">
-        <nz-tree-select [nzNodes]="nodes" nzShowSearch [nzHideUnMatched]="true" [nzDefaultExpandAll]="true"
-          [(ngModel)]="parentId" [nzDisabled]="!isNew" [ngModelOptions]="{ standalone: true }">
+      <nz-form-label nzFor="parentId">Danh mục cha</nz-form-label>
+      <nz-form-control>
+        <nz-tree-select [nzNodes]="categoryTree" nzShowSearch [nzHideUnMatched]="true" [nzDefaultExpandAll]="true"
+          formControlName="parentId">
         </nz-tree-select>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzFor="img">Hình ảnh</nz-form-label>
-      <nz-form-control nzErrorTip="Please input this field!">
-        <input nz-input formControlName="img" type="url">
-      </nz-form-control>
-      <img [src]="categoryForm.controls['img'].value" width="500px">
-    </nz-form-item>
   </form>
+  <div class="form-item">
+    <label>Hình ảnh</label>
+    <span class="extra">
+      Dung lượng tối đa của hình ảnh là 500KB
+      <i nz-icon nzType="info-circle" nzTheme="outline"></i>
+    </span>
+    <nz-upload [(nzFileList)]="fileList" nzListType="picture" [nzAccept]="fileTypeLimit" [nzFileType]="fileTypeLimit"
+      [nzSize]="fileSizeLimit" [nzDisabled]="fileList.length >= 1" [nzBeforeUpload]="beforeUpload">
+      <button nz-button><i nz-icon nzType="upload"></i>Tải ảnh lên</button>
+    </nz-upload>
+  </div>
 </nz-card>
 <ng-template #buttonGroup>
   <nz-space>
@@ -37,7 +41,7 @@
     </nz-space-item>
     <nz-space-item>
       <button nz-button nzType="primary" [nzLoading]="isBtnLoading" (click)="isNew ? create() : update()"
-        [disabled]="categoryForm.invalid || categoryForm.pristine">Save</button>
+        [disabled]="categoryForm.invalid || categoryForm.pristine">Lưu</button>
     </nz-space-item>
   </nz-space>
 </ng-template>

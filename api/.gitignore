@@ -34,3 +34,6 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 .env
+
+# GOOGLE_APPLICATION_CREDENTIALS
+gcp-key.json

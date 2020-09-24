@@ -1,7 +1,8 @@
 export interface Category {
   id: number;
   title: string;
-  img: string;
+  imgUrl: string;
+  imgName: string;
   key: string;
   parent: Category;
   children: Category[];

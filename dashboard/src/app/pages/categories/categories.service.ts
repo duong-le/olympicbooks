@@ -20,11 +20,11 @@ export class CategoriesService {
     return this.http.get<Category>(`${this.baseUrl}/categories/${id}`);
   }
 
-  createOne(data: Category): Observable<Category> {
+  createOne(data: FormData): Observable<Category> {
     return this.http.post<Category>(`${this.baseUrl}/categories`, data);
   }
 
-  updateOne(id: number, data: Category): Observable<Category> {
+  updateOne(id: number, data: FormData): Observable<Category> {
     return this.http.patch<Category>(`${this.baseUrl}/categories/${id}`, data);
   }
 

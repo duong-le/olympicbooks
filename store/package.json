@@ -7,8 +7,7 @@
     "start:dev": "ng serve --open --host 0.0.0.0",
     "build": "ng build --prod --outputHashing=all && ng run store:server:production && touch dist/store/browser/robots.txt ",
     "dev:ssr": "ng run store:serve-ssr",
-    "prerender": "ng run store:prerender",
-    "postinstall": "ngcc"
+    "prerender": "ng run store:prerender"
   },
   "private": true,
   "dependencies": {

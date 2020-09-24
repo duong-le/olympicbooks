@@ -2,6 +2,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MulterModule } from '@nestjs/platform-express';
 
 import { ormConfig } from './ormconfig';
 import { HttpRequestLogger } from './shared/Loggers/http-request.logger';
@@ -26,6 +27,7 @@ import { ArrayExist } from './shared/Validators/array-exist/array-exist.service'
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(ormConfig),
+    MulterModule.register(),
     AuthModule,
     ProductsModule,
     CategoriesModule,

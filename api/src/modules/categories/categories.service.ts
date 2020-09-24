@@ -1,12 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { TreeRepository } from 'typeorm';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { TreeRepository } from 'typeorm';
+import { CloudStorageService } from 'src/shared/Services/cloud-storage.service';
 import { Category } from './categories.entity';
 import { CreateCategoryDto, UpdateCategoryDto } from './categories.dto';
+import { File } from 'src/shared/Interfaces/file.interface';
 
 @Injectable()
 export class CategoriesService {
-  constructor(@InjectRepository(Category) private categoryRepository: TreeRepository<Category>) {}
+  constructor(
+    @InjectRepository(Category) private categoryRepository: TreeRepository<Category>,
+    private cloudStorageService: CloudStorageService
+  ) {}
 
   async getMany(): Promise<Category[]> {
     const categories = await this.categoryRepository.findTrees();
@@ -22,43 +27,47 @@ export class CategoriesService {
     return category;
   }
 
-  async createOne(dto: CreateCategoryDto): Promise<Category> {
+  async createOne(dto: CreateCategoryDto, uploadedFile: File): Promise<Category> {
     let parent: Category;
+    let category: Category;
     const { parentId, ...others } = dto;
-    const category = this.categoryRepository.create(others);
 
-    if (parentId !== 0) {
+    if (uploadedFile) {
+      const file = await this.uploadFile(uploadedFile);
+      category = this.categoryRepository.create({ ...others, imgUrl: file.publicUrl, imgName: file.name });
+    } else category = this.categoryRepository.create(others);
+
+    if (parentId) {
       parent = await this.categoryRepository.findOne(parentId);
       if (!parent) throw new NotFoundException('Parent category not found!');
       category.parent = parent;
     }
-    category.save();
-    return category;
+    return await category.save();
   }
 
-  async updateOne(id: number, dto: UpdateCategoryDto): Promise<Category> {
+  async updateOne(id: number, dto: UpdateCategoryDto, uploadedFile: File): Promise<Category> {
     const category = await this.getOne(id);
     if (dto?.title) category.title = dto.title;
-    if (dto?.img) category.img = dto.img;
-    if (dto?.parentId) {
-      const parent = await this.getOne(dto.parentId);
-      category.parent = parent;
+
+    if (uploadedFile) {
+      if (category.imgName) await this.removeFile(category.imgName);
+      const file = await this.uploadFile(uploadedFile);
+      category.imgUrl = file.publicUrl;
+      category.imgName = file.name;
     }
-    category.save();
-    return category;
+    // if (dto?.parentId) {
+    //   const parent = await this.getOne(dto.parentId);
+    //   category.parent = parent;
+    // }
+    return await category.save();
   }
 
   async deleteOne(id: number): Promise<void> {
-    const result = await this.categoryRepository.delete(id);
-    if (result.affected === 0) throw new NotFoundException(`Category ${id} not found`);
-  }
-
-  setLeaf(categories: Category[]): Category[] {
-    for (const category of categories) {
-      if (!category.children.length) category.isLeaf = true;
-      else category.children = this.setLeaf(category.children);
-    }
-    return categories;
+    const category = await this.categoryRepository.findOne(id, { relations: ['products'] });
+    if (!category) throw new NotFoundException(`Category ${id} not found`);
+    if (category.products.length) throw new BadRequestException(`Products belong to category ${id} is not empty`);
+    await this.categoryRepository.delete(id);
+    await this.removeFile(category.imgName);
   }
 
   async getPublishersByCategory(id: number): Promise<Category[]> {
@@ -83,5 +92,21 @@ export class CategoriesService {
       .addSelect('COUNT(*) AS count')
       .groupBy('authors.name')
       .getRawMany();
+  }
+
+  setLeaf(categories: Category[]): Category[] {
+    for (const category of categories) {
+      if (!category.children.length) category.isLeaf = true;
+      else category.children = this.setLeaf(category.children);
+    }
+    return categories;
+  }
+
+  async uploadFile(uploadedFile: File): Promise<any> {
+    return await this.cloudStorageService.uploadFile(uploadedFile, '/categories');
+  }
+
+  async removeFile(fileName: string): Promise<void> {
+    await this.cloudStorageService.removeFile(fileName);
   }
 }
