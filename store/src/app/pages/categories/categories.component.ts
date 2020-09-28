@@ -71,7 +71,8 @@ export class CategoriesComponent implements OnInit {
     ]).subscribe((response) => {
       [this.category, this.publishers, this.authors] = response;
       this.titleService.setTitle(`${this.category.title} | OlympicBooks`);
-    });
+    },
+    (error) => this.router.navigate(['/']));
   }
 
   renderProducts() {
