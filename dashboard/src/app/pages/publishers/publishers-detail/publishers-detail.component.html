@@ -7,7 +7,7 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzFor="name">Tên nhà xuất bản</nz-form-label>
+      <nz-form-label nzFor="name" nzRequired>Tên nhà xuất bản</nz-form-label>
       <nz-form-control nzErrorTip="Please input this field!">
         <input nz-input formControlName="name" type="text">
       </nz-form-control>
@@ -16,9 +16,8 @@
 </nz-card>
 <ng-template #title>
   <a routerLink="/authors" class="go-back"><i nz-icon nzType="arrow-left" nzTheme="outline"></i></a>
-  {{ isNew ? 'Thêm mới Nhà Xuất Bản' : 'Chi tiết Nhà Xuất Bản' }}
 </ng-template>
 <ng-template #buttonGroup>
   <button nz-button nzType="primary" [nzLoading]="isBtnLoading" (click)="isNew ? create() : update()"
-    [disabled]="publisherForm.invalid || publisherForm.pristine">Save</button>
+    [disabled]="publisherForm.invalid || publisherForm.pristine">Lưu</button>
 </ng-template>

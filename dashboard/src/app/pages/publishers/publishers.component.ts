@@ -16,7 +16,11 @@ export class PublishersComponent extends BaseComponent<Publisher> {
 
   columns = [{ title: 'Actions' }, { title: 'ID', key: 'id', sort: true }, { title: 'Tên nhà xuất bản', key: 'name', sort: true }];
 
-  constructor(private publishersService: PublishersService, private messageService: NzMessageService, private modal: NzModalService) {
+  constructor(
+    private publishersService: PublishersService,
+    private messageService: NzMessageService,
+    private modalService: NzModalService
+  ) {
     super(publishersService);
   }
 
@@ -27,7 +31,7 @@ export class PublishersComponent extends BaseComponent<Publisher> {
   }
 
   showDeleteConfirm(id: number) {
-    this.modal.confirm({
+    this.modalService.confirm({
       nzTitle: 'Bạn có chắc chắn muốn xóa không?',
       nzOnOk: () => this.delete(id)
     });

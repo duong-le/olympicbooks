@@ -8,8 +8,8 @@ import { Pagination } from 'src/app/shared/Interfaces/pagination.interface';
   providedIn: 'root'
 })
 export class PublishersService extends BaseService<Publisher> {
-  getMany(params: { [key: string]: string | string[] }): Observable<Pagination<Publisher[]>> {
-    return this.http.get<Pagination<Publisher[]>>(`${this.baseUrl}/publishers`, { params });
+  getMany(params: { [key: string]: string | string[] }): Observable<Pagination<Publisher[]> | Publisher[]> {
+    return this.http.get<Pagination<Publisher[]> | Publisher[]>(`${this.baseUrl}/publishers`, { params });
   }
 
   getOne(id: number): Observable<Publisher> {

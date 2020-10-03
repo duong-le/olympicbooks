@@ -16,7 +16,7 @@ export class AuthorsComponent extends BaseComponent<Author> {
 
   columns = [{ title: 'Actions' }, { title: 'ID', key: 'id', sort: true }, { title: 'Tên tác giả', key: 'name', sort: true }];
 
-  constructor(private authorsService: AuthorsService, private messageService: NzMessageService, private modal: NzModalService) {
+  constructor(private authorsService: AuthorsService, private messageService: NzMessageService, private modalService: NzModalService) {
     super(authorsService);
   }
 
@@ -27,7 +27,7 @@ export class AuthorsComponent extends BaseComponent<Author> {
   }
 
   showDeleteConfirm(id: number) {
-    this.modal.confirm({
+    this.modalService.confirm({
       nzTitle: 'Bạn có chắc chắn muốn xóa không?',
       nzOnOk: () => this.delete(id)
     });

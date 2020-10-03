@@ -12,5 +12,5 @@ export abstract class BaseService<T> {
 
   constructor(protected http: HttpClient) {}
 
-  abstract getMany(params: { [key: string]: string | string[] }): Observable<Pagination<T[]>>;
+  abstract getMany(params: { [key: string]: string | string[] }): Observable<Pagination<T[]> | T[]>;
 }

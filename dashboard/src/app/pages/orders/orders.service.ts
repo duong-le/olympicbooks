@@ -8,7 +8,7 @@ import { Pagination } from 'src/app/shared/Interfaces/pagination.interface';
   providedIn: 'root'
 })
 export class OrdersService extends BaseService<Order> {
-  getMany(params): Observable<Pagination<Order[]>> {
-    return this.http.get<Pagination<Order[]>>(`${this.baseUrl}/orders`, { params });
+  getMany(params): Observable<Pagination<Order[]> | Order[]> {
+    return this.http.get<Pagination<Order[]> | Order[]>(`${this.baseUrl}/orders`, { params });
   }
 }
