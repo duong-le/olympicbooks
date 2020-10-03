@@ -1,27 +1,36 @@
-import { Injectable } from '@nestjs/common';
-import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
+import { Injectable, ConflictException, InternalServerErrorException } from '@nestjs/common';
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { User } from './users.entity';
-import { UserRepository } from './users.repository';
-import { UpdateUserDto, UpdateMeDto } from './users.dto';
+import { CreateUserDto, UpdateUserDto, UpdateMeDto } from './users.dto';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class UsersService extends TypeOrmCrudService<User> {
-  constructor(@InjectRepository(UserRepository) private userRepository: UserRepository, private authService: AuthService) {
+  constructor(@InjectRepository(User) private userRepository: Repository<User>, private authService: AuthService) {
     super(userRepository);
   }
 
-  async updateUser(dto: UpdateUserDto | UpdateMeDto, id: number): Promise<User> {
-    const { password, ...others } = dto;
-    if (password) {
-      const hashedPassword = this.authService.hashPassword(dto.password);
-      return await this.userRepository.updateUser({ ...others, hashedPassword }, id);
+  async createUser(dto: CreateUserDto): Promise<User> {
+    const { name, email, password } = dto;
+    const hashedPassword = this.authService.hashPassword(password);
+    try {
+      return await this.userRepository.create({ name, email, hashedPassword }).save();
+    } catch (error) {
+      throw error.code === '23505' ? new ConflictException('Email already exists') : new InternalServerErrorException();
     }
-    return await this.userRepository.updateUser(others, id);
   }
 
-  async getMe(user: User): Promise<User> {
-    return await this.userRepository.findOne(user.id);
+  async updateUser(id: number, dto: UpdateUserDto | UpdateMeDto): Promise<User> {
+    let hashedPassword: string;
+    const { password, ...others } = dto;
+    const user = await this.userRepository.findOne(id);
+    if (password) hashedPassword = this.authService.hashPassword(dto.password);
+    try {
+      return await this.userRepository.save({ ...user, ...others, ...(password && { hashedPassword }) });
+    } catch (error) {
+      throw error.code === '23505' ? new ConflictException('Email already exists') : new InternalServerErrorException();
+    }
   }
 }

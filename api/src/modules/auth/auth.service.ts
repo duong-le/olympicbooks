@@ -1,35 +1,26 @@
 import { Injectable, UnauthorizedException, ForbiddenException } from '@nestjs/common';
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { genSaltSync, hashSync, compareSync } from 'bcrypt';
-import { UserRepository } from '../users/users.repository';
-import { SignUpDto, SignInDto } from './auth.dto';
+import { AuthDto } from './auth.dto';
 import { JwtPayload } from './jwt-payload.model';
+import { User } from '../users/users.entity';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @InjectRepository(UserRepository)
-    private userRepository: UserRepository,
-    private jwtService: JwtService
-  ) {}
+  constructor(@InjectRepository(User) private userRepository: Repository<User>, private jwtService: JwtService) {}
 
-  async signUp(signUpDto: SignUpDto): Promise<void> {
-    const { name, email, password } = signUpDto;
-    const hashedPassword = this.hashPassword(password);
-    return this.userRepository.createNewUser(name, email, hashedPassword);
-  }
+  async authentication(authDto: AuthDto): Promise<{ accessToken: string }> {
+    const { email, password } = authDto;
 
-  async signIn(signInDto: SignInDto): Promise<{ accessToken: string }> {
-    const { email, password } = signInDto;
+    const user = await this.userRepository.findOne({ email });
+    if (!user) throw new UnauthorizedException('Invalid Credentials');
+    if (user.isBlock) throw new ForbiddenException('User has been banned!');
 
-    const foundUser = await this.userRepository.findOne({ email });
-    if (!foundUser) throw new UnauthorizedException('Invalid Credentials');
-    if (foundUser.isBlock) throw new ForbiddenException('User has been banned!');
+    if (!compareSync(password, user.hashedPassword)) throw new UnauthorizedException('Invalid Credentials');
 
-    if (!compareSync(password, foundUser.hashedPassword)) throw new UnauthorizedException('Invalid Credentials');
-
-    const payload: JwtPayload = { name: foundUser.name, email, role: foundUser.role };
+    const payload: JwtPayload = { name: user.name, email, role: user.role };
     const accessToken = this.jwtService.sign(payload);
     return { accessToken };
   }

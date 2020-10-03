@@ -1,17 +1,29 @@
-import { ApiPropertyOptional, OmitType } from '@nestjs/swagger';
-import { IsOptional, IsString, IsEmail, IsBoolean, MinLength, MaxLength, Matches } from 'class-validator';
+import { ApiPropertyOptional, OmitType, ApiProperty, PartialType } from '@nestjs/swagger';
+import { IsOptional, IsString, IsEmail, IsBoolean, MinLength, MaxLength, Matches, IsDefined } from 'class-validator';
 
-export class UpdateUserDto {
-  @ApiPropertyOptional()
-  @IsOptional()
+export class CreateUserDto {
+  @ApiProperty()
+  @IsDefined()
   @IsString()
+  @MinLength(2)
   name: string;
 
-  @ApiPropertyOptional()
-  @IsOptional()
+  @ApiProperty()
+  @IsDefined()
   @IsEmail()
   email: string;
 
+  @ApiProperty()
+  @IsDefined()
+  @IsString()
+  @MinLength(6)
+  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+    message: 'Password is too weak'
+  })
+  password: string;
+}
+
+export class UpdateUserDto extends PartialType(CreateUserDto) {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
@@ -26,16 +38,6 @@ export class UpdateUserDto {
   @IsOptional()
   @IsBoolean()
   isBlock: boolean;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsString()
-  @MinLength(6)
-  @MaxLength(20)
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'Password is too weak'
-  })
-  password: string;
 }
 
 export class UpdateMeDto extends OmitType(UpdateUserDto, ['email', 'isBlock'] as const) {}

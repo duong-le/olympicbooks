@@ -22,7 +22,7 @@ export class AuthenticationService {
   }
 
   signIn(data: Authentication): Observable<Authentication> {
-    return this.http.post<Authentication>(`${environment.apiUrl}/auth/signin`, data).pipe(
+    return this.http.post<Authentication>(`${environment.apiUrl}/auth`, data).pipe(
       map(({ accessToken }) => {
         const payload = this.decodeToken(accessToken);
         const user = { ...payload, accessToken };
@@ -34,7 +34,7 @@ export class AuthenticationService {
   }
 
   signUp(data: Authentication): Observable<Authentication> {
-    return this.http.post<Authentication>(`${environment.apiUrl}/auth/signup`, data);
+    return this.http.post<Authentication>(`${environment.apiUrl}/users`, data);
   }
 
   signOut() {

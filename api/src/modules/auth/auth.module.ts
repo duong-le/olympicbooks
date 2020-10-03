@@ -5,7 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UserRepository } from '../users/users.repository';
+import { User } from '../users/users.entity';
 
 @Global()
 @Module({
@@ -18,7 +18,7 @@ import { UserRepository } from '../users/users.repository';
         signOptions: { expiresIn: '30d' }
       })
     }),
-    TypeOrmModule.forFeature([UserRepository])
+    TypeOrmModule.forFeature([User])
   ],
   providers: [AuthService, JwtStrategy],
   exports: [JwtStrategy, PassportModule, AuthService]
