@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Product } from 'src/app/shared/Interfaces/product.interface';
 
 @Component({
@@ -6,13 +6,17 @@ import { Product } from 'src/app/shared/Interfaces/product.interface';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductComponent {
+export class ProductComponent implements OnInit {
   @Input() product: Product;
 
   isLoading = true;
   maxLength = 48;
 
   constructor() {}
+
+  ngOnInit() {
+    if (!this.product.images.length) this.isLoading = false;
+  }
 
   onLoadImage(evt) {
     if (evt && evt.target) this.isLoading = false;

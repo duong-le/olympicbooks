@@ -67,7 +67,7 @@ export class CategoriesService {
     if (!category) throw new NotFoundException(`Category ${id} not found`);
     if (category.products.length) throw new BadRequestException(`Products belong to category ${id} is not empty`);
     await this.categoryRepository.delete(id);
-    await this.removeFile(category.imgName);
+    if (category.imgUrl && category.imgName) await this.removeFile(category.imgName);
   }
 
   async getPublishersByCategory(id: number): Promise<Category[]> {

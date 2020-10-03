@@ -3,7 +3,7 @@ import { Author } from '../authors/authors.entity';
 import { Publisher } from '../publishers/publishers.entity';
 import { Category } from '../categories/categories.entity';
 import { OrderItem } from '../orders/orders-item/orders-item.entity';
-import { ProductImage } from './product-images/product-images.entity';
+import { ProductImage } from './product-images.entity';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -25,11 +25,11 @@ export class Product extends BaseEntity {
   @Column()
   originalPrice: number;
 
-  @Column({ default: true })
-  stock: boolean;
-
   @Column()
   description: string;
+
+  @Column({ default: true })
+  inStock: boolean;
 
   @Column()
   categoryId: number;
@@ -49,7 +49,7 @@ export class Product extends BaseEntity {
   @ManyToOne((type) => Publisher, (publisher) => publisher.products, { eager: true })
   publisher: Publisher;
 
-  @ManyToMany((type) => Author, (author) => author.products, { eager: true, cascade: true })
+  @ManyToMany((type) => Author, (author) => author.products, { eager: true })
   @JoinTable({ name: 'products_authors' })
   authors: Author[];
 

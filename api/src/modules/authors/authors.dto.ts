@@ -1,4 +1,4 @@
-import { IsDefined, IsString, IsNumber } from 'class-validator';
+import { IsDefined, IsString } from 'class-validator';
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 
 export class CreateAuthorDto {
@@ -6,13 +6,6 @@ export class CreateAuthorDto {
   @IsDefined()
   @IsString()
   name: string;
-}
-
-export class CreateAuthorWithProductDto {
-  @ApiProperty()
-  @IsDefined()
-  @IsNumber()
-  id: number;
 }
 
 export class UpdateAuthorDto extends PartialType(CreateAuthorDto) {}

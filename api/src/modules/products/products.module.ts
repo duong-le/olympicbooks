@@ -3,13 +3,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './products.entity';
 import { ProductsController } from './products.controller';
 import { ProductsService } from './products.service';
-import { ProductImage } from './product-images/product-images.entity';
-import { ProductImagesController } from './product-images/product-images.controller';
-import { ProductImagesService } from './product-images/product-images.service';
+import { ProductImage } from './product-images.entity';
+import { Category } from '../categories/categories.entity';
+import { Author } from '../authors/authors.entity';
+import { Publisher } from '../publishers/publishers.entity';
+import { CloudStorageService } from 'src/shared/Services/cloud-storage.service';
 
 @Module({
-  controllers: [ProductsController, ProductImagesController],
-  imports: [TypeOrmModule.forFeature([Product, ProductImage])],
-  providers: [ProductsService, ProductImagesService]
+  controllers: [ProductsController],
+  imports: [TypeOrmModule.forFeature([Product, ProductImage, Category, Author, Publisher])],
+  providers: [ProductsService, CloudStorageService]
 })
 export class ProductsModule {}

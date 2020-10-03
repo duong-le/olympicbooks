@@ -9,7 +9,7 @@
             <div nz-row nzJustify="space-between" nzAlign="middle" [nzGutter]="[0, 16]">
               <div nz-col nzXl="4" nzXs="8">
                 <a [routerLink]="['/products', item?.product.id]">
-                  <img [src]="item?.product.images[0].url" (load)="onLoadImage($event)" height="80" width="80"></a>
+                  <img [src]="item?.product?.images[0]?.imgUrl" (load)="onLoadImage($event)" height="80" width="80"></a>
               </div>
               <div nz-col nzXl="9" nzXs="16">
                 <a [routerLink]="['/products', item?.product.id]">

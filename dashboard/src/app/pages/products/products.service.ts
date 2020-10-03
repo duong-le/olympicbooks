@@ -8,7 +8,23 @@ import { Pagination } from 'src/app/shared/Interfaces/pagination.interface';
   providedIn: 'root'
 })
 export class ProductsService extends BaseService<Product> {
-  getMany(params: { [key: string]: string | string[] }): Observable<Pagination<Product[]>> {
-    return this.http.get<Pagination<Product[]>>(`${this.baseUrl}/products`, { params });
+  getMany(params: { [key: string]: string | string[] }): Observable<Pagination<Product[]> | Product[]> {
+    return this.http.get<Pagination<Product[]> | Product[]>(`${this.baseUrl}/products`, { params });
+  }
+
+  getOne(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.baseUrl}/products/${id}`);
+  }
+
+  createOne(data: FormData): Observable<Product> {
+    return this.http.post<Product>(`${this.baseUrl}/products`, data);
+  }
+
+  updateOne(id: number, data: FormData): Observable<Product> {
+    return this.http.patch<Product>(`${this.baseUrl}/products/${id}`, data);
+  }
+
+  deleteOne(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/products/${id}`);
   }
 }

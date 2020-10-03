@@ -54,8 +54,8 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
       this.categoryForm.updateValueAndValidity();
     } else if (this.id) this.render();
     if (this.categoryData) this.categoryTree = this.categoryData;
+    if (this.categoryForm) this.categoryForm.controls['parentId'][this.isNew ? 'enable' : 'disable']();
     this.fileList = [];
-    this.categoryForm.controls['parentId'][this.isNew ? 'enable' : 'disable']();
   }
 
   render() {

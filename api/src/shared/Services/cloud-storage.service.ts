@@ -49,7 +49,7 @@ export class CloudStorageService {
     try {
       await file.delete();
     } catch (error) {
-      throw new NotFoundException('File not found');
+      throw new NotFoundException(`Image ${fileName} not found`);
     }
   }
 }

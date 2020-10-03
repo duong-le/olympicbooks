@@ -14,10 +14,11 @@ export interface Product {
   category: Category;
   publisher: Publisher;
   authors: Author[];
-  stock: boolean;
+  inStock: boolean;
 }
 
 export interface ProductImage {
   id: number;
-  url: string;
+  imgUrl: string;
+  imgName: string;
 }

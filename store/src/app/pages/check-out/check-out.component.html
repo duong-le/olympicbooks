@@ -72,7 +72,7 @@
             <div class="item-wrapper" *ngFor="let item of cart?.cartItems">
               <div class="item-head">
                 <a [routerLink]="['/products', item?.product.id]" class="item-img">
-                  <img [src]="item?.product.images[0].url" width="50" height="50"></a>
+                  <img [src]="item?.product?.images[0]?.imgUrl" width="50" height="50"></a>
                 <div class="item-main">
                   <a [routerLink]="['/products', item?.product.id]">
                     <h4>{{ item?.product.title }}</h4>

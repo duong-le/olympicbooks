@@ -54,19 +54,19 @@ export class CheckOutComponent implements OnInit {
     this.cartService.cart$.subscribe((response) => (this.cart = response));
 
     this.isLoading = true;
-    forkJoin(
+    forkJoin([
       this.customerService.getMe(),
       this.checkOutService.getTransactionMethods(),
       this.checkOutService.getShippingMethods()
-    ).subscribe((response) => {
+    ]).subscribe((response) => {
       [this.customer, this.transactionMethods, this.shippingMethods] = response;
 
-      this.transactionRadioValue = this.transactionMethods[0].method;
-      this.shippingRadioValue = this.shippingMethods[0].method;
+      this.transactionRadioValue = this.transactionMethods[0]?.method;
+      this.shippingRadioValue = this.shippingMethods[0]?.method;
 
       this.order = {
-        transaction: { transactionMethodId: this.transactionMethods[0].id },
-        shipping: { shippingMethodId: this.shippingMethods[0].id, address: this.customer.address, phoneNumber: this.customer.phoneNumber },
+        transaction: { transactionMethodId: this.transactionMethods[0]?.id },
+        shipping: { shippingMethodId: this.shippingMethods[0]?.id, address: this.customer.address, phoneNumber: this.customer.phoneNumber },
         orderItems: this.cart.cartItems.map((el) => ({ quantity: el.quantity, productId: el.product.id }))
       };
 

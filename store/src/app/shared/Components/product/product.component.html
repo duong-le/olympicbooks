@@ -6,7 +6,7 @@
   </nz-card>
 
   <ng-template #coverTemplate>
-    <img [src]="product.images[0].url" loading="lazy" (load)="onLoadImage($event)" />
+    <img [src]="product.images[0]?.imgUrl" loading="lazy" (load)="onLoadImage($event)" />
   </ng-template>
 
   <!-- <div class="item-extra item-new" *ngIf="product.new && !isLoading">New</div>

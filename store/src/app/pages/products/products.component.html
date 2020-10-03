@@ -3,7 +3,7 @@
     <div nz-col nzLg="12" nzXs="24">
       <nz-carousel [nzEnableSwipe]="true" [nzAutoPlay]="true">
         <div nz-carousel-content *ngFor="let image of product?.images">
-          <img class="product-image" [src]="image.url" (load)="onLoadImage($event)">
+          <img class="product-image" [src]="image?.imgUrl" (load)="onLoadImage($event)">
         </div>
       </nz-carousel>
     </div>
@@ -37,7 +37,7 @@
 
         <nz-divider></nz-divider>
 
-        <ng-container *ngIf="product?.stock; else outOfStock">
+        <ng-container *ngIf="product?.inStock; else outOfStock">
           <nz-descriptions [nzColumn]="2" [nzColon]="false">
             <nz-descriptions-item nzTitle="Số lượng"></nz-descriptions-item>
             <nz-descriptions-item>
