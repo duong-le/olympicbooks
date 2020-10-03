@@ -37,6 +37,6 @@ export class CartsController implements CrudController<CartItem> {
   @UseInterceptors(CrudRequestInterceptor)
   @Delete()
   deleteMany(@UserInfo() user: User): Promise<void> {
-    return this.service.deleteMany(user);
+    return this.service.deleteCartItems(user);
   }
 }

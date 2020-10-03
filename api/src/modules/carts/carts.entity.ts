@@ -23,6 +23,6 @@ export class CartItem extends BaseEntity {
   @ManyToOne((type) => User, (user) => user.cartItems)
   user: User;
 
-  @ManyToOne((type) => Product, { eager: true })
+  @ManyToOne((type) => Product, { eager: true, onDelete: 'CASCADE' })
   product: Product;
 }
