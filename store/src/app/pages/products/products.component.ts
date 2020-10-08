@@ -24,22 +24,8 @@ export class ProductsComponent implements OnInit {
   quantity = 1;
   minQty = 1;
   maxQty = 100;
-  likes = 0;
-  dislikes = 0;
   limit = 6;
   relatedProductStyle = null;
-
-  commentValue = '';
-  commentData = [
-    {
-      content: 'Sản phẩm chất lượng',
-      datetime: formatDistance(new Date(), addDays(new Date(), 1))
-    }
-  ];
-  commentator = {
-    author: 'Han Solo',
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
-  };
 
   constructor(
     private titleService: Title,
@@ -118,22 +104,5 @@ export class ProductsComponent implements OnInit {
           this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
         }
       );
-  }
-
-  submitComment(): void {
-    this.isBtnLoading.comment = true;
-    setTimeout(() => {
-      this.commentData = [
-        ...this.commentData,
-        { content: this.commentValue, datetime: formatDistance(new Date(), addDays(new Date(), 1)) }
-      ];
-      this.isBtnLoading.comment = false;
-      this.commentValue = '';
-    }, 1000);
-  }
-
-  like(): void {
-    this.likes = 1;
-    this.dislikes = 0;
   }
 }
