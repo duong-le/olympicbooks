@@ -23,7 +23,7 @@ export class CategoriesService {
     if (!category) throw new NotFoundException(`Category ${id} not found`);
     await this.categoryRepository.findAncestorsTree(category);
     await this.categoryRepository.findDescendantsTree(category);
-    if (!category.children.length) category.isLeaf = true;
+    category.isLeaf = category.children.length ? false : true;
     return category;
   }
 
@@ -42,7 +42,7 @@ export class CategoriesService {
       if (!parent) throw new NotFoundException('Parent category not found!');
       category.parent = parent;
     }
-    return await category.save();
+    return await this.categoryRepository.save(category);
   }
 
   async updateOne(id: number, dto: UpdateCategoryDto, uploadedFile: File): Promise<Category> {
@@ -59,7 +59,7 @@ export class CategoriesService {
     //   const parent = await this.getOne(dto.parentId);
     //   category.parent = parent;
     // }
-    return await category.save();
+    return await this.categoryRepository.save(category);
   }
 
   async deleteOne(id: number): Promise<void> {
@@ -97,7 +97,10 @@ export class CategoriesService {
   setLeaf(categories: Category[]): Category[] {
     for (const category of categories) {
       if (!category.children.length) category.isLeaf = true;
-      else category.children = this.setLeaf(category.children);
+      else {
+        category.isLeaf = false;
+        category.children = this.setLeaf(category.children);
+      }
     }
     return categories;
   }

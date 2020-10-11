@@ -25,7 +25,6 @@ export class Category extends BaseEntity {
   @Column({ default: null })
   key: number;
 
-  @Column({ default: false })
   isLeaf: boolean;
 
   @Column({ default: true })
