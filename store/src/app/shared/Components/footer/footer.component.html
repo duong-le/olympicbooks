@@ -1,1 +1,62 @@
-<p>footer</p>
+<nz-card [nzBodyStyle]="{ padding: 0 }">
+  <div nz-row class="container">
+    <div nz-col nzXl="6" nzXs="24">
+      <a routerLink="/"><embed src="assets/icons/logo.svg" alt="logo"></a>
+    </div>
+
+    <div nz-col nzXl="4" nzXs="24">
+      <div nz-row [nzGutter]="[0, 6]">
+        <div nz-col nzSpan="24">
+          <h4><a nz-button nzType="link" routerLink="/">Trang chủ</a></h4>
+        </div>
+        <div nz-col nzSpan="24">
+          <h4><a nz-button nzType="link" routerLink="/">Sản phẩm</a></h4>
+        </div>
+        <div nz-col nzSpan="24">
+          <h4><a nz-button nzType="link" href="https://medium.com/olympicbooks" target="_blank">Cộng đồng</a></h4>
+        </div>
+        <div nz-col nzSpan="24">
+          <h4><a nz-button nzType="link" routerLink="/">Giới thiệu</a></h4>
+        </div>
+      </div>
+    </div>
+
+    <div nz-col nzXl="7" nzXs="24">
+      <div nz-row [nzGutter]="[0, 6]">
+        <div nz-col nzSpan="24">
+          <a nz-button nzType="link" href="tel:0396825198">
+            <i nz-icon nzType="phone" nzTheme="outline"></i>0396.825.198</a>
+        </div>
+        <div nz-col nzSpan="24">
+          <a nz-button nzType="link" href="tel:0984803198">
+            <i nz-icon nzType="phone" nzTheme="outline"></i>0984.803.198</a>
+        </div>
+        <div nz-col nzSpan="24" class="mail">
+          <a nz-button nzType="link" href="mailto:contact.olympicbooks@gmail.com">
+            <i nz-icon nzType="mail" nzTheme="outline"></i>contact.olympicbooks@gmail.com</a>
+        </div>
+      </div>
+    </div>
+
+    <div nz-col nzXl="7" nzXs="24">
+      <div nz-row [nzGutter]="[0, 6]">
+        <div nz-col nzSpan="24">
+          <a nz-button nzType="link" href="https://www.facebook.com/Olympicbooks" target="_blank">
+            <i nz-icon nzType="facebook" nzTheme="outline"></i>Olympicbooks</a>
+        </div>
+        <div nz-col nzSpan="24">
+          <a nz-button nzType="link" href="https://www.facebook.com/groups/HSGVatli" target="_blank">
+            <i nz-icon nzType="facebook" nzTheme="outline"></i>Cộng đồng Vật lí Việt Nam</a>
+        </div>
+        <div nz-col nzSpan="24">
+          <a nz-button nzType="link" href="https://www.facebook.com/groups/465858220874392" target="_blank">
+            <i nz-icon nzType="facebook" nzTheme="outline"></i>DPhO - Tài liệu Olympic Vật lý</a>
+        </div>
+        <div nz-col nzSpan="24">
+          <a nz-button nzType="link" href="https://medium.com/olympicbooks" target="_blank">
+            <i nz-icon nzType="medium" nzTheme="outline"></i>Olympicbooks</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nz-card>

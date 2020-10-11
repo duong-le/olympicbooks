@@ -1,0 +1,28 @@
+embed {
+  pointer-events: none;
+  height: 50px;
+}
+
+@media (max-width: 1200px) {
+  embed {
+    height: 40px;
+  }
+}
+
+a {
+  display: inline-block;
+}
+
+.ant-btn-link {
+  color: black;
+}
+
+h4 {
+  margin-bottom: 0;
+}
+
+.mail {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
