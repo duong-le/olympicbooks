@@ -16,6 +16,7 @@ export class ProductComponent implements OnInit {
 
   ngOnInit() {
     if (!this.product.images.length) this.isLoading = false;
+    else this.product.images.sort((a, b) => a.id - b.id);
   }
 
   onLoadImage(evt) {
