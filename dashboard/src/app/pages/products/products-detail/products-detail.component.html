@@ -52,7 +52,7 @@
       <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="categoryId" nzRequired>Danh mục</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <nz-tree-select [nzNodes]="categoryTree" nzShowSearch [nzHideUnMatched]="true" [nzDefaultExpandAll]="true"
-          formControlName="categoryId">
+          [nzDropdownStyle]="{ 'max-height': '500px' }" formControlName="categoryId">
         </nz-tree-select>
       </nz-form-control>
     </nz-form-item>
