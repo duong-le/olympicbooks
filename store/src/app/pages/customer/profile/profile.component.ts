@@ -16,6 +16,8 @@ export class ProfileComponent implements OnInit {
   passwordForm: FormGroup;
   isUpdateProfileLoading = false;
   isUpdatePasswordLoading = false;
+  newPasswordVisible = false;
+  confirmPasswordVisible = false;
 
   constructor(
     private titleService: Title,
@@ -36,7 +38,7 @@ export class ProfileComponent implements OnInit {
 
     this.passwordForm = this.fb.group({
       password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(constant.pwdPattern)]],
-      checkPassword: ['', [Validators.required, this.confirmationValidator]]
+      confirmPassword: ['', [Validators.required, this.confirmationValidator]]
     });
 
     this.customerService.getMe().subscribe((response) => {
@@ -109,7 +111,7 @@ export class ProfileComponent implements OnInit {
   }
 
   updateConfirmValidator() {
-    Promise.resolve().then(() => this.passwordForm.controls.checkPassword.updateValueAndValidity());
+    Promise.resolve().then(() => this.passwordForm.controls.confirmPassword.updateValueAndValidity());
   }
 
   confirmationValidator = (control: FormControl): { [s: string]: boolean } => {

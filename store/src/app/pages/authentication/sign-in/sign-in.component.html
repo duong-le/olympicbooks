@@ -5,7 +5,8 @@
       <nz-form-label nzRequired nzFor="email">Email</nz-form-label>
       <nz-form-control nzErrorTip="Email không hợp lệ!">
         <nz-input-group [nzPrefix]="prefixEmail">
-          <input type="email" nz-input formControlName="email" placeholder="Email" id="email">
+          <input type="email" nz-input formControlName="email" placeholder="Email" id="signin-email"
+            autocomplete="email">
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
@@ -16,7 +17,7 @@
       <nz-form-control nzErrorTip="Mật khẩu không hợp lệ!">
         <nz-input-group [nzPrefix]="prefixPassword" [nzSuffix]="suffixPassword">
           <input [type]="passwordVisible ? 'text' : 'password'" nz-input formControlName="password"
-            placeholder="Mật khẩu" id="password">
+            placeholder="Mật khẩu" id="signin-password" autocomplete="current-password">
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
