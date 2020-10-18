@@ -13,10 +13,10 @@ import { ProductsService } from '../products/products.service';
 })
 export class HomeComponent implements OnInit {
   categories: Category[];
-  recommendations: Product[];
+  recommendedProducts: Product[];
 
   isLoading = false;
-  limit = 6;
+  maxRecommendedProduct = 6;
   banner = { left: 'assets/images/cover.png', right: 'assets/images/community.jpg' };
   cardStyle = null;
 
@@ -26,9 +26,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading = true;
-    combineLatest([this.categoriesService.categories$, this.productsService.getManyProducts({ limit: this.limit })]).subscribe(
+    combineLatest([
+      this.categoriesService.categories$,
+      this.productsService.getManyProducts({ limit: this.maxRecommendedProduct })
+    ]).subscribe(
       (response) => {
-        [this.categories, this.recommendations] = response;
+        [this.categories, this.recommendedProducts] = response;
         this.isLoading = false;
         this.cardStyle = { padding: '1px' };
       },

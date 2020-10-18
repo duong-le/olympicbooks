@@ -25,14 +25,14 @@ export class CategoriesComponent implements OnInit {
   authors: Summary<Author>[];
 
   isLoading = false;
-  limit = 12;
   categoryId: number;
+  productPerPage = 12;
   totalProduct: number;
   pageIndex: number;
   rangeValue = [0, 1000000];
   maxPrice = 1000000;
-  demoValue = 3;
   productsStyle = null;
+  categoriesStyle = null;
 
   constructor(
     private titleService: Title,
@@ -51,7 +51,7 @@ export class CategoriesComponent implements OnInit {
         .setFilter({ field: 'categoryId', operator: CondOperator.EQUALS, value: this.categoryId })
         .sortBy({ field: 'id', order: 'DESC' })
         .setPage(1)
-        .setLimit(this.limit);
+        .setLimit(this.productPerPage);
       this.renderProducts();
     });
   }
@@ -61,18 +61,22 @@ export class CategoriesComponent implements OnInit {
       this.category = null;
       this.publishers = null;
       this.authors = null;
-      this.totalProduct = this.limit;
+      this.totalProduct = this.productPerPage;
+      this.categoriesStyle = null;
     }
 
     combineLatest([
       this.categoriesService.getOneCategory(this.categoryId),
       this.categoriesService.getPublishersByCategory(this.categoryId),
       this.categoriesService.getAuthorsByCategory(this.categoryId)
-    ]).subscribe((response) => {
-      [this.category, this.publishers, this.authors] = response;
-      this.titleService.setTitle(`${this.category.title} | OlympicBooks`);
-    },
-    (error) => this.router.navigate(['/']));
+    ]).subscribe(
+      (response) => {
+        [this.category, this.publishers, this.authors] = response;
+        this.titleService.setTitle(`${this.category.title} | OlympicBooks`);
+        this.categoriesStyle = { padding: '1px' };
+      },
+      (error) => this.router.navigate(['/'])
+    );
   }
 
   renderProducts() {

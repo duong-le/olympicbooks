@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { formatDistance, addDays } from 'date-fns';
 import { mergeMap } from 'rxjs/operators';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ProductsService } from './products.service';
@@ -24,7 +23,7 @@ export class ProductsComponent implements OnInit {
   quantity = 1;
   minQty = 1;
   maxQty = 100;
-  limit = 6;
+  maxRelatedProduct = 6;
   relatedProductStyle = null;
 
   constructor(
@@ -60,7 +59,7 @@ export class ProductsComponent implements OnInit {
           this.isRelatedProductsLoading = true;
           return this.productsService.getManyProducts({
             filter: [`categoryId||$eq||${this.product.category.id}`, `id||$ne||${this.product.id}`],
-            limit: this.limit
+            limit: this.maxRelatedProduct
           });
         })
       )

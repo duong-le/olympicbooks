@@ -1,3 +1,11 @@
+<nz-card class="container" nzTitle="Danh mục con" [nzBodyStyle]="categoriesStyle" *ngIf="category?.children?.length">
+  <div nz-row>
+    <div nz-col nzXl="4" nzLg="6" nzMd="8" nzSm="12" nzXs="24" *ngFor="let item of category?.children">
+      <app-category [category]="item"></app-category>
+    </div>
+  </div>
+</nz-card>
+
 <div class="container categories">
   <div nz-row [nzGutter]="[16,16]">
     <div nz-col [nzXl]="{span: 6, order: 1}" [nzMd]="{span: 8, order: 1}" [nzSm]="{span: 12, order: 1}" [nzXs]="{span: 24, order: 3}">
@@ -49,7 +57,7 @@
     </div>
 
     <div nz-col [nzSm]="{span: 24, order: 3}" [nzXs]="{span: 24, order: 2}">
-      <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="totalProduct" [nzPageSize]="limit"
+      <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="totalProduct" [nzPageSize]="productPerPage"
         (nzPageIndexChange)="onPageChange($event)" [nzHideOnSinglePage]="true" [nzResponsive]="true"></nz-pagination>
     </div>
   </div>
