@@ -29,6 +29,7 @@ export class CategoriesComponent implements OnInit {
   onSelectNode(event: NzFormatEmitEvent): void {
     this.isNew = false;
     this.categoryId = event.node.origin.id;
+    window.scrollTo({ top: window.innerWidth >= 1200 ? 0 : document.body.scrollHeight, behavior: 'smooth' });
   }
 
   onClickCreateBtn() {

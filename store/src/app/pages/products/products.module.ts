@@ -19,6 +19,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 
 @NgModule({
   declarations: [ProductsComponent],
@@ -38,7 +39,8 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     NzButtonModule,
     NzFormModule,
     NzInputModule,
-    NzMessageModule
+    NzMessageModule,
+    NzBreadCrumbModule
   ]
 })
 export class ProductsModule {}

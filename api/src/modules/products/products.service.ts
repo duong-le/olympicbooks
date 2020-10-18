@@ -10,6 +10,7 @@ import { Category } from '../categories/categories.entity';
 import { Author } from '../authors/authors.entity';
 import { Publisher } from '../publishers/publishers.entity';
 import { CloudStorageService } from 'src/shared/Services/cloud-storage.service';
+import { CategoriesService } from '../categories/categories.service';
 
 @Injectable()
 export class ProductsService extends TypeOrmCrudService<Product> {
@@ -19,9 +20,16 @@ export class ProductsService extends TypeOrmCrudService<Product> {
     @InjectRepository(Category) private categoryRepository: Repository<Category>,
     @InjectRepository(Author) private authorRepository: Repository<Author>,
     @InjectRepository(Publisher) private publisherRepository: Repository<Publisher>,
+    private categoriesService: CategoriesService,
     private cloudStorageService: CloudStorageService
   ) {
     super(productRepository);
+  }
+
+  async getProduct(id: number): Promise<Product> {
+    const product = await this.productRepository.findOne(id);
+    product.category = await this.categoriesService.getOne(product.category.id);
+    return product;
   }
 
   async createProduct(dto: CreateProductDto, uploadedFiles: File[]): Promise<Product> {

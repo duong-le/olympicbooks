@@ -15,6 +15,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 
 @NgModule({
   declarations: [CategoriesComponent],
@@ -31,7 +32,8 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
     NzSelectModule,
     NzSliderModule,
     NzListModule,
-    NzPaginationModule
+    NzPaginationModule,
+    NzBreadCrumbModule
   ]
 })
 export class CategoriesModule {}

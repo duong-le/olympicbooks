@@ -21,8 +21,12 @@ export class CategoriesService {
   async getOne(id: number): Promise<Category> {
     const category = await this.categoryRepository.findOne(id);
     if (!category) throw new NotFoundException(`Category ${id} not found`);
-    await this.categoryRepository.findAncestorsTree(category);
+
     await this.categoryRepository.findDescendantsTree(category);
+    category.parent = (await this.categoryRepository
+      .createAncestorsQueryBuilder('category', 'categoryClosure', category)
+      .orderBy('category.id', 'ASC')
+      .getMany()) as any;
     category.isLeaf = category.children.length ? false : true;
     return category;
   }

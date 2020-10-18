@@ -8,10 +8,11 @@ import { Category } from '../categories/categories.entity';
 import { Author } from '../authors/authors.entity';
 import { Publisher } from '../publishers/publishers.entity';
 import { CloudStorageService } from 'src/shared/Services/cloud-storage.service';
+import { CategoriesService } from '../categories/categories.service';
 
 @Module({
   controllers: [ProductsController],
   imports: [TypeOrmModule.forFeature([Product, ProductImage, Category, Author, Publisher])],
-  providers: [ProductsService, CloudStorageService]
+  providers: [ProductsService, CategoriesService, CloudStorageService]
 })
 export class ProductsModule {}

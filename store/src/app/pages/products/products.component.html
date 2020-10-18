@@ -1,4 +1,22 @@
 <nz-card class="container">
+  <nz-breadcrumb nzSeparator=">">
+    <nz-breadcrumb-item>
+      <a routerLink="/"><i nz-icon nzType="home"></i></a>
+    </nz-breadcrumb-item>
+
+    <ng-container *ngFor="let item of product?.category?.parent">
+      <nz-breadcrumb-item>
+        <a [routerLink]="['/', 'categories', item?.id]">{{ item?.title }}</a>
+      </nz-breadcrumb-item>
+    </ng-container>
+
+    <nz-breadcrumb-item>
+      {{ product?.title }}
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-card>
+
+<nz-card class="container">
   <div nz-row [nzGutter]="[48,32]">
     <div nz-col nzLg="12" nzXs="24">
       <nz-carousel [nzEnableSwipe]="true" [nzAutoPlay]="true">

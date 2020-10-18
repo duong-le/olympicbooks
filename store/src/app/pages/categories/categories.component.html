@@ -1,4 +1,19 @@
-<nz-card class="container" nzTitle="Danh mục con" [nzBodyStyle]="categoriesStyle" *ngIf="category?.children?.length">
+<nz-card class="container">
+  <nz-breadcrumb nzSeparator=">">
+    <nz-breadcrumb-item>
+      <a routerLink="/"><i nz-icon nzType="home"></i></a>
+    </nz-breadcrumb-item>
+
+    <ng-container *ngFor="let item of category?.parent; let last = last">
+      <nz-breadcrumb-item>
+        <a *ngIf="!last" [routerLink]="['/', 'categories', item?.id]">{{ item?.title }}</a>
+        <span *ngIf="last">{{ item?.title }}</span>
+      </nz-breadcrumb-item>
+    </ng-container>
+  </nz-breadcrumb>
+</nz-card>
+
+<nz-card class="container" [nzBodyStyle]="categoriesStyle" *ngIf="category?.children?.length">
   <div nz-row>
     <div nz-col nzXl="4" nzLg="6" nzMd="8" nzSm="12" nzXs="24" *ngFor="let item of category?.children">
       <app-category [category]="item"></app-category>
@@ -6,7 +21,7 @@
   </div>
 </nz-card>
 
-<div class="container categories">
+<div class="container categories" *ngIf="products?.length">
   <div nz-row [nzGutter]="[16,16]">
     <div nz-col [nzXl]="{span: 6, order: 1}" [nzMd]="{span: 8, order: 1}" [nzSm]="{span: 12, order: 1}" [nzXs]="{span: 24, order: 3}">
       <nz-card nzTitle="Bộ lọc" [nzBodyStyle]="{ padding: '0 24px' }">
@@ -47,7 +62,7 @@
 
     <div nz-col [nzXl]="{span: 18, order: 2}" [nzMd]="{span: 16, order: 2}" [nzSm]="{span: 12, order: 2}"
       [nzXs]="{span: 24, order: 1}">
-      <nz-card [nzTitle]="category?.title" [nzLoading]="isLoading" [nzBodyStyle]="productsStyle">
+      <nz-card [nzLoading]="isLoading" [nzBodyStyle]="productsStyle">
         <div nz-row>
           <div nz-col nzXl="6" nzLg="8" nzMd="12" nzXs="24" *ngFor="let product of products">
             <app-product [product]="product"></app-product>

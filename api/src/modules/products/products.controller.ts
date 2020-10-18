@@ -29,6 +29,11 @@ export class ProductsController implements CrudController<Product> {
   constructor(public service: ProductsService) {}
 
   @Override()
+  getOne(@ParsedRequest() req: CrudRequest): Promise<Product> {
+    return this.service.getProduct(req.parsed.paramsFilter[0].value);
+  }
+
+  @Override()
   @ApiConsumes('multipart/form-data')
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
