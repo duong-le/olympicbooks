@@ -19,12 +19,6 @@
   }
 }
 
-app-category,
-app-product {
-  display: flex;
-  width: inherit;
-}
-
 :host ::ng-deep .ant-card-head-title {
   font-weight: bold;
   font-size: 22px;
