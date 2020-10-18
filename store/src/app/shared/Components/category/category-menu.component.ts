@@ -13,7 +13,7 @@ import { Category } from 'src/app/shared/Interfaces/category.interface';
       </li>
     </ng-container>
   `,
-  styleUrls: ['./sub-menu.component.scss']
+  styleUrls: ['../header/sub-menu/sub-menu.component.scss']
 })
 export class CategoryMenuComponent implements OnInit {
   @Input() categories: Category[];
