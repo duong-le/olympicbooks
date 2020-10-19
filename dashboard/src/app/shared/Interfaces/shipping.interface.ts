@@ -3,4 +3,5 @@ export interface ShippingMethod {
   method: string;
   description: string;
   fee: number;
+  disabled: boolean;
 }

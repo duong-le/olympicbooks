@@ -46,10 +46,9 @@
           <nz-card [nzLoading]="isLoading" nzTitle="Hình thức giao hàng" [nzBordered]="false">
             <nz-radio-group [(ngModel)]="shippingRadioValue" *ngFor="let item of shippingMethods"
               (ngModelChange)="changeShippingMethod()">
-              <label nz-radio [nzValue]="item.method">
-                <nz-tag nzColor="{{ item.fee === 0 ? 'success' : 'warning' }}">
-                  {{ item.fee === 0 ? 'Miễn phí' : (item.fee  | price) }}</nz-tag>
-                {{ item.description }}
+              <label nz-radio [nzValue]="item.method" [nzDisabled]="item.disabled">
+                <nz-tag nzColor="processing">{{ item.fee | price }}</nz-tag>
+                <span>{{ item.description }}</span>
               </label>
             </nz-radio-group>
           </nz-card>
