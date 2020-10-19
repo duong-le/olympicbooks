@@ -33,9 +33,18 @@
           </nz-space>
         </td>
         <td>{{ item?.id }}</td>
-        <td>{{ item?.createdAt | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ item?.createdAt | date: 'dd-MM-yyyy' }}</td>
         <td>
-          <nz-tag nzColor="{{ item?.state | state:true }}">{{ item?.state | state }}</nz-tag>
+          <nz-tag nzColor="{{ item?.shipping?.state | orderState:true }}">
+            {{ item?.shipping?.state | orderState }}
+          </nz-tag>
+          <p>{{ item?.shipping?.shippingMethod?.method }}</p>
+        </td>
+        <td>
+          <nz-tag nzColor="{{ item?.transaction?.state | orderState:true }}">
+            {{ item?.transaction?.state | orderState }}
+          </nz-tag>
+          <p>{{ item?.transaction?.transactionMethod?.method }}</p>
         </td>
         <td>
           <ng-container *ngFor="let itm of item?.orderItems">
@@ -46,12 +55,6 @@
           <p>{{ item?.shipping?.address }}</p>
           <p>{{ item?.shipping?.phoneNumber }}</p>
         </td>
-        <td>{{ item?.shipping?.shippingMethod?.description }}</td>
-        <td>
-          <p>{{ item?.transaction?.state | state }}</p>
-          <p>{{ item?.transaction?.transactionMethod?.method }}</p>
-        </td>
-        <!-- <td>{{ 0 | price }}</td> -->
         <td>{{ item?.shipping?.shippingMethod?.fee | price }}</td>
         <td>{{ item?.transaction?.value | price }}</td>
       </tr>

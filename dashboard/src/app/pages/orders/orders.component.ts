@@ -13,14 +13,13 @@ export class OrdersComponent extends BaseComponent<Order> {
     { title: 'Actions' },
     { title: 'ID', key: 'id', sort: true },
     { title: 'Ngày mua', key: 'createdAt', sort: true },
-    { title: 'Trạng thái', key: 'state', sort: true },
+    { title: 'Giao hàng', key: 'shipping.state', sort: true },
+    { title: 'Thanh Toán', key: 'transaction.state', sort: true },
     { title: 'Sản phẩm' },
     { title: 'Người nhận' },
-    { title: 'Phương thức giao hàng', key: 'shipping.shippingMethod.method', sort: true },
-    { title: 'Thanh Toán', key: 'transaction.state', sort: true },
-    // { title: 'Giảm giá' },
     { title: 'Phí vận chuyển', key: 'shipping.shippingMethod.fee', sort: true },
     { title: 'Tổng tiền', key: 'transaction.value', sort: true }
+    // { title: 'Giảm giá' }
   ];
 
   constructor(private ordersService: OrdersService) {

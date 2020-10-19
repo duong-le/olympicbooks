@@ -4,7 +4,6 @@ import { Product } from './product.interface';
 
 export interface Order {
   id?: number;
-  state?: string;
   transaction?: {
     id?: number;
     transactionMethodId?: TransactionMethod['id'];
@@ -16,11 +15,11 @@ export interface Order {
   };
   shipping?: {
     id?: number;
+    state?: string;
     address?: string;
     phoneNumber?: string;
     shippingMethodId?: ShippingMethod['id'];
     shippingMethod?: ShippingMethod;
-    estimationDate?: Date;
     deliveryDate?: Date;
   };
   orderItems?: OrderItem[];

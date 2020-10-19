@@ -39,7 +39,6 @@ export class OrdersMineController implements CrudController<Order> {
 
   @Override()
   createOne(@ParsedBody() dto: CreateOrderDto, @UserInfo() user: User): Promise<Order> {
-    dto.userId = user.id;
-    return this.service.createOrder(dto);
+    return this.service.createOrder(dto, user.id);
   }
 }

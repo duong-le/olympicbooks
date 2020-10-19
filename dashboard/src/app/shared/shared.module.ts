@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { PricePipe } from './Pipes/price.pipe';
-import { StatePipe } from './Pipes/state.pipe';
+import { OrderStatePipe } from './Pipes/order-state.pipe';
 
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 
 @NgModule({
-  declarations: [PricePipe, StatePipe],
+  declarations: [PricePipe, OrderStatePipe],
   imports: [CommonModule, RouterModule, NzMenuModule],
-  exports: [PricePipe, StatePipe]
+  exports: [PricePipe, OrderStatePipe]
 })
 export class SharedModule {}

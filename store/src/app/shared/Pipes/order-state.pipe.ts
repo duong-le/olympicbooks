@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'state'
+  name: 'orderState'
 })
-export class StatePipe implements PipeTransform {
+export class OrderStatePipe implements PipeTransform {
   transform(value: string, color = false): string {
     switch (value) {
       case 'PROCESSING':
@@ -13,13 +13,11 @@ export class StatePipe implements PipeTransform {
       case 'DELIVERED':
         return color ? 'success' : 'Đã giao hàng';
       case 'CANCELLED':
-        return color ? 'error' : 'Đã huỷ đơn';
+        return color ? 'error' : 'Đã huỷ';
       case 'PENDING':
-        return 'Đang chờ';
+        return color ? 'processing' : 'Đang chờ';
       case 'SUCCESS':
-        return 'Hoàn tất';
-      case 'CANCELLED':
-        return 'Đã huỷ';
+        return color ? 'success' : 'Hoàn tất';
       default:
         return null;
     }

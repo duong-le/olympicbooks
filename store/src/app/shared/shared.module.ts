@@ -18,7 +18,7 @@ import { OrderErrorComponent } from './Components/result/error/order-error.compo
 import { CartEmptyComponent } from './Components/result/empty/cart-empty.component';
 
 import { PricePipe } from './Pipes/price.pipe';
-import { StatePipe } from './Pipes/state.pipe';
+import { OrderStatePipe } from './Pipes/order-state.pipe';
 
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
@@ -43,7 +43,7 @@ import { NzResultModule } from 'ng-zorro-antd/result';
     OrderErrorComponent,
     CartEmptyComponent,
     PricePipe,
-    StatePipe
+    OrderStatePipe
   ],
   imports: [
     CommonModule,
@@ -71,7 +71,7 @@ import { NzResultModule } from 'ng-zorro-antd/result';
     OrderErrorComponent,
     CartEmptyComponent,
     PricePipe,
-    StatePipe
+    OrderStatePipe
   ]
 })
 export class SharedModule {}

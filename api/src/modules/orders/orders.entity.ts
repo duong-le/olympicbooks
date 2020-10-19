@@ -1,6 +1,5 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany, OneToOne, JoinColumn } from 'typeorm';
 import { OrderItem } from './orders-item/orders-item.entity';
-import { OrderState } from '../../shared/Enums/order-state.enum';
 import { User } from '../users/users.entity';
 import { Discount } from '../discounts/discounts.entity';
 import { Transaction } from '../transactions/transactions.entity';
@@ -10,9 +9,6 @@ import { Shipping } from '../shippings/shippings.entity';
 export class Order extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column({ enum: OrderState, default: OrderState.PROCESSING })
-  state: OrderState;
 
   @Column()
   userId: number;

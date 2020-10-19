@@ -70,6 +70,8 @@ export class CheckOutComponent implements OnInit {
         orderItems: this.cart.cartItems.map((el) => ({ quantity: el.quantity, productId: el.product.id }))
       };
 
+      this.changeShippingMethod();
+
       if (!this.customer.address || !this.customer.phoneNumber) this.showModal();
       this.isLoading = false;
     });
