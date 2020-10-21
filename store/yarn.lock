@@ -240,11 +240,6 @@
   resolved "https://registry.yarnpkg.com/@angular/router/-/router-9.1.12.tgz#4f7fc170e1e7ef72ca1714dbc7a3888aedc33f2d"
   integrity sha512-+qCaXa9y0nsRhzjAYBqmGoQ2YkrdXgftZwuFDf6t4qEi30EXa0oS97KrlFq0M5GKdLIDGrbUm9PcdHSTOI+ZhA==
 
-"@angular/service-worker@~9.1.12":
-  version "9.1.12"
-  resolved "https://registry.yarnpkg.com/@angular/service-worker/-/service-worker-9.1.12.tgz#2e339ec95012ebec668b40d54319344afa5e50f2"
-  integrity sha512-UsmhPfhIYq9LanuFT6V7Kmkr5Vjl2CMjKkL1gqhChkywNW4vavAYsBkuVji8P76ZKliq41TCG01z6xIAWji8QA==
-
 "@ant-design/colors@^3.1.0":
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/@ant-design/colors/-/colors-3.2.2.tgz#5ad43d619e911f3488ebac303d606e66a8423903"
@@ -3218,11 +3213,6 @@ dev-ip@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/dev-ip/-/dev-ip-1.0.1.tgz#a76a3ed1855be7a012bb8ac16cb80f3c00dc28f0"
   integrity sha1-p2o+0YVb56ASu4rBbLgPPADcKPA=
-
-device-detector-js@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/device-detector-js/-/device-detector-js-2.2.1.tgz#c6409cb56001923fd1b40ca11fcaf932000462e0"
-  integrity sha512-1Gt0n8+1ppJNfrpUIWvmLnAG+fMMh5EVbMaWAs3a2D81tJBs0NHMRD6iScjL0pPCZSeAyIFNNMe6qvhDa+gEcQ==
 
 dezalgo@^1.0.0:
   version "1.0.3"
