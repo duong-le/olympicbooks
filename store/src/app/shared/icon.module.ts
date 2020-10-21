@@ -25,7 +25,10 @@ import {
   UserAddOutline,
   ProfileOutline,
   CarryOutOutline,
-  LoadingOutline
+  LoadingOutline,
+  PhoneOutline,
+  FacebookOutline,
+  MediumOutline
 } from '@ant-design/icons-angular/icons';
 
 const icons: IconDefinition[] = [
@@ -51,7 +54,10 @@ const icons: IconDefinition[] = [
   UserAddOutline,
   ProfileOutline,
   CarryOutOutline,
-  LoadingOutline
+  LoadingOutline,
+  PhoneOutline,
+  FacebookOutline,
+  MediumOutline
 ];
 
 @NgModule({

@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -12,8 +13,10 @@ export class AuthenticationService {
   private userSubject: BehaviorSubject<Authentication>;
   public user$: Observable<Authentication>;
 
-  constructor(private http: HttpClient) {
-    this.userSubject = new BehaviorSubject<Authentication>(JSON.parse(localStorage.getItem('user')));
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {
+    this.userSubject = new BehaviorSubject<Authentication>(
+      isPlatformBrowser(platformId) ? JSON.parse(localStorage.getItem('user')) : ''
+    );
     this.user$ = this.userSubject.asObservable();
   }
 
