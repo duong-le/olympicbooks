@@ -17,7 +17,7 @@ export class CategoriesService {
   constructor(private http: HttpClient) {
     this.categoriesSubject = new BehaviorSubject<Category[]>([]);
     this.categories$ = this.categoriesSubject.asObservable();
-    this.getManyCategories({ sort: 'id,ASC' }).subscribe((response) => this.categoriesSubject.next(response));
+    this.getManyCategories().subscribe((response) => this.categoriesSubject.next(response));
   }
 
   public get categoriesValue() {
@@ -28,8 +28,8 @@ export class CategoriesService {
     return this.http.get<Category>(`${environment.apiUrl}/categories/${id}`);
   }
 
-  getManyCategories(params): Observable<Category[]> {
-    return this.http.get<Category[]>(`${environment.apiUrl}/categories`, { params });
+  getManyCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`${environment.apiUrl}/categories`);
   }
 
   getPublishersByCategory(id: number): Observable<Summary<Publisher>[]> {
