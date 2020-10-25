@@ -20,9 +20,9 @@ export class CartItem extends BaseEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne((type) => User, (user) => user.cartItems)
+  @ManyToOne(() => User, (user) => user.cartItems)
   user: User;
 
-  @ManyToOne((type) => Product, { eager: true, onDelete: 'CASCADE' })
+  @ManyToOne(() => Product, { eager: true, onDelete: 'CASCADE' })
   product: Product;
 }

@@ -22,6 +22,6 @@ export class Transaction extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne((type) => TransactionMethod, (transactionMethod) => transactionMethod.method)
+  @ManyToOne(() => TransactionMethod, (transactionMethod) => transactionMethod.method)
   transactionMethod: TransactionMethod;
 }

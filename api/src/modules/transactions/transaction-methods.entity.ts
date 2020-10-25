@@ -15,6 +15,6 @@ export class TransactionMethod extends BaseEntity {
   @Column()
   disabled: boolean;
 
-  @OneToMany((type) => Transaction, (transaction) => transaction.transactionMethod)
+  @OneToMany(() => Transaction, (transaction) => transaction.transactionMethod)
   transactions: Transaction[];
 }

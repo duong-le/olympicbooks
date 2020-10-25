@@ -9,6 +9,6 @@ export class Author extends BaseEntity {
   @Column()
   name: string;
 
-  @ManyToMany((type) => Product, (product) => product.authors)
+  @ManyToMany(() => Product, (product) => product.authors)
   products: Product[];
 }

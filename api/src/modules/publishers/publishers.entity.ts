@@ -9,6 +9,6 @@ export class Publisher extends BaseEntity {
   @Column()
   name: string;
 
-  @OneToMany((type) => Product, (product) => product.publisher)
+  @OneToMany(() => Product, (product) => product.publisher)
   products: Product[];
 }

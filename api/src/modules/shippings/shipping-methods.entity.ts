@@ -18,6 +18,6 @@ export class ShippingMethod extends BaseEntity {
   @Column()
   disabled: boolean;
 
-  @OneToMany((type) => Shipping, (shipping) => shipping.shippingMethod)
+  @OneToMany(() => Shipping, (shipping) => shipping.shippingMethod)
   shippings: Shipping[];
 }

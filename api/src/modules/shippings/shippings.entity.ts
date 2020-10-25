@@ -22,6 +22,6 @@ export class Shipping extends BaseEntity {
   @Column()
   shippingMethodId: number;
 
-  @ManyToOne((type) => ShippingMethod, (shippingMethod) => shippingMethod.shippings)
+  @ManyToOne(() => ShippingMethod, (shippingMethod) => shippingMethod.shippings)
   shippingMethod: ShippingMethod;
 }

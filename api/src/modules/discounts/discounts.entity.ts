@@ -27,6 +27,6 @@ export class Discount extends BaseEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @OneToMany((type) => Order, (order) => order.discount)
+  @OneToMany(() => Order, (order) => order.discount)
   orders: Order[];
 }

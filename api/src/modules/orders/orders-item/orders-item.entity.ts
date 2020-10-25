@@ -19,9 +19,9 @@ export class OrderItem extends BaseEntity {
   @Column()
   productId: number;
 
-  @ManyToOne((type) => Order, (order) => order.orderItems)
+  @ManyToOne(() => Order, (order) => order.orderItems)
   order: Order;
 
-  @ManyToOne((type) => Product, (product) => product.orderItems, { eager: true })
+  @ManyToOne(() => Product, (product) => product.orderItems, { eager: true })
   product: Product;
 }

@@ -40,19 +40,19 @@ export class Product extends BaseEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @OneToMany((type) => ProductImage, (productImage) => productImage.product, { eager: true, cascade: true })
+  @OneToMany(() => ProductImage, (productImage) => productImage.product, { eager: true, cascade: true })
   images: ProductImage[];
 
-  @ManyToOne((type) => Category, (category) => category.products, { eager: true })
+  @ManyToOne(() => Category, (category) => category.products, { eager: true })
   category: Category;
 
-  @ManyToOne((type) => Publisher, (publisher) => publisher.products, { eager: true })
+  @ManyToOne(() => Publisher, (publisher) => publisher.products, { eager: true })
   publisher: Publisher;
 
-  @ManyToMany((type) => Author, (author) => author.products, { eager: true })
+  @ManyToMany(() => Author, (author) => author.products, { eager: true })
   @JoinTable({ name: 'products_authors' })
   authors: Author[];
 
-  @OneToMany((type) => OrderItem, (orderItem) => orderItem.product)
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
   orderItems: OrderItem[];
 }

@@ -30,7 +30,7 @@ export class Category extends BaseEntity {
   @Column({ default: true })
   expanded: boolean;
 
-  @OneToMany((type) => Product, (product) => product.category)
+  @OneToMany(() => Product, (product) => product.category)
   products: Product[];
 
   @AfterLoad()

@@ -28,20 +28,20 @@ export class Order extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne((type) => User, (user) => user.orders)
+  @ManyToOne(() => User, (user) => user.orders)
   user: User;
 
-  @ManyToOne((type) => Discount, (discount) => discount.orders, { eager: true })
+  @ManyToOne(() => Discount, (discount) => discount.orders, { eager: true })
   discount: Discount;
 
-  @OneToOne((type) => Transaction, { eager: true, cascade: true })
+  @OneToOne(() => Transaction, { eager: true, cascade: true })
   @JoinColumn()
   transaction: Transaction;
 
-  @OneToOne((type) => Shipping, { eager: true, cascade: true })
+  @OneToOne(() => Shipping, { eager: true, cascade: true })
   @JoinColumn()
   shipping: Shipping;
 
-  @OneToMany((type) => OrderItem, (orderItem) => orderItem.order, { eager: true })
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { eager: true })
   orderItems: OrderItem[];
 }

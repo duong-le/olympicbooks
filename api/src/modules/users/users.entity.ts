@@ -34,9 +34,9 @@ export class User extends BaseEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @OneToMany((type) => Order, (order) => order.user)
+  @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
 
-  @OneToMany((type) => CartItem, (cartItem) => cartItem.user, { eager: true, cascade: true })
+  @OneToMany(() => CartItem, (cartItem) => cartItem.user, { eager: true, cascade: true })
   cartItems: CartItem[];
 }
