@@ -82,7 +82,8 @@
   <nz-descriptions nzBordered [nzColumn]="1" nzSize="middle">
     <nz-descriptions-item nzTitle="Nhà xuất bản">{{ product?.publisher.name }}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Năm xuất bản">{{ product?.publicationYear }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Số trang">{{ product?.pages }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Số trang">{{ product?.pages | number }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Cân nặng">{{ product?.weight | number }} grams</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Thể loại">{{ product?.category.title }}</nz-descriptions-item>
   </nz-descriptions>
 </nz-card>

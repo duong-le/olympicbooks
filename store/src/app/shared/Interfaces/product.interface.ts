@@ -7,6 +7,7 @@ export interface Product {
   title: string;
   publicationYear: number;
   pages: number;
+  weight: number;
   price: number;
   originalPrice: number;
   images: ProductImage[];

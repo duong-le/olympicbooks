@@ -19,6 +19,9 @@ export class Product extends BaseEntity {
   @Column()
   pages: number;
 
+  @Column({ default: null })
+  weight: number;
+
   @Column()
   price: number;
 

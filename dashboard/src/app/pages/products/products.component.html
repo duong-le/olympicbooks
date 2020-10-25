@@ -55,7 +55,8 @@
         <td>{{ item?.id }}</td>
         <td>{{ item?.title }}</td>
         <td>{{ item?.category?.title }}</td>
-        <td>{{ item?.pages }}</td>
+        <td>{{ item?.pages | number }}</td>
+        <td>{{ item?.weight | number }} grams</td>
         <td>{{ item?.publicationYear }}</td>
         <td>{{ item?.price | price }}</td>
         <td>{{ item?.originalPrice | price }}</td>

@@ -30,6 +30,12 @@ export class CreateProductDto {
   @IsDefined()
   @Type(() => Number)
   @IsNumber()
+  weight: number;
+
+  @ApiProperty()
+  @IsDefined()
+  @Type(() => Number)
+  @IsNumber()
   price: number;
 
   @ApiProperty()

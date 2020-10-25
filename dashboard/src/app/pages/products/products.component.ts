@@ -20,6 +20,7 @@ export class ProductsComponent extends BaseComponent<Product> {
     { title: 'Sản phẩm', key: 'title', sort: true },
     { title: 'Danh mục', key: 'category.id', sort: true },
     { title: 'Số trang', key: 'pages', sort: true },
+    { title: 'Cân nặng', key: 'weight', sort: true },
     { title: 'Năm xuất bản', key: 'publicationYear', sort: true },
     { title: 'Giá bán', key: 'price', sort: true },
     { title: 'Giá gốc', key: 'originalPrice', sort: true },
@@ -28,13 +29,18 @@ export class ProductsComponent extends BaseComponent<Product> {
     { title: 'Tác giả' }
   ];
 
-  constructor(private productsService: ProductsService, private messageService: NzMessageService, private modalService: NzModalService) {
+  constructor(
+    private productsService: ProductsService,
+    private messageService: NzMessageService,
+    private modalService: NzModalService
+  ) {
     super(productsService);
   }
 
   onSearchByTitle() {
     delete this.qb.queryObject.filter;
-    if (this.searchInputByTitle) this.qb.setFilter({ field: 'title', operator: CondOperator.CONTAINS_LOW, value: this.searchInputByTitle });
+    if (this.searchInputByTitle)
+      this.qb.setFilter({ field: 'title', operator: CondOperator.CONTAINS_LOW, value: this.searchInputByTitle });
     this.renderPage();
   }
 

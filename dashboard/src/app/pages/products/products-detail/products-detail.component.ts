@@ -50,6 +50,7 @@ export class ProductsDetailComponent implements OnInit {
       id: { value: '', disabled: true },
       title: ['', [Validators.required]],
       pages: ['', [Validators.required]],
+      weight: ['', [Validators.required]],
       publicationYear: ['', [Validators.required]],
       price: ['', [Validators.required]],
       originalPrice: ['', [Validators.required]],
@@ -75,6 +76,7 @@ export class ProductsDetailComponent implements OnInit {
         id: this.product.id,
         title: this.product.title,
         pages: this.product.pages,
+        weight: this.product.weight,
         publicationYear: this.product.publicationYear,
         price: this.product.price,
         originalPrice: this.product.originalPrice,
@@ -96,12 +98,14 @@ export class ProductsDetailComponent implements OnInit {
 
   renderDependencies() {
     this.isLoading = true;
-    forkJoin([this.categoriesService.getMany(), this.publishersService.getMany(null), this.authorsService.getMany(null)]).subscribe(
-      (response) => {
-        [this.categoryTree, this.publishers, this.authors] = response;
-        this.isLoading = false;
-      }
-    );
+    forkJoin([
+      this.categoriesService.getMany(),
+      this.publishersService.getMany(null),
+      this.authorsService.getMany(null)
+    ]).subscribe((response) => {
+      [this.categoryTree, this.publishers, this.authors] = response;
+      this.isLoading = false;
+    });
   }
 
   update() {

@@ -19,6 +19,12 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
+      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="weight" nzRequired>Cân nặng (grams)</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
+        <input nz-input formControlName="weight" type="number">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
       <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="publicationYear" nzRequired>Năm xuất bản</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
         <input nz-input formControlName="publicationYear" type="number">
