@@ -20,6 +20,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 @NgModule({
   declarations: [ProductsComponent],
@@ -40,7 +41,8 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
     NzFormModule,
     NzInputModule,
     NzMessageModule,
-    NzBreadCrumbModule
+    NzBreadCrumbModule,
+    NzAlertModule
   ]
 })
 export class ProductsModule {}

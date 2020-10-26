@@ -36,3 +36,17 @@ label {
 .summary-row {
   margin: 10px 0;
 }
+
+:host ::ng-deep .ant-descriptions-view {
+  border-radius: 0;
+}
+
+nz-alert {
+  margin-top: 16px;
+}
+
+:host ::ng-deep .ant-alert-message {
+  color: inherit;
+  font-size: 14px;
+  white-space: pre-wrap;
+}

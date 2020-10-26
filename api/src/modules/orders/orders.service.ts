@@ -5,16 +5,15 @@ import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Order } from './orders.entity';
 import { OrderItem } from './orders-item/orders-item.entity';
 import { CreateOrderDto, UpdateOrderDto } from './orders.dto';
-import { CreateOrderItemDto } from './orders-item/orders-item.dto';
 import { Product } from '../products/products.entity';
 import { ShippingMethod } from '../shippings/shipping-methods.entity';
 import { DeliveryState } from 'src/shared/Enums/delivery-state.enum';
+import { MIN_FREE_SHIPPING_ORDER_VALUE } from 'src/shared/Constants/transaction.constant';
 
 @Injectable()
 export class OrdersService extends TypeOrmCrudService<Order> {
   constructor(
     @InjectRepository(Order) private orderRepository: Repository<Order>,
-    @InjectRepository(OrderItem) private orderItemRepository: Repository<OrderItem>,
     @InjectRepository(Product) private productRepository: Repository<Product>,
     @InjectRepository(ShippingMethod) private shippingMethodRepository: Repository<ShippingMethod>
   ) {
@@ -34,39 +33,36 @@ export class OrdersService extends TypeOrmCrudService<Order> {
         break;
     }
 
+    if (dto?.shipping?.fee) order.transaction.value += -order.shipping.fee + dto.shipping.fee;
+
     return this.orderRepository.save({
       ...order,
+      ...dto,
       transaction: { ...order.transaction, ...dto.transaction },
       shipping: { ...order.shipping, ...dto.shipping }
     });
   }
 
   async createOrder(dto: CreateOrderDto, userId: number): Promise<Order> {
+    const order = this.orderRepository.create({ ...dto, userId });
     const shippingMethod = await this.shippingMethodRepository.findOne(dto.shipping.shippingMethodId);
     const products = await this.productRepository.findByIds(dto.orderItems.map((el) => el.productId));
 
-    dto.orderItems = this.addValueToOrderItem(dto.orderItems, products);
-    dto.transaction.value = this.calculateTransactionValue(dto.orderItems) + shippingMethod.fee;
-
-    const order = await this.orderRepository.save({ ...dto, userId });
-
-    dto.orderItems = this.addOrderIdToOrderItem(dto.orderItems, order.id);
-    await this.orderItemRepository.save(dto.orderItems);
-    return order;
-  }
-
-  addValueToOrderItem(orderItems: CreateOrderItemDto[], products: Product[]): CreateOrderItemDto[] {
-    return orderItems.map((orderItem) => {
+    order.orderItems = order.orderItems.map((orderItem) => {
       const product = products.find((product) => product.id === orderItem.productId);
-      return { ...orderItem, totalValue: orderItem.quantity * product.price };
+      orderItem.totalValue = orderItem.quantity * product.price;
+      return orderItem;
     });
-  }
 
-  calculateTransactionValue(orderItems: CreateOrderItemDto[]): number {
-    return orderItems.reduce((total: number, current: CreateOrderItemDto) => (total += current.totalValue), 0);
-  }
+    order.transaction.value = order.orderItems.reduce(
+      (total: number, current: OrderItem) => (total += current.totalValue),
+      0
+    );
 
-  addOrderIdToOrderItem(orderItems: CreateOrderItemDto[], orderId: number): CreateOrderItemDto[] {
-    return orderItems.map((orderItem) => ({ ...orderItem, orderId }));
+    if (order.transaction.value < MIN_FREE_SHIPPING_ORDER_VALUE) {
+      order.shipping.fee = shippingMethod.fee;
+      order.transaction.value += order.shipping.fee;
+    }
+    return await this.orderRepository.save(order);
   }
 }

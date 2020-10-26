@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDefined, ValidateNested, IsArray, Validate, IsOptional } from 'class-validator';
+import { IsDefined, ValidateNested, IsArray, Validate, IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateTransactionDto, UpdateTransactionDto } from '../transactions/transactions.dto';
 import { CreateShippingDto, UpdateShippingDto } from '../shippings/shippings.dto';
@@ -49,6 +49,11 @@ export class CreateOrderDto {
     message: () => 'Product not found'
   })
   orderItems: CreateOrderItemDto[];
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  buyerNote: string;
 }
 
 export class UpdateOrderDto {
@@ -63,4 +68,14 @@ export class UpdateOrderDto {
   @ValidateNested()
   @Type(() => UpdateShippingDto)
   shipping: UpdateShippingDto;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  buyerNote: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  sellerNote: string;
 }

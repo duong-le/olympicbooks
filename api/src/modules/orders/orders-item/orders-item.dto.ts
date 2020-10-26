@@ -12,7 +12,4 @@ export class CreateOrderItemDto {
   @IsDefined()
   @IsNumber()
   productId: number;
-
-  orderId: number;
-  totalValue: number;
 }

@@ -18,7 +18,7 @@ nz-carousel,
 }
 
 .title {
-  font-size: 30px;
+  font-size: 28px;
   font-weight: bold;
   vertical-align: middle;
 }
@@ -41,9 +41,8 @@ nz-carousel,
 }
 
 .price {
+  font-size: 36px;
   color: #337ab7;
-  margin-bottom: 0;
-  padding: 0;
 }
 
 button {
@@ -62,4 +61,13 @@ button {
 
 .description {
   white-space: pre-wrap;
+}
+
+nz-alert {
+  margin-bottom: 16px;
+}
+
+:host ::ng-deep .ant-alert-message {
+  color: inherit;
+  padding-left: 4px;
 }

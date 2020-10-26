@@ -47,8 +47,10 @@ export class CheckOutComponent implements OnInit {
 
   ngOnInit() {
     this.addressForm = this.fb.group({
+      name: [null, [Validators.required]],
       phoneNumber: [null, [Validators.required]],
-      address: [null, [Validators.required]]
+      address: [null, [Validators.required]],
+      buyerNote: [null]
     });
 
     this.cartService.cart$.subscribe((response) => (this.cart = response));
@@ -57,30 +59,37 @@ export class CheckOutComponent implements OnInit {
     forkJoin([
       this.customerService.getMe(),
       this.checkOutService.getTransactionMethods(),
-      this.checkOutService.getShippingMethods()
+      this.checkOutService.getShippingMethods(this.cart.totalValue)
     ]).subscribe((response) => {
       [this.customer, this.transactionMethods, this.shippingMethods] = response;
 
-      this.transactionRadioValue = this.transactionMethods[0]?.method;
-      this.shippingRadioValue = this.shippingMethods[0]?.method;
+      this.transactionRadioValue = this.transactionMethods[0]?.name;
+      this.shippingRadioValue = this.shippingMethods[0]?.name;
 
       this.order = {
         transaction: { transactionMethodId: this.transactionMethods[0]?.id },
-        shipping: { shippingMethodId: this.shippingMethods[0]?.id, address: this.customer.address, phoneNumber: this.customer.phoneNumber },
+        shipping: {
+          shippingMethodId: this.shippingMethods[0]?.id,
+          name: this.customer.name,
+          address: this.customer.address,
+          phoneNumber: this.customer.phoneNumber
+        },
         orderItems: this.cart.cartItems.map((el) => ({ quantity: el.quantity, productId: el.product.id }))
       };
 
       this.changeShippingMethod();
 
-      if (!this.customer.address || !this.customer.phoneNumber) this.showModal();
+      if (!this.order.shipping.address || !this.order.shipping.phoneNumber) this.showModal();
       this.isLoading = false;
     });
   }
 
   showModal() {
     this.addressForm.setValue({
-      phoneNumber: this.customer.phoneNumber,
-      address: this.customer.address
+      name: this.order.shipping.name,
+      phoneNumber: this.order.shipping.phoneNumber,
+      address: this.order.shipping.address,
+      buyerNote: this.order.buyerNote || ''
     });
     this.isModalVisible = true;
   }
@@ -91,25 +100,38 @@ export class CheckOutComponent implements OnInit {
 
   updateAddress() {
     this.isUpdateLoading = true;
-    this.customerService.updateMe(this.addressForm.value).subscribe((response) => {
-      this.customer = response;
-      this.order.shipping.address = response.address;
-      this.order.shipping.phoneNumber = response.phoneNumber;
-      this.isUpdateLoading = false;
-      this.isModalVisible = false;
-      this.addressForm.markAsPristine();
-      this.addressForm.updateValueAndValidity();
-    });
+    this.customerService
+      .updateMe({
+        address: this.addressForm.controls['address'].value,
+        phoneNumber: this.addressForm.controls['phoneNumber'].value
+      })
+      .subscribe((response) => {
+        this.customer = response;
+        this.order.shipping.name = this.addressForm.controls['name'].value;
+        this.order.shipping.address = response.address;
+        this.order.shipping.phoneNumber = response.phoneNumber;
+        this.order.buyerNote = this.addressForm.controls['buyerNote'].value;
+
+        this.isUpdateLoading = false;
+        this.isModalVisible = false;
+        this.addressForm.markAsPristine();
+        this.addressForm.updateValueAndValidity();
+      });
   }
 
   changeShippingMethod() {
-    const method = this.shippingMethods.find((el) => el.method === this.shippingRadioValue);
+    const method = this.shippingMethods.find((method) => method.name === this.shippingRadioValue);
     this.order.shipping.shippingMethodId = method.id;
     this.cartService.changeShippingValue(method.fee);
   }
 
+  changeTransactionMethod() {
+    const method = this.transactionMethods.find((method) => method.name === this.transactionRadioValue);
+    this.order.transaction.transactionMethodId = method.id;
+  }
+
   processOrder() {
-    if (!this.customer.address || !this.customer.phoneNumber) this.showModal();
+    if (!this.order.shipping.address || !this.order.shipping.phoneNumber) this.showModal();
     else {
       this.isProcessingOrder = true;
       this.checkOutService

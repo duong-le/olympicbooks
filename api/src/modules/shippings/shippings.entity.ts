@@ -7,6 +7,9 @@ export class Shipping extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ default: null })
+  name: string;
+
   @Column()
   address: string;
 
@@ -15,6 +18,12 @@ export class Shipping extends BaseEntity {
 
   @Column({ enum: DeliveryState, default: DeliveryState.PROCESSING })
   state: DeliveryState;
+
+  @Column({ default: null })
+  code: string;
+
+  @Column({ default: 0 })
+  fee: number;
 
   @Column({ default: null })
   deliveryDate: Date;

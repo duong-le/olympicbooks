@@ -18,6 +18,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 @NgModule({
   declarations: [CheckOutComponent],
@@ -37,7 +38,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzDividerModule,
     NzButtonModule,
     NzFormModule,
-    NzInputModule
+    NzInputModule,
+    NzAlertModule
   ]
 })
 export class CheckOutModule {}

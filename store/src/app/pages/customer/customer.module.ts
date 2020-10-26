@@ -22,6 +22,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 @NgModule({
   declarations: [CustomerComponent, ProfileComponent, OrdersComponent, OrderDetailComponent],
@@ -42,7 +43,8 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     NzGridModule,
     NzTagModule,
     SharedModule,
-    NzMessageModule
+    NzMessageModule,
+    NzAlertModule
   ]
 })
 export class CustomerModule {}

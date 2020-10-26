@@ -1,0 +1,1 @@
+export const MIN_FREE_SHIPPING_ORDER_VALUE = 500000;

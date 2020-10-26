@@ -7,6 +7,12 @@
       </nz-card>
     </div>
 
+    <div nz-col nzSpan="24" *ngIf="order?.sellerNote">
+      <nz-alert nzType="warning" nzMessage="Lưu ý từ người bán" [nzDescription]="order?.sellerNote" nzCloseable
+        nzShowIcon>
+      </nz-alert>
+    </div>
+
     <div nz-col nzSm="12" nzXs="24">
       <nz-card [nzLoading]="isLoading" nzTitle="Giao Hàng" [nzBordered]="false">
         <div class="display-between">
@@ -27,7 +33,12 @@
 
         <div class="display-between">
           <h4>Phí vận chuyển</h4>
-          <p>{{ order?.shipping?.shippingMethod?.fee | price }}</p>
+          <p>{{ order?.shipping?.fee | price }}</p>
+        </div>
+
+        <div class="display-between" *ngIf="order?.shipping?.code">
+          <h4>Mã vận chuyển</h4>
+          <p>{{ order?.shipping?.code }}</p>
         </div>
       </nz-card>
     </div>
@@ -73,6 +84,11 @@
     <div nz-col nzSm="12" nzXs="24">
       <nz-card [nzLoading]="isLoading" nzTitle="Người Nhận" [nzBordered]="false">
         <div class="display-between">
+          <h4>Họ tên</h4>
+          <p>{{ order?.shipping?.name }}</p>
+        </div>
+
+        <div class="display-between">
           <h4>Địa chỉ</h4>
           <p>{{ order?.shipping?.address }}</p>
         </div>
@@ -89,7 +105,7 @@
         <div class="display-between">
           <h4>Tạm tính</h4>
           <p>
-            {{ order?.transaction?.value - order?.shipping?.shippingMethod?.fee | price }}
+            {{ order?.transaction?.value - order?.shipping?.fee | price }}
           </p>
         </div>
 
@@ -100,7 +116,7 @@
 
         <div class="display-between">
           <h4>Phí vận chuyển</h4>
-          <p>{{ order?.shipping?.shippingMethod?.fee | price }}</p>
+          <p>{{ order?.shipping?.fee | price }}</p>
         </div>
       </nz-card>
       <ng-template #summary>

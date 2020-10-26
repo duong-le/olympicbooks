@@ -6,8 +6,8 @@ export class ShippingMethod extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  method: string;
+  @Column({ default: null })
+  name: string;
 
   @Column()
   description: string;

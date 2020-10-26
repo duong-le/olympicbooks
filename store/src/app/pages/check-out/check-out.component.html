@@ -8,17 +8,28 @@
       <div nz-row [nzGutter]="[0,16]">
         <div nz-col nzSpan="24">
           <nz-card [nzLoading]="isLoading" nzTitle="Địa chỉ giao hàng" [nzBordered]="false" [nzExtra]="editShippingAdd">
-            <nz-descriptions [nzTitle]="customer?.name" [nzColumn]="1">
-              <nz-descriptions-item nzTitle="Số điện thoại">{{ customer?.phoneNumber }}</nz-descriptions-item>
-              <nz-descriptions-item nzTitle="Địa chỉ">{{ customer?.address }}</nz-descriptions-item>
+            <nz-descriptions [nzColumn]="1">
+              <nz-descriptions-item nzTitle="Họ tên">{{ order?.shipping.name }}</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Số điện thoại">{{ order?.shipping.phoneNumber }}</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Địa chỉ">{{ order?.shipping.address }}</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Lời nhắn">
+                <span *ngIf="order?.buyerNote">{{ order?.buyerNote }}</span>
+                <a *ngIf="!order?.buyerNote" (click)="showModal()">Thêm lời nhắn</a>
+              </nz-descriptions-item>
             </nz-descriptions>
           </nz-card>
           <ng-template #editShippingAdd>
-            <a nz-button nzType="link" (click)="showModal()"><i nz-icon nzType="edit" nzTheme="outline">
-              </i> Thay đổi</a>
+            <a (click)="showModal()"><i nz-icon nzType="edit" nzTheme="outline"></i> Thay đổi</a>
             <nz-modal nzTitle="Cập nhật địa chỉ giao hàng" [nzVisible]="isModalVisible" (nzOnCancel)="cancelModal()"
               [nzFooter]="modalFooter">
               <form nz-form [formGroup]="addressForm">
+                <nz-form-item>
+                  <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>Họ tên</nz-form-label>
+                  <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập họ tên">
+                    <input nz-input id="name" formControlName="name" />
+                  </nz-form-control>
+                </nz-form-item>
+
                 <nz-form-item>
                   <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phone" nzRequired>Số điện thoại</nz-form-label>
                   <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập số điện thoại">
@@ -30,6 +41,13 @@
                   <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address" nzRequired>Địa chỉ</nz-form-label>
                   <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập địa chỉ">
                     <input nz-input id="address" formControlName="address" />
+                  </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                  <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="buyerNote">Lời nhắn</nz-form-label>
+                  <nz-form-control [nzSm]="14" [nzXs]="24">
+                    <input nz-input id="buyerNote" formControlName="buyerNote" placeholder="Lưu ý cho người bán" />
                   </nz-form-control>
                 </nz-form-item>
               </form>
@@ -44,20 +62,28 @@
 
         <div nz-col nzSpan="24">
           <nz-card [nzLoading]="isLoading" nzTitle="Hình thức giao hàng" [nzBordered]="false">
-            <nz-radio-group [(ngModel)]="shippingRadioValue" *ngFor="let item of shippingMethods"
-              (ngModelChange)="changeShippingMethod()">
-              <label nz-radio [nzValue]="item.method" [nzDisabled]="item.disabled">
-                <nz-tag nzColor="processing">{{ item.fee | price }}</nz-tag>
-                <span>{{ item.description }}</span>
-              </label>
+            <nz-radio-group [(ngModel)]="shippingRadioValue" (ngModelChange)="changeShippingMethod()">
+              <ng-container *ngFor="let method of shippingMethods">
+                <label nz-radio [nzValue]="method.name" [nzDisabled]="method.disabled">
+                  <nz-tag nzColor="processing">{{ method.fee | price }}</nz-tag>
+                  <span>{{ method.description }}</span>
+                </label>
+              </ng-container>
             </nz-radio-group>
+            <nz-alert nzType="info" nzMessage="Phí giao hàng chính xác sẽ được cập nhật khi đơn hàng được xử lý"
+              nzShowIcon></nz-alert>
           </nz-card>
         </div>
 
         <div nz-col nzSpan="24">
           <nz-card [nzLoading]="isLoading" nzTitle="Hình thức thanh toán" [nzBordered]="false">
-            <nz-radio-group [(ngModel)]="transactionRadioValue" *ngFor="let item of transactionMethods">
-              <label nz-radio [nzValue]="item.method" [nzDisabled]="item.disabled">{{ item.description }} </label>
+            <nz-radio-group [(ngModel)]="transactionRadioValue" (ngModelChange)="changeTransactionMethod()">
+              <ng-container *ngFor="let method of transactionMethods">
+                <label nz-radio [nzValue]="method.name" [nzDisabled]="method.disabled">
+                  {{ method.description }}
+                  <nz-alert nzType="warning" *ngIf="method?.info" [nzMessage]="method?.info"></nz-alert>
+                </label>
+              </ng-container>
             </nz-radio-group>
           </nz-card>
         </div>

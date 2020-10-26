@@ -1,4 +1,4 @@
-import { Controller, UseGuards, UseInterceptors, Get } from '@nestjs/common';
+import { Controller, UseGuards, UseInterceptors, Get, ParseIntPipe, Query, BadRequestException } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Crud, CrudController, CrudRequestInterceptor } from '@nestjsx/crud';
@@ -25,7 +25,8 @@ export class ShippingsController implements CrudController<Shipping> {
 
   @UseInterceptors(CrudRequestInterceptor)
   @Get('/methods')
-  getShippingMethods(): Promise<ShippingMethod[]> {
-    return this.service.getShippingMethods();
+  getShippingMethods(@Query('transactionValue', ParseIntPipe) transactionValue: number): Promise<ShippingMethod[]> {
+    if (!transactionValue) throw new BadRequestException('Transaction value is not valid');
+    return this.service.getShippingMethods(transactionValue);
   }
 }

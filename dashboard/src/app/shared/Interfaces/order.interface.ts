@@ -1,27 +1,13 @@
-import { TransactionMethod } from './transaction.interface';
-import { ShippingMethod } from './shipping.interface';
+import { Transaction } from './transaction.interface';
+import { Shipping } from './shipping.interface';
 import { Product } from './product.interface';
 
 export interface Order {
   id?: number;
-  transaction?: {
-    id?: number;
-    transactionMethodId?: TransactionMethod['id'];
-    transactionMethod?: TransactionMethod;
-    state?: string;
-    value?: number;
-    createdAt?: Date;
-    updatedAt?: Date;
-  };
-  shipping?: {
-    id?: number;
-    state?: string;
-    address?: string;
-    phoneNumber?: string;
-    shippingMethodId?: ShippingMethod['id'];
-    shippingMethod?: ShippingMethod;
-    deliveryDate?: Date;
-  };
+  buyerNote?: string;
+  sellerNote?: string;
+  transaction?: Transaction;
+  shipping?: Shipping;
   orderItems?: OrderItem[];
   discount?: any;
   userId?: number;

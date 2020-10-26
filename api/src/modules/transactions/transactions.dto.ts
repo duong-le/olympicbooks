@@ -7,8 +7,6 @@ export class CreateTransactionDto {
   @IsDefined()
   @IsNumber()
   transactionMethodId: number;
-
-  value: number;
 }
 
 export class UpdateTransactionDto {

@@ -12,12 +12,13 @@ export class OrdersComponent extends BaseComponent<Order> {
   columns = [
     { title: 'Actions' },
     { title: 'ID', key: 'id', sort: true },
+    { title: 'Mã vận chuyển', key: 'shipping.code', sort: true },
     { title: 'Ngày mua', key: 'createdAt', sort: true },
     { title: 'Giao hàng', key: 'shipping.state', sort: true },
     { title: 'Thanh Toán', key: 'transaction.state', sort: true },
     { title: 'Sản phẩm' },
     { title: 'Người nhận' },
-    { title: 'Phí vận chuyển', key: 'shipping.shippingMethod.fee', sort: true },
+    { title: 'Phí vận chuyển', key: 'shipping.fee', sort: true },
     { title: 'Tổng tiền', key: 'transaction.value', sort: true }
     // { title: 'Giảm giá' }
   ];

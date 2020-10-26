@@ -6,11 +6,14 @@ export class TransactionMethod extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  method: string;
+  @Column({ default: null })
+  name: string;
 
   @Column()
   description: string;
+
+  @Column({ default: null })
+  info: string;
 
   @Column()
   disabled: boolean;

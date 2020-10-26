@@ -10,6 +10,12 @@ export class Order extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ default: null })
+  buyerNote: string;
+
+  @Column({ default: null })
+  sellerNote: string;
+
   @Column()
   userId: number;
 
@@ -42,6 +48,6 @@ export class Order extends BaseEntity {
   @JoinColumn()
   shipping: Shipping;
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { eager: true })
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { eager: true, cascade: true })
   orderItems: OrderItem[];
 }

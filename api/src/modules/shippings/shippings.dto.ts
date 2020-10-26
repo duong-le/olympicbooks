@@ -1,8 +1,13 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDefined, IsString, IsNumber, IsOptional, IsDateString, IsEnum } from 'class-validator';
+import { IsDefined, IsOptional, IsString, IsNumber, IsEnum } from 'class-validator';
 import { DeliveryState } from '../../shared/Enums/delivery-state.enum';
 
 export class CreateShippingDto {
+  @ApiProperty()
+  @IsDefined()
+  @IsString()
+  name: string;
+
   @ApiProperty()
   @IsDefined()
   @IsString()
@@ -24,4 +29,14 @@ export class UpdateShippingDto {
   @IsOptional()
   @IsEnum(DeliveryState)
   state: DeliveryState;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  code: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsNumber()
+  fee: number;
 }

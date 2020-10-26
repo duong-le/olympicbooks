@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CustomerService } from '../customer.service';
 import { Order } from 'src/app/shared/Interfaces/order.interface';
@@ -15,7 +15,12 @@ export class OrderDetailComponent implements OnInit {
   isLoading = false;
   order: Order;
 
-  constructor(private activatedRoute: ActivatedRoute, private titleService: Title, private customerService: CustomerService) {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private titleService: Title,
+    private customerService: CustomerService
+  ) {}
 
   ngOnInit(): void {
     this.subscription$$ = this.activatedRoute.params.subscribe((paramsId) => {
@@ -24,11 +29,14 @@ export class OrderDetailComponent implements OnInit {
   }
   render(orderId: number) {
     this.isLoading = true;
-    this.customerService.getOrderDetail(orderId).subscribe((response) => {
-      this.order = response;
-      this.titleService.setTitle(`Đơn hàng #${response.id} | OlympicBooks`);
-      this.isLoading = false;
-    });
+    this.customerService.getOrderDetail(orderId).subscribe(
+      (response) => {
+        this.order = response;
+        this.titleService.setTitle(`Đơn hàng #${response.id} | OlympicBooks`);
+        this.isLoading = false;
+      },
+      (error) => this.router.navigate(['/'])
+    );
   }
 
   ngOnDestroy(): void {
