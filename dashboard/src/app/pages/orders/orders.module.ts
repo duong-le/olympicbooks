@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { OrdersRoutingModule } from './orders-routing.module';
 import { OrdersComponent } from './orders.component';
+import { OrdersDetailComponent } from './orders-detail/orders-detail.component';
 
 import { SharedModule } from 'src/app/shared/shared.module';
 import { IconModule } from 'src/app/shared/icon.module';
@@ -16,12 +17,18 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @NgModule({
-  declarations: [OrdersComponent],
+  declarations: [OrdersComponent, OrdersDetailComponent],
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     OrdersRoutingModule,
     SharedModule,
     IconModule,
@@ -32,7 +39,12 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     NzToolTipModule,
     NzSpaceModule,
     NzGridModule,
-    NzTagModule
+    NzTagModule,
+    NzFormModule,
+    NzMessageModule,
+    NzModalModule,
+    NzTabsModule,
+    NzSelectModule
   ]
 })
 export class OrdersModule {}

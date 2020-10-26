@@ -2,7 +2,7 @@
   <div nz-col>
     <nz-input-group [nzPrefix]="inputSearch" [nzSuffix]="inputClearById">
       <input #input type="number" nz-input placeholder="Tìm kiếm theo ID" [(ngModel)]="searchInputById"
-        (keyup.enter)="onSearchById()">
+        (keyup.enter)="onSearchById()" />
     </nz-input-group>
   </div>
 </div>
@@ -21,14 +21,21 @@
         <td>
           <nz-space>
             <nz-space-item>
-              <button nz-button nzType="primary" nzShape="circle" nz-tooltip nzTooltipTitle="Edit" nzGhost>
-                <i nz-icon nzType="edit" theme="outline"></i>
-              </button>
+              <a nz-button nzType="link" nz-tooltip nzTooltipTitle="Chi tiết đơn hàng"
+                (click)="showProductsModal(modalContent, item)">
+                <i nz-icon nzType="eye" theme="outline"></i>
+              </a>
             </nz-space-item>
             <nz-space-item>
-              <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Delete" nzDanger>
+              <a nz-button nzType="link" nz-tooltip nzTooltipTitle="Chỉnh sửa đơn hàng" [routerLink]="item?.id">
+                <i nz-icon nzType="edit" theme="outline"></i>
+              </a>
+            </nz-space-item>
+            <nz-space-item>
+              <a nz-button nzType="link" nz-tooltip nzTooltipTitle="Xoá đơn hàng" nzDanger
+                (click)="showDeleteConfirm(item?.id)">
                 <i nz-icon nzType="delete" theme="outline"></i>
-              </button>
+              </a>
             </nz-space-item>
           </nz-space>
         </td>
@@ -36,21 +43,16 @@
         <td>{{ item?.shipping?.code }}</td>
         <td>{{ item?.createdAt | date: 'dd-MM-yyyy' }}</td>
         <td>
-          <nz-tag nzColor="{{ item?.shipping?.state | orderState:true }}">
+          <nz-tag nzColor="{{ item?.shipping?.state | orderState: true }}">
             {{ item?.shipping?.state | orderState }}
           </nz-tag>
           <p>{{ item?.shipping?.shippingMethod?.name }}</p>
         </td>
         <td>
-          <nz-tag nzColor="{{ item?.transaction?.state | orderState:true }}">
+          <nz-tag nzColor="{{ item?.transaction?.state | orderState: true }}">
             {{ item?.transaction?.state | orderState }}
           </nz-tag>
           <p>{{ item?.transaction?.transactionMethod?.name }}</p>
-        </td>
-        <td>
-          <ng-container *ngFor="let itm of item?.orderItems">
-            {{ itm?.product?.title }} <br />
-          </ng-container>
         </td>
         <td>
           <p>{{ item?.shipping?.name }}</p>
@@ -64,6 +66,28 @@
   </nz-table>
 </nz-card>
 
+<ng-template #modalContent let-params>
+  <nz-table #table [nzData]="params?.orderItems" [nzFrontPagination]="false" [nzScroll]="{ x: '576px' }">
+    <thead>
+      <tr>
+        <th nzWidth="55%">Sản phẩm</th>
+        <th>Giá</th>
+        <th>Số lượng</th>
+        <th>Tạm tính</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of table.data">
+        <td id="title">
+          <a [routerLink]="['/products/', data?.product?.id]">{{ data?.product?.title }}</a>
+        </td>
+        <td>{{ data?.product?.price | price }}</td>
+        <td>{{ data?.quantity }}</td>
+        <td>{{ data?.totalValue | price }}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</ng-template>
 <ng-template #inputSearch><i nz-icon nzType="search"></i></ng-template>
 <ng-template #inputClearById><i nz-icon nzType="close-circle" class="ant-input-clear-icon" nzTheme="fill"
     *ngIf="searchInputById" (click)="searchInputById = null; onSearchById()"></i></ng-template>

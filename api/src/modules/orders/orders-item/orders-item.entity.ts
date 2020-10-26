@@ -19,7 +19,7 @@ export class OrderItem extends BaseEntity {
   @Column()
   productId: number;
 
-  @ManyToOne(() => Order, (order) => order.orderItems)
+  @ManyToOne(() => Order, (order) => order.orderItems, { onDelete: 'CASCADE' })
   order: Order;
 
   @ManyToOne(() => Product, (product) => product.orderItems, { eager: true })
