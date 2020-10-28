@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CustomerService } from '../customer.service';
 import { Order } from 'src/app/shared/Interfaces/order.interface';
+import { DeliveryState } from 'src/app/shared/Enums/delivery-state.enum';
 
 @Component({
   selector: 'app-order-detail',
@@ -14,6 +15,7 @@ export class OrderDetailComponent implements OnInit {
   subscription$$: Subscription;
   isLoading = false;
   order: Order;
+  deliveryState = DeliveryState;
 
   constructor(
     private activatedRoute: ActivatedRoute,
