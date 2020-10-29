@@ -1,4 +1,4 @@
-FROM node:lts-alpine as development
+FROM node:12-alpine as development
 
 WORKDIR /usr/src/app
 
@@ -17,7 +17,7 @@ COPY . ./
 
 RUN npm run build
 
-FROM node:lts-alpine as production
+FROM node:12-alpine as production
 
 WORKDIR /usr/src/app
 
