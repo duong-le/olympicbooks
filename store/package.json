@@ -4,9 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "node dist/store/server/main.js",
-    "start:dev": "ng serve --open --host 0.0.0.0",
+    "start:dev": "ng serve --open --host 0.0.0.0 --disable-host-check",
     "build": "ng build --prod --outputHashing=all && ng run store:server:production && touch dist/store/browser/robots.txt ",
-    "dev:ssr": "ng run store:serve-ssr",
+    "start:dev:ssr": "ng run store:serve-ssr",
     "prerender": "ng run store:prerender"
   },
   "private": true,
