@@ -20,7 +20,11 @@ export class HomeComponent implements OnInit {
   banner = { left: 'assets/images/cover.png', right: 'assets/images/community.jpg' };
   cardStyle = null;
 
-  constructor(private titleService: Title, private categoriesService: CategoriesService, private productsService: ProductsService) {
+  constructor(
+    private titleService: Title,
+    private categoriesService: CategoriesService,
+    private productsService: ProductsService
+  ) {
     this.titleService.setTitle('Trang chủ | OlympicBooks');
   }
 

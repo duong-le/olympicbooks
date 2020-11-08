@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RequestQueryBuilder, CondOperator, QuerySortOperator } from '@nestjsx/crud-request';
-import { combineLatest } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { NzSliderValue } from 'ng-zorro-antd/slider';
 import { Category } from 'src/app/shared/Interfaces/category.interface';
 import { CategoriesService } from './categories.service';
@@ -65,7 +65,7 @@ export class CategoriesComponent implements OnInit {
       this.categoriesStyle = null;
     }
 
-    combineLatest([
+    forkJoin([
       this.categoriesService.getOneCategory(this.categoryId),
       this.categoriesService.getPublishersByCategory(this.categoryId),
       this.categoriesService.getAuthorsByCategory(this.categoryId)

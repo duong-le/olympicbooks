@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { mergeMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ProductsService } from './products.service';
 import { Product } from 'src/app/shared/Interfaces/product.interface';
@@ -52,7 +52,7 @@ export class ProductsComponent implements OnInit {
     this.productsService
       .getOneProduct(productId)
       .pipe(
-        mergeMap((response) => {
+        switchMap((response) => {
           this.product = response;
           this.titleService.setTitle(`${this.product.title} | OlympicBooks`);
           if (!this.product.images.length) this.isProductLoading = false;
@@ -91,7 +91,7 @@ export class ProductsComponent implements OnInit {
       exist ? exist.id : this.product.id,
       exist ? this.quantity + exist.quantity : this.quantity
     )
-      .pipe(mergeMap((response) => this.cartService.getCart()))
+      .pipe(switchMap((response) => this.cartService.getCart()))
       .subscribe(
         (response) => {
           this.cartService.setCart(response);

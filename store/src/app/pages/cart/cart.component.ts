@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { mergeMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Cart } from 'src/app/shared/Interfaces/cart.interface';
 import { CartService } from './cart.service';
@@ -30,7 +30,7 @@ export class CartComponent implements OnInit {
     this.isDisabled = true;
     this.cartService
       .updateCartItem(id, quantity)
-      .pipe(mergeMap((response) => this.cartService.getCart()))
+      .pipe(switchMap((response) => this.cartService.getCart()))
       .subscribe(
         (response) => {
           this.cartService.setCart(response);
@@ -48,7 +48,7 @@ export class CartComponent implements OnInit {
     this.isDisabled = true;
     this.cartService
       .deleteCartItem(id)
-      .pipe(mergeMap((response) => this.cartService.getCart()))
+      .pipe(switchMap((response) => this.cartService.getCart()))
       .subscribe(
         (response) => {
           this.cartService.setCart(response);
