@@ -15,7 +15,7 @@ RUN apk add --no-cache --virtual .gyp \
 
 COPY . ./
 
-RUN npm run build
+RUN yarn build
 
 FROM node:12-alpine as production
 
