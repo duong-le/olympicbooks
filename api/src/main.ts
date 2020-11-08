@@ -17,7 +17,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.use(helmet());
-  app.enableCors({ origin: ['http://localhost:4200', 'http://localhost:3000', /.olympicbooks.com/] });
+  app.enableCors({ origin: ['http://localhost:4200', 'http://localhost:4100', /.olympicbooks.com/] });
   app.set('trust proxy', 1);
   app.use(rateLimit({ windowMs: 60 * 60 * 1000, max: 500 }));
   app.setGlobalPrefix('/v1');
