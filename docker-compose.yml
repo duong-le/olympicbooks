@@ -48,7 +48,6 @@ services:
   olympicbooks-db:
     image: postgres:12
     container_name: olympicbooks-db
-    restart: always
     environment:
       POSTGRES_DB: olympicbooks
       POSTGRES_USER: root
