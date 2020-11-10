@@ -1,13 +1,15 @@
-import { Controller, UseGuards, UseInterceptors, ClassSerializerInterceptor, Get, Patch, Body } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { Body, Controller, Get, Patch, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Crud, CrudController, Override, ParsedRequest, CrudRequest, ParsedBody, CrudRequestInterceptor } from '@nestjsx/crud';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Crud, CrudController, CrudRequest, CrudRequestInterceptor, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
+import { plainToClass } from 'class-transformer';
+import { Roles } from 'src/shared/Decorators/roles.decorator';
+import { UserInfo } from 'src/shared/Decorators/user-info.decorator';
+import { Role } from 'src/shared/Enums/roles.enum';
+
+import { CreateUserDto, UpdateMeDto, UpdateUserDto } from './users.dto';
 import { User } from './users.entity';
 import { UsersService } from './users.service';
-import { CreateUserDto, UpdateUserDto, UpdateMeDto } from './users.dto';
-import { UserInfo } from 'src/shared/Decorators/user-info.decorator';
-import { Roles } from 'src/shared/Decorators/roles.decorator';
-import { Role } from 'src/shared/Enums/roles.enum';
 
 @ApiTags('Users')
 @Controller('users')
@@ -27,8 +29,8 @@ export class UsersController implements CrudController<User> {
   @ApiOperation({ summary: 'Retrieve my User' })
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
-  @UseInterceptors(CrudRequestInterceptor, ClassSerializerInterceptor)
-  @Get('/me')
+  @UseInterceptors(CrudRequestInterceptor)
+  @Get('me')
   getMe(@UserInfo() user: User): User {
     return user;
   }
@@ -36,10 +38,11 @@ export class UsersController implements CrudController<User> {
   @ApiOperation({ summary: 'Update my User' })
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
-  @UseInterceptors(CrudRequestInterceptor, ClassSerializerInterceptor)
-  @Patch('/me')
-  updateMe(@Body() me: UpdateMeDto, @UserInfo() user: User): Promise<User> {
-    return this.service.updateUser(user.id, me);
+  @UseInterceptors(CrudRequestInterceptor)
+  @Patch('me')
+  async updateMe(@Body() me: UpdateMeDto, @UserInfo() user: User): Promise<User> {
+    const updatedUser = await this.service.updateUser(user.id, me);
+    return plainToClass(User, updatedUser);
   }
 
   @Override()

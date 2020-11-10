@@ -1,10 +1,11 @@
-import { Injectable, ConflictException, InternalServerErrorException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { User } from './users.entity';
-import { CreateUserDto, UpdateUserDto, UpdateMeDto } from './users.dto';
+import { Repository } from 'typeorm';
+
 import { AuthService } from '../auth/auth.service';
+import { CreateUserDto, UpdateMeDto, UpdateUserDto } from './users.dto';
+import { User } from './users.entity';
 
 @Injectable()
 export class UsersService extends TypeOrmCrudService<User> {
@@ -16,7 +17,7 @@ export class UsersService extends TypeOrmCrudService<User> {
     const { name, email, password } = dto;
     const hashedPassword = this.authService.hashPassword(password);
     try {
-      return await this.userRepository.create({ name, email, hashedPassword }).save();
+      return await this.userRepository.save({ name, email, hashedPassword });
     } catch (error) {
       throw error.code === '23505' ? new ConflictException('Email already exists') : new InternalServerErrorException();
     }

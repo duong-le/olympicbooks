@@ -1,27 +1,25 @@
-import { APP_GUARD } from '@nestjs/core';
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { ClassSerializerInterceptor, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { MulterModule } from '@nestjs/platform-express';
-
-import { ormConfig } from './ormconfig';
-import { HttpRequestLogger } from './shared/Loggers/http-request.logger';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from './modules/auth/auth.module';
-import { ProductsModule } from './modules/products/products.module';
-import { CategoriesModule } from './modules/categories/categories.module';
-import { PublishersModule } from './modules/publishers/publishers.module';
 import { AuthorsModule } from './modules/authors/authors.module';
-import { UsersModule } from './modules/users/users.module';
 import { CartsModule } from './modules/carts/carts.module';
-import { OrdersModule } from './modules/orders/orders.module';
+import { CategoriesModule } from './modules/categories/categories.module';
 import { DiscountsModule } from './modules/discounts/discounts.module';
-import { TransactionsModule } from './modules/transactions/transactions.module';
+import { OrdersModule } from './modules/orders/orders.module';
+import { ProductsModule } from './modules/products/products.module';
+import { PublishersModule } from './modules/publishers/publishers.module';
 import { ShippingsModule } from './modules/shippings/shippings.module';
-
-import { RolesGuard } from 'src/shared/Guards/roles.guard';
-import { Exist } from './shared/Validators/exist/exist.service';
+import { TransactionsModule } from './modules/transactions/transactions.module';
+import { UsersModule } from './modules/users/users.module';
+import { ormConfig } from './ormconfig';
+import { RolesGuard } from './shared/Guards/roles.guard';
+import { HttpRequestLogger } from './shared/Loggers/http-request.logger';
 import { ArrayExist } from './shared/Validators/array-exist/array-exist.service';
+import { Exist } from './shared/Validators/exist/exist.service';
 
 @Module({
   imports: [
@@ -46,6 +44,10 @@ import { ArrayExist } from './shared/Validators/array-exist/array-exist.service'
     {
       provide: APP_GUARD,
       useClass: RolesGuard
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor
     }
   ]
 })
