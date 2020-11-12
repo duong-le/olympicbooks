@@ -1,11 +1,10 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
+
+import { BaseEntity } from '../../shared/Entities/base.entity';
 import { Transaction } from './transactions.entity';
 
 @Entity()
 export class TransactionMethod extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column({ default: null })
   name: string;
 

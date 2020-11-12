@@ -1,13 +1,12 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, Unique, CreateDateColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, Unique } from 'typeorm';
+
+import { BaseEntity } from '../../shared/Entities/base.entity';
 import { Product } from '../products/products.entity';
 import { User } from '../users/users.entity';
 
 @Entity()
 @Unique(['userId', 'productId'])
 export class CartItem extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column()
   userId: number;
 
@@ -16,9 +15,6 @@ export class CartItem extends BaseEntity {
 
   @Column()
   productId: number;
-
-  @CreateDateColumn()
-  createdAt: Date;
 
   @ManyToOne(() => User, (user) => user.cartItems)
   user: User;

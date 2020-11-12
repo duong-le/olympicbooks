@@ -1,11 +1,10 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
+import { Column, Entity, ManyToMany } from 'typeorm';
+
+import { BaseEntity } from '../../shared/Entities/base.entity';
 import { Product } from '../products/products.entity';
 
 @Entity()
 export class Author extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column()
   name: string;
 

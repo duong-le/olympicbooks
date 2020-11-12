@@ -15,7 +15,7 @@ export class CartsService extends TypeOrmCrudService<CartItem> {
   async createCartItem(dto: CreateCartItemDto, user: User): Promise<CartItem> {
     const cartItem = await this.cartRepository.findOne({ where: { productId: dto.productId, userId: user.id } });
     if (cartItem) throw new ConflictException('Cart item is already exist');
-    return await this.cartRepository.create({ ...dto, user }).save();
+    return await this.cartRepository.save({ ...dto, user });
   }
 
   async deleteCartItems(user: User): Promise<void> {

@@ -1,12 +1,11 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, Tree, TreeParent, TreeChildren, AfterLoad } from 'typeorm';
+import { AfterLoad, Column, Entity, OneToMany, Tree, TreeChildren, TreeParent } from 'typeorm';
+
+import { BaseEntity } from '../../shared/Entities/base.entity';
 import { Product } from '../products/products.entity';
 
 @Entity()
 @Tree('materialized-path')
 export class Category extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column()
   title: string;
 

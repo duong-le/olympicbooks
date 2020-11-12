@@ -1,11 +1,10 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
+
+import { BaseEntity } from '../../shared/Entities/base.entity';
 import { Order } from '../orders/orders.entity';
 
 @Entity()
 export class Discount extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column()
   description: string;
 
@@ -23,9 +22,6 @@ export class Discount extends BaseEntity {
 
   @Column()
   validUntil: Date;
-
-  @CreateDateColumn()
-  createdAt: Date;
 
   @OneToMany(() => Order, (order) => order.discount)
   orders: Order[];

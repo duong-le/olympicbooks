@@ -1,15 +1,14 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany, OneToOne, JoinColumn } from 'typeorm';
-import { OrderItem } from './orders-item/orders-item.entity';
-import { User } from '../users/users.entity';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
+
+import { BaseEntity } from '../../shared/Entities/base.entity';
 import { Discount } from '../discounts/discounts.entity';
-import { Transaction } from '../transactions/transactions.entity';
 import { Shipping } from '../shippings/shippings.entity';
+import { Transaction } from '../transactions/transactions.entity';
+import { User } from '../users/users.entity';
+import { OrderItem } from './orders-item/orders-item.entity';
 
 @Entity()
 export class Order extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column({ default: null })
   buyerNote: string;
 
@@ -27,12 +26,6 @@ export class Order extends BaseEntity {
 
   @Column()
   shippingId: number;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 
   @ManyToOne(() => User, (user) => user.orders)
   user: User;

@@ -1,14 +1,13 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { Role } from 'src/shared/Enums/roles.enum';
-import { Order } from '../orders/orders.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
+
+import { BaseEntity } from '../../shared/Entities/base.entity';
+import { Role } from '../../shared/Enums/roles.enum';
 import { CartItem } from '../carts/carts.entity';
+import { Order } from '../orders/orders.entity';
 
 @Entity()
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column()
   name: string;
 
@@ -30,9 +29,6 @@ export class User extends BaseEntity {
 
   @Column({ enum: Role, default: Role.CUSTOMER })
   role: Role;
-
-  @CreateDateColumn()
-  createdAt: Date;
 
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];

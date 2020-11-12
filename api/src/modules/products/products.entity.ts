@@ -1,15 +1,14 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne, CreateDateColumn, OneToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+
+import { BaseEntity } from '../../shared/Entities/base.entity';
 import { Author } from '../authors/authors.entity';
-import { Publisher } from '../publishers/publishers.entity';
 import { Category } from '../categories/categories.entity';
 import { OrderItem } from '../orders/orders-item/orders-item.entity';
+import { Publisher } from '../publishers/publishers.entity';
 import { ProductImage } from './product-images.entity';
 
 @Entity()
 export class Product extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column()
   title: string;
 
@@ -39,9 +38,6 @@ export class Product extends BaseEntity {
 
   @Column()
   publisherId: number;
-
-  @CreateDateColumn()
-  createdAt: Date;
 
   @OneToMany(() => ProductImage, (productImage) => productImage.product, { eager: true, cascade: true })
   images: ProductImage[];

@@ -1,11 +1,10 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
+
+import { BaseEntity } from '../../shared/Entities/base.entity';
 import { Product } from './products.entity';
 
 @Entity()
 export class ProductImage extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column({ nullable: true })
   imgUrl: string;
 

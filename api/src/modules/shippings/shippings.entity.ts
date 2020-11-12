@@ -1,12 +1,11 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { ShippingMethod } from './shipping-methods.entity';
+import { Column, Entity, ManyToOne } from 'typeorm';
+
+import { BaseEntity } from '../../shared/Entities/base.entity';
 import { DeliveryState } from '../../shared/Enums/delivery-state.enum';
+import { ShippingMethod } from './shipping-methods.entity';
 
 @Entity()
 export class Shipping extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column({ default: null })
   name: string;
 

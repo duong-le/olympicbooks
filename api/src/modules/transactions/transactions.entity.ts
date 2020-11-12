@@ -1,12 +1,11 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
+
+import { BaseEntity } from '../../shared/Entities/base.entity';
+import { TransactionState } from '../../shared/Enums/transaction-state.enum';
 import { TransactionMethod } from './transaction-methods.entity';
-import { TransactionState } from 'src/shared/Enums/transaction-state.enum';
 
 @Entity()
 export class Transaction extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column()
   transactionMethodId: number;
 
@@ -15,12 +14,6 @@ export class Transaction extends BaseEntity {
 
   @Column()
   value: number;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 
   @ManyToOne(() => TransactionMethod, (transactionMethod) => transactionMethod.transactions)
   transactionMethod: TransactionMethod;
