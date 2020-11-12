@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 
-import { BaseEntity } from '../../shared/Entities/base.entity';
+import { BaseEntity } from '../../core/Entities/base.entity';
 import { TransactionState } from '../../shared/Enums/transaction-state.enum';
 import { TransactionMethod } from './transaction-methods.entity';
 

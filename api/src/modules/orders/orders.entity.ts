@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 
-import { BaseEntity } from '../../shared/Entities/base.entity';
+import { BaseEntity } from '../../core/Entities/base.entity';
 import { Discount } from '../discounts/discounts.entity';
 import { Shipping } from '../shippings/shippings.entity';
 import { Transaction } from '../transactions/transactions.entity';

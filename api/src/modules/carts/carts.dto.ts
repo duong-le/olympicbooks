@@ -1,6 +1,7 @@
 import { ApiProperty, PartialType, PickType } from '@nestjs/swagger';
 import { IsDefined, IsNumber, Min, Validate } from 'class-validator';
-import { Exist } from 'src/shared/Validators/exist/exist.service';
+
+import { Exist } from '../../core/Validators/exist/exist.service';
 import { Product } from '../products/products.entity';
 
 export class CreateCartItemDto {

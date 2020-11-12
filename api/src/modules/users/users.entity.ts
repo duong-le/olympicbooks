@@ -1,7 +1,7 @@
 import { Exclude } from 'class-transformer';
 import { Column, Entity, OneToMany } from 'typeorm';
 
-import { BaseEntity } from '../../shared/Entities/base.entity';
+import { BaseEntity } from '../../core/Entities/base.entity';
 import { Role } from '../../shared/Enums/roles.enum';
 import { CartItem } from '../carts/carts.entity';
 import { Order } from '../orders/orders.entity';

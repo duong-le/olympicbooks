@@ -1,6 +1,6 @@
+import { isObject } from '@nestjs/common/utils/shared.utils';
 import { ValidationArguments, ValidatorConstraintInterface } from 'class-validator';
 import { Connection, EntitySchema, FindConditions, In, ObjectType } from 'typeorm';
-import { isObject } from '@nestjs/common/utils/shared.utils';
 
 export interface ExistArrayValidationArguments<E> extends ValidationArguments {
   constraints: [
@@ -22,7 +22,13 @@ export abstract class ArrayExistValidator implements ValidatorConstraintInterfac
       where:
         typeof findCondition === 'function'
           ? findCondition(args, value)
-          : { [findCondition]: In(validationCondition && typeof validationCondition !== 'function' ? value.map((val) => (isObject(val) ? val[validationCondition] : val)) : value) }
+          : {
+              [findCondition]: In(
+                validationCondition && typeof validationCondition !== 'function'
+                  ? value.map((val) => (isObject(val) ? val[validationCondition] : val))
+                  : value
+              )
+            }
     });
     args.constraints[3] = entityCount;
     return typeof validationCondition === 'function' ? validationCondition(args, value, entityCount) : value.length === entityCount;

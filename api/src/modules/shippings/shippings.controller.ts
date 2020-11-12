@@ -1,12 +1,13 @@
-import { Controller, UseGuards, UseInterceptors, Get, ParseIntPipe, Query, BadRequestException } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { BadRequestException, Controller, Get, ParseIntPipe, Query, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController, CrudRequestInterceptor } from '@nestjsx/crud';
+
+import { Roles } from '../../core/Decorators/roles.decorator';
+import { Role } from '../../shared/Enums/roles.enum';
+import { ShippingMethod } from './shipping-methods.entity';
 import { Shipping } from './shippings.entity';
 import { ShippingsService } from './shippings.service';
-import { ShippingMethod } from './shipping-methods.entity';
-import { Roles } from 'src/shared/Decorators/roles.decorator';
-import { Role } from 'src/shared/Enums/roles.enum';
 
 @ApiTags('Shippings')
 @ApiBearerAuth()

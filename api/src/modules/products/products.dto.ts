@@ -1,11 +1,12 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
-import { IsDefined, IsString, IsNumber, Validate, IsBoolean, IsOptional } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
-import { Exist } from 'src/shared/Validators/exist/exist.service';
-import { ArrayExist } from 'src/shared/Validators/array-exist/array-exist.service';
+import { IsBoolean, IsDefined, IsNumber, IsOptional, IsString, Validate } from 'class-validator';
+
+import { ArrayExist } from '../../core/Validators/array-exist/array-exist.service';
+import { Exist } from '../../core/Validators/exist/exist.service';
+import { Author } from '../authors/authors.entity';
 import { Category } from '../categories/categories.entity';
 import { Publisher } from '../publishers/publishers.entity';
-import { Author } from '../authors/authors.entity';
 import { ProductImage } from './product-images.entity';
 
 export class CreateProductDto {

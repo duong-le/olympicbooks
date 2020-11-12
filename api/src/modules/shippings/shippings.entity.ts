@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 
-import { BaseEntity } from '../../shared/Entities/base.entity';
+import { BaseEntity } from '../../core/Entities/base.entity';
 import { DeliveryState } from '../../shared/Enums/delivery-state.enum';
 import { ShippingMethod } from './shipping-methods.entity';
 

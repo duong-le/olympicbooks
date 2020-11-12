@@ -1,14 +1,15 @@
 import { Controller, UseGuards, Get, Post, Patch, Param, ParseIntPipe, Body, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiConsumes } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { UploadOptions } from 'src/shared/Services/cloud-storage.service';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
+
+import { Roles } from '../../core/Decorators/roles.decorator';
+import { UploadOptions } from '../../core/Services/cloud-storage.service';
+import { Role } from '../../shared/Enums/roles.enum';
+import { File } from '../../shared/Interfaces/file.interface';
+import { CreateCategoryDto, UpdateCategoryDto } from './categories.dto';
 import { Category } from './categories.entity';
 import { CategoriesService } from './categories.service';
-import { Roles } from 'src/shared/Decorators/roles.decorator';
-import { Role } from 'src/shared/Enums/roles.enum';
-import { CreateCategoryDto, UpdateCategoryDto } from './categories.dto';
-import { File } from 'src/shared/Interfaces/file.interface';
 
 @ApiTags('Categories')
 @Controller('categories')

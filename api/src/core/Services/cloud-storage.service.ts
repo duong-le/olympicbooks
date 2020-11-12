@@ -1,9 +1,10 @@
+import { Bucket, Storage } from '@google-cloud/storage';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
-import { Bucket, Storage } from '@google-cloud/storage';
 import { memoryStorage } from 'multer';
 import { parse } from 'path';
-import { File } from '../Interfaces/file.interface';
+
+import { File } from '../../shared/Interfaces/file.interface';
 
 export const UploadOptions: MulterOptions = {
   storage: memoryStorage(),

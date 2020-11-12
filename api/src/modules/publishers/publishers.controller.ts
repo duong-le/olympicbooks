@@ -1,12 +1,13 @@
 import { Controller, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
+
+import { Roles } from '../../core/Decorators/roles.decorator';
+import { Role } from '../../shared/Enums/roles.enum';
+import { CreatePublisherDto, UpdatePublisherDto } from './publishers.dto';
 import { Publisher } from './publishers.entity';
 import { PublishersService } from './publishers.service';
-import { Roles } from 'src/shared/Decorators/roles.decorator';
-import { Role } from 'src/shared/Enums/roles.enum';
-import { CreatePublisherDto, UpdatePublisherDto } from './publishers.dto';
 
 @ApiTags('Publishers')
 @Controller('publishers')

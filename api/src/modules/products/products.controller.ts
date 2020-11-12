@@ -1,15 +1,16 @@
 import { Controller, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { Crud, CrudController, Override, ParsedBody, ParsedRequest, CrudRequest } from '@nestjsx/crud';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
+
+import { Roles } from '../../core/Decorators/roles.decorator';
+import { UploadOptions } from '../../core/Services/cloud-storage.service';
+import { Role } from '../../shared/Enums/roles.enum';
+import { File } from '../../shared/Interfaces/file.interface';
+import { CreateProductDto, UpdateProductDto } from './products.dto';
 import { Product } from './products.entity';
 import { ProductsService } from './products.service';
-import { Roles } from 'src/shared/Decorators/roles.decorator';
-import { Role } from 'src/shared/Enums/roles.enum';
-import { CreateProductDto, UpdateProductDto } from './products.dto';
-import { FilesInterceptor } from '@nestjs/platform-express';
-import { UploadOptions } from '../../shared/Services/cloud-storage.service';
-import { File } from 'src/shared/Interfaces/file.interface';
 
 @ApiTags('Products')
 @Controller('products')

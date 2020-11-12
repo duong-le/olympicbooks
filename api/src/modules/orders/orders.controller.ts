@@ -1,12 +1,13 @@
 import { Controller, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { Crud, CrudController, Override, ParsedBody, ParsedRequest, CrudRequest } from '@nestjsx/crud';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
+
+import { Roles } from '../../core/Decorators/roles.decorator';
+import { Role } from '../../shared/Enums/roles.enum';
+import { UpdateOrderDto } from './orders.dto';
 import { Order } from './orders.entity';
 import { OrdersService } from './orders.service';
-import { UpdateOrderDto } from './orders.dto';
-import { Roles } from 'src/shared/Decorators/roles.decorator';
-import { Role } from 'src/shared/Enums/roles.enum';
 
 @ApiTags('Orders')
 @ApiBearerAuth()

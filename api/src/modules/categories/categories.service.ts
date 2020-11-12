@@ -1,10 +1,11 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TreeRepository } from 'typeorm';
-import { CloudStorageService } from 'src/shared/Services/cloud-storage.service';
-import { Category } from './categories.entity';
+
+import { CloudStorageService } from '../../core/Services/cloud-storage.service';
+import { File } from '../../shared/Interfaces/file.interface';
 import { CreateCategoryDto, UpdateCategoryDto } from './categories.dto';
-import { File } from 'src/shared/Interfaces/file.interface';
+import { Category } from './categories.entity';
 
 @Injectable()
 export class CategoriesService {

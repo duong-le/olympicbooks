@@ -3,10 +3,10 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController, CrudRequest, CrudRequestInterceptor, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
 import { plainToClass } from 'class-transformer';
-import { Roles } from 'src/shared/Decorators/roles.decorator';
-import { UserInfo } from 'src/shared/Decorators/user-info.decorator';
-import { Role } from 'src/shared/Enums/roles.enum';
 
+import { Roles } from '../../core/Decorators/roles.decorator';
+import { UserInfo } from '../../core/Decorators/user-info.decorator';
+import { Role } from '../../shared/Enums/roles.enum';
 import { CreateUserDto, UpdateMeDto, UpdateUserDto } from './users.dto';
 import { User } from './users.entity';
 import { UsersService } from './users.service';

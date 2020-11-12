@@ -4,6 +4,12 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { OrmConfig } from './core/Config/orm.config';
+import { RolesGuard } from './core/Guards/roles.guard';
+import { HttpRequestLogger } from './core/Loggers/http-request.logger';
+import { ArrayExist } from './core/Validators/array-exist/array-exist.service';
+import { Exist } from './core/Validators/exist/exist.service';
+
 import { AuthModule } from './modules/auth/auth.module';
 import { AuthorsModule } from './modules/authors/authors.module';
 import { CartsModule } from './modules/carts/carts.module';
@@ -15,16 +21,11 @@ import { PublishersModule } from './modules/publishers/publishers.module';
 import { ShippingsModule } from './modules/shippings/shippings.module';
 import { TransactionsModule } from './modules/transactions/transactions.module';
 import { UsersModule } from './modules/users/users.module';
-import { ormConfig } from './ormconfig';
-import { RolesGuard } from './shared/Guards/roles.guard';
-import { HttpRequestLogger } from './shared/Loggers/http-request.logger';
-import { ArrayExist } from './shared/Validators/array-exist/array-exist.service';
-import { Exist } from './shared/Validators/exist/exist.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRoot(ormConfig),
+    TypeOrmModule.forRoot(OrmConfig),
     MulterModule.register(),
     AuthModule,
     ProductsModule,

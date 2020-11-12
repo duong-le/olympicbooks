@@ -1,6 +1,6 @@
 import { AfterLoad, Column, Entity, OneToMany, Tree, TreeChildren, TreeParent } from 'typeorm';
 
-import { BaseEntity } from '../../shared/Entities/base.entity';
+import { BaseEntity } from '../../core/Entities/base.entity';
 import { Product } from '../products/products.entity';
 
 @Entity()

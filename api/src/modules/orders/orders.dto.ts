@@ -1,14 +1,15 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDefined, ValidateNested, IsArray, Validate, IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
-import { CreateTransactionDto, UpdateTransactionDto } from '../transactions/transactions.dto';
-import { CreateShippingDto, UpdateShippingDto } from '../shippings/shippings.dto';
-import { CreateOrderItemDto } from './orders-item/orders-item.dto';
-import { Exist } from 'src/shared/Validators/exist/exist.service';
-import { TransactionMethod } from '../transactions/transaction-methods.entity';
-import { ShippingMethod } from '../shippings/shipping-methods.entity';
-import { ArrayExist } from '../../shared/Validators/array-exist/array-exist.service';
+import { IsArray, IsDefined, IsOptional, IsString, Validate, ValidateNested } from 'class-validator';
+
+import { ArrayExist } from '../../core/Validators/array-exist/array-exist.service';
+import { Exist } from '../../core/Validators/exist/exist.service';
 import { Product } from '../products/products.entity';
+import { ShippingMethod } from '../shippings/shipping-methods.entity';
+import { CreateShippingDto, UpdateShippingDto } from '../shippings/shippings.dto';
+import { TransactionMethod } from '../transactions/transaction-methods.entity';
+import { CreateTransactionDto, UpdateTransactionDto } from '../transactions/transactions.dto';
+import { CreateOrderItemDto } from './orders-item/orders-item.dto';
 
 export class CreateOrderDto {
   @ApiProperty({ type: CreateTransactionDto })
@@ -17,10 +18,7 @@ export class CreateOrderDto {
   @Type(() => CreateTransactionDto)
   @Validate(
     Exist,
-    [
-      TransactionMethod,
-      ({ value: { transactionMethodId } }: { value: CreateTransactionDto }) => ({ id: transactionMethodId })
-    ],
+    [TransactionMethod, ({ value: { transactionMethodId } }: { value: CreateTransactionDto }) => ({ id: transactionMethodId })],
     {
       message: () => 'Transaction method not found'
     }
@@ -31,13 +29,9 @@ export class CreateOrderDto {
   @IsDefined()
   @ValidateNested()
   @Type(() => CreateShippingDto)
-  @Validate(
-    Exist,
-    [ShippingMethod, ({ value: { shippingMethodId } }: { value: CreateShippingDto }) => ({ id: shippingMethodId })],
-    {
-      message: () => 'Shipping method not found'
-    }
-  )
+  @Validate(Exist, [ShippingMethod, ({ value: { shippingMethodId } }: { value: CreateShippingDto }) => ({ id: shippingMethodId })], {
+    message: () => 'Shipping method not found'
+  })
   shipping: CreateShippingDto;
 
   @ApiProperty({ type: [CreateOrderItemDto] })

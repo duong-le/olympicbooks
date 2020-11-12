@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, Unique } from 'typeorm';
 
-import { BaseEntity } from '../../shared/Entities/base.entity';
+import { BaseEntity } from '../../core/Entities/base.entity';
 import { Product } from '../products/products.entity';
 import { User } from '../users/users.entity';
 

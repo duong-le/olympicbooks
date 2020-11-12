@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { InjectConnection } from '@nestjs/typeorm';
 import { ValidatorConstraint } from 'class-validator';
 import { Connection } from 'typeorm';
-import { InjectConnection } from '@nestjs/typeorm';
+
 import { ExistValidator } from './exist.validator';
 
 @ValidatorConstraint({ name: 'exist', async: true })
