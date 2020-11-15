@@ -1,11 +1,14 @@
-import { Injectable, UnauthorizedException, ForbiddenException } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { genSaltSync, hashSync, compareSync } from 'bcrypt';
-import { AuthDto } from './auth.dto';
-import { JwtPayload } from './jwt-payload.model';
+import { InjectRepository } from '@nestjs/typeorm';
+import { compareSync, genSaltSync, hashSync } from 'bcrypt';
+import { Request } from 'express';
+import { ExtractJwt } from 'passport-jwt';
+import { Repository } from 'typeorm';
+
+import { JwtPayload } from '../../shared/Interfaces/jwt-payload.interface';
 import { User } from '../users/users.entity';
+import { AuthDto } from './auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +19,7 @@ export class AuthService {
 
     const user = await this.userRepository.findOne({ email });
     if (!user) throw new UnauthorizedException('Invalid Credentials');
-    if (user.isBlock) throw new ForbiddenException('User has been banned!');
+    if (user?.isBlock) throw new ForbiddenException('User has been banned!');
 
     if (!compareSync(password, user.hashedPassword)) throw new UnauthorizedException('Invalid Credentials');
 
@@ -29,9 +32,10 @@ export class AuthService {
     return hashSync(password, genSaltSync());
   }
 
-  decodeToken(token: string): any {
+  decodeToken(request: Request): any {
     try {
-      return this.jwtService.decode(token.split(' ')[1]);
+      const jwtToken = ExtractJwt.fromAuthHeaderAsBearerToken()(request);
+      return this.jwtService.decode(jwtToken);
     } catch (error) {
       throw new UnauthorizedException();
     }
