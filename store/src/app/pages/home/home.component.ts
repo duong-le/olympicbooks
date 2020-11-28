@@ -15,6 +15,7 @@ import { ProductsService } from '../products/products.service';
 export class HomeComponent implements OnInit {
   categories: Category[];
   newProducts: Product[];
+  topSellingProducts: Product[];
 
   isLoading = false;
   maxProductPerRow = 6;
@@ -29,10 +30,11 @@ export class HomeComponent implements OnInit {
     this.isLoading = true;
     combineLatest([
       this.categoriesService.categories$,
-      this.productsService.getManyProducts({ limit: this.maxProductPerRow, sort: 'updatedAt,DESC' })
+      this.productsService.getManyProducts({ limit: this.maxProductPerRow, sort: 'updatedAt,DESC' }),
+      this.productsService.getManyProducts({ limit: this.maxProductPerRow, topSelling: true })
     ]).subscribe(
       (response) => {
-        [this.categories, this.newProducts] = response;
+        [this.categories, this.newProducts, this.topSellingProducts] = response;
         this.isLoading = false;
         this.cardStyle = { padding: '1px' };
       },

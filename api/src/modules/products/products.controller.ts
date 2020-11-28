@@ -1,8 +1,16 @@
-import { Controller, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Controller, Query, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
-import { Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
+import { ApiBearerAuth, ApiConsumes, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  Crud,
+  CrudController,
+  CrudRequest,
+  GetManyDefaultResponse,
+  Override,
+  ParsedBody,
+  ParsedRequest,
+} from '@nestjsx/crud';
 
 import { Roles } from '../../core/Decorators/roles.decorator';
 import { UploadOptions } from '../../core/Services/cloud-storage.service';
@@ -28,6 +36,16 @@ import { ProductsService } from './products.service';
 })
 export class ProductsController implements CrudController<Product> {
   constructor(public service: ProductsService) {}
+
+  @Override()
+  @ApiQuery({ name: 'topSelling', required: false, type: Boolean })
+  getMany(
+    @ParsedRequest() req: CrudRequest,
+    @Query('topSelling') topSelling: string
+  ): Promise<GetManyDefaultResponse<Product> | Product[]> {
+    if (topSelling && topSelling.toLocaleLowerCase() === 'true') return this.service.getTopSellingProducts(req.parsed.limit);
+    return this.service.getMany(req);
+  }
 
   @Override()
   getOne(@ParsedRequest() req: CrudRequest): Promise<Product> {

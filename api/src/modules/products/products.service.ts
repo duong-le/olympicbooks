@@ -8,6 +8,7 @@ import { File } from '../../shared/Interfaces/file.interface';
 import { Author } from '../authors/authors.entity';
 import { Category } from '../categories/categories.entity';
 import { CategoriesService } from '../categories/categories.service';
+import { OrderItem } from '../orders/orders-item/orders-item.entity';
 import { Publisher } from '../publishers/publishers.entity';
 import { ProductImage } from './product-images.entity';
 import { CreateProductDto, UpdateProductDto } from './products.dto';
@@ -21,10 +22,23 @@ export class ProductsService extends TypeOrmCrudService<Product> {
     @InjectRepository(Category) private categoryRepository: Repository<Category>,
     @InjectRepository(Author) private authorRepository: Repository<Author>,
     @InjectRepository(Publisher) private publisherRepository: Repository<Publisher>,
+    @InjectRepository(OrderItem) private orderItemRepository: Repository<OrderItem>,
     private categoriesService: CategoriesService,
     private cloudStorageService: CloudStorageService
   ) {
     super(productRepository);
+  }
+
+  async getTopSellingProducts(limit: number): Promise<Product[]> {
+    const products = await this.orderItemRepository
+      .createQueryBuilder('orderItem')
+      .select('orderItem.productId, SUM(orderItem.quantity)')
+      .groupBy('orderItem.productId')
+      .orderBy('SUM(orderItem.quantity)', 'DESC')
+      .limit(limit)
+      .getRawMany();
+    const productIds = products.map((product) => product.productId);
+    return await this.productRepository.findByIds(productIds);
   }
 
   async getProduct(id: number): Promise<Product> {

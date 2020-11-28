@@ -25,3 +25,11 @@
     </div>
   </div>
 </nz-card>
+
+<nz-card class="container" nzTitle="Sách bán chạy" [nzBodyStyle]="cardStyle" [nzLoading]="isLoading">
+  <div nz-row>
+    <div nz-col nzXl="4" nzLg="6" nzMd="8" nzSm="12" nzXs="24" *ngFor="let item of topSellingProducts">
+      <app-product [product]="item"></app-product>
+    </div>
+  </div>
+</nz-card>
