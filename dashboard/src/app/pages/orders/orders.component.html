@@ -21,21 +21,21 @@
         <td>
           <nz-space>
             <nz-space-item>
-              <a nz-button nzType="link" nz-tooltip nzTooltipTitle="Chi tiết đơn hàng"
+              <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Chi tiết đơn hàng"
                 (click)="showProductsModal(modalContent, item)">
-                <i nz-icon nzType="eye" theme="outline"></i>
-              </a>
+                <i nz-icon nzType="eye" theme="twotone"></i>
+              </button>
             </nz-space-item>
             <nz-space-item>
-              <a nz-button nzType="link" nz-tooltip nzTooltipTitle="Chỉnh sửa đơn hàng" [routerLink]="item?.id">
-                <i nz-icon nzType="edit" theme="outline"></i>
-              </a>
+              <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Chỉnh sửa đơn hàng" [routerLink]="item?.id">
+                <i nz-icon nzType="edit" theme="twotone"></i>
+              </button>
             </nz-space-item>
             <nz-space-item>
-              <a nz-button nzType="link" nz-tooltip nzTooltipTitle="Xoá đơn hàng" nzDanger
+              <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Xoá đơn hàng" nzDanger
                 (click)="showDeleteConfirm(item?.id)">
                 <i nz-icon nzType="delete" theme="outline"></i>
-              </a>
+              </button>
             </nz-space-item>
           </nz-space>
         </td>
