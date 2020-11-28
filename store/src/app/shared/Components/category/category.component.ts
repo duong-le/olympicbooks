@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Category } from 'src/app/shared/Interfaces/category.interface';
 
 @Component({
@@ -9,7 +9,7 @@ import { Category } from 'src/app/shared/Interfaces/category.interface';
         <h3>{{ category.title }}</h3>
       </nz-card>
       <ng-template #coverTemplate>
-        <img [src]="category.imgUrl" loading="lazy" (load)="onLoadImage($event)" />
+        <img [src]="category.imgUrl" (load)="onLoadImage($event)" />
       </ng-template>
       <!-- <div class="item-extra item-new" *ngIf="category.new && !isLoading">New</div> -->
     </a>

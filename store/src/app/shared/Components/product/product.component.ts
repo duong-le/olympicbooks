@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Product } from 'src/app/shared/Interfaces/product.interface';
 
 @Component({
@@ -13,7 +13,7 @@ import { Product } from 'src/app/shared/Interfaces/product.interface';
     </nz-card>
 
     <ng-template #coverTemplate>
-      <img [src]="product.images[0]?.imgUrl" loading="lazy" (load)="onLoadImage($event)" />
+      <img [src]="product.images[0]?.imgUrl" (load)="onLoadImage($event)" />
     </ng-template>
 
     <!-- <div class="item-extra item-new" *ngIf="product.new && !isLoading">New</div>
