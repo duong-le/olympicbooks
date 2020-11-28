@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { combineLatest } from 'rxjs';
-import { Category } from 'src/app/shared/Interfaces/category.interface';
+
+import { Category } from '../../shared/Interfaces/category.interface';
+import { Product } from '../../shared/Interfaces/product.interface';
 import { CategoriesService } from '../categories/categories.service';
-import { Product } from 'src/app/shared/Interfaces/product.interface';
 import { ProductsService } from '../products/products.service';
 
 @Component({
@@ -13,18 +14,14 @@ import { ProductsService } from '../products/products.service';
 })
 export class HomeComponent implements OnInit {
   categories: Category[];
-  recommendedProducts: Product[];
+  newProducts: Product[];
 
   isLoading = false;
-  maxRecommendedProduct = 6;
+  maxProductPerRow = 6;
   banner = { left: 'assets/images/cover.png', right: 'assets/images/community.jpg' };
   cardStyle = null;
 
-  constructor(
-    private titleService: Title,
-    private categoriesService: CategoriesService,
-    private productsService: ProductsService
-  ) {
+  constructor(private titleService: Title, private categoriesService: CategoriesService, private productsService: ProductsService) {
     this.titleService.setTitle('Trang chủ | OlympicBooks');
   }
 
@@ -32,10 +29,10 @@ export class HomeComponent implements OnInit {
     this.isLoading = true;
     combineLatest([
       this.categoriesService.categories$,
-      this.productsService.getManyProducts({ limit: this.maxRecommendedProduct, sort: 'updatedAt,DESC' })
+      this.productsService.getManyProducts({ limit: this.maxProductPerRow, sort: 'updatedAt,DESC' })
     ]).subscribe(
       (response) => {
-        [this.categories, this.recommendedProducts] = response;
+        [this.categories, this.newProducts] = response;
         this.isLoading = false;
         this.cardStyle = { padding: '1px' };
       },
