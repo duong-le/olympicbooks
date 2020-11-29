@@ -16,12 +16,14 @@
               <nz-descriptions-item nzTitle="Địa chỉ">{{ orderForm.value?.shipping?.address }}</nz-descriptions-item>
               <nz-descriptions-item nzTitle="Lời nhắn">
                 <span *ngIf="orderForm.value?.buyerNote">{{ orderForm.value?.buyerNote }}</span>
-                <a *ngIf="!orderForm.value?.buyerNote" (click)="showModal()">Thêm lời nhắn</a>
+                <button nz-button nzType="link" *ngIf="!orderForm.value?.buyerNote" (click)="showModal()">
+                  Thêm lời nhắn</button>
               </nz-descriptions-item>
             </nz-descriptions>
           </nz-card>
           <ng-template #updateShippingAddress>
-            <a (click)="showModal()"><i nz-icon nzType="edit" nzTheme="outline"></i> Thay đổi</a>
+            <button nz-button nzType="link" (click)="showModal()">
+              <i nz-icon nzType="edit" nzTheme="outline"></i> Thay đổi</button>
             <nz-modal nzTitle="Cập nhật địa chỉ giao hàng" [nzVisible]="isModalVisible" (nzOnCancel)="cancelModal()"
               [nzFooter]="modalFooter">
               <form nz-form [formGroup]="addressForm">
@@ -125,7 +127,8 @@
             </div>
           </nz-card>
           <ng-template #editOrder>
-            <a routerLink="/cart"><i nz-icon nzType="edit" nzTheme="outline"></i> Thay đổi</a>
+            <button nz-button nzType="link" routerLink="/cart">
+              <i nz-icon nzType="edit" nzTheme="outline"></i> Thay đổi</button>
           </ng-template>
         </div>
 

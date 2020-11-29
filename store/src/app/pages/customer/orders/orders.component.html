@@ -12,7 +12,7 @@
   <tbody>
     <tr *ngFor="let data of table.data">
       <td>{{ data?.createdAt | date: 'dd-MM-yyyy' }}</td>
-      <td><a [routerLink]="[data?.id]">{{ data?.id }}</a></td>
+      <td><button nz-button nzType="link" [routerLink]="[data?.id]">{{ data?.id }}</button></td>
       <td id="title">
         <ng-container *ngFor="let item of data?.orderItems">
           {{ item?.product?.title }} <br />

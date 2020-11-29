@@ -25,8 +25,8 @@
                 <span class="price">{{ item?.quantity * item?.product.price | price }}</span>
               </div>
               <div nz-col>
-                <button nz-button (click)="deleteCartItem(item.id)" [disabled]="isDisabled">
-                  <i nz-icon nzType="delete"></i></button>
+                <button nz-button nzType="text" (click)="deleteCartItem(item.id)" [disabled]="isDisabled">
+                  <i nz-icon nzType="delete" nzTheme="twotone"></i></button>
               </div>
             </div>
           </nz-card>
