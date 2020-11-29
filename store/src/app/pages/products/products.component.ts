@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { switchMap } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ProductsService } from './products.service';
-import { Product } from 'src/app/shared/Interfaces/product.interface';
+import { switchMap } from 'rxjs/operators';
+
+import { Product } from '../../shared/Interfaces/product.interface';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { CartService } from '../cart/cart.service';
+import { ProductsService } from './products.service';
 
 @Component({
   selector: 'app-products',
@@ -78,29 +79,29 @@ export class ProductsComponent implements OnInit {
     if (event && event.target) this.isProductLoading = false;
   }
 
-  addItemToCart(btn: string) {
+  addItemToCart(btnName: string) {
     if (!this.authenticationService.userValue) {
       this.router.navigate(['signin'], { queryParams: { returnUrl: this.router.url } });
       return;
     }
 
-    this.isBtnLoading[btn] = true;
-    const exist = this.cartService.cartValue.cartItems.find((el) => el.product.id === this.product.id);
+    this.isBtnLoading[btnName] = true;
+    const existedProduct = this.cartService.cartValue.cartItems.find((el) => el.product.id === this.product.id);
 
-    this.cartService[exist ? 'updateCartItem' : 'createCartItem'](
-      exist ? exist.id : this.product.id,
-      exist ? this.quantity + exist.quantity : this.quantity
+    this.cartService[existedProduct ? 'updateCartItem' : 'createCartItem'](
+      existedProduct ? existedProduct.id : this.product.id,
+      existedProduct ? this.quantity + existedProduct.quantity : this.quantity
     )
       .pipe(switchMap((response) => this.cartService.getCart()))
       .subscribe(
         (response) => {
           this.cartService.setCart(response);
-          this.isBtnLoading[btn] = false;
+          this.isBtnLoading[btnName] = false;
           this.messageService.success('Thêm vào giỏ hàng thành công!');
-          if (btn === 'buyNow') this.router.navigate(['cart']);
+          if (btnName === 'buyNow') this.router.navigate(['cart']);
         },
         (error) => {
-          this.isBtnLoading[btn] = false;
+          this.isBtnLoading[btnName] = false;
           this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
         }
       );
