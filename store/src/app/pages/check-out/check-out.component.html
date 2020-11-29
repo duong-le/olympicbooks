@@ -9,7 +9,7 @@
         <div nz-col nzSpan="24">
           <nz-card [nzLoading]="isLoading" nzTitle="Địa chỉ giao hàng" [nzBordered]="false"
             [nzExtra]="updateShippingAddress">
-            <nz-descriptions [nzColumn]="1">
+            <nz-descriptions [nzColumn]="1" [nzBordered]="true">
               <nz-descriptions-item nzTitle="Họ tên">{{ orderForm.value?.shipping?.name }}</nz-descriptions-item>
               <nz-descriptions-item nzTitle="Số điện thoại">{{ orderForm.value?.shipping?.phoneNumber }}
               </nz-descriptions-item>
