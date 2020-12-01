@@ -6,8 +6,9 @@
       <nz-empty *ngIf="!categoryTree?.length"></nz-empty>
     </nz-card>
     <ng-template #createNewBtn>
-      <button *ngIf="!isNew" nz-button nzType="default" nzShape="circle" (click)="onClickCreateBtn()">
-        <i nz-icon nzType="plus"></i></button>
+      <button *ngIf="!isNew" nz-button nzType="primary" (click)="onClickCreateBtn()">
+        <i nz-icon nzType="plus" nzTheme="outline"></i>
+      </button>
     </ng-template>
   </div>
   <div nz-col nzXl="16" nzXs="24">
