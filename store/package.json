@@ -24,7 +24,7 @@
     "@nguniversal/express-engine": "^10.1.0",
     "device-detector-js": "^2.2.5",
     "express": "^4.17.1",
-    "ng-zorro-antd": "^10.1.2",
+    "ng-zorro-antd": "^10.2.0",
     "rxjs": "~6.6.3",
     "tslib": "^2.0.3",
     "zone.js": "~0.10.3"
