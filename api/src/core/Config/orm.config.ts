@@ -6,7 +6,7 @@ import { SqlLogger } from '../Loggers/sql.logger';
 
 config({ path: join(__dirname, '../../../.env') });
 
-export const OrmConfig: ConnectionOptions = {
+const OrmConfig: ConnectionOptions = {
   type: 'postgres',
   host: process.env.SQL_HOST,
   port: 5432,
@@ -14,6 +14,11 @@ export const OrmConfig: ConnectionOptions = {
   password: process.env.SQL_PASSWORD,
   database: process.env.SQL_NAME,
   entities: [join(__dirname, '../../**/**.entity{.ts,.js}')],
-  synchronize: true,
+  migrations: [join(__dirname + '../../../migrations/*{.ts,.js}')],
+  cli: { migrationsDir: 'src/migrations' },
+  synchronize: false,
+  migrationsRun: false,
   logger: new SqlLogger(['schema', 'error', 'warn', 'info', 'log', 'migration'])
 };
+
+export = OrmConfig;

@@ -4,7 +4,7 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { OrmConfig } from './core/Config/orm.config';
+import OrmConfig from './core/Config/orm.config';
 import { RolesGuard } from './core/Guards/roles.guard';
 import { HttpRequestLogger } from './core/Loggers/http-request.logger';
 import { ArrayExist } from './core/Validators/array-exist/array-exist.service';
