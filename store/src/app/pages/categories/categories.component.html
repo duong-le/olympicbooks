@@ -35,7 +35,7 @@
 
         <div>
           <nz-divider nzText="Khoảng giá" nzOrientation="left"></nz-divider>
-          <nz-slider nzRange [ngModel]="rangeValue" [nzMax]="maxPrice" [nzTipFormatter]="formatter"
+          <nz-slider nzRange [ngModel]="priceRange" [nzMax]="maxPrice" [nzTipFormatter]="formatter"
             (nzOnAfterChange)="onPriceRangeChange($event)">
           </nz-slider>
         </div>

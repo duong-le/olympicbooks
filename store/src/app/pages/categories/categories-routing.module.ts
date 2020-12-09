@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+
+import { NotExistComponent } from '../../shared/Components/result/error/not-exist.component';
 import { CategoriesComponent } from './categories.component';
-import { NotExistComponent } from 'src/app/shared/Components/result/error/not-exist.component';
 
 const routes: Routes = [
   {

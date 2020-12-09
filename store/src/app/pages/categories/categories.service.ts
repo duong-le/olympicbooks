@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { Category } from 'src/app/shared/Interfaces/category.interface';
-import { Summary } from 'src/app/shared/Interfaces/summary';
-import { Publisher } from 'src/app/shared/Interfaces/publisher.interface';
-import { Author } from 'src/app/shared/Interfaces/author.interface';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+import { environment } from '../../../environments/environment';
+import { Author } from '../../shared/Interfaces/author.interface';
+import { Category } from '../../shared/Interfaces/category.interface';
+import { Publisher } from '../../shared/Interfaces/publisher.interface';
+import { Summary } from '../../shared/Interfaces/summary';
 
 @Injectable({
   providedIn: 'root'
