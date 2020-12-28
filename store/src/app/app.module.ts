@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule, PLATFORM_ID } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
@@ -13,8 +13,9 @@ import { SharedModule } from './shared/shared.module';
 import { NZ_I18N, vi_VN } from 'ng-zorro-antd/i18n';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config';
-import { JwtInterceptor } from './shared/Interceptors/jwt.interceptor';
-import { ErrorInterceptor } from './shared/Interceptors/error.interceptor';
+import { JwtInterceptor } from './shared/Providers/jwt.interceptor';
+import { ErrorInterceptor } from './shared/Providers/error.interceptor';
+import { FacebookInitializer } from './shared/Providers/facebook.initializer';
 
 registerLocaleData(vi);
 
@@ -34,6 +35,7 @@ const ngZorroConfig: NzConfig = {
     NzLayoutModule
   ],
   providers: [
+    { provide: APP_INITIALIZER, useFactory: FacebookInitializer, multi: true, deps: [PLATFORM_ID] },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: NZ_I18N, useValue: vi_VN },
