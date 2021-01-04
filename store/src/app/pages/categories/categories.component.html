@@ -4,10 +4,9 @@
       <a routerLink="/"><i nz-icon nzType="home"></i></a>
     </nz-breadcrumb-item>
 
-    <ng-container *ngFor="let item of category?.parent; let last = last">
+    <ng-container *ngFor="let item of category?.parent">
       <nz-breadcrumb-item>
-        <a *ngIf="!last" [routerLink]="['/', 'categories', item?.id]">{{ item?.title }}</a>
-        <span *ngIf="last">{{ item?.title }}</span>
+        <a [routerLink]="['/', 'categories', item?.id]">{{ item?.title }}</a>
       </nz-breadcrumb-item>
     </ng-container>
   </nz-breadcrumb>
