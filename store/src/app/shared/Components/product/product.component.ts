@@ -13,7 +13,7 @@ import { Product } from 'src/app/shared/Interfaces/product.interface';
     </nz-card>
 
     <ng-template #coverTemplate>
-      <img [src]="product.images[0]?.imgUrl" (load)="onLoadImage($event)" />
+      <img [src]="product.images[0]?.imgUrl" (load)="onLoadImage($event)" alt="product-image" />
     </ng-template>
 
     <!-- <div class="item-extra item-new" *ngIf="product.new && !isLoading">New</div>
