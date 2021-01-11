@@ -17,13 +17,15 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.use(helmet());
-  app.enableCors({ origin: ['http://localhost:4200', 'http://localhost:4100', /.olympicbooks.com/] });
+  app.enableCors({ origin: [/.olympicbooks.com/] });
   app.set('trust proxy', 1);
   app.use(rateLimit({ windowMs: 60 * 60 * 1000, max: 500 }));
   app.setGlobalPrefix('/v1');
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
 
   if (process.env.NODE_ENV !== 'PRODUCTION') {
+    app.enableCors({ origin: true });
+
     const options = new DocumentBuilder().setTitle('Olympicbooks API v1').addBearerAuth().build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('/', app, document, { swaggerOptions: { docExpansion: 'none' } });
