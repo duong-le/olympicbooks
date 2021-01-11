@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { switchMap } from 'rxjs/operators';
 
 import { Product } from '../../shared/Interfaces/product.interface';
+import { TitleMetaService } from '../../shared/Providers/title-meta.service';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { CartService } from '../cart/cart.service';
 import { ProductsService } from './products.service';
@@ -28,8 +28,7 @@ export class ProductsComponent implements OnInit {
   relatedProductStyle = null;
 
   constructor(
-    private titleService: Title,
-    private metaService: Meta,
+    private titleMetaService: TitleMetaService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private productsService: ProductsService,
@@ -56,7 +55,7 @@ export class ProductsComponent implements OnInit {
       .pipe(
         switchMap((response) => {
           this.product = response;
-          this.updateTitleAndMetaTag();
+          this.titleMetaService.updateTitleAndMetaTags(this.product?.title, this.product?.description, this.product?.images[0]?.imgUrl);
 
           if (!this.product.images.length) this.isProductLoading = false;
           this.isRelatedProductsLoading = true;
@@ -75,11 +74,6 @@ export class ProductsComponent implements OnInit {
         },
         (error) => this.router.navigate(['/'])
       );
-  }
-
-  updateTitleAndMetaTag() {
-    this.titleService.setTitle(`${this.product.title} | OlympicBooks`);
-    this.metaService.updateTag({ name: 'description', content: this.product.description });
   }
 
   onLoadImage(event) {
