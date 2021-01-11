@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { switchMap } from 'rxjs/operators';
@@ -29,6 +29,7 @@ export class ProductsComponent implements OnInit {
 
   constructor(
     private titleService: Title,
+    private metaService: Meta,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private productsService: ProductsService,
@@ -55,7 +56,8 @@ export class ProductsComponent implements OnInit {
       .pipe(
         switchMap((response) => {
           this.product = response;
-          this.titleService.setTitle(`${this.product.title} | OlympicBooks`);
+          this.updateTitleAndMetaTag();
+
           if (!this.product.images.length) this.isProductLoading = false;
           this.isRelatedProductsLoading = true;
 
@@ -73,6 +75,11 @@ export class ProductsComponent implements OnInit {
         },
         (error) => this.router.navigate(['/'])
       );
+  }
+
+  updateTitleAndMetaTag() {
+    this.titleService.setTitle(`${this.product.title} | OlympicBooks`);
+    this.metaService.updateTag({ name: 'description', content: this.product.description });
   }
 
   onLoadImage(event) {
