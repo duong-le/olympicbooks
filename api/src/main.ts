@@ -17,7 +17,6 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.use(helmet());
-  app.enableCors({ origin: ['http://localhost:4200', 'http://localhost:4100', /.olympicbooks.com/] });
   app.set('trust proxy', 1);
   app.use(rateLimit({ windowMs: 60 * 60 * 1000, max: 500 }));
   app.setGlobalPrefix('/v1');
@@ -27,6 +26,9 @@ async function bootstrap() {
     const options = new DocumentBuilder().setTitle('Olympicbooks API v1').addBearerAuth().build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('/', app, document, { swaggerOptions: { docExpansion: 'none' } });
+    app.enableCors({ origin: true });
+  } else {
+    app.enableCors({ origin: [/.olympicbooks.com/] });
   }
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
