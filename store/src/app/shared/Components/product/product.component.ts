@@ -1,15 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Product } from 'src/app/shared/Interfaces/product.interface';
+
+import { Product } from '../../../shared/Interfaces/product.interface';
 
 @Component({
   selector: 'app-product',
   template: ` <a [routerLink]="['/products', product.id]">
     <nz-card nzHoverable [nzCover]="coverTemplate" [nzBordered]="false" [nzLoading]="isLoading">
-      <p>{{ product.title | slice: 0:maxLength }}{{ product.title.length > maxLength ? '...' : '' }}</p>
-      <h3 class="price">{{ product.price | price }}</h3>
-      <span *ngIf="product.price !== product.originalPrice"
-        ><del>{{ product.originalPrice | price }}</del></span
-      >
+      <p class="product-title">{{ product.title }}</p>
+      <h3 class="product-price">{{ product.price | price }}</h3>
+      <span *ngIf="product.price !== product.originalPrice">
+        <del>{{ product.originalPrice | price }}</del>
+      </span>
     </nz-card>
 
     <ng-template #coverTemplate>
@@ -27,7 +28,14 @@ import { Product } from 'src/app/shared/Interfaces/product.interface';
         height: 100%;
       }
 
-      .price {
+      .product-title {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .product-price {
         color: #337ab7;
         margin-bottom: 0;
       }
@@ -38,7 +46,6 @@ export class ProductComponent implements OnInit {
   @Input() product: Product;
 
   isLoading = true;
-  maxLength = 48;
 
   constructor() {}
 
