@@ -13,6 +13,12 @@ embed {
   }
 }
 
+@media (max-width: 345px) {
+  embed {
+    height: 27px;
+  }
+}
+
 a {
   display: inline-block;
 }
