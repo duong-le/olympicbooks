@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { Shipping } from './shippings.entity';
+import { FREE_SHIPPING_ORDER_VALUE_THRESHOLD } from 'src/shared/Constants/transaction.constant';
+import { Repository } from 'typeorm';
+
 import { ShippingMethod } from './shipping-methods.entity';
-import { MIN_FREE_SHIPPING_ORDER_VALUE } from 'src/shared/Constants/transaction.constant';
+import { Shipping } from './shippings.entity';
 
 @Injectable()
 export class ShippingsService extends TypeOrmCrudService<Shipping> {
@@ -16,12 +17,9 @@ export class ShippingsService extends TypeOrmCrudService<Shipping> {
   }
 
   async getShippingMethods(transactionValue: number): Promise<ShippingMethod[]> {
-    let shippingMethods = await this.shippingMethodRepository
-      .createQueryBuilder('shipping-method')
-      .orderBy('id', 'ASC')
-      .getMany();
+    let shippingMethods = await this.shippingMethodRepository.createQueryBuilder('shipping-method').orderBy('id', 'ASC').getMany();
 
-    if (transactionValue >= MIN_FREE_SHIPPING_ORDER_VALUE)
+    if (transactionValue >= FREE_SHIPPING_ORDER_VALUE_THRESHOLD)
       shippingMethods = shippingMethods.map((method) => {
         method.fee = 0;
         return method;

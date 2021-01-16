@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Repository } from 'typeorm';
 
-import { MIN_FREE_SHIPPING_ORDER_VALUE } from '../../shared/Constants/transaction.constant';
+import { FREE_SHIPPING_ORDER_VALUE_THRESHOLD } from '../../shared/Constants/transaction.constant';
 import { DeliveryState } from '../../shared/Enums/delivery-state.enum';
 import { Product } from '../products/products.entity';
 import { ShippingMethod } from '../shippings/shipping-methods.entity';
@@ -55,12 +55,9 @@ export class OrdersService extends TypeOrmCrudService<Order> {
       return orderItem;
     });
 
-    order.transaction.value = order.orderItems.reduce(
-      (total: number, current: OrderItem) => (total += current.totalValue),
-      0
-    );
+    order.transaction.value = order.orderItems.reduce((total: number, current: OrderItem) => (total += current.totalValue), 0);
 
-    if (order.transaction.value < MIN_FREE_SHIPPING_ORDER_VALUE) {
+    if (order.transaction.value < FREE_SHIPPING_ORDER_VALUE_THRESHOLD) {
       order.shipping.fee = shippingMethod.fee;
       order.transaction.value += order.shipping.fee;
     }
