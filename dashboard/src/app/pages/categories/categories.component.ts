@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzFormatEmitEvent, NzTreeNodeOptions } from 'ng-zorro-antd/tree';
+
 import { CategoriesService } from './categories.service';
 
 @Component({
@@ -22,7 +23,7 @@ export class CategoriesComponent implements OnInit {
   renderPage() {
     this.categoriesService.getMany().subscribe(
       (response) => (this.categoryTree = response),
-      (error) => this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!')
+      (error) => this.messageService.error(error?.error?.message)
     );
   }
 

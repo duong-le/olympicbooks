@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Repository } from 'typeorm';
@@ -19,7 +19,7 @@ export class UsersService extends TypeOrmCrudService<User> {
     try {
       return await this.userRepository.save({ name, email, hashedPassword });
     } catch (error) {
-      throw error.code === '23505' ? new ConflictException('Email already exists') : new InternalServerErrorException();
+      throw error.code === '23505' ? new ConflictException('Email already exists') : new BadRequestException(error?.message);
     }
   }
 
@@ -27,11 +27,12 @@ export class UsersService extends TypeOrmCrudService<User> {
     let hashedPassword: string;
     const { password, ...others } = dto;
     const user = await this.userRepository.findOne(id);
+    if (!user) throw new BadRequestException(`User ${id} not found`);
     if (password) hashedPassword = this.authService.hashPassword(dto.password);
     try {
       return await this.userRepository.save({ ...user, ...others, ...(password && { hashedPassword }) });
     } catch (error) {
-      throw error.code === '23505' ? new ConflictException('Email already exists') : new InternalServerErrorException();
+      throw error.code === '23505' ? new ConflictException('Email already exists') : new BadRequestException(error?.message);
     }
   }
 }

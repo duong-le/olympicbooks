@@ -1,9 +1,10 @@
 import { Component, TemplateRef } from '@angular/core';
-import { BaseComponent } from 'src/app/shared/Base/base.component';
-import { OrdersService } from './orders.service';
-import { Order } from 'src/app/shared/Interfaces/order.interface';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
+
+import { BaseComponent } from '../../shared/Base/base.component';
+import { Order } from '../../shared/Interfaces/order.interface';
+import { OrdersService } from './orders.service';
 
 @Component({
   selector: 'app-orders',
@@ -24,11 +25,7 @@ export class OrdersComponent extends BaseComponent<Order> {
     // { title: 'Giảm giá' }
   ];
 
-  constructor(
-    private ordersService: OrdersService,
-    private messageService: NzMessageService,
-    private modalService: NzModalService
-  ) {
+  constructor(private ordersService: OrdersService, private messageService: NzMessageService, private modalService: NzModalService) {
     super(ordersService);
   }
 
@@ -49,7 +46,7 @@ export class OrdersComponent extends BaseComponent<Order> {
       },
       (error) => {
         this.isLoading = false;
-        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        this.messageService.error(error?.error?.message);
       }
     );
   }

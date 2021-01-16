@@ -43,6 +43,7 @@ export class ProductsService extends TypeOrmCrudService<Product> {
 
   async getProduct(id: number): Promise<Product> {
     const product = await this.productRepository.findOne(id);
+    if (!product) throw new NotFoundException(`Product ${id} not found`);
     product.category = await this.categoriesService.getOne(product.category.id);
     return product;
   }
@@ -53,7 +54,7 @@ export class ProductsService extends TypeOrmCrudService<Product> {
     const product = this.productRepository.create(others);
     product.authors = await this.authorRepository.findByIds(authorIds);
 
-    if (uploadedFiles.length) {
+    if (uploadedFiles?.length) {
       const files = await this.uploadFiles(uploadedFiles);
       product.images = [];
       files.forEach((file: any) => {
@@ -68,6 +69,7 @@ export class ProductsService extends TypeOrmCrudService<Product> {
     const { authorIds, removedImageIds, ...others } = dto;
 
     const product = await this.productRepository.findOne(id);
+    if (!product) throw new NotFoundException(`Product ${id} not found`);
 
     if (dto.categoryId && product.category.id !== dto.categoryId) {
       product.category = await this.categoryRepository.findOne(dto.categoryId);
@@ -81,7 +83,7 @@ export class ProductsService extends TypeOrmCrudService<Product> {
       product.publisher = await this.publisherRepository.findOne(dto.publisherId);
     }
 
-    if (uploadedFiles.length) {
+    if (uploadedFiles?.length) {
       const files = await this.uploadFiles(uploadedFiles);
       files.forEach((file: any) => {
         const productImage = this.productImageRepository.create({ imgUrl: file.publicUrl, imgName: file.name, product });

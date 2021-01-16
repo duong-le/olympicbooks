@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+
+import { Publisher } from '../../../shared/Interfaces/publisher.interface';
 import { PublishersService } from '../publishers.service';
-import { Publisher } from 'src/app/shared/Interfaces/publisher.interface';
 
 @Component({
   selector: 'app-publishers-detail',
@@ -59,7 +60,7 @@ export class PublishersDetailComponent implements OnInit {
       },
       (error) => {
         this.isBtnLoading = false;
-        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        this.messageService.error(error?.error?.message);
       }
     );
   }
@@ -74,7 +75,7 @@ export class PublishersDetailComponent implements OnInit {
       },
       (error) => {
         this.isBtnLoading = false;
-        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        this.messageService.error(error?.error?.message);
       }
     );
   }

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { OrdersService } from '../orders.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Order } from 'src/app/shared/Interfaces/order.interface';
-import { DeliveryState } from 'src/app/shared/Enums/delivery-state.enum';
-import { TransactionState } from 'src/app/shared/Enums/transaction-state.enum';
+
+import { DeliveryState } from '../../../shared/Enums/delivery-state.enum';
+import { TransactionState } from '../../../shared/Enums/transaction-state.enum';
+import { Order } from '../../../shared/Interfaces/order.interface';
+import { OrdersService } from '../orders.service';
 
 @Component({
   selector: 'app-orders-detail',
@@ -94,7 +95,7 @@ export class OrdersDetailComponent implements OnInit {
       },
       (error) => {
         this.isBtnLoading = false;
-        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        this.messageService.error(error?.error?.message);
       }
     );
   }

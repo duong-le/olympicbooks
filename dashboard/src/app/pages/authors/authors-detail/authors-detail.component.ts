@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Author } from 'src/app/shared/Interfaces/author.interface';
+
+import { Author } from '../../../shared/Interfaces/author.interface';
 import { AuthorsService } from '../authors.service';
 
 @Component({
@@ -59,7 +60,7 @@ export class AuthorsDetailComponent implements OnInit {
       },
       (error) => {
         this.isBtnLoading = false;
-        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        this.messageService.error(error?.error?.message);
       }
     );
   }
@@ -74,7 +75,7 @@ export class AuthorsDetailComponent implements OnInit {
       },
       (error) => {
         this.isBtnLoading = false;
-        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        this.messageService.error(error?.error?.message);
       }
     );
   }

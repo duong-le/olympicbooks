@@ -1,11 +1,12 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { Category } from 'src/app/shared/Interfaces/category.interface';
-import { CategoriesService } from 'src/app/pages/categories/categories.service';
+
+import { CategoriesService } from '../../../pages/categories/categories.service';
+import { Category } from '../../../shared/Interfaces/category.interface';
 
 @Component({
   selector: 'app-categories-detail',
@@ -97,7 +98,7 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
       },
       (error) => {
         this.isBtnLoading = false;
-        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        this.messageService.error(error?.error?.message);
       }
     );
   }
@@ -117,7 +118,7 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
       },
       (error) => {
         this.isBtnLoading = false;
-        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        this.messageService.error(error?.error?.message);
       }
     );
   }
@@ -139,7 +140,7 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
       },
       (error) => {
         this.isLoading = false;
-        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        this.messageService.error(error?.error?.message);
       }
     );
   }

@@ -1,5 +1,5 @@
 import { Bucket, Storage } from '@google-cloud/storage';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { memoryStorage } from 'multer';
 import { parse } from 'path';
@@ -41,7 +41,11 @@ export class CloudStorageService {
   async uploadFile(uploadedFile: File, destination: string): Promise<any> {
     const fileName = this.setDestination(destination) + this.setFilename(uploadedFile);
     const file = this.bucket.file(fileName);
-    await file.save(uploadedFile.buffer, { contentType: uploadedFile.mimetype });
+    try {
+      await file.save(uploadedFile.buffer, { contentType: uploadedFile.mimetype });
+    } catch (error) {
+      throw new BadRequestException(error?.message);
+    }
     return { ...file.metadata, publicUrl: `https://storage.googleapis.com/${this.bucket.name}/${file.name}` };
   }
 
@@ -50,7 +54,7 @@ export class CloudStorageService {
     try {
       await file.delete();
     } catch (error) {
-      throw new NotFoundException(`Image ${fileName} not found`);
+      throw new BadRequestException(error?.message);
     }
   }
 }

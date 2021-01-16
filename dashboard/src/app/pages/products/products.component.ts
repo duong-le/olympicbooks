@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { CondOperator } from '@nestjsx/crud-request';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BaseComponent } from 'src/app/shared/Base/base.component';
-import { Product } from 'src/app/shared/Interfaces/product.interface';
+
+import { BaseComponent } from '../../shared/Base/base.component';
+import { Product } from '../../shared/Interfaces/product.interface';
 import { ProductsService } from './products.service';
 
 @Component({
@@ -29,18 +30,13 @@ export class ProductsComponent extends BaseComponent<Product> {
     { title: 'Tác giả' }
   ];
 
-  constructor(
-    private productsService: ProductsService,
-    private messageService: NzMessageService,
-    private modalService: NzModalService
-  ) {
+  constructor(private productsService: ProductsService, private messageService: NzMessageService, private modalService: NzModalService) {
     super(productsService);
   }
 
   onSearchByTitle() {
     delete this.qb.queryObject.filter;
-    if (this.searchInputByTitle)
-      this.qb.setFilter({ field: 'title', operator: CondOperator.CONTAINS_LOW, value: this.searchInputByTitle });
+    if (this.searchInputByTitle) this.qb.setFilter({ field: 'title', operator: CondOperator.CONTAINS_LOW, value: this.searchInputByTitle });
     this.renderPage();
   }
 
@@ -61,7 +57,7 @@ export class ProductsComponent extends BaseComponent<Product> {
       },
       (error) => {
         this.isLoading = false;
-        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        this.messageService.error(error?.error?.message);
       }
     );
   }

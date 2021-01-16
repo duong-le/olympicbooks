@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { CondOperator } from '@nestjsx/crud-request';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BaseComponent } from 'src/app/shared/Base/base.component';
-import { Publisher } from 'src/app/shared/Interfaces/publisher.interface';
+
+import { BaseComponent } from '../../shared/Base/base.component';
+import { Publisher } from '../../shared/Interfaces/publisher.interface';
 import { PublishersService } from './publishers.service';
 
 @Component({
@@ -47,7 +48,7 @@ export class PublishersComponent extends BaseComponent<Publisher> {
       },
       (error) => {
         this.isLoading = false;
-        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        this.messageService.error(error?.error?.message);
       }
     );
   }

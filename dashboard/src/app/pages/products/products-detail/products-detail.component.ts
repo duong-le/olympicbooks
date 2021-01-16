@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
-import { NzUploadFile, NzUploadChangeParam } from 'ng-zorro-antd/upload';
-import { Product } from 'src/app/shared/Interfaces/product.interface';
-import { Publisher } from 'src/app/shared/Interfaces/publisher.interface';
-import { Author } from 'src/app/shared/Interfaces/author.interface';
-import { Pagination } from 'src/app/shared/Interfaces/pagination.interface';
+import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
+import { forkJoin } from 'rxjs';
+
+import { AuthorsService } from '../../../pages/authors/authors.service';
+import { CategoriesService } from '../../../pages/categories/categories.service';
+import { PublishersService } from '../../../pages/publishers/publishers.service';
+import { Author } from '../../../shared/Interfaces/author.interface';
+import { Pagination } from '../../../shared/Interfaces/pagination.interface';
+import { Product } from '../../../shared/Interfaces/product.interface';
+import { Publisher } from '../../../shared/Interfaces/publisher.interface';
 import { ProductsService } from '../products.service';
-import { CategoriesService } from 'src/app/pages/categories/categories.service';
-import { PublishersService } from 'src/app/pages/publishers/publishers.service';
-import { AuthorsService } from 'src/app/pages/authors/authors.service';
 
 @Component({
   selector: 'app-products-detail',
@@ -118,7 +119,7 @@ export class ProductsDetailComponent implements OnInit {
       },
       (error) => {
         this.isBtnLoading = false;
-        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        this.messageService.error(error?.error?.message);
       }
     );
   }
@@ -133,7 +134,7 @@ export class ProductsDetailComponent implements OnInit {
       },
       (error) => {
         this.isBtnLoading = false;
-        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        this.messageService.error(error?.error?.message);
       }
     );
   }

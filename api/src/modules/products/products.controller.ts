@@ -2,15 +2,7 @@ import { Controller, Query, UploadedFiles, UseGuards, UseInterceptors } from '@n
 import { AuthGuard } from '@nestjs/passport';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiQuery, ApiTags } from '@nestjs/swagger';
-import {
-  Crud,
-  CrudController,
-  CrudRequest,
-  GetManyDefaultResponse,
-  Override,
-  ParsedBody,
-  ParsedRequest,
-} from '@nestjsx/crud';
+import { Crud, CrudController, CrudRequest, GetManyDefaultResponse, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
 
 import { Roles } from '../../core/Decorators/roles.decorator';
 import { UploadOptions } from '../../core/Services/cloud-storage.service';

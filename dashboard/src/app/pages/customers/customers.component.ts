@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CondOperator } from '@nestjsx/crud-request';
-import { BaseComponent } from 'src/app/shared/Base/base.component';
-import { Customer } from 'src/app/shared/Interfaces/customer.interface';
+
+import { BaseComponent } from '../../shared/Base/base.component';
+import { Customer } from '../../shared/Interfaces/customer.interface';
 import { CustomersService } from './customers.service';
 
 @Component({

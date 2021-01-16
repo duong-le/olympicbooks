@@ -1,14 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { Order } from './orders.entity';
-import { OrderItem } from './orders-item/orders-item.entity';
-import { CreateOrderDto, UpdateOrderDto } from './orders.dto';
+import { Repository } from 'typeorm';
+
+import { MIN_FREE_SHIPPING_ORDER_VALUE } from '../../shared/Constants/transaction.constant';
+import { DeliveryState } from '../../shared/Enums/delivery-state.enum';
 import { Product } from '../products/products.entity';
 import { ShippingMethod } from '../shippings/shipping-methods.entity';
-import { DeliveryState } from 'src/shared/Enums/delivery-state.enum';
-import { MIN_FREE_SHIPPING_ORDER_VALUE } from 'src/shared/Constants/transaction.constant';
+import { OrderItem } from './orders-item/orders-item.entity';
+import { CreateOrderDto, UpdateOrderDto } from './orders.dto';
+import { Order } from './orders.entity';
 
 @Injectable()
 export class OrdersService extends TypeOrmCrudService<Order> {
@@ -22,7 +23,7 @@ export class OrdersService extends TypeOrmCrudService<Order> {
 
   async updateOrder(id: number, dto: UpdateOrderDto): Promise<Order> {
     const order = await this.orderRepository.findOne(id);
-    if (!order) throw new NotFoundException('Order not found');
+    if (!order) throw new NotFoundException(`Order ${id} not found`);
 
     switch (dto?.shipping?.state) {
       case DeliveryState.DELIVERED:
