@@ -14,7 +14,7 @@
 
 <nz-card class="container" [nzBodyStyle]="categoriesStyle" *ngIf="category?.children?.length">
   <div nz-row>
-    <div nz-col nzXl="4" nzLg="6" nzMd="8" nzSm="12" nzXs="24" *ngFor="let item of category?.children">
+    <div nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let item of category?.children">
       <app-category [category]="item"></app-category>
     </div>
   </div>
@@ -63,7 +63,7 @@
       [nzXs]="{span: 24, order: 1}">
       <nz-card [nzLoading]="isLoading" [nzBodyStyle]="productsStyle">
         <div nz-row>
-          <div nz-col nzXl="6" nzLg="8" nzMd="12" nzXs="24" *ngFor="let product of products">
+          <div nz-col nzXl="6" nzLg="8" nzMd="12" nzSm="24" nzXs="12" *ngFor="let product of products">
             <app-product [product]="product"></app-product>
           </div>
         </div>

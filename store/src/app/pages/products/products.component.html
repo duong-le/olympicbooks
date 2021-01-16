@@ -50,7 +50,8 @@
         <div class="price-wrapper">
           <span class="price">{{ product?.price | price }}</span>
           <h3 *ngIf="product?.price !== product?.originalPrice">
-            <del>{{ product?.originalPrice | price }}</del></h3>
+            <del>{{ product?.originalPrice | price }}</del>
+          </h3>
         </div>
 
         <nz-divider></nz-divider>
@@ -99,7 +100,7 @@
 <nz-card class="container" nzTitle="Sản Phẩm Liên Quan" [nzBodyStyle]="relatedProductStyle"
   [nzLoading]="isProductLoading || isRelatedProductsLoading" *ngIf="relatedProducts?.length">
   <div nz-row>
-    <div nz-col nzXl="4" nzLg="6" nzMd="8" nzSm="12" nzXs="24" *ngFor="let product of relatedProducts">
+    <div nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let product of relatedProducts">
       <app-product [product]="product"></app-product>
     </div>
   </div>
