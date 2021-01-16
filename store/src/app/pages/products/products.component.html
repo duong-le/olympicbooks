@@ -34,10 +34,10 @@
         </div>
 
         <div nz-row>
-          <div nz-col nzSm="12">
+          <div nz-col nzSm="12" nzXs="24">
             <h3>Tác giả</h3>
           </div>
-          <div nz-col nzSm="12">
+          <div nz-col nzSm="12" nzXs="24">
             <ng-container *ngFor="let author of product?.authors; let last = last">
               {{ author.name }}{{ last ? '' : ', ' }} </ng-container>
           </div>
