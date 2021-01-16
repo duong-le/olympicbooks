@@ -16,8 +16,8 @@
               <nz-descriptions-item nzTitle="Địa chỉ">{{ orderForm.value?.shipping?.address }}</nz-descriptions-item>
               <nz-descriptions-item nzTitle="Lời nhắn">
                 <span *ngIf="orderForm.value?.buyerNote">{{ orderForm.value?.buyerNote }}</span>
-                <button nz-button nzType="link" *ngIf="!orderForm.value?.buyerNote" (click)="showModal()">
-                  Thêm lời nhắn</button>
+                <button nz-button class="buyer-note-btn" nzType="link" *ngIf="!orderForm.value?.buyerNote"
+                  (click)="showModal()">Thêm lời nhắn</button>
               </nz-descriptions-item>
             </nz-descriptions>
           </nz-card>
@@ -160,8 +160,8 @@
             <div nz-row nzJustify="space-between" class="summary-row">
               <div nz-col> <span>Tổng cộng</span> </div>
               <div nz-col>
-                <span
-                  class="summary-price price">{{ cart?.totalValue - cart?.discountValue + cart?.shippingValue | price }}</span>
+                <span class="summary-price price">{{ cart?.totalValue - cart?.discountValue + cart?.shippingValue |
+                  price }}</span>
               </div>
             </div>
             <button nz-button nzType="primary" (click)="processOrder()" [nzLoading]="isProcessingOrder" nzBlock>
