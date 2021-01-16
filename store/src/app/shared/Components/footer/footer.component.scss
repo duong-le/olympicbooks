@@ -14,3 +14,10 @@ embed {
   overflow: hidden;
   white-space: nowrap;
 }
+
+.address {
+  padding: 3.2px 15px;
+  span {
+    margin-left: 8px;
+  }
+}
