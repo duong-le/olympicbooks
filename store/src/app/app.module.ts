@@ -1,21 +1,20 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { APP_INITIALIZER, NgModule, PLATFORM_ID } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import vi from '@angular/common/locales/vi';
+import { APP_INITIALIZER, NgModule, PLATFORM_ID } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TransferHttpCacheModule } from '@nguniversal/common';
+import { NZ_CONFIG, NzConfig } from 'ng-zorro-antd/core/config';
+import { NZ_I18N, vi_VN } from 'ng-zorro-antd/i18n';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-import { SharedModule } from './shared/shared.module';
-import { NZ_I18N, vi_VN } from 'ng-zorro-antd/i18n';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config';
-import { JwtInterceptor } from './shared/Providers/jwt.interceptor';
+import { SharedModule } from './shared/Modules/shared.module';
 import { ErrorInterceptor } from './shared/Providers/error.interceptor';
 import { FacebookInitializer } from './shared/Providers/facebook.initializer';
+import { JwtInterceptor } from './shared/Providers/jwt.interceptor';
 
 registerLocaleData(vi);
 

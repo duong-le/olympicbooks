@@ -1,28 +1,26 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { SharedModule } from 'src/app/shared/shared.module';
-import { IconModule } from 'src/app/shared/icon.module';
-
-import { CustomerRoutingModule } from './customer-routing.module';
-import { CustomerComponent } from './customer.component';
-import { ProfileComponent } from './profile/profile.component';
-import { OrdersComponent } from './orders/orders.component';
-import { OrderDetailComponent } from './order-detail/order-detail.component';
-
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzMessageModule } from 'ng-zorro-antd/message';
-import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+
+import { IconModule } from '../../shared/Modules/icon.module';
+import { SharedModule } from '../../shared/Modules/shared.module';
+import { CustomerRoutingModule } from './customer-routing.module';
+import { CustomerComponent } from './customer.component';
+import { OrderDetailComponent } from './order-detail/order-detail.component';
+import { OrdersComponent } from './orders/orders.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [CustomerComponent, ProfileComponent, OrdersComponent, OrderDetailComponent],

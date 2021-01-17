@@ -1,26 +1,24 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-import { SharedModule } from 'src/app/shared/shared.module';
-import { IconModule } from 'src/app/shared/icon.module';
-
-import { ProductsComponent } from './products.component';
-import { ProductsRoutingModule } from './products-routing.module';
-
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
-import { NzCarouselModule } from 'ng-zorro-antd/carousel';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
-import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzMessageModule } from 'ng-zorro-antd/message';
-import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzCarouselModule } from 'ng-zorro-antd/carousel';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+
+import { IconModule } from '../../shared/Modules/icon.module';
+import { SharedModule } from '../../shared/Modules/shared.module';
+import { ProductsRoutingModule } from './products-routing.module';
+import { ProductsComponent } from './products.component';
 
 @NgModule({
   declarations: [ProductsComponent],
