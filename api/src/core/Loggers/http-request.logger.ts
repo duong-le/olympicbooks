@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import morgan from 'morgan';
+import * as morgan from 'morgan';
 
 const logger = new Logger();
 

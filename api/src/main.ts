@@ -3,8 +3,8 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { useContainer } from 'class-validator';
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
+import * as helmet from 'helmet';
+import * as rateLimit from 'express-rate-limit';
 import { CrudConfigService } from '@nestjsx/crud';
 CrudConfigService.load({
   routes: {
