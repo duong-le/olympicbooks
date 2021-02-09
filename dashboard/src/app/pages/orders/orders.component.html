@@ -31,12 +31,12 @@
                 <i nz-icon nzType="edit" theme="twotone"></i>
               </button>
             </nz-space-item>
-            <!-- <nz-space-item>
+            <nz-space-item>
               <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Xoá đơn hàng" nzDanger
                 (click)="showDeleteConfirm(item?.id)">
                 <i nz-icon nzType="delete" theme="outline"></i>
               </button>
-            </nz-space-item> -->
+            </nz-space-item>
           </nz-space>
         </td>
         <td>{{ item?.id }}</td>
@@ -78,10 +78,13 @@
     </thead>
     <tbody>
       <tr *ngFor="let data of table.data">
-        <td id="title">
-          <a [routerLink]="['/products/', data?.product?.id]">{{ data?.product?.title }}</a>
+        <td id="title" *ngIf="data?.product; else deletedProduct">
+          <a [routerLink]="['/products/', data?.product?.id ]">{{ data?.product?.title }}</a>
         </td>
-        <td>{{ data?.product?.price | price }}</td>
+        <ng-template #deletedProduct>
+          <td id="title">{{ data?.productTitle }}</td>
+        </ng-template>
+        <td>{{ data?.totalValue / data?.quantity | price }}</td>
         <td>{{ data?.quantity }}</td>
         <td>{{ data?.totalValue | price }}</td>
       </tr>

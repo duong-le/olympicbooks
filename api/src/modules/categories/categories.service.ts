@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TreeRepository } from 'typeorm';
 
@@ -70,8 +70,7 @@ export class CategoriesService {
   async deleteOne(id: number): Promise<void> {
     const category = await this.categoryRepository.findOne(id, { relations: ['products'] });
     if (!category) throw new NotFoundException(`Category ${id} not found`);
-    if (category.products.length) throw new BadRequestException(`Products belong to category ${id} is not empty`);
-    await this.categoryRepository.delete(id);
+    await this.categoryRepository.softDelete(id);
     if (category.imgUrl && category.imgName) await this.removeFile(category.imgName);
   }
 

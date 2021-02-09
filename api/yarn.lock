@@ -719,34 +719,35 @@
   dependencies:
     uuid "8.3.1"
 
-"@nestjsx/crud-request@^4.6.2":
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/@nestjsx/crud-request/-/crud-request-4.6.2.tgz#c0d29df354b3de648a44dc0973f80131c953af86"
-  integrity sha512-EqveTzR5JLMRBnxqJzo0mm7Ff05IzQ6dvfg1gj46q6nOwZ0hfXr0FBTChtciKtkZB/QOlWQ5B1scCap/QuNJWQ==
+"@nestjsx/crud-request@^5.0.0-alpha.2":
+  version "5.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@nestjsx/crud-request/-/crud-request-5.0.0-alpha.2.tgz#c1b69430803ad89a7f86171082d6185661c511db"
+  integrity sha512-zmTdhZQ1rVEWTG5HVgNAD35F6CgZkmeMBaMFP0fSgqe2whKunWIpARlTYvYRBcPjLdv5IqGjx22daDyILapymA==
   dependencies:
-    "@nestjsx/util" "^4.6.2"
+    "@nestjsx/util" "^5.0.0-alpha.2"
     qs "^6.8.0"
 
-"@nestjsx/crud-typeorm@^4.6.2":
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/@nestjsx/crud-typeorm/-/crud-typeorm-4.6.2.tgz#8d36b07b139489133545673af2209d2f1ce3d4fa"
-  integrity sha512-RHJlxz9QrLauaCtgRp0C2o38WVLbcZzvFWjHOpsSa8Pti74lUppphiAvlSaOnoMjOtlSCYcHJ954ynKcy0GwLA==
+"@nestjsx/crud-typeorm@^5.0.0-alpha.2":
+  version "5.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@nestjsx/crud-typeorm/-/crud-typeorm-5.0.0-alpha.2.tgz#1bcfa53eb7f1ddf5c6e3f487801d3a163737dcc6"
+  integrity sha512-m3DJIPuN53QfrWlg45VvvdKj+qT87Eb2g+YRQ6mgpFR2vCZGpBXLo5IcPbfYGJjx7Oy0wtzRYEonpD0q4y8jxw==
   dependencies:
     "@zmotivat0r/o0" "^1.0.2"
 
-"@nestjsx/crud@^4.6.2":
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/@nestjsx/crud/-/crud-4.6.2.tgz#7b6c3e8642f44f6113e7d9945aa397bbda334b26"
-  integrity sha512-WWzPI7X2saxJ2No5vO4+zaSRP4CABqSM4NGVAE1VjGQ1ApdjDxj3dFu08Y7YSa5kz+vmrVRwh++Vh+xd9MixUQ==
+"@nestjsx/crud@^5.0.0-alpha.2":
+  version "5.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@nestjsx/crud/-/crud-5.0.0-alpha.2.tgz#242323872e6c0978419b94022541fee70ff09b9e"
+  integrity sha512-paOSgWV8XknbIKs4OgRFb7Pabl6eIEkK1F9iTtrxPSnYPVfKnaNbnIoNwSahiTPpejeBz94B+C/VxWqUgpdr8Q==
   dependencies:
-    "@nestjsx/crud-request" "^4.6.2"
-    "@nestjsx/util" "^4.6.2"
+    "@nestjsx/crud-request" "^5.0.0-alpha.2"
+    "@nestjsx/util" "^5.0.0-alpha.2"
     deepmerge "^3.2.0"
+    pluralize "^8.0.0"
 
-"@nestjsx/util@^4.6.2":
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/@nestjsx/util/-/util-4.6.2.tgz#89bd31447a30f9666d7ad1616111c78b2d61dd56"
-  integrity sha512-YG2gQvSm7p8zBFaW6MFM5r1Ihk4Vr189SB2OTr7fV7qcjPS+02v7xILw2dTz2emdmu0t0AgCL2RU1V0lY8Aa9w==
+"@nestjsx/util@^5.0.0-alpha.2":
+  version "5.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@nestjsx/util/-/util-5.0.0-alpha.2.tgz#477e9efd639e39a1b634c4dffbb418979b563260"
+  integrity sha512-0areh/D7FpElvkH/E6lIUvrpbSAIJDyBN2Buv7PKQ68fgLuuPh89MFvTGJHVAuq5ANwS6Sft9w4HJ/bIvxr+Og==
 
 "@nodelib/fs.scandir@2.1.4":
   version "2.1.4"
@@ -5710,7 +5711,7 @@ pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-pluralize@8.0.0:
+pluralize@8.0.0, pluralize@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-8.0.0.tgz#1a6fa16a38d12a1901e0320fa017051c539ce3b1"
   integrity sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==
@@ -7078,10 +7079,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typeorm@^0.2.30:
-  version "0.2.30"
-  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.30.tgz#a0df2256402cbcdde8049a244437560495ce9b38"
-  integrity sha512-qpr8AO3Phi6ZF7qMHOrRdNisVt8jE1KfmW0ooLFcXscA87aJ12aBPyB9cJfxGNjNwd7B3WIK9ZlBveWiqd74QA==
+typeorm@^0.2.31:
+  version "0.2.31"
+  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.31.tgz#82b8a1b233224f81c738f53b0380386ccf360917"
+  integrity sha512-dVvCEVHH48DG0QPXAKfo0l6ecQrl3A8ucGP4Yw4myz4YEDMProebTQo8as83uyES+nrwCbu3qdkL4ncC2+qcMA==
   dependencies:
     "@sqltools/formatter" "1.2.2"
     app-root-path "^3.0.0"

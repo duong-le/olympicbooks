@@ -8,8 +8,11 @@ import * as rateLimit from 'express-rate-limit';
 import { CrudConfigService } from '@nestjsx/crud';
 CrudConfigService.load({
   routes: {
-    exclude: ['createManyBase', 'replaceOneBase'],
+    exclude: ['createManyBase', 'replaceOneBase', 'recoverOneBase'],
     createOneBase: { returnShallow: true }
+  },
+  query: {
+    softDelete: true
   }
 });
 import { AppModule } from './app.module';

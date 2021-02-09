@@ -61,7 +61,11 @@ export class ProductsComponent implements OnInit {
           this.isRelatedProductsLoading = true;
 
           return this.productsService.getManyProducts({
-            filter: [`categoryId||$eq||${this.product.category.id}`, `id||$ne||${this.product.id}`, 'inStock||$eq||true'],
+            filter: [
+              ...(this.product?.category?.id ? [`categoryId||$eq||${this.product?.category?.id}`] : []),
+              `id||$ne||${this.product.id}`,
+              'inStock||$eq||true'
+            ],
             limit: this.maxRelatedProduct
           });
         })

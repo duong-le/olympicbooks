@@ -44,7 +44,7 @@ export class ProductsService extends TypeOrmCrudService<Product> {
   async getProduct(id: number): Promise<Product> {
     const product = await this.productRepository.findOne(id);
     if (!product) throw new NotFoundException(`Product ${id} not found`);
-    product.category = await this.categoriesService.getOne(product.category.id);
+    if (product?.category?.id) product.category = await this.categoriesService.getOne(product?.category?.id);
     return product;
   }
 
@@ -71,7 +71,7 @@ export class ProductsService extends TypeOrmCrudService<Product> {
     const product = await this.productRepository.findOne(id);
     if (!product) throw new NotFoundException(`Product ${id} not found`);
 
-    if (dto.categoryId && product.category.id !== dto.categoryId) {
+    if (dto.categoryId && product?.category?.id !== dto.categoryId) {
       product.category = await this.categoryRepository.findOne(dto.categoryId);
     }
 
@@ -79,7 +79,7 @@ export class ProductsService extends TypeOrmCrudService<Product> {
       product.authors = await this.authorRepository.findByIds(authorIds);
     }
 
-    if (dto.publisherId && product.publisher.id !== dto.publisherId) {
+    if (dto.publisherId && product?.publisher?.id !== dto.publisherId) {
       product.publisher = await this.publisherRepository.findOne(dto.publisherId);
     }
 
@@ -93,8 +93,8 @@ export class ProductsService extends TypeOrmCrudService<Product> {
 
     if (removedImageIds?.length) {
       product.images = product.images.filter((image) => !removedImageIds.includes(image.id));
-      await this.removeFiles(await this.productImageRepository.findByIds(removedImageIds));
-      await this.productImageRepository.delete(removedImageIds);
+      // await this.removeFiles(await this.productImageRepository.findByIds(removedImageIds));
+      await this.productImageRepository.softDelete(removedImageIds);
     }
     return await this.productRepository.save({ ...product, ...others });
   }
@@ -103,8 +103,9 @@ export class ProductsService extends TypeOrmCrudService<Product> {
     const product = await this.productRepository.findOne(id);
     if (!product) throw new NotFoundException(`Product ${id} not found`);
 
-    await this.removeFiles(product.images);
-    await this.productRepository.delete(id);
+    // await this.removeFiles(product.images);
+    await this.productImageRepository.softRemove(product.images);
+    await this.productRepository.softDelete(id);
   }
 
   async uploadFiles(uploadedFiles: File[]): Promise<any> {

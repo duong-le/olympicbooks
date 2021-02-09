@@ -1353,18 +1353,18 @@
     merge-source-map "^1.1.0"
     schema-utils "^2.7.0"
 
-"@nestjsx/crud-request@^4.6.2":
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/@nestjsx/crud-request/-/crud-request-4.6.2.tgz#c0d29df354b3de648a44dc0973f80131c953af86"
-  integrity sha512-EqveTzR5JLMRBnxqJzo0mm7Ff05IzQ6dvfg1gj46q6nOwZ0hfXr0FBTChtciKtkZB/QOlWQ5B1scCap/QuNJWQ==
+"@nestjsx/crud-request@^5.0.0-alpha.2":
+  version "5.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@nestjsx/crud-request/-/crud-request-5.0.0-alpha.2.tgz#c1b69430803ad89a7f86171082d6185661c511db"
+  integrity sha512-zmTdhZQ1rVEWTG5HVgNAD35F6CgZkmeMBaMFP0fSgqe2whKunWIpARlTYvYRBcPjLdv5IqGjx22daDyILapymA==
   dependencies:
-    "@nestjsx/util" "^4.6.2"
+    "@nestjsx/util" "^5.0.0-alpha.2"
     qs "^6.8.0"
 
-"@nestjsx/util@^4.6.2":
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/@nestjsx/util/-/util-4.6.2.tgz#89bd31447a30f9666d7ad1616111c78b2d61dd56"
-  integrity sha512-YG2gQvSm7p8zBFaW6MFM5r1Ihk4Vr189SB2OTr7fV7qcjPS+02v7xILw2dTz2emdmu0t0AgCL2RU1V0lY8Aa9w==
+"@nestjsx/util@^5.0.0-alpha.2":
+  version "5.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@nestjsx/util/-/util-5.0.0-alpha.2.tgz#477e9efd639e39a1b634c4dffbb418979b563260"
+  integrity sha512-0areh/D7FpElvkH/E6lIUvrpbSAIJDyBN2Buv7PKQ68fgLuuPh89MFvTGJHVAuq5ANwS6Sft9w4HJ/bIvxr+Og==
 
 "@ngtools/webpack@11.1.4":
   version "11.1.4"
