@@ -1,7 +1,6 @@
-import { Controller, Delete, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Crud, CrudAuth, CrudController, CrudRequestInterceptor, Override, ParsedBody } from '@nestjsx/crud';
 
 import { UserInfo } from '../../core/Decorators/user-info.decorator';
 import { User } from '../users/users.entity';
@@ -13,31 +12,36 @@ import { CartsService } from './carts.service';
 @ApiBearerAuth()
 @Controller('mine/carts')
 @UseGuards(AuthGuard())
-@Crud({
-  model: { type: CartItem },
-  query: {
-    join: { product: { eager: true }, 'product.images': { eager: true } },
-    exclude: ['userId', 'productId']
-  },
-  routes: { exclude: ['getOneBase', 'createManyBase', 'replaceOneBase'] },
-  dto: { create: CreateCartItemDto, update: UpdateCartItemDto }
-})
-@CrudAuth({
-  property: 'user',
-  filter: (user: User) => ({ userId: user.id })
-})
-export class CartsController implements CrudController<CartItem> {
+export class CartsController {
   constructor(public service: CartsService) {}
 
-  @Override()
-  createOne(@ParsedBody() dto: CreateCartItemDto, @UserInfo() user: User): Promise<CartItem> {
-    return this.service.createCartItem(dto, user);
+  @ApiOperation({ summary: 'Retrieve multiple CartItems' })
+  @Get()
+  getMany(@UserInfo() user: User): Promise<CartItem[]> {
+    return this.service.getManyCartItem(user.id);
   }
 
-  @ApiOperation({ summary: 'Delete many CartItem' })
-  @UseInterceptors(CrudRequestInterceptor)
+  @ApiOperation({ summary: 'Create a single CartItem' })
+  @Post()
+  createOne(@Body() dto: CreateCartItemDto, @UserInfo() user: User): Promise<CartItem> {
+    return this.service.createCartItem(dto, user.id);
+  }
+
+  @ApiOperation({ summary: 'Update a single CartItem' })
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateCartItemDto: UpdateCartItemDto): Promise<CartItem> {
+    return this.service.updateCartItem(+id, updateCartItemDto);
+  }
+
+  @ApiOperation({ summary: 'Delete a single CartItem' })
+  @Delete(':id')
+  deleteOne(@Param('id') id: string, @UserInfo() user: User): Promise<void> {
+    return this.service.deleteOneCartItem(+id, user.id);
+  }
+
+  @ApiOperation({ summary: 'Delete multiple CartItems' })
   @Delete()
   deleteMany(@UserInfo() user: User): Promise<void> {
-    return this.service.deleteCartItems(user);
+    return this.service.deleteCartItems(user.id);
   }
 }
