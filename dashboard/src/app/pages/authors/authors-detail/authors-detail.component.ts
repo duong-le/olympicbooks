@@ -40,14 +40,20 @@ export class AuthorsDetailComponent implements OnInit {
   }
 
   render(id: number) {
-    this.authorsService.getOne(id).subscribe((response) => {
-      this.author = response;
-      this.authorForm.setValue({
-        id: this.author.id,
-        name: this.author.name
-      });
-      this.isLoading = false;
-    });
+    this.authorsService.getOne(id).subscribe(
+      (response) => {
+        this.author = response;
+        this.authorForm.setValue({
+          id: this.author.id,
+          name: this.author.name
+        });
+        this.isLoading = false;
+      },
+      (error) => {
+        this.isLoading = false;
+        this.messageService.error(error?.error?.message);
+      }
+    );
   }
 
   update() {

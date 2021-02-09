@@ -58,31 +58,37 @@ export class OrdersDetailComponent implements OnInit {
   }
 
   renderOrder(id: number) {
-    this.ordersService.getOne(id).subscribe((response) => {
-      this.order = response;
-      this.orderForm.setValue({
-        buyerNote: this.order.buyerNote,
-        sellerNote: this.order.sellerNote,
-        shipping: {
-          id: this.order.shipping.id,
-          state: this.order.shipping.state,
-          code: this.order.shipping.code,
-          fee: this.order.shipping.fee,
-          shippingMethod: this.order.shipping.shippingMethod.description,
-          deliveryDate: this.order.shipping.deliveryDate,
-          name: this.order.shipping.name,
-          address: this.order.shipping.address,
-          phoneNumber: this.order.shipping.phoneNumber
-        },
-        transaction: {
-          id: this.order.transaction.id,
-          state: this.order.transaction.state,
-          transactionMethod: this.order.transaction.transactionMethod.description,
-          value: this.order.transaction.value
-        }
-      });
-      this.isLoading = false;
-    });
+    this.ordersService.getOne(id).subscribe(
+      (response) => {
+        this.order = response;
+        this.orderForm.setValue({
+          buyerNote: this.order.buyerNote,
+          sellerNote: this.order.sellerNote,
+          shipping: {
+            id: this.order.shipping.id,
+            state: this.order.shipping.state,
+            code: this.order.shipping.code,
+            fee: this.order.shipping.fee,
+            shippingMethod: this.order.shipping.shippingMethod.description,
+            deliveryDate: this.order.shipping.deliveryDate,
+            name: this.order.shipping.name,
+            address: this.order.shipping.address,
+            phoneNumber: this.order.shipping.phoneNumber
+          },
+          transaction: {
+            id: this.order.transaction.id,
+            state: this.order.transaction.state,
+            transactionMethod: this.order.transaction.transactionMethod.description,
+            value: this.order.transaction.value
+          }
+        });
+        this.isLoading = false;
+      },
+      (error) => {
+        this.isLoading = false;
+        this.messageService.error(error?.error?.message);
+      }
+    );
   }
 
   update() {

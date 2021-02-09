@@ -71,42 +71,50 @@ export class ProductsDetailComponent implements OnInit {
 
   renderProduct(id: number) {
     this.isLoading = true;
-    this.productsService.getOne(id).subscribe((response) => {
-      this.product = response;
-      this.productForm.setValue({
-        id: this.product.id,
-        title: this.product.title,
-        pages: this.product.pages,
-        weight: this.product.weight,
-        publicationYear: this.product.publicationYear,
-        price: this.product.price,
-        originalPrice: this.product.originalPrice,
-        description: this.product.description,
-        inStock: this.product.inStock,
-        categoryId: this.product.category.id,
-        publisherId: this.product.publisher.id,
-        authorIds: this.product.authors.map((author) => author.id)
-      });
-      this.fileList = this.product.images.map((image) => ({
-        uid: String(image.id),
-        status: 'done',
-        name: image.imgName,
-        url: image.imgUrl
-      }));
-      this.isLoading = false;
-    });
+    this.productsService.getOne(id).subscribe(
+      (response) => {
+        this.product = response;
+        this.productForm.setValue({
+          id: this.product.id,
+          title: this.product.title,
+          pages: this.product.pages,
+          weight: this.product.weight,
+          publicationYear: this.product.publicationYear,
+          price: this.product.price,
+          originalPrice: this.product.originalPrice,
+          description: this.product.description,
+          inStock: this.product.inStock,
+          categoryId: this.product?.category?.id || '',
+          publisherId: this.product?.publisher?.id || '',
+          authorIds: this.product.authors.map((author) => author.id)
+        });
+        this.fileList = this.product.images.map((image) => ({
+          uid: String(image.id),
+          status: 'done',
+          name: image.imgName,
+          url: image.imgUrl
+        }));
+        this.isLoading = false;
+      },
+      (error) => {
+        this.isLoading = false;
+        this.messageService.error(error?.error?.message);
+      }
+    );
   }
 
   renderDependencies() {
     this.isLoading = true;
-    forkJoin([
-      this.categoriesService.getMany(),
-      this.publishersService.getMany(null),
-      this.authorsService.getMany(null)
-    ]).subscribe((response) => {
-      [this.categoryTree, this.publishers, this.authors] = response;
-      this.isLoading = false;
-    });
+    forkJoin([this.categoriesService.getMany(), this.publishersService.getMany(null), this.authorsService.getMany(null)]).subscribe(
+      (response) => {
+        [this.categoryTree, this.publishers, this.authors] = response;
+        this.isLoading = false;
+      },
+      (error) => {
+        this.isLoading = false;
+        this.messageService.error(error?.error?.message);
+      }
+    );
   }
 
   update() {

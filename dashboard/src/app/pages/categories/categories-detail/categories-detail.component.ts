@@ -61,27 +61,33 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
 
   render() {
     this.isLoading = true;
-    this.categoriesService.getOne(this.id).subscribe((response) => {
-      this.category = response;
-      this.categoryForm.setValue({
-        id: this.category.id,
-        title: this.category.title,
-        parentId: this.category?.parent?.length > 1 ? this.category.parent[this.category.parent.length - 2].id : null
-      });
-      if (this.category.imgName && this.category.imgUrl) {
-        this.fileList = [
-          {
-            uid: String(this.category.id),
-            status: 'done',
-            name: this.category.imgName,
-            url: this.category.imgUrl,
-            thumbUrl: this.category.imgUrl
-          }
-        ];
+    this.categoriesService.getOne(this.id).subscribe(
+      (response) => {
+        this.category = response;
+        this.categoryForm.setValue({
+          id: this.category.id,
+          title: this.category.title,
+          parentId: this.category?.parent?.length > 1 ? this.category.parent[this.category.parent.length - 2].id : null
+        });
+        if (this.category.imgName && this.category.imgUrl) {
+          this.fileList = [
+            {
+              uid: String(this.category.id),
+              status: 'done',
+              name: this.category.imgName,
+              url: this.category.imgUrl,
+              thumbUrl: this.category.imgUrl
+            }
+          ];
+        }
+        this.categoryForm.markAsPristine();
+        this.isLoading = false;
+      },
+      (error) => {
+        this.isLoading = false;
+        this.messageService.error(error?.error?.message);
       }
-      this.categoryForm.markAsPristine();
-      this.isLoading = false;
-    });
+    );
   }
 
   update() {

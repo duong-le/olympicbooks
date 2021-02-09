@@ -40,14 +40,20 @@ export class PublishersDetailComponent implements OnInit {
   }
 
   render(id: number) {
-    this.publishersService.getOne(id).subscribe((response) => {
-      this.publisher = response;
-      this.publisherForm.setValue({
-        id: this.publisher.id,
-        name: this.publisher.name
-      });
-      this.isLoading = false;
-    });
+    this.publishersService.getOne(id).subscribe(
+      (response) => {
+        this.publisher = response;
+        this.publisherForm.setValue({
+          id: this.publisher.id,
+          name: this.publisher.name
+        });
+        this.isLoading = false;
+      },
+      (error) => {
+        this.isLoading = false;
+        this.messageService.error(error?.error?.message);
+      }
+    );
   }
 
   update() {
