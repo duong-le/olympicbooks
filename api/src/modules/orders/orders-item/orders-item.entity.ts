@@ -12,6 +12,9 @@ export class OrderItem extends BaseEntity {
   @Column()
   totalValue: number;
 
+  @Column({ default: null })
+  productTitle: string;
+
   @Column()
   orderId: number;
 

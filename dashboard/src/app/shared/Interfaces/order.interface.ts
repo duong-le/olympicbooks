@@ -1,6 +1,6 @@
-import { Transaction } from './transaction.interface';
-import { Shipping } from './shipping.interface';
 import { Product } from './product.interface';
+import { Shipping } from './shipping.interface';
+import { Transaction } from './transaction.interface';
 
 export interface Order {
   id?: number;
@@ -19,6 +19,7 @@ export interface OrderItem {
   id?: number;
   quantity?: number;
   productId?: number;
+  productTitle?: string;
   product?: Product;
   totalValue?: number;
 }

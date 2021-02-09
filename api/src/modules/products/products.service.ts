@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { CloudStorageService } from '../../core/Services/cloud-storage.service';
 import { File } from '../../shared/Interfaces/file.interface';
 import { Author } from '../authors/authors.entity';
+import { CartItem } from '../carts/carts.entity';
 import { Category } from '../categories/categories.entity';
 import { CategoriesService } from '../categories/categories.service';
 import { OrderItem } from '../orders/orders-item/orders-item.entity';
@@ -23,6 +24,7 @@ export class ProductsService extends TypeOrmCrudService<Product> {
     @InjectRepository(Author) private authorRepository: Repository<Author>,
     @InjectRepository(Publisher) private publisherRepository: Repository<Publisher>,
     @InjectRepository(OrderItem) private orderItemRepository: Repository<OrderItem>,
+    @InjectRepository(CartItem) private cartItemRepository: Repository<CartItem>,
     private categoriesService: CategoriesService,
     private cloudStorageService: CloudStorageService
   ) {
@@ -106,6 +108,7 @@ export class ProductsService extends TypeOrmCrudService<Product> {
     // await this.removeFiles(product.images);
     await this.productImageRepository.softRemove(product.images);
     await this.productRepository.softDelete(id);
+    await this.cartItemRepository.delete({ productId: product.id });
   }
 
   async uploadFiles(uploadedFiles: File[]): Promise<any> {

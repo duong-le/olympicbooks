@@ -52,6 +52,7 @@ export class OrdersService extends TypeOrmCrudService<Order> {
     order.orderItems = order.orderItems.map((orderItem) => {
       const product = products.find((product) => product.id === orderItem.productId);
       orderItem.totalValue = orderItem.quantity * product.price;
+      orderItem.productTitle = product.title;
       return orderItem;
     });
 

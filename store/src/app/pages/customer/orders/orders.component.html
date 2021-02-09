@@ -15,7 +15,7 @@
       <td><button nz-button nzType="link" [routerLink]="[data?.id]">{{ data?.id }}</button></td>
       <td id="title">
         <ng-container *ngFor="let item of data?.orderItems">
-          {{ item?.product?.title }} <br />
+          {{ item?.product?.title || item?.productTitle }} <br />
         </ng-container>
       </td>
       <td>{{ data?.transaction?.value | price }}</td>
