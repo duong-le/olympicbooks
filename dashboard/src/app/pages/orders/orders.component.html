@@ -54,11 +54,6 @@
           </nz-tag>
           <p>{{ item?.transaction?.transactionMethod?.name }}</p>
         </td>
-        <td>
-          <p>{{ item?.shipping?.name }}</p>
-          <p>{{ item?.shipping?.address }}</p>
-          <p>{{ item?.shipping?.phoneNumber }}</p>
-        </td>
         <td>{{ item?.shipping?.fee | price }}</td>
         <td>{{ item?.transaction?.value | price }}</td>
       </tr>
@@ -66,8 +61,8 @@
   </nz-table>
 </nz-card>
 
-<ng-template #modalContent let-params>
-  <nz-table #table [nzData]="params?.orderItems" [nzFrontPagination]="false" [nzScroll]="{ x: '576px' }">
+<ng-template #modalContent let-order>
+  <nz-table #table [nzData]="order?.orderItems" [nzFrontPagination]="false" [nzScroll]="{ x: '576px' }">
     <thead>
       <tr>
         <th nzWidth="55%">Sản phẩm</th>
@@ -77,19 +72,30 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of table.data">
-        <td id="title" *ngIf="data?.product; else deletedProduct">
-          <a [routerLink]="['/products/', data?.product?.id ]">{{ data?.product?.title }}</a>
+      <tr *ngFor="let item of table.data">
+        <td id="title" *ngIf="item?.product; else deletedProduct">
+          <a [routerLink]="['/products/', item?.product?.id ]">{{ item?.product?.title }}</a>
         </td>
         <ng-template #deletedProduct>
-          <td id="title">{{ data?.productTitle }}</td>
+          <td id="title">{{ item?.productTitle }}</td>
         </ng-template>
-        <td>{{ data?.totalValue / data?.quantity | price }}</td>
-        <td>{{ data?.quantity }}</td>
-        <td>{{ data?.totalValue | price }}</td>
+        <td>{{ item?.totalValue / item?.quantity | price }}</td>
+        <td>{{ item?.quantity }}</td>
+        <td>{{ item?.totalValue | price }}</td>
       </tr>
     </tbody>
   </nz-table>
+
+  <nz-descriptions nzTitle="Địa chỉ" nzBordered [nzColumn]="1">
+    <nz-descriptions-item nzTitle="Họ tên">{{ order?.shipping?.name }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Địa chỉ">{{ order?.shipping?.address }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Số điện thoại">{{ order?.shipping?.phoneNumber }}</nz-descriptions-item>
+  </nz-descriptions>
+
+  <nz-descriptions nzTitle="Lời nhắn" nzBordered [nzColumn]="1">
+    <nz-descriptions-item nzTitle="Của người mua">{{ order?.buyerNote }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Của người bán">{{ order?.sellerNote }}</nz-descriptions-item>
+  </nz-descriptions>
 </ng-template>
 <ng-template #inputSearch><i nz-icon nzType="search"></i></ng-template>
 <ng-template #inputClearById><i nz-icon nzType="close-circle" class="ant-input-clear-icon" nzTheme="fill"

@@ -19,7 +19,6 @@ export class OrdersComponent extends BaseComponent<Order> {
     { title: 'Ngày mua', key: 'createdAt', sort: true },
     { title: 'Giao hàng', key: 'shipping.state', sort: true },
     { title: 'Thanh Toán', key: 'transaction.state', sort: true },
-    { title: 'Người nhận' },
     { title: 'Phí vận chuyển', key: 'shipping.fee', sort: true },
     { title: 'Tổng tiền', key: 'transaction.value', sort: true }
     // { title: 'Giảm giá' }
@@ -53,9 +52,9 @@ export class OrdersComponent extends BaseComponent<Order> {
 
   showProductsModal(modalContent: TemplateRef<{}>, item: Order): void {
     this.modalService.create({
-      nzTitle: 'Chi tiết đơn hàng',
+      nzTitle: `Chi tiết đơn hàng #${item.id}`,
       nzContent: modalContent,
-      nzWidth: '75%',
+      nzWidth: 1000,
       nzMaskClosable: true,
       nzClosable: true,
       nzFooter: null,

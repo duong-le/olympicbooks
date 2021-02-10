@@ -22,6 +22,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 
 @NgModule({
   declarations: [OrdersComponent, OrdersDetailComponent],
@@ -44,7 +45,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzMessageModule,
     NzModalModule,
     NzTabsModule,
-    NzSelectModule
+    NzSelectModule,
+    NzDescriptionsModule
   ]
 })
 export class OrdersModule {}
