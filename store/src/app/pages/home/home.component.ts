@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { combineLatest } from 'rxjs';
 
 import { Category } from '../../shared/Interfaces/category.interface';
 import { Product } from '../../shared/Interfaces/product.interface';
+import { CarouselComponent } from '../../shared/Modules/carousel/carousel.component';
 import { CategoriesService } from '../categories/categories.service';
 import { ProductsService } from '../products/products.service';
 
@@ -13,6 +14,9 @@ import { ProductsService } from '../products/products.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  @ViewChild('myCarousel') myCarousel: CarouselComponent;
+  @ViewChild('myCarouselThumbs') myCarouselThumbs: CarouselComponent;
+
   categories: Category[];
   newProducts: Product[];
   topSellingProducts: Product[];
@@ -21,6 +25,13 @@ export class HomeComponent implements OnInit {
   maxProductPerRow = 6;
   banner = { left: 'assets/images/cover.png', right: 'assets/images/community.jpg' };
   cardStyle = null;
+  images = [
+    { path: 'https://picsum.photos/1682/599' },
+    { path: 'https://picsum.photos/1682/599' },
+    { path: 'https://picsum.photos/1682/599' },
+    { path: 'https://picsum.photos/1682/599' },
+    { path: 'https://picsum.photos/1682/599' }
+  ];
 
   constructor(private titleService: Title, private categoriesService: CategoriesService, private productsService: ProductsService) {
     this.titleService.setTitle('Trang chủ | OlympicBooks');
@@ -40,5 +51,15 @@ export class HomeComponent implements OnInit {
       },
       (error) => {}
     );
+  }
+
+  handleMyCarouselEvents(event) {
+    if (event.name === 'transitionend') {
+      this.myCarouselThumbs.select(this.myCarousel.slideCounter);
+    }
+  }
+
+  selectCarouselCell(index: number) {
+    this.myCarousel.select(index);
   }
 }

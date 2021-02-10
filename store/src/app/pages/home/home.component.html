@@ -1,3 +1,16 @@
+<div class="container">
+  <carousel #myCarousel="carousel" [images]="images" (events)="handleMyCarouselEvents($event)" [height]="300"
+    objectFit='contain' [cellWidth]="'100%'" [autoplay]="true" autoplayInterval="4000" [dots]="true" [loop]="true"
+    style="margin-bottom: 10px;">
+  </carousel>
+
+  <carousel #myCarouselThumbs="carousel" [height]="100" [cellsToShow]="images.length" [arrows]="false">
+    <div class="carousel-cell" (click)="selectCarouselCell(i)" *ngFor="let image of images; let i = index">
+      <img [src]="image.path">
+    </div>
+  </carousel>
+</div>
+
 <div nz-row class="banner-section" [nzGutter]="[16, 16]">
   <div nz-col nzLg="15" nzXs="24" class="banner">
     <div class="banner-image" style="background-image: url({{banner.left}})"></div>
