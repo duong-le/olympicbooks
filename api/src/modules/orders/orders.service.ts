@@ -36,7 +36,7 @@ export class OrdersService extends TypeOrmCrudService<Order> {
 
     if (dto?.shipping?.fee) order.transaction.value += -order.shipping.fee + dto.shipping.fee;
 
-    return this.orderRepository.save({
+    return await this.orderRepository.save({
       ...order,
       ...dto,
       transaction: { ...order.transaction, ...dto.transaction },

@@ -41,6 +41,6 @@ export class Order extends BaseEntity {
   @JoinColumn()
   shipping: Shipping;
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { eager: true, cascade: true })
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { eager: true, cascade: ['insert', 'recover', 'remove', 'soft-remove'] })
   orderItems: OrderItem[];
 }
