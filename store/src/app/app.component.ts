@@ -1,5 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +8,11 @@ import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  zaloChatWidget: any = '<div class="zalo-chat-widget" data-oaid="3378651306062428036" data-style="2"></div>';
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private sanitized: DomSanitizer) {
+    this.zaloChatWidget = this.sanitized.bypassSecurityTrustHtml(this.zaloChatWidget);
+  }
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) this.initZaloSDK();

@@ -13,7 +13,7 @@ nz-content {
   margin-top: 60px;
 }
 
-.zalo-chat-widget {
-  bottom: 80px !important;
+:host ::ng-deep .zalo-chat-widget {
+  bottom: 90px !important;
   right: 20px !important;
 }
