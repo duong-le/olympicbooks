@@ -28,8 +28,10 @@
           </button>
 
           <nz-drawer nzTitle="Menu" [nzVisible]="visible" nzPlacement="right" nzWidth="100%" (nzOnClose)="close()">
-            <app-left-menu [mode]="verticalMode" [mobile]="true" (onNavigate)="close()"></app-left-menu>
-            <app-right-menu [mode]="verticalMode" (onNavigate)="close()"></app-right-menu>
+            <ng-container *nzDrawerContent>
+              <app-left-menu [mode]="verticalMode" [mobile]="true" (onNavigate)="close()"></app-left-menu>
+              <app-right-menu [mode]="verticalMode" (onNavigate)="close()"></app-right-menu>
+            </ng-container>
           </nz-drawer>
         </div>
       </div>
