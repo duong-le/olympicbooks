@@ -52,7 +52,7 @@ export class CreateProductDto {
 
   @ApiProperty()
   @IsDefined()
-  @Transform((value: string) => (typeof value === 'string' ? value.toLowerCase() === 'true' : value))
+  @Transform(({ value }) => (typeof value === 'string' ? value.toLowerCase() === 'true' : value))
   @IsBoolean()
   inStock: boolean;
 
@@ -72,7 +72,7 @@ export class CreateProductDto {
 
   @ApiProperty()
   @IsDefined()
-  @Transform((value: string) => (typeof value === 'string' ? value.split(',').map((id) => Number(id)) : value))
+  @Transform(({ value }) => (typeof value === 'string' ? value.split(',').map((id) => Number(id)) : value))
   @IsNumber({}, { each: true })
   @Validate(ArrayExist, [Author, 'id'])
   authorIds: number[];
@@ -85,7 +85,7 @@ export class CreateProductDto {
 export class UpdateProductDto extends PartialType(CreateProductDto) {
   @ApiPropertyOptional()
   @IsOptional()
-  @Transform((value: string) => (typeof value === 'string' ? value.split(',').map((id) => Number(id)) : value))
+  @Transform(({ value }) => (typeof value === 'string' ? value.split(',').map((id) => Number(id)) : value))
   @IsNumber({}, { each: true })
   @Validate(ArrayExist, [ProductImage, 'id'])
   removedImageIds: number[];
