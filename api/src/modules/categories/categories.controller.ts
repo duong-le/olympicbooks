@@ -61,13 +61,13 @@ export class CategoriesController {
 
   @Get(':id/publishers')
   @ApiOperation({ summary: 'Retrieve many Publisher by Category' })
-  getPublishersByCategory(@Param('id') id: number): Promise<Category[]> {
+  getPublishersByCategory(@Param('id', ParseIntPipe) id: number): Promise<Category[]> {
     return this.service.getPublishersByCategory(id);
   }
 
   @Get(':id/authors')
   @ApiOperation({ summary: 'Retrieve many Author by Category' })
-  getAuthorsByCategory(@Param('id') id: number): Promise<Category[]> {
+  getAuthorsByCategory(@Param('id', ParseIntPipe) id: number): Promise<Category[]> {
     return this.service.getAuthorsByCategory(id);
   }
 }

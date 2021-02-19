@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
@@ -29,14 +29,14 @@ export class CartsController {
 
   @ApiOperation({ summary: 'Update a single CartItem' })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCartItemDto: UpdateCartItemDto): Promise<CartItem> {
-    return this.service.updateCartItem(+id, updateCartItemDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateCartItemDto: UpdateCartItemDto): Promise<CartItem> {
+    return this.service.updateCartItem(id, updateCartItemDto);
   }
 
   @ApiOperation({ summary: 'Delete a single CartItem' })
   @Delete(':id')
-  deleteOne(@Param('id') id: string, @UserInfo() user: User): Promise<void> {
-    return this.service.deleteOneCartItem(+id, user.id);
+  deleteOne(@Param('id', ParseIntPipe) id: number, @UserInfo() user: User): Promise<void> {
+    return this.service.deleteOneCartItem(id, user.id);
   }
 
   @ApiOperation({ summary: 'Delete multiple CartItems' })
