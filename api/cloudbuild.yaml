@@ -9,6 +9,7 @@ steps:
   # Deploy image to Cloud Run
   - name: "gcr.io/cloud-builders/gcloud"
     args:
+      - "beta" 
       - "run"
       - "deploy"
       - "api"
@@ -18,6 +19,8 @@ steps:
       - "asia-southeast1"
       - "--platform"
       - "managed"
+      - "--min-instances"
+      - "1"
 images:
   - gcr.io/olympicbooks-286314/api
 timeout: 1200s
