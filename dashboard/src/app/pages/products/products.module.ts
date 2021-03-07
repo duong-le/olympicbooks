@@ -23,6 +23,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 
 @NgModule({
   declarations: [ProductsComponent, ProductsDetailComponent],
@@ -46,7 +47,8 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     NzModalModule,
     NzTreeSelectModule,
     NzSelectModule,
-    NzUploadModule
+    NzUploadModule,
+    NzDescriptionsModule
   ]
 })
 export class ProductsModule {}

@@ -31,7 +31,9 @@
     [nzPageIndex]="pageIndex" (nzQueryParams)="onTableQueryParamsChange($event)">
     <thead>
       <tr>
-        <th *ngFor="let column of columns" [nzSortFn]="column.sort" [nzColumnKey]="column.key">{{ column.title }}</th>
+        <th *ngFor="let column of columns" [nzSortFn]="column.sort" [nzColumnKey]="column.key" [nzWidth]="column.width">
+          {{ column.title }}
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -39,12 +41,18 @@
         <td>
           <nz-space>
             <nz-space-item>
-              <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Edit" [routerLink]="item?.id">
+              <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Chi tiết sản phẩm"
+                (click)="showProductsModal(modalContent, item)">
+                <i nz-icon nzType="eye" theme="twotone"></i>
+              </button>
+            </nz-space-item>
+            <nz-space-item>
+              <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Chỉnh sửa sản phẩm" [routerLink]="item?.id">
                 <i nz-icon nzType="edit" theme="twotone"></i>
               </button>
             </nz-space-item>
             <nz-space-item>
-              <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Delete" nzDanger
+              <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Xoá sản phẩm" nzDanger
                 (click)="showDeleteConfirm(item?.id)">
                 <i nz-icon nzType="delete" theme="outline"></i>
               </button>
@@ -54,18 +62,17 @@
         <td>{{ item?.id }}</td>
         <td>{{ item?.title }}</td>
         <td>{{ item?.category?.title }}</td>
-        <td>{{ item?.pages | number }}</td>
-        <td>{{ item?.weight | number }} grams</td>
-        <td>{{ item?.publicationYear }}</td>
-        <td>{{ item?.price | price }}</td>
-        <td>{{ item?.originalPrice | price }}</td>
-        <td>
-          <nz-switch [ngModel]="item?.inStock" [nzDisabled]="true"></nz-switch>
-        </td>
         <td>{{ item?.publisher?.name }}</td>
         <td>
-          <ng-container *ngFor="let author of item?.authors">{{ author.name }} <br /></ng-container>
+          {{ item?.authors?.length }}
         </td>
+        <td>
+          <i nz-icon *ngIf="item?.inStock" nzType="check-circle" nzTheme="twotone" class="in-stock-icon"></i>
+          <i nz-icon *ngIf="!item?.inStock" nzType="close-circle" nzTheme="twotone" nzTwotoneColor="#ff4d4f"
+            class="in-stock-icon"></i>
+        </td>
+        <td>{{ item?.price | price }}</td>
+        <td>{{ item?.originalPrice | price }}</td>
       </tr>
     </tbody>
   </nz-table>
@@ -77,3 +84,30 @@
 <ng-template #inputClearByName><i nz-icon nzType="close-circle" class="ant-input-clear-icon" nzTheme="fill"
     *ngIf="searchInputByTitle" (click)="searchInputByTitle = null; onSearchByTitle()"></i></ng-template>
 <ng-template #loadingIndicator><i nz-icon nzType="loading" class="loading"></i></ng-template>
+
+<ng-template #modalContent let-product>
+  <nz-descriptions nzBordered [nzColumn]="1">
+    <nz-descriptions-item nzTitle="Tên Sách">{{ product?.title }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Số trang">{{ product?.pages }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Cân nặng (grams)">{{ product?.weight }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Năm xuất bản">{{ product?.publicationYear }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Giá bán">{{ product?.price | price }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Giá gốc">{{ product?.originalPrice | price }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Có hàng">
+      <i nz-icon *ngIf="product?.inStock" nzType="check-circle" nzTheme="twotone" class="in-stock-icon"></i>
+      <i nz-icon *ngIf="!product?.inStock" nzType="close-circle" nzTheme="twotone" nzTwotoneColor="#ff4d4f"
+        class="in-stock-icon"></i>
+    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Danh mục">{{ product?.category?.title }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Nhà xuất bản">{{ product?.publisher?.name }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Tác giả">
+      <ng-container *ngFor="let author of product?.authors">{{ author.name }} <br /></ng-container>
+    </nz-descriptions-item>
+  </nz-descriptions>
+
+  <nz-descriptions nzBordered [nzColumn]="1" nzLayout="vertical">
+    <nz-descriptions-item nzTitle="Mô tả sản phẩm">
+      <div class="product-description">{{ product?.description }}</div>
+    </nz-descriptions-item>
+  </nz-descriptions>
+</ng-template>

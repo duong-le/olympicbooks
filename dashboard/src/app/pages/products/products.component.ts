@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import { CondOperator } from '@nestjsx/crud-request';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -18,16 +18,13 @@ export class ProductsComponent extends BaseComponent<Product> {
   columns = [
     { title: 'Actions' },
     { title: 'ID', key: 'id', sort: true },
-    { title: 'Sản phẩm', key: 'title', sort: true },
+    { title: 'Sản phẩm', key: 'title', sort: true, width: '20%' },
     { title: 'Danh mục', key: 'category.id', sort: true },
-    { title: 'Số trang', key: 'pages', sort: true },
-    { title: 'Cân nặng', key: 'weight', sort: true },
-    { title: 'Năm xuất bản', key: 'publicationYear', sort: true },
-    { title: 'Giá bán', key: 'price', sort: true },
-    { title: 'Giá gốc', key: 'originalPrice', sort: true },
-    { title: 'Có hàng', key: 'inStock', sort: true },
     { title: 'Nhà xuất bản', key: 'publisher.id', sort: true },
-    { title: 'Tác giả' }
+    { title: 'Tác giả' },
+    { title: 'Có hàng', key: 'inStock', sort: true },
+    { title: 'Giá bán', key: 'price', sort: true },
+    { title: 'Giá gốc', key: 'originalPrice', sort: true }
   ];
 
   constructor(private productsService: ProductsService, private messageService: NzMessageService, private modalService: NzModalService) {
@@ -60,5 +57,17 @@ export class ProductsComponent extends BaseComponent<Product> {
         this.messageService.error(error?.error?.message);
       }
     );
+  }
+
+  showProductsModal(modalContent: TemplateRef<{}>, item: Product): void {
+    this.modalService.create({
+      nzTitle: `Chi tiết sản phẩm #${item.id}`,
+      nzContent: modalContent,
+      nzWidth: 1000,
+      nzMaskClosable: true,
+      nzClosable: true,
+      nzFooter: null,
+      nzComponentParams: item
+    });
   }
 }
