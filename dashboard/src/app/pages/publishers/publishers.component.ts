@@ -15,7 +15,11 @@ import { PublishersService } from './publishers.service';
 export class PublishersComponent extends BaseComponent<Publisher> {
   searchInputByName: number;
 
-  columns = [{ title: 'Actions' }, { title: 'ID', key: 'id', sort: true }, { title: 'Tên nhà xuất bản', key: 'name', sort: true }];
+  columns = [
+    { title: 'Actions' },
+    { title: 'ID', key: 'id', sort: true },
+    { title: 'Tên nhà xuất bản', key: 'name', sort: true, width: '70%' }
+  ];
 
   constructor(
     private publishersService: PublishersService,

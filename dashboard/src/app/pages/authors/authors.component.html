@@ -31,7 +31,9 @@
     [nzPageIndex]="pageIndex" (nzQueryParams)="onTableQueryParamsChange($event)">
     <thead>
       <tr>
-        <th *ngFor="let column of columns" [nzSortFn]="column.sort" [nzColumnKey]="column.key">{{ column.title }}</th>
+        <th *ngFor="let column of columns" [nzSortFn]="column.sort" [nzColumnKey]="column.key" [nzWidth]="column.width">
+          {{ column.title }}
+        </th>
       </tr>
     </thead>
     <tbody>

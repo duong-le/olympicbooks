@@ -15,7 +15,11 @@ import { AuthorsService } from './authors.service';
 export class AuthorsComponent extends BaseComponent<Author> {
   searchInputByName: string;
 
-  columns = [{ title: 'Actions' }, { title: 'ID', key: 'id', sort: true }, { title: 'Tên tác giả', key: 'name', sort: true }];
+  columns = [
+    { title: 'Actions' },
+    { title: 'ID', key: 'id', sort: true },
+    { title: 'Tên tác giả', key: 'name', sort: true, width: '70%' }
+  ];
 
   constructor(private authorsService: AuthorsService, private messageService: NzMessageService, private modalService: NzModalService) {
     super(authorsService);
