@@ -37,7 +37,7 @@ export class CategoryComponent implements OnInit {
     if (!this.category.imgUrl) this.isLoading = false;
   }
 
-  onLoadImage(evt) {
-    if (evt && evt.target) this.isLoading = false;
+  onLoadImage(event: Event) {
+    if (event && event.target) this.isLoading = false;
   }
 }

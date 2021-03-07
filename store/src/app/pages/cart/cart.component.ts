@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { switchMap } from 'rxjs/operators';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Cart } from 'src/app/shared/Interfaces/cart.interface';
+import { switchMap } from 'rxjs/operators';
+
+import { Cart } from '../../shared/Interfaces/cart.interface';
 import { CartService } from './cart.service';
 
 @Component({
@@ -23,7 +24,12 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cartService.cart$.subscribe((response) => (this.cart = response));
+    this.cartService.cart$.subscribe((response) => {
+      this.cart = response;
+      this.cart.cartItems.forEach((item) => {
+        if (!item.product.images.length) this.isLoading = false;
+      });
+    });
   }
 
   changeQuantity(id: number, quantity: number) {
@@ -62,7 +68,7 @@ export class CartComponent implements OnInit {
       );
   }
 
-  onLoadImage(event) {
+  onLoadImage(event: Event) {
     if (event && event.target) this.isLoading = false;
   }
 }

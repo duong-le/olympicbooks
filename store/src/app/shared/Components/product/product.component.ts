@@ -54,7 +54,7 @@ export class ProductComponent implements OnInit {
     else this.product.images.sort((a, b) => a.id - b.id);
   }
 
-  onLoadImage(evt) {
-    if (evt && evt.target) this.isLoading = false;
+  onLoadImage(event: Event) {
+    if (event && event.target) this.isLoading = false;
   }
 }

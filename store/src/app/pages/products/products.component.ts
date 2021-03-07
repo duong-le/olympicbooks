@@ -80,7 +80,7 @@ export class ProductsComponent implements OnInit {
       );
   }
 
-  onLoadImage(event) {
+  onLoadImage(event: Event) {
     if (event && event.target) this.isProductLoading = false;
   }
 
