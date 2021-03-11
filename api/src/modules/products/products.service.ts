@@ -37,6 +37,8 @@ export class ProductsService extends TypeOrmCrudService<Product> {
       .select('orderItem.productId, SUM(orderItem.quantity)')
       .groupBy('orderItem.productId')
       .orderBy('SUM(orderItem.quantity)', 'DESC')
+      .leftJoin('orderItem.product', 'product')
+      .where('product.inStock = :inStock', { inStock: true })
       .limit(limit)
       .getRawMany();
     const productIds = products.map((product) => product.productId);

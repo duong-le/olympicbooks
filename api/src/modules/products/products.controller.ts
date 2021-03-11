@@ -6,6 +6,7 @@ import { Crud, CrudController, CrudRequest, GetManyDefaultResponse, Override, Pa
 
 import { Roles } from '../../core/Decorators/roles.decorator';
 import { UploadOptions } from '../../core/Services/cloud-storage.service';
+import { ProductType } from '../../shared/Enums/product-type.enum';
 import { Role } from '../../shared/Enums/roles.enum';
 import { File } from '../../shared/Interfaces/file.interface';
 import { CreateProductDto, UpdateProductDto } from './products.dto';
@@ -33,9 +34,10 @@ export class ProductsController implements CrudController<Product> {
   @ApiQuery({ name: 'topSelling', required: false, type: Boolean })
   getMany(
     @ParsedRequest() req: CrudRequest,
-    @Query('topSelling') topSelling: string
+    @Query('type') type: string
   ): Promise<GetManyDefaultResponse<Product> | Product[]> {
-    if (topSelling && topSelling.toLocaleLowerCase() === 'true') return this.service.getTopSellingProducts(req.parsed.limit);
+    if (type === ProductType.TOP_SELLING)
+      return this.service.getTopSellingProducts(req.parsed.limit);
     return this.service.getMany(req);
   }
 
