@@ -54,7 +54,22 @@
                 "output": "/assets/"
               }
             ],
-            "styles": ["src/theme.less", "src/styles.scss"],
+            "styles": [
+              "src/styles.scss",
+              {
+                "input": "src/styles/default.less",
+                "bundleName": "default",
+                "inject": false
+              },
+              {
+                "input": "src/styles/dark.less",
+                "bundleName": "dark",
+                "inject": false
+              }
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/styles/themes"]
+            },
             "scripts": []
           },
           "configurations": {
@@ -112,7 +127,7 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/theme.less", "src/styles.scss"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         },

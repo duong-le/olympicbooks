@@ -1,7 +1,9 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from 'src/app/pages/authentication/authentication.service';
+
+import { AuthenticationService } from '../../pages/authentication/authentication.service';
 import { Authentication } from '../../shared/Interfaces/authentication.interface';
+import { ThemeService } from '../../shared/Providers/theme.service';
 
 @Component({
   selector: 'app-layout',
@@ -12,17 +14,21 @@ export class LayoutComponent implements OnInit {
   user: Authentication;
   headerWidth = 'calc(100% - 300px)';
 
-  constructor(private router: Router, private authenticationService: AuthenticationService) {}
+  constructor(private router: Router, private authenticationService: AuthenticationService, private themeService: ThemeService) {}
 
   ngOnInit(): void {
     this.authenticationService.user$.subscribe((user) => (this.user = user));
   }
 
-  collapse(e: EventEmitter<any>) {
+  collapse(e: EventEmitter<any>): void {
     this.headerWidth = `calc(100% - ${e ? '80' : '300'}px)`;
   }
 
-  signOut() {
+  toggleTheme(): void {
+    this.themeService.toggleTheme().then();
+  }
+
+  signOut(): void {
     this.authenticationService.signOut();
     this.router.navigate(['/']);
   }
