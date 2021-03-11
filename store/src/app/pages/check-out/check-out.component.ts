@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { forkJoin } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { Cart } from 'src/app/shared/Interfaces/cart.interface';
-import { Customer } from 'src/app/shared/Interfaces/customer.interface';
-import { TransactionMethod } from 'src/app/shared/Interfaces/transaction.interface';
-import { ShippingMethod } from 'src/app/shared/Interfaces/shipping.interface';
+
+import { Cart } from '../../shared/Interfaces/cart.interface';
+import { Customer } from '../../shared/Interfaces/customer.interface';
+import { ShippingMethod } from '../../shared/Interfaces/shipping.interface';
+import { TransactionMethod } from '../../shared/Interfaces/transaction.interface';
 import { CartService } from '../cart/cart.service';
 import { CustomerService } from '../customer/customer.service';
 import { CheckOutService } from './check-out.service';
@@ -27,7 +28,7 @@ export class CheckOutComponent implements OnInit {
   isLoading = false;
   isUpdateLoading = false;
   isProcessingOrder = false;
-  isModalVisible = false;
+  isAddressModalVisible = false;
   error = false;
   success = false;
   orderId: number;
@@ -42,7 +43,7 @@ export class CheckOutComponent implements OnInit {
     this.titleService.setTitle('Thanh toán | OlympicBooks');
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoading = true;
     this.initForms();
 
@@ -64,14 +65,14 @@ export class CheckOutComponent implements OnInit {
         buyerNote: ''
       });
 
-      this.changeShippingMethod();
+      this.changeShippingMethod(this.shippingMethods[0]);
 
-      if (!this.orderForm.value.shipping.address || !this.orderForm.value.shipping.phoneNumber) this.showModal();
+      if (!this.orderForm.value.shipping.address || !this.orderForm.value.shipping.phoneNumber) this.showAddressModal();
       this.isLoading = false;
     });
   }
 
-  initForms() {
+  initForms(): void {
     this.orderForm = this.fb.group({
       shipping: this.fb.group({
         name: [null, [Validators.required]],
@@ -93,21 +94,21 @@ export class CheckOutComponent implements OnInit {
     });
   }
 
-  showModal() {
+  showAddressModal(): void {
     this.addressForm.setValue({
       name: this.orderForm.value.shipping.name,
       phoneNumber: this.orderForm.value.shipping.phoneNumber,
       address: this.orderForm.value.shipping.address,
       buyerNote: this.orderForm.value.buyerNote
     });
-    this.isModalVisible = true;
+    this.isAddressModalVisible = true;
   }
 
-  cancelModal() {
-    this.isModalVisible = false;
+  cancelAddressModal(): void {
+    this.isAddressModalVisible = false;
   }
 
-  updateAddress() {
+  updateAddress(): void {
     this.isUpdateLoading = true;
     this.customerService
       .updateMe({
@@ -128,21 +129,27 @@ export class CheckOutComponent implements OnInit {
         });
 
         this.isUpdateLoading = false;
-        this.isModalVisible = false;
+        this.isAddressModalVisible = false;
         this.addressForm.markAsPristine();
         this.addressForm.updateValueAndValidity();
       });
   }
 
-  changeShippingMethod() {
-    const shippingMethod = this.shippingMethods.find(
-      (method) => method.id === this.orderForm.value.shipping.shippingMethodId
-    );
-    if (shippingMethod) this.cartService.changeShippingValue(shippingMethod.fee);
+  changeShippingMethod(method: ShippingMethod): void {
+    this.cartService.changeShippingValue(method.fee);
   }
 
-  processOrder() {
-    if (!this.orderForm.value.shipping.address || !this.orderForm.value.shipping.phoneNumber) this.showModal();
+  changeTransactionMethod(method: TransactionMethod): void {
+    this.orderForm.setValue({
+      ...this.orderForm.value,
+      transaction: {
+        transactionMethodId: method.id
+      }
+    });
+  }
+
+  processOrder(): void {
+    if (!this.orderForm.value.shipping.address || !this.orderForm.value.shipping.phoneNumber) this.showAddressModal();
     else {
       this.isProcessingOrder = true;
       this.checkOutService

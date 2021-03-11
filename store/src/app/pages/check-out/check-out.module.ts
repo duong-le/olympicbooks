@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -37,7 +38,8 @@ import { CheckOutComponent } from './check-out.component';
     NzButtonModule,
     NzFormModule,
     NzInputModule,
-    NzAlertModule
+    NzAlertModule,
+    NzCollapseModule
   ]
 })
 export class CheckOutModule {}

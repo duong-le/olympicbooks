@@ -17,15 +17,15 @@
               <nz-descriptions-item nzTitle="Lời nhắn">
                 <span *ngIf="orderForm.value?.buyerNote">{{ orderForm.value?.buyerNote }}</span>
                 <button nz-button class="buyer-note-btn" nzType="link" *ngIf="!orderForm.value?.buyerNote"
-                  (click)="showModal()">Thêm lời nhắn</button>
+                  (click)="showAddressModal()">Thêm lời nhắn</button>
               </nz-descriptions-item>
             </nz-descriptions>
           </nz-card>
           <ng-template #updateShippingAddress>
-            <button nz-button nzType="link" (click)="showModal()">
+            <button nz-button nzType="link" (click)="showAddressModal()">
               <i nz-icon nzType="edit" nzTheme="outline"></i> Thay đổi</button>
-            <nz-modal nzTitle="Cập nhật địa chỉ giao hàng" [nzVisible]="isModalVisible" (nzOnCancel)="cancelModal()"
-              [nzFooter]="modalFooter">
+            <nz-modal nzTitle="Cập nhật địa chỉ giao hàng" [nzVisible]="isAddressModalVisible"
+              (nzOnCancel)="cancelAddressModal()" [nzFooter]="modalFooter">
               <form nz-form [formGroup]="addressForm">
                 <nz-form-item>
                   <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>Họ tên</nz-form-label>
@@ -56,7 +56,7 @@
                 </nz-form-item>
               </form>
               <ng-template #modalFooter>
-                <button nz-button nzType="default" (click)="cancelModal()">Hủy bỏ</button>
+                <button nz-button nzType="default" (click)="cancelAddressModal()">Hủy bỏ</button>
                 <button nz-button nzType="primary" (click)="updateAddress()" [nzLoading]="isUpdateLoading"
                   [disabled]="addressForm.invalid || addressForm.pristine">Cập nhật</button>
               </ng-template>
@@ -70,9 +70,10 @@
               <div formGroupName="shipping">
                 <nz-form-item>
                   <nz-form-control>
-                    <nz-radio-group formControlName="shippingMethodId" (ngModelChange)="changeShippingMethod()">
+                    <nz-radio-group formControlName="shippingMethodId">
                       <ng-container *ngFor="let method of shippingMethods">
-                        <label nz-radio [nzValue]="method.id" [nzDisabled]="method.disabled">
+                        <label nz-radio [nzValue]="method.id" [nzDisabled]="method.disabled"
+                          (click)="changeShippingMethod(method)">
                           <nz-tag nzColor="processing">{{ method.fee | price }}</nz-tag>
                           <span>{{ method.description }}</span>
                         </label>
@@ -92,12 +93,14 @@
                 <nz-form-item>
                   <nz-form-control>
                     <nz-radio-group formControlName="transactionMethodId">
-                      <ng-container *ngFor="let method of transactionMethods">
-                        <label nz-radio [nzValue]="method.id" [nzDisabled]="method.disabled">
-                          {{ method.description }}
-                          <nz-alert nzType="warning" *ngIf="method?.info" [nzMessage]="method?.info"></nz-alert>
-                        </label>
-                      </ng-container>
+                      <nz-collapse nzAccordion>
+                        <nz-collapse-panel *ngFor="let method of transactionMethods" [nzHeader]="method.description"
+                          [nzActive]="method.id === orderForm.value.transaction.transactionMethodId"
+                          [nzExtra]="radioBtn" (click)="changeTransactionMethod(method)">
+                          <span class="transaction-method-info">{{ method?.info }}</span>
+                          <ng-template #radioBtn><label nz-radio [nzValue]="method.id"></label></ng-template>
+                        </nz-collapse-panel>
+                      </nz-collapse>
                     </nz-radio-group>
                   </nz-form-control>
                 </nz-form-item>
