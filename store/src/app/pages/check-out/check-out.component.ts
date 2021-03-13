@@ -165,7 +165,7 @@ export class CheckOutComponent implements OnInit {
         )
         .subscribe(
           (response) => {
-            this.cartService.emptyCart();
+            this.cartService.clearCart();
             this.isProcessingOrder = false;
             this.success = true;
           },

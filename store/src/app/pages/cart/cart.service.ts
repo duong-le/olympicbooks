@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Cart, CartItem } from 'src/app/shared/Interfaces/cart.interface';
+
+import { Cart, CartItem } from '../../shared/Interfaces/cart.interface';
 import { AuthenticationService } from '../authentication/authentication.service';
 
 @Injectable({
@@ -11,14 +12,15 @@ import { AuthenticationService } from '../authentication/authentication.service'
 export class CartService {
   private cartSubject: BehaviorSubject<Cart>;
   public cart$: Observable<Cart>;
+  emptyCart = { totalQty: 0, totalValue: 0, shippingValue: 0, discountValue: 0, cartItems: [] };
 
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) {
-    this.cartSubject = new BehaviorSubject<Cart>({ totalQty: 0, discountValue: 0, shippingValue: 0 });
+    this.cartSubject = new BehaviorSubject<Cart>(this.emptyCart);
     this.cart$ = this.cartSubject.asObservable();
 
     this.authenticationService.user$.subscribe((user) => {
       if (user) this.getCart().subscribe((response) => this.setCart(response));
-      else this.emptyCart();
+      else this.clearCart();
     });
   }
 
@@ -31,7 +33,7 @@ export class CartService {
       const totalQty = this.calculateTotalQty(cartItems);
       const totalValue = this.calculateTotalValue(cartItems);
       this.cartSubject.next({ ...this.cartValue, totalQty, totalValue, cartItems });
-    } else this.emptyCart();
+    } else this.clearCart();
   }
 
   getCart(): Observable<CartItem[]> {
@@ -54,8 +56,8 @@ export class CartService {
     return this.http.delete<void>(`${environment.apiUrl}/mine/carts`);
   }
 
-  emptyCart() {
-    this.cartSubject.next({ totalQty: 0, totalValue: 0, shippingValue: 0, discountValue: 0, cartItems: [] });
+  clearCart() {
+    this.cartSubject.next(this.emptyCart);
   }
 
   calculateTotalQty(cartItems: CartItem[]) {
