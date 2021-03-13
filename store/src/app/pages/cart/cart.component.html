@@ -59,7 +59,7 @@
             <div nz-row nzJustify="space-between" class="summary-row">
               <div nz-col> <span>Giảm giá</span> </div>
               <div nz-col>
-                <span class="summary-price price">{{ cart?.discountValue | price }}</span>
+                <span class="summary-price price">{{ discountValue | price }}</span>
               </div>
             </div>
 
@@ -68,7 +68,7 @@
             <div nz-row nzJustify="space-between" class="summary-row">
               <div nz-col> <span>Tổng cộng</span> </div>
               <div nz-col>
-                <span class="summary-price price">{{ cart?.totalValue - cart?.discountValue | price }}</span>
+                <span class="summary-price price">{{ cart?.totalValue - discountValue | price }}</span>
               </div>
             </div>
             <button nz-button nzType="primary" routerLink="/checkout" nzBlock [disabled]="isDisabled">Xác nhận</button>

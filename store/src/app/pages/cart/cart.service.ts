@@ -12,7 +12,7 @@ import { AuthenticationService } from '../authentication/authentication.service'
 export class CartService {
   private cartSubject: BehaviorSubject<Cart>;
   public cart$: Observable<Cart>;
-  emptyCart = { totalQty: 0, totalValue: 0, shippingValue: 0, discountValue: 0, cartItems: [] };
+  emptyCart = { totalQty: 0, totalValue: 0, cartItems: [] };
 
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) {
     this.cartSubject = new BehaviorSubject<Cart>(this.emptyCart);
@@ -66,13 +66,5 @@ export class CartService {
 
   calculateTotalValue(cartItems: CartItem[]) {
     return cartItems.reduce((total, current) => (total += current.quantity * current.product.price), 0);
-  }
-
-  changeShippingValue(value: number) {
-    this.cartSubject.next({ ...this.cartValue, shippingValue: value });
-  }
-
-  changeDiscountValue(value: number) {
-    this.cartSubject.next({ ...this.cartValue, discountValue: value });
   }
 }

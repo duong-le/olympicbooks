@@ -18,6 +18,7 @@ export class CartComponent implements OnInit {
   isDisabled = false;
   minQty = 1;
   maxQty = 99;
+  discountValue = 0;
 
   constructor(private titleService: Title, private cartService: CartService, private messageService: NzMessageService) {
     this.titleService.setTitle('Giỏ hàng | OlympicBooks');

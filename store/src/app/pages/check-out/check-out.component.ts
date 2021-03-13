@@ -29,9 +29,11 @@ export class CheckOutComponent implements OnInit {
   isUpdateLoading = false;
   isProcessingOrder = false;
   isAddressModalVisible = false;
-  error = false;
   success = false;
+  error = false;
   orderId: number;
+  shippingValue = 0;
+  discountValue = 0;
 
   constructor(
     private titleService: Title,
@@ -47,28 +49,34 @@ export class CheckOutComponent implements OnInit {
     this.isLoading = true;
     this.initForms();
 
-    this.cartService.cart$.subscribe((response) => (this.cart = response));
-    forkJoin([
-      this.customerService.getMe(),
-      this.checkOutService.getTransactionMethods(),
-      this.checkOutService.getShippingMethods(this.cart.totalValue)
-    ]).subscribe((response) => {
-      [this.customer, this.transactionMethods, this.shippingMethods] = response;
-      this.orderForm.setValue({
-        shipping: {
-          name: this.customer.name,
-          phoneNumber: this.customer.phoneNumber,
-          address: this.customer.address,
-          shippingMethodId: this.shippingMethods[0]?.id
-        },
-        transaction: { transactionMethodId: this.transactionMethods[0]?.id },
-        buyerNote: ''
-      });
-
-      this.changeShippingMethod(this.shippingMethods[0]);
-
-      if (!this.orderForm.value.shipping.address || !this.orderForm.value.shipping.phoneNumber) this.showAddressModal();
+    this.cartService.cart$.subscribe((response) => {
+      this.cart = response;
       this.isLoading = false;
+
+      if (this.cart.cartItems.length) {
+        this.isLoading = true;
+        forkJoin([
+          this.customerService.getMe(),
+          this.checkOutService.getTransactionMethods(),
+          this.checkOutService.getShippingMethods(this.cart.totalValue)
+        ]).subscribe((response) => {
+          [this.customer, this.transactionMethods, this.shippingMethods] = response;
+          this.orderForm.setValue({
+            shipping: {
+              name: this.customer.name,
+              phoneNumber: this.customer.phoneNumber,
+              address: this.customer.address,
+              shippingMethodId: this.shippingMethods[0]?.id
+            },
+            transaction: { transactionMethodId: this.transactionMethods[0]?.id },
+            buyerNote: ''
+          });
+          this.changeShippingValue(this.shippingMethods[0]);
+          this.isLoading = false;
+
+          if (!this.orderForm.value.shipping.address || !this.orderForm.value.shipping.phoneNumber) this.showAddressModal();
+        });
+      }
     });
   }
 
@@ -135,8 +143,8 @@ export class CheckOutComponent implements OnInit {
       });
   }
 
-  changeShippingMethod(method: ShippingMethod): void {
-    this.cartService.changeShippingValue(method.fee);
+  changeShippingValue(method: ShippingMethod): void {
+    this.shippingValue = method.fee;
   }
 
   changeTransactionMethod(method: TransactionMethod): void {
@@ -149,31 +157,31 @@ export class CheckOutComponent implements OnInit {
   }
 
   processOrder(): void {
-    if (!this.orderForm.value.shipping.address || !this.orderForm.value.shipping.phoneNumber) this.showAddressModal();
-    else {
-      this.isProcessingOrder = true;
-      this.checkOutService
-        .createOrder({
-          ...this.orderForm.value,
-          orderItems: this.cart.cartItems.map((el) => ({ quantity: el.quantity, productId: el.product.id }))
-        })
-        .pipe(
-          switchMap((response) => {
-            this.orderId = response['id'];
-            return this.cartService.deleteCart();
-          })
-        )
-        .subscribe(
-          (response) => {
-            this.cartService.clearCart();
-            this.isProcessingOrder = false;
-            this.success = true;
-          },
-          (error) => {
-            this.isProcessingOrder = false;
-            this.error = true;
-          }
-        );
+    if (!this.orderForm.value.shipping.address || !this.orderForm.value.shipping.phoneNumber) {
+      this.showAddressModal();
+      return;
     }
+
+    this.isProcessingOrder = true;
+    const orderItems = this.cart.cartItems.map((el) => ({ quantity: el.quantity, productId: el.product.id }));
+    this.checkOutService
+      .createOrder({ ...this.orderForm.value, orderItems })
+      .pipe(
+        switchMap((response) => {
+          this.orderId = response['id'];
+          return this.cartService.deleteCart();
+        })
+      )
+      .subscribe(
+        (response) => {
+          this.cartService.clearCart();
+          this.isProcessingOrder = false;
+          this.success = true;
+        },
+        (error) => {
+          this.isProcessingOrder = false;
+          this.error = true;
+        }
+      );
   }
 }

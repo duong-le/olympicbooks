@@ -73,7 +73,7 @@
                     <nz-radio-group formControlName="shippingMethodId">
                       <ng-container *ngFor="let method of shippingMethods">
                         <label nz-radio [nzValue]="method.id" [nzDisabled]="method.disabled"
-                          (click)="changeShippingMethod(method)">
+                          (click)="changeShippingValue(method)">
                           <nz-tag nzColor="processing">{{ method.fee | price }}</nz-tag>
                           <span>{{ method.description }}</span>
                         </label>
@@ -147,14 +147,14 @@
             <div nz-row nzJustify="space-between" class="summary-row">
               <div nz-col> <span>Giảm giá</span> </div>
               <div nz-col>
-                <span class="summary-price price">{{ cart?.discountValue | price }}</span>
+                <span class="summary-price price">{{ discountValue | price }}</span>
               </div>
             </div>
 
             <div nz-row nzJustify="space-between" class="summary-row">
               <div nz-col> <span>Phí vận chuyển</span> </div>
               <div nz-col>
-                <span class="summary-price price">{{ cart?.shippingValue | price }}</span>
+                <span class="summary-price price">{{ shippingValue | price }}</span>
               </div>
             </div>
 
@@ -163,7 +163,7 @@
             <div nz-row nzJustify="space-between" class="summary-row">
               <div nz-col> <span>Tổng cộng</span> </div>
               <div nz-col>
-                <span class="summary-price price">{{ cart?.totalValue - cart?.discountValue + cart?.shippingValue |
+                <span class="summary-price price">{{ cart?.totalValue - discountValue + shippingValue |
                   price }}</span>
               </div>
             </div>
