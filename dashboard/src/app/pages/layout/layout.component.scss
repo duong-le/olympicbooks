@@ -36,10 +36,10 @@ nz-content {
   height: 100%;
 }
 
-:host ::ng-deep .ant-switch {
+:host ::ng-deep .theme-switch > .ant-switch {
   background-color: #f0f2f5;
 }
 
-:host ::ng-deep .ant-switch-checked {
+:host ::ng-deep .theme-switch > .ant-switch-checked {
   background-color: #177ddc;
 }
