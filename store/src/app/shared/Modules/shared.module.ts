@@ -8,6 +8,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzResultModule } from 'ng-zorro-antd/result';
+import { NzImageModule } from 'ng-zorro-antd/image';
 
 import { CategoryMenuComponent } from '../Components/category/category-menu.component';
 import { CategoryComponent } from '../Components/category/category.component';
@@ -52,7 +53,8 @@ import { IconModule } from './icon.module';
     NzButtonModule,
     NzInputModule,
     NzCardModule,
-    NzResultModule
+    NzResultModule,
+    NzImageModule
   ],
   exports: [
     HeaderComponent,

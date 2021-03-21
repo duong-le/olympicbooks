@@ -14,7 +14,15 @@ import { Product } from '../../../shared/Interfaces/product.interface';
     </nz-card>
 
     <ng-template #coverTemplate>
-      <img [src]="product.images[0]?.imgUrl" (load)="onLoadImage($event)" alt="product-image" />
+      <img
+        nz-image
+        [nzSrc]="product.images[0]?.imgUrl"
+        [alt]="product.images[0]?.imgName || 'product-image'"
+        nzPlaceholder="assets/images/placeholder.png"
+        nzFallback="assets/images/placeholder.png"
+        [nzDisablePreview]="true"
+        (load)="onLoadImage($event)"
+      />
     </ng-template>
 
     <!-- <div class="item-extra item-new" *ngIf="product.new && !isLoading">New</div>

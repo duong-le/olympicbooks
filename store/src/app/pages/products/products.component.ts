@@ -26,6 +26,7 @@ export class ProductsComponent implements OnInit {
   maxQty = 100;
   maxRelatedProduct = 6;
   relatedProductStyle = null;
+  placeHolderImage = { id: 0, imgName: 'product-image', imgUrl: 'assets/images/placeholder.png' };
 
   constructor(
     private titleMetaService: TitleMetaService,
@@ -57,7 +58,10 @@ export class ProductsComponent implements OnInit {
           this.product = response;
           this.titleMetaService.updateTitleAndMetaTags(this.product?.title, this.product?.description, this.product?.images[0]?.imgUrl);
 
-          if (!this.product.images.length) this.isProductLoading = false;
+          if (!this.product.images.length) {
+            this.isProductLoading = false;
+            this.product.images.push(this.placeHolderImage);
+          }
           this.isRelatedProductsLoading = true;
 
           return this.productsService.getManyProducts({

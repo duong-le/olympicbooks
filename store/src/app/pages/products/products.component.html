@@ -21,7 +21,15 @@
     <div nz-col nzLg="12" nzXs="24">
       <nz-carousel [nzEnableSwipe]="true" [nzAutoPlay]="true">
         <div nz-carousel-content *ngFor="let image of product?.images">
-          <img class="product-image" [src]="image?.imgUrl" (load)="onLoadImage($event)">
+          <img 
+            nz-image
+            class="product-image"
+            [nzSrc]="image?.imgUrl"
+            [alt]="image?.imgName"
+            nzPlaceholder="assets/images/placeholder.png"
+            nzFallback="assets/images/placeholder.png"
+            (load)="onLoadImage($event)"
+          />
         </div>
       </nz-carousel>
     </div>

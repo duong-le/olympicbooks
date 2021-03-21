@@ -9,7 +9,15 @@ import { Category } from 'src/app/shared/Interfaces/category.interface';
         <h3>{{ category.title }}</h3>
       </nz-card>
       <ng-template #coverTemplate>
-        <img [src]="category.imgUrl" (load)="onLoadImage($event)" />
+        <img
+          nz-image
+          [nzSrc]="category?.imgUrl"
+          [alt]="category?.imgName || 'category-image'"
+          nzPlaceholder="assets/images/placeholder.png"
+          nzFallback="assets/images/placeholder.png"
+          [nzDisablePreview]="true"
+          (load)="onLoadImage($event)"
+        />
       </ng-template>
       <!-- <div class="item-extra item-new" *ngIf="category.new && !isLoading">New</div> -->
     </a>
