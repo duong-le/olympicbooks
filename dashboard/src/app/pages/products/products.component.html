@@ -108,4 +108,14 @@
   <nz-card nzType="inner" nzTitle="Mô tả sản phẩm">
     <div class="product-description">{{ product?.description }}</div>
   </nz-card>
+
+  <nz-card nzType="inner" nzTitle="Hình ảnh">
+    <nz-image-group>
+      <ng-container *ngFor="let image of product.images">
+        <div class="product-image-container">
+          <img nz-image class="product-image" [nzSrc]="image?.imgUrl" [alt]="image?.imgName" />
+        </div>
+      </ng-container>
+    </nz-image-group>
+  </nz-card>
 </ng-template>
