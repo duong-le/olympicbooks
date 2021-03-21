@@ -105,9 +105,7 @@
     </nz-descriptions-item>
   </nz-descriptions>
 
-  <nz-descriptions nzBordered [nzColumn]="1" nzLayout="vertical">
-    <nz-descriptions-item nzTitle="Mô tả sản phẩm">
-      <div class="product-description">{{ product?.description }}</div>
-    </nz-descriptions-item>
-  </nz-descriptions>
+  <nz-card nzType="inner" nzTitle="Mô tả sản phẩm">
+    <div class="product-description">{{ product?.description }}</div>
+  </nz-card>
 </ng-template>
