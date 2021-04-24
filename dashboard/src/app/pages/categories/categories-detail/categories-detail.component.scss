@@ -2,16 +2,8 @@ nz-tree-select {
   width: 100%;
 }
 
-.form-item {
-  margin-bottom: 24px;
-
-  label {
-    padding: 0 0 8px;
-    color: rgba(0, 0, 0, 0.85);
-  }
-
+.upload-form-item {
   .extra {
-    color: rgba(0, 0, 0, 0.45);
     float: right;
     i {
       padding-left: 4px;
@@ -20,6 +12,7 @@ nz-tree-select {
 
   nz-upload {
     display: block !important;
+    padding-top: 8px;
   }
 
   img {
