@@ -6,12 +6,28 @@ import { ThemeType } from '../Enums/theme-type.enum';
   providedIn: 'root'
 })
 export class ThemeService {
-  currentTheme = ThemeType.DEFAULT;
+  defaultTheme = ThemeType.DEFAULT;
+  currentTheme: ThemeType;
 
-  constructor() {}
+  constructor() {
+    const savedTheme: any = localStorage.getItem('theme');
 
-  private reverseTheme(theme: string): ThemeType {
-    return theme === ThemeType.DARK ? ThemeType.DEFAULT : ThemeType.DARK;
+    if (Object.values(ThemeType).includes(savedTheme)) {
+      this.currentTheme = savedTheme;
+    } else {
+      this.currentTheme = this.defaultTheme;
+      localStorage.setItem('theme', this.defaultTheme);
+    }
+  }
+
+  private getReversedTheme(): ThemeType {
+    return this.currentTheme === ThemeType.DARK ? ThemeType.DEFAULT : ThemeType.DARK;
+  }
+
+  private reverseTheme(): void {
+    const reversedTheme = this.getReversedTheme();
+    this.currentTheme = reversedTheme;
+    localStorage.setItem('theme', reversedTheme);
   }
 
   private removeUnusedTheme(theme: ThemeType): void {
@@ -35,17 +51,16 @@ export class ThemeService {
   }
 
   public loadTheme(firstLoad = true): Promise<Event> {
-    const theme = this.currentTheme;
     if (firstLoad) {
-      document.documentElement.classList.add(theme);
+      document.documentElement.classList.add(this.currentTheme);
     }
     return new Promise<Event>((resolve, reject) => {
-      this.loadCss(`${theme}.css`, theme).then(
+      this.loadCss(`${this.currentTheme}.css`, this.currentTheme).then(
         (e) => {
           if (!firstLoad) {
-            document.documentElement.classList.add(theme);
+            document.documentElement.classList.add(this.currentTheme);
           }
-          this.removeUnusedTheme(this.reverseTheme(theme));
+          this.removeUnusedTheme(this.getReversedTheme());
           resolve(e);
         },
         (e) => reject(e)
@@ -54,7 +69,7 @@ export class ThemeService {
   }
 
   public toggleTheme(): Promise<Event> {
-    this.currentTheme = this.reverseTheme(this.currentTheme);
+    this.reverseTheme();
     return this.loadTheme(false);
   }
 }
