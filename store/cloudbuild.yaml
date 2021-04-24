@@ -1,26 +1,25 @@
 steps:
   # Build the container image
-  - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "gcr.io/olympicbooks-286314/store", "."]
-    dir: "store"
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/olympicbooks-286314/store', '.']
+    dir: 'store'
   # Push the image to Container Registry
-  - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/olympicbooks-286314/store"]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/olympicbooks-286314/store']
   # Deploy image to Cloud Run
-  - name: "gcr.io/cloud-builders/gcloud"
+  - name: 'gcr.io/cloud-builders/gcloud'
     args:
-      - "beta"
-      - "run"
-      - "deploy"
-      - "store"
-      - "--image"
-      - "gcr.io/olympicbooks-286314/store"
-      - "--region"
-      - "asia-southeast1"
-      - "--platform"
-      - "managed"
-      - "--min-instances"
-      - "1"
+      - 'run'
+      - 'deploy'
+      - 'store'
+      - '--image'
+      - 'gcr.io/olympicbooks-286314/store'
+      - '--region'
+      - 'asia-southeast1'
+      - '--platform'
+      - 'managed'
+      - '--min-instances'
+      - '1'
 images:
   - gcr.io/olympicbooks-286314/store
 timeout: 1200s
