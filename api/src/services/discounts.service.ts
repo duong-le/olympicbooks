@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { Discount } from './discounts.entity';
+import { Repository } from 'typeorm';
+
+import { Discount } from '../controllers/discounts/discounts.entity';
 
 @Injectable()
 export class DiscountsService extends TypeOrmCrudService<Discount> {

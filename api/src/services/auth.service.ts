@@ -6,9 +6,9 @@ import { Request } from 'express';
 import { ExtractJwt } from 'passport-jwt';
 import { Repository } from 'typeorm';
 
-import { JwtPayload } from '../../shared/Interfaces/jwt-payload.interface';
-import { User } from '../users/users.entity';
-import { AuthDto } from './auth.dto';
+import { AuthDto } from '../controllers/auth/auth.dto';
+import { User } from '../controllers/users/users.entity';
+import { JwtPayload } from '../shared/Interfaces/jwt-payload.interface';
 
 @Injectable()
 export class AuthService {

@@ -3,10 +3,10 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { UserInfo } from '../../core/Decorators/user-info.decorator';
+import { CartsService } from '../../services/carts.service';
 import { User } from '../users/users.entity';
 import { CreateCartItemDto, UpdateCartItemDto } from './carts.dto';
 import { CartItem } from './carts.entity';
-import { CartsService } from './carts.service';
 
 @ApiTags('Carts')
 @ApiBearerAuth()

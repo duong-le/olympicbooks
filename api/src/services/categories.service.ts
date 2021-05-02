@@ -2,10 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TreeRepository } from 'typeorm';
 
-import { CloudStorageService } from '../../core/Services/cloud-storage.service';
-import { File } from '../../shared/Interfaces/file.interface';
-import { CreateCategoryDto, UpdateCategoryDto } from './categories.dto';
-import { Category } from './categories.entity';
+import { CreateCategoryDto, UpdateCategoryDto } from '../controllers/categories/categories.dto';
+import { Category } from '../controllers/categories/categories.entity';
+import { File } from '../shared/Interfaces/file.interface';
+import { CloudStorageService } from './cloud-storage.service';
 
 @Injectable()
 export class CategoriesService {

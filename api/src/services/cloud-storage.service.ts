@@ -4,7 +4,7 @@ import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer
 import { memoryStorage } from 'multer';
 import { parse } from 'path';
 
-import { File } from '../../shared/Interfaces/file.interface';
+import { File } from '../shared/Interfaces/file.interface';
 
 export const UploadOptions: MulterOptions = {
   storage: memoryStorage(),

@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { CloudStorageService } from '../../core/Services/cloud-storage.service';
+import { CategoriesService } from '../../services/categories.service';
+import { CloudStorageService } from '../../services/cloud-storage.service';
 import { CategoriesController } from './categories.controller';
 import { Category } from './categories.entity';
-import { CategoriesService } from './categories.service';
 
 @Module({
   controllers: [CategoriesController],

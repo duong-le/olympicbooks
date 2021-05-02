@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { Publisher } from './publishers.entity';
+import { Repository } from 'typeorm';
+
+import { Publisher } from '../controllers/publishers/publishers.entity';
 
 @Injectable()
 export class PublishersService extends TypeOrmCrudService<Publisher> {

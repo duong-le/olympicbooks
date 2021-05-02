@@ -5,13 +5,13 @@ import { ApiBearerAuth, ApiConsumes, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController, CrudRequest, GetManyDefaultResponse, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
 
 import { Roles } from '../../core/Decorators/roles.decorator';
-import { UploadOptions } from '../../core/Services/cloud-storage.service';
+import { UploadOptions } from '../../services/cloud-storage.service';
+import { ProductsService } from '../../services/products.service';
 import { ProductType } from '../../shared/Enums/product-type.enum';
 import { Role } from '../../shared/Enums/roles.enum';
 import { File } from '../../shared/Interfaces/file.interface';
 import { CreateProductDto, UpdateProductDto } from './products.dto';
 import { Product } from './products.entity';
-import { ProductsService } from './products.service';
 
 @ApiTags('Products')
 @Controller('products')

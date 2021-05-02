@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Repository } from 'typeorm';
 
-import { AuthService } from '../auth/auth.service';
-import { CreateUserDto, UpdateMeDto, UpdateUserDto } from './users.dto';
-import { User } from './users.entity';
+import { CreateUserDto, UpdateMeDto, UpdateUserDto } from '../controllers/users/users.dto';
+import { User } from '../controllers/users/users.entity';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class UsersService extends TypeOrmCrudService<User> {

@@ -3,13 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Repository } from 'typeorm';
 
-import { FREE_SHIPPING_ORDER_VALUE_THRESHOLD } from '../../shared/Constants/transaction.constant';
-import { DeliveryState } from '../../shared/Enums/delivery-state.enum';
-import { Product } from '../products/products.entity';
-import { ShippingMethod } from '../shippings/shipping-methods.entity';
-import { OrderItem } from './orders-item/orders-item.entity';
-import { CreateOrderDto, UpdateOrderDto } from './orders.dto';
-import { Order } from './orders.entity';
+import { OrderItem } from '../controllers/orders/orders-item/orders-item.entity';
+import { CreateOrderDto, UpdateOrderDto } from '../controllers/orders/orders.dto';
+import { Order } from '../controllers/orders/orders.entity';
+import { Product } from '../controllers/products/products.entity';
+import { ShippingMethod } from '../controllers/shippings/shipping-methods.entity';
+import { FREE_SHIPPING_ORDER_VALUE_THRESHOLD } from '../shared/Constants/transaction.constant';
+import { DeliveryState } from '../shared/Enums/delivery-state.enum';
 
 @Injectable()
 export class OrdersService extends TypeOrmCrudService<Order> {

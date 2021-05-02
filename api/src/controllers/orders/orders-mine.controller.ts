@@ -4,11 +4,11 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudAuth, CrudController, Override, ParsedBody } from '@nestjsx/crud';
 
 import { UserInfo } from '../../core/Decorators/user-info.decorator';
+import { OrdersService } from '../../services/orders.service';
 import { Role } from '../../shared/Enums/roles.enum';
 import { User } from '../users/users.entity';
 import { CreateOrderDto } from './orders.dto';
 import { Order } from './orders.entity';
-import { OrdersService } from './orders.service';
 
 @ApiTags('Orders')
 @ApiBearerAuth()

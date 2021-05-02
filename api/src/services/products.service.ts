@@ -3,17 +3,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Repository } from 'typeorm';
 
-import { CloudStorageService } from '../../core/Services/cloud-storage.service';
-import { File } from '../../shared/Interfaces/file.interface';
-import { Author } from '../authors/authors.entity';
-import { CartItem } from '../carts/carts.entity';
-import { Category } from '../categories/categories.entity';
-import { CategoriesService } from '../categories/categories.service';
-import { OrderItem } from '../orders/orders-item/orders-item.entity';
-import { Publisher } from '../publishers/publishers.entity';
-import { ProductImage } from './product-images.entity';
-import { CreateProductDto, UpdateProductDto } from './products.dto';
-import { Product } from './products.entity';
+import { Author } from '../controllers/authors/authors.entity';
+import { CartItem } from '../controllers/carts/carts.entity';
+import { Category } from '../controllers/categories/categories.entity';
+import { OrderItem } from '../controllers/orders/orders-item/orders-item.entity';
+import { ProductImage } from '../controllers/products/product-images.entity';
+import { CreateProductDto, UpdateProductDto } from '../controllers/products/products.dto';
+import { Product } from '../controllers/products/products.entity';
+import { Publisher } from '../controllers/publishers/publishers.entity';
+import { File } from '../shared/Interfaces/file.interface';
+import { CategoriesService } from './categories.service';
+import { CloudStorageService } from './cloud-storage.service';
 
 @Injectable()
 export class ProductsService extends TypeOrmCrudService<Product> {

@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CartItem } from './carts.entity';
+
+import { CartsService } from '../../services/carts.service';
 import { CartsController } from './carts.controller';
-import { CartsService } from './carts.service';
+import { CartItem } from './carts.entity';
 
 @Module({
   controllers: [CartsController],
