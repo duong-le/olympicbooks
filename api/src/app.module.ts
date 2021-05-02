@@ -10,17 +10,17 @@ import { HttpRequestLogger } from './core/Loggers/http-request.logger';
 import { ArrayExist } from './core/Validators/array-exist/array-exist.service';
 import { Exist } from './core/Validators/exist/exist.service';
 
-import { AuthModule } from './modules/auth/auth.module';
-import { AuthorsModule } from './modules/authors/authors.module';
-import { CartsModule } from './modules/carts/carts.module';
-import { CategoriesModule } from './modules/categories/categories.module';
-import { DiscountsModule } from './modules/discounts/discounts.module';
-import { OrdersModule } from './modules/orders/orders.module';
-import { ProductsModule } from './modules/products/products.module';
-import { PublishersModule } from './modules/publishers/publishers.module';
-import { ShippingsModule } from './modules/shippings/shippings.module';
-import { TransactionsModule } from './modules/transactions/transactions.module';
-import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './controllers/auth/auth.module';
+import { AuthorsModule } from './controllers/authors/authors.module';
+import { CartsModule } from './controllers/carts/carts.module';
+import { CategoriesModule } from './controllers/categories/categories.module';
+import { DiscountsModule } from './controllers/discounts/discounts.module';
+import { OrdersModule } from './controllers/orders/orders.module';
+import { ProductsModule } from './controllers/products/products.module';
+import { PublishersModule } from './controllers/publishers/publishers.module';
+import { ShippingsModule } from './controllers/shippings/shippings.module';
+import { TransactionsModule } from './controllers/transactions/transactions.module';
+import { UsersModule } from './controllers/users/users.module';
 
 @Module({
   imports: [
