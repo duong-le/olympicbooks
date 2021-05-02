@@ -4,8 +4,8 @@ import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { FREE_SHIPPING_ORDER_VALUE_THRESHOLD } from 'src/shared/Constants/transaction.constant';
 import { Repository } from 'typeorm';
 
-import { ShippingMethod } from '../controllers/shippings/shipping-methods.entity';
-import { Shipping } from '../controllers/shippings/shippings.entity';
+import { ShippingMethod } from '../entities/shipping-methods.entity';
+import { Shipping } from '../entities/shippings.entity';
 
 @Injectable()
 export class ShippingsService extends TypeOrmCrudService<Shipping> {

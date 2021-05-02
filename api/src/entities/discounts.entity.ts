@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 
-import { BaseEntity } from '../../core/Entities/base.entity';
-import { Order } from '../orders/orders.entity';
+import { BaseEntity } from './base.entity';
+import { Order } from './orders.entity';
 
 @Entity()
 export class Discount extends BaseEntity {

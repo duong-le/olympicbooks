@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 
-import { BaseEntity } from '../../core/Entities/base.entity';
-import { TransactionState } from '../../shared/Enums/transaction-state.enum';
+import { TransactionState } from '../shared/Enums/transaction-state.enum';
+import { BaseEntity } from './base.entity';
 import { TransactionMethod } from './transaction-methods.entity';
 
 @Entity()

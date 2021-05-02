@@ -1,10 +1,10 @@
 import { Exclude } from 'class-transformer';
 import { Column, Entity, OneToMany } from 'typeorm';
 
-import { BaseEntity } from '../../core/Entities/base.entity';
-import { Role } from '../../shared/Enums/roles.enum';
-import { CartItem } from '../carts/carts.entity';
-import { Order } from '../orders/orders.entity';
+import { Role } from '../shared/Enums/roles.enum';
+import { BaseEntity } from './base.entity';
+import { CartItem } from './carts.entity';
+import { Order } from './orders.entity';
 
 @Entity()
 export class User extends BaseEntity {

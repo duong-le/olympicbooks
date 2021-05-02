@@ -4,10 +4,10 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 
 import { Roles } from '../../core/Decorators/roles.decorator';
+import { Author } from '../../entities/authors.entity';
 import { AuthorsService } from '../../services/authors.service';
 import { Role } from '../../shared/Enums/roles.enum';
 import { CreateAuthorDto, UpdateAuthorDto } from './authors.dto';
-import { Author } from './authors.entity';
 
 @ApiTags('Authors')
 @Controller('authors')

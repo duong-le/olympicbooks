@@ -3,8 +3,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 
+import { Discount } from '../../entities/discounts.entity';
 import { DiscountsService } from '../../services/discounts.service';
-import { Discount } from './discounts.entity';
 
 @ApiTags('Discounts')
 @ApiBearerAuth()

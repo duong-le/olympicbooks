@@ -1,11 +1,11 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 
-import { BaseEntity } from '../../core/Entities/base.entity';
-import { Discount } from '../discounts/discounts.entity';
-import { Shipping } from '../shippings/shippings.entity';
-import { Transaction } from '../transactions/transactions.entity';
-import { User } from '../users/users.entity';
-import { OrderItem } from './orders-item/orders-item.entity';
+import { BaseEntity } from './base.entity';
+import { Discount } from './discounts.entity';
+import { OrderItem } from './orders-item.entity';
+import { Shipping } from './shippings.entity';
+import { Transaction } from './transactions.entity';
+import { User } from './users.entity';
 
 @Entity()
 export class Order extends BaseEntity {

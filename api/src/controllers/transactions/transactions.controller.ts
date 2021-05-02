@@ -4,10 +4,10 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController, CrudRequestInterceptor } from '@nestjsx/crud';
 
 import { Roles } from '../../core/Decorators/roles.decorator';
+import { TransactionMethod } from '../../entities/transaction-methods.entity';
+import { Transaction } from '../../entities/transactions.entity';
 import { TransactionsService } from '../../services/transactions.service';
 import { Role } from '../../shared/Enums/roles.enum';
-import { TransactionMethod } from './transaction-methods.entity';
-import { Transaction } from './transactions.entity';
 
 @ApiTags('Transactions')
 @ApiBearerAuth()

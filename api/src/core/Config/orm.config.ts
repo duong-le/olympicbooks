@@ -13,7 +13,7 @@ export default {
   username: process.env.SQL_USER,
   password: process.env.SQL_PASSWORD,
   database: process.env.SQL_NAME,
-  entities: [join(__dirname, '../../**/**.entity{.ts,.js}')],
+  entities: [join(__dirname, '../../entities/**.entity{.ts,.js}')],
   migrations: [join(__dirname + '../../../migrations/*{.ts,.js}')],
   cli: { migrationsDir: 'src/migrations' },
   synchronize: false,

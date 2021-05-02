@@ -4,12 +4,12 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { Roles } from '../../core/Decorators/roles.decorator';
+import { Category } from '../../entities/categories.entity';
 import { CategoriesService } from '../../services/categories.service';
 import { UploadOptions } from '../../services/cloud-storage.service';
 import { Role } from '../../shared/Enums/roles.enum';
 import { File } from '../../shared/Interfaces/file.interface';
 import { CreateCategoryDto, UpdateCategoryDto } from './categories.dto';
-import { Category } from './categories.entity';
 
 @ApiTags('Categories')
 @Controller('categories')

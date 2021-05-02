@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TreeRepository } from 'typeorm';
 
 import { CreateCategoryDto, UpdateCategoryDto } from '../controllers/categories/categories.dto';
-import { Category } from '../controllers/categories/categories.entity';
+import { Category } from '../entities/categories.entity';
 import { File } from '../shared/Interfaces/file.interface';
 import { CloudStorageService } from './cloud-storage.service';
 

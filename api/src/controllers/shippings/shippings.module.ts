@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { ShippingMethod } from '../../entities/shipping-methods.entity';
+import { Shipping } from '../../entities/shippings.entity';
 import { ShippingsService } from '../../services/shippings.service';
-import { ShippingMethod } from './shipping-methods.entity';
 import { ShippingsController } from './shippings.controller';
-import { Shipping } from './shippings.entity';
 
 @Module({
   controllers: [ShippingsController],

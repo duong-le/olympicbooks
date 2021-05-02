@@ -1,7 +1,7 @@
 import { AfterLoad, Column, Entity, OneToMany, Tree, TreeChildren, TreeParent } from 'typeorm';
 
-import { BaseEntity } from '../../core/Entities/base.entity';
-import { Product } from '../products/products.entity';
+import { BaseEntity } from './base.entity';
+import { Product } from './products.entity';
 
 @Entity()
 @Tree('materialized-path')

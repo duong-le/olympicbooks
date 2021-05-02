@@ -4,10 +4,10 @@ import { IsArray, IsDefined, IsOptional, IsString, Validate, ValidateNested } fr
 
 import { ArrayExist } from '../../core/Validators/array-exist/array-exist.service';
 import { Exist } from '../../core/Validators/exist/exist.service';
-import { Product } from '../products/products.entity';
-import { ShippingMethod } from '../shippings/shipping-methods.entity';
+import { Product } from '../../entities/products.entity';
+import { ShippingMethod } from '../../entities/shipping-methods.entity';
+import { TransactionMethod } from '../../entities/transaction-methods.entity';
 import { CreateShippingDto, UpdateShippingDto } from '../shippings/shippings.dto';
-import { TransactionMethod } from '../transactions/transaction-methods.entity';
 import { CreateTransactionDto, UpdateTransactionDto } from '../transactions/transactions.dto';
 import { CreateOrderItemDto } from './orders-item/orders-item.dto';
 

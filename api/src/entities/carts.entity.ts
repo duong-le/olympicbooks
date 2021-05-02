@@ -1,8 +1,8 @@
 import { Column, Entity, ManyToOne, Unique } from 'typeorm';
 
-import { BaseEntity } from '../../core/Entities/base.entity';
-import { Product } from '../products/products.entity';
-import { User } from '../users/users.entity';
+import { BaseEntity } from './base.entity';
+import { Product } from './products.entity';
+import { User } from './users.entity';
 
 @Entity()
 @Unique(['userId', 'productId'])

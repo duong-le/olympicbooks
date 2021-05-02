@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 
-import { BaseEntity } from '../../core/Entities/base.entity';
+import { BaseEntity } from './base.entity';
 import { Transaction } from './transactions.entity';
 
 @Entity()

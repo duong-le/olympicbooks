@@ -1,11 +1,11 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 
-import { BaseEntity } from '../../core/Entities/base.entity';
-import { Author } from '../authors/authors.entity';
-import { Category } from '../categories/categories.entity';
-import { OrderItem } from '../orders/orders-item/orders-item.entity';
-import { Publisher } from '../publishers/publishers.entity';
+import { Author } from './authors.entity';
+import { BaseEntity } from './base.entity';
+import { Category } from './categories.entity';
+import { OrderItem } from './orders-item.entity';
 import { ProductImage } from './product-images.entity';
+import { Publisher } from './publishers.entity';
 
 @Entity()
 export class Product extends BaseEntity {

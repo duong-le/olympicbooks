@@ -6,10 +6,10 @@ import { plainToClass } from 'class-transformer';
 
 import { Roles } from '../../core/Decorators/roles.decorator';
 import { UserInfo } from '../../core/Decorators/user-info.decorator';
+import { User } from '../../entities/users.entity';
 import { UsersService } from '../../services/users.service';
 import { Role } from '../../shared/Enums/roles.enum';
 import { CreateUserDto, UpdateMeDto, UpdateUserDto } from './users.dto';
-import { User } from './users.entity';
 
 @ApiTags('Users')
 @Controller('users')

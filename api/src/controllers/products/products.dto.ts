@@ -4,10 +4,10 @@ import { IsBoolean, IsDefined, IsNumber, IsOptional, IsString, Validate } from '
 
 import { ArrayExist } from '../../core/Validators/array-exist/array-exist.service';
 import { Exist } from '../../core/Validators/exist/exist.service';
-import { Author } from '../authors/authors.entity';
-import { Category } from '../categories/categories.entity';
-import { Publisher } from '../publishers/publishers.entity';
-import { ProductImage } from './product-images.entity';
+import { Author } from '../../entities/authors.entity';
+import { Category } from '../../entities/categories.entity';
+import { ProductImage } from '../../entities/product-images.entity';
+import { Publisher } from '../../entities/publishers.entity';
 
 export class CreateProductDto {
   @ApiProperty()

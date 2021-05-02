@@ -7,7 +7,7 @@ import { ExtractJwt } from 'passport-jwt';
 import { Repository } from 'typeorm';
 
 import { AuthDto } from '../controllers/auth/auth.dto';
-import { User } from '../controllers/users/users.entity';
+import { User } from '../entities/users.entity';
 import { JwtPayload } from '../shared/Interfaces/jwt-payload.interface';
 
 @Injectable()
