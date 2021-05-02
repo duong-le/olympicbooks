@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Repository } from 'typeorm';
 
-import { CreateUserDto, UpdateMeDto, UpdateUserDto } from '../controllers/users/users.dto';
+import { CreateUserDto, UpdateMeDto, UpdateUserDto } from '../controllers/store/users/users.dto';
 import { User } from '../entities/users.entity';
 import { AuthService } from './auth.service';
 

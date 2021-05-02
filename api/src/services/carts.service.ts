@@ -2,7 +2,7 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CreateCartItemDto, UpdateCartItemDto } from '../controllers/carts/carts.dto';
+import { CreateCartItemDto, UpdateCartItemDto } from '../controllers/store/carts/carts.dto';
 import { CartItem } from '../entities/carts.entity';
 
 @Injectable()
