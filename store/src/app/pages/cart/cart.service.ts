@@ -37,23 +37,23 @@ export class CartService {
   }
 
   getCart(): Observable<CartItem[]> {
-    return this.http.get<CartItem[]>(`${environment.apiUrl}/mine/carts`);
+    return this.http.get<CartItem[]>(`${environment.apiUrl}/me/carts`);
   }
 
   createCartItem(productId: number, quantity: number): Observable<CartItem> {
-    return this.http.post<CartItem>(`${environment.apiUrl}/mine/carts`, { productId, quantity });
+    return this.http.post<CartItem>(`${environment.apiUrl}/me/carts`, { productId, quantity });
   }
 
   updateCartItem(id: number, quantity: number): Observable<CartItem> {
-    return this.http.patch<CartItem>(`${environment.apiUrl}/mine/carts/${id}`, { quantity });
+    return this.http.patch<CartItem>(`${environment.apiUrl}/me/carts/${id}`, { quantity });
   }
 
   deleteCartItem(id: number): Observable<void> {
-    return this.http.delete<void>(`${environment.apiUrl}/mine/carts/${id}`);
+    return this.http.delete<void>(`${environment.apiUrl}/me/carts/${id}`);
   }
 
   deleteCart(): Observable<void> {
-    return this.http.delete<void>(`${environment.apiUrl}/mine/carts`);
+    return this.http.delete<void>(`${environment.apiUrl}/me/carts`);
   }
 
   clearCart() {

@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { TransactionMethod } from 'src/app/shared/Interfaces/transaction.interface';
-import { ShippingMethod } from 'src/app/shared/Interfaces/shipping.interface';
-import { Order } from 'src/app/shared/Interfaces/order.interface';
+
+import { Order } from '../../shared/Interfaces/order.interface';
+import { ShippingMethod } from '../../shared/Interfaces/shipping.interface';
+import { TransactionMethod } from '../../shared/Interfaces/transaction.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +18,10 @@ export class CheckOutService {
   }
 
   getShippingMethods(transactionValue: number): Observable<ShippingMethod[]> {
-    return this.http.get<ShippingMethod[]>(
-      `${environment.apiUrl}/shippings/methods?transactionValue=${transactionValue}`
-    );
+    return this.http.get<ShippingMethod[]>(`${environment.apiUrl}/shippings/methods?transactionValue=${transactionValue}`);
   }
 
   createOrder(data: Order): Observable<Order> {
-    return this.http.post<Order>(`${environment.apiUrl}/mine/orders`, data);
+    return this.http.post<Order>(`${environment.apiUrl}/me/orders`, data);
   }
 }

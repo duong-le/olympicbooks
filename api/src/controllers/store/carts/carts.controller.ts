@@ -10,7 +10,7 @@ import { CreateCartItemDto, UpdateCartItemDto } from './carts.dto';
 
 @ApiTags('Carts')
 @ApiBearerAuth()
-@Controller('mine/carts')
+@Controller('me/carts')
 @UseGuards(AuthGuard())
 export class CartsController {
   constructor(public service: CartsService) {}

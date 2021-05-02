@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsArray, IsDefined, IsOptional, IsString, Validate, ValidateNested } from 'class-validator';
+import { IsArray, IsDefined, IsNumber, IsOptional, IsString, Min, Validate, ValidateNested } from 'class-validator';
 
 import { ArrayExist } from '../../../core/Validators/array-exist/array-exist.service';
 import { Exist } from '../../../core/Validators/exist/exist.service';
@@ -9,7 +9,19 @@ import { ShippingMethod } from '../../../entities/shipping-methods.entity';
 import { TransactionMethod } from '../../../entities/transaction-methods.entity';
 import { CreateShippingDto, UpdateShippingDto } from '../shippings/shippings.dto';
 import { CreateTransactionDto, UpdateTransactionDto } from '../transactions/transactions.dto';
-import { CreateOrderItemDto } from './orders-item/orders-item.dto';
+
+export class CreateOrderItemDto {
+  @ApiProperty()
+  @IsDefined()
+  @IsNumber()
+  @Min(1)
+  quantity: number;
+
+  @ApiProperty()
+  @IsDefined()
+  @IsNumber()
+  productId: number;
+}
 
 export class CreateOrderDto {
   @ApiProperty({ type: CreateTransactionDto })

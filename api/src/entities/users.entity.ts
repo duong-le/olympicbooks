@@ -33,6 +33,6 @@ export class User extends BaseEntity {
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
 
-  @OneToMany(() => CartItem, (cartItem) => cartItem.user, { eager: true, cascade: true })
+  @OneToMany(() => CartItem, (cartItem) => cartItem.user, { cascade: true })
   cartItems: CartItem[];
 }

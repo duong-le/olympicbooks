@@ -4,6 +4,13 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { AdminAuthorsModule } from './controllers/admin/authors/authors.module';
+import { AdminCategoriesModule } from './controllers/admin/categories/categories.module';
+import { AdminOrdersModule } from './controllers/admin/orders/orders.module';
+import { AdminProductsModule } from './controllers/admin/products/products.module';
+import { AdminPublishersModule } from './controllers/admin/publishers/publishers.module';
+import { AdminUsersModule } from './controllers/admin/users/users.module';
+
 import { AuthModule } from './controllers/auth/auth.module';
 import { AuthorsModule } from './controllers/store/authors/authors.module';
 import { CartsModule } from './controllers/store/carts/carts.module';
@@ -15,6 +22,7 @@ import { PublishersModule } from './controllers/store/publishers/publishers.modu
 import { ShippingsModule } from './controllers/store/shippings/shippings.module';
 import { TransactionsModule } from './controllers/store/transactions/transactions.module';
 import { UsersModule } from './controllers/store/users/users.module';
+
 import OrmConfig from './core/Config/orm.config';
 import { RolesGuard } from './core/Guards/roles.guard';
 import { HttpRequestLogger } from './core/Loggers/http-request.logger';
@@ -36,7 +44,13 @@ import { Exist } from './core/Validators/exist/exist.service';
     OrdersModule,
     DiscountsModule,
     TransactionsModule,
-    ShippingsModule
+    ShippingsModule,
+    AdminOrdersModule,
+    AdminAuthorsModule,
+    AdminPublishersModule,
+    AdminCategoriesModule,
+    AdminProductsModule,
+    AdminUsersModule
   ],
   providers: [
     Exist,

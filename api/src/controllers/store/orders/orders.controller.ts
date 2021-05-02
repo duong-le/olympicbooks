@@ -1,26 +1,21 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
+import { Crud, CrudAuth, CrudController, Override, ParsedBody } from '@nestjsx/crud';
 
-import { Roles } from '../../../core/Decorators/roles.decorator';
+import { UserInfo } from '../../../core/Decorators/user-info.decorator';
 import { Order } from '../../../entities/orders.entity';
+import { User } from '../../../entities/users.entity';
 import { OrdersService } from '../../../services/orders.service';
-import { Role } from '../../../shared/Enums/roles.enum';
-import { UpdateOrderDto } from './orders.dto';
+import { CreateOrderDto } from './orders.dto';
 
 @ApiTags('Orders')
 @ApiBearerAuth()
-@Controller('orders')
+@Controller('me/orders')
 @UseGuards(AuthGuard())
 @Crud({
   model: { type: Order },
-  routes: {
-    only: ['getOneBase', 'getManyBase', 'updateOneBase', 'deleteOneBase'],
-    getOneBase: { decorators: [Roles(Role.ADMIN)] },
-    getManyBase: { decorators: [Roles(Role.ADMIN)] },
-    deleteOneBase: { decorators: [Roles(Role.ADMIN)] }
-  },
+  routes: { only: ['getOneBase', 'getManyBase', 'createOneBase'] },
   query: {
     join: {
       orderItems: { eager: true, exclude: ['orderId', 'productId'] },
@@ -33,14 +28,17 @@ import { UpdateOrderDto } from './orders.dto';
     },
     exclude: ['transactionId', 'shippingId', 'discountId']
   },
-  dto: { update: UpdateOrderDto }
+  dto: { create: CreateOrderDto }
+})
+@CrudAuth({
+  property: 'user',
+  filter: (user: User) => ({ userId: user.id })
 })
 export class OrdersController implements CrudController<Order> {
   constructor(public service: OrdersService) {}
 
   @Override()
-  @Roles(Role.ADMIN)
-  updateOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: UpdateOrderDto): Promise<Order> {
-    return this.service.updateOrder(req.parsed.paramsFilter[0].value, dto);
+  createOne(@ParsedBody() dto: CreateOrderDto, @UserInfo() user: User): Promise<Order> {
+    return this.service.createOrder(dto, user.id);
   }
 }

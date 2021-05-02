@@ -5,11 +5,11 @@ import { Order } from '../../../entities/orders.entity';
 import { Product } from '../../../entities/products.entity';
 import { ShippingMethod } from '../../../entities/shipping-methods.entity';
 import { OrdersService } from '../../../services/orders.service';
-import { OrdersController } from './orders.controller';
+import { AdminOrdersController } from './orders.controller';
 
 @Module({
-  controllers: [OrdersController, OrdersController],
+  controllers: [AdminOrdersController],
   imports: [TypeOrmModule.forFeature([Order, Product, ShippingMethod])],
   providers: [OrdersService]
 })
-export class OrdersModule {}
+export class AdminOrdersModule {}

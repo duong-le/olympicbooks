@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Repository } from 'typeorm';
 
-import { CreateProductDto, UpdateProductDto } from '../controllers/store/products/products.dto';
+import { CreateProductDto, UpdateProductDto } from '../controllers/admin/products/products.dto';
 import { Author } from '../entities/authors.entity';
 import { CartItem } from '../entities/carts.entity';
 import { Category } from '../entities/categories.entity';

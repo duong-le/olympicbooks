@@ -1,22 +1,24 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Crud, CrudAuth, CrudController, Override, ParsedBody } from '@nestjsx/crud';
+import { Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
 
-import { UserInfo } from '../../../core/Decorators/user-info.decorator';
+import { Roles } from '../../../core/Decorators/roles.decorator';
 import { Order } from '../../../entities/orders.entity';
-import { User } from '../../../entities/users.entity';
 import { OrdersService } from '../../../services/orders.service';
 import { Role } from '../../../shared/Enums/roles.enum';
-import { CreateOrderDto } from './orders.dto';
+import { UpdateOrderDto } from '../../store/orders/orders.dto';
 
-@ApiTags('Orders')
+@ApiTags('Admin Orders')
 @ApiBearerAuth()
-@Controller('mine/orders')
+@Controller('admin/orders')
 @UseGuards(AuthGuard())
+@Roles(Role.ADMIN)
 @Crud({
   model: { type: Order },
-  routes: { only: ['getOneBase', 'getManyBase', 'createOneBase'] },
+  routes: {
+    only: ['getManyBase', 'getOneBase', 'updateOneBase', 'deleteOneBase']
+  },
   query: {
     join: {
       orderItems: { eager: true, exclude: ['orderId', 'productId'] },
@@ -29,17 +31,13 @@ import { CreateOrderDto } from './orders.dto';
     },
     exclude: ['transactionId', 'shippingId', 'discountId']
   },
-  dto: { create: CreateOrderDto }
+  dto: { update: UpdateOrderDto }
 })
-@CrudAuth({
-  property: 'user',
-  filter: (user: User) => (user.role === Role.ADMIN ? {} : { userId: user.id })
-})
-export class OrdersMineController implements CrudController<Order> {
+export class AdminOrdersController implements CrudController<Order> {
   constructor(public service: OrdersService) {}
 
   @Override()
-  createOne(@ParsedBody() dto: CreateOrderDto, @UserInfo() user: User): Promise<Order> {
-    return this.service.createOrder(dto, user.id);
+  updateOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: UpdateOrderDto): Promise<Order> {
+    return this.service.updateOrder(req.parsed.paramsFilter[0].value, dto);
   }
 }
