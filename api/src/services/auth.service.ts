@@ -40,4 +40,11 @@ export class AuthService {
       throw new UnauthorizedException();
     }
   }
+
+  validateRole(allowedRoles: number[], request: Request): boolean {
+    if (!allowedRoles) return true;
+
+    const user = this.decodeToken(request);
+    return allowedRoles.includes(user?.role);
+  }
 }
