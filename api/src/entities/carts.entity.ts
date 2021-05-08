@@ -1,14 +1,14 @@
 import { Column, Entity, ManyToOne, Unique } from 'typeorm';
 
 import { BaseEntity } from './base.entity';
+import { Customer } from './customers.entity';
 import { Product } from './products.entity';
-import { User } from './users.entity';
 
 @Entity()
-@Unique(['userId', 'productId'])
+@Unique(['customerId', 'productId'])
 export class CartItem extends BaseEntity {
   @Column()
-  userId: number;
+  customerId: number;
 
   @Column()
   quantity: number;
@@ -16,8 +16,8 @@ export class CartItem extends BaseEntity {
   @Column()
   productId: number;
 
-  @ManyToOne(() => User, (user) => user.cartItems)
-  user: User;
+  @ManyToOne(() => Customer, (customer) => customer.cartItems)
+  customer: Customer;
 
   @ManyToOne(() => Product, { eager: true, onDelete: 'CASCADE' })
   product: Product;

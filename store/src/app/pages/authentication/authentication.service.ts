@@ -1,10 +1,11 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Authentication } from 'src/app/shared/Interfaces/authentication.interface';
+
+import { Authentication } from '../../shared/Interfaces/authentication.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,7 @@ export class AuthenticationService {
   }
 
   signUp(data: Authentication): Observable<Authentication> {
-    return this.http.post<Authentication>(`${environment.apiUrl}/users`, data);
+    return this.http.post<Authentication>(`${environment.apiUrl}/customers`, data);
   }
 
   signOut() {

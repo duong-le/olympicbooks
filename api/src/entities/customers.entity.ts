@@ -7,7 +7,7 @@ import { CartItem } from './carts.entity';
 import { Order } from './orders.entity';
 
 @Entity()
-export class User extends BaseEntity {
+export class Customer extends BaseEntity {
   @Column()
   name: string;
 
@@ -30,9 +30,9 @@ export class User extends BaseEntity {
   @Column({ enum: Role, default: Role.CUSTOMER })
   role: Role;
 
-  @OneToMany(() => Order, (order) => order.user)
+  @OneToMany(() => Order, (order) => order.customer)
   orders: Order[];
 
-  @OneToMany(() => CartItem, (cartItem) => cartItem.user, { cascade: true })
+  @OneToMany(() => CartItem, (cartItem) => cartItem.customer, { cascade: true })
   cartItems: CartItem[];
 }

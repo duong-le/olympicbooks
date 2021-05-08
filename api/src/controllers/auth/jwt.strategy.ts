@@ -4,12 +4,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Repository } from 'typeorm';
 
-import { User } from '../../entities/users.entity';
+import { Customer } from '../../entities/customers.entity';
 import { JwtPayload } from '../../shared/Interfaces/jwt-payload.interface';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(@InjectRepository(User) private userRepository: Repository<User>) {
+  constructor(@InjectRepository(Customer) private customerRepository: Repository<Customer>) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -17,9 +17,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: JwtPayload): Promise<User> {
-    const user = await this.userRepository.findOne({ email: payload.email });
-    if (!user || user?.isBlock) throw new UnauthorizedException();
-    return user;
+  async validate(payload: JwtPayload): Promise<Customer> {
+    const customer = await this.customerRepository.findOne({ email: payload.email });
+    if (!customer || customer?.isBlock) throw new UnauthorizedException();
+    return customer;
   }
 }

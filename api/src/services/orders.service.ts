@@ -44,8 +44,8 @@ export class OrdersService extends TypeOrmCrudService<Order> {
     });
   }
 
-  async createOrder(dto: CreateOrderDto, userId: number): Promise<Order> {
-    const order = this.orderRepository.create({ ...dto, userId });
+  async createOrder(dto: CreateOrderDto, customerId: number): Promise<Order> {
+    const order = this.orderRepository.create({ ...dto, customerId });
     const shippingMethod = await this.shippingMethodRepository.findOne(dto.shipping.shippingMethodId);
     const products = await this.productRepository.findByIds(dto.orderItems.map((el) => el.productId));
 

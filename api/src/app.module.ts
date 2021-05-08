@@ -6,22 +6,22 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AdminAuthorsModule } from './controllers/admin/authors/authors.module';
 import { AdminCategoriesModule } from './controllers/admin/categories/categories.module';
+import { AdminCustomersModule } from './controllers/admin/customers/customers.module';
 import { AdminOrdersModule } from './controllers/admin/orders/orders.module';
 import { AdminProductsModule } from './controllers/admin/products/products.module';
 import { AdminPublishersModule } from './controllers/admin/publishers/publishers.module';
-import { AdminUsersModule } from './controllers/admin/users/users.module';
 
 import { AuthModule } from './controllers/auth/auth.module';
 import { AuthorsModule } from './controllers/store/authors/authors.module';
 import { CartsModule } from './controllers/store/carts/carts.module';
 import { CategoriesModule } from './controllers/store/categories/categories.module';
+import { CustomersModule } from './controllers/store/customers/customers.module';
 import { DiscountsModule } from './controllers/store/discounts/discounts.module';
 import { OrdersModule } from './controllers/store/orders/orders.module';
 import { ProductsModule } from './controllers/store/products/products.module';
 import { PublishersModule } from './controllers/store/publishers/publishers.module';
 import { ShippingsModule } from './controllers/store/shippings/shippings.module';
 import { TransactionsModule } from './controllers/store/transactions/transactions.module';
-import { UsersModule } from './controllers/store/users/users.module';
 
 import OrmConfig from './core/Config/orm.config';
 import { RolesGuard } from './core/Guards/roles.guard';
@@ -39,7 +39,7 @@ import { Exist } from './core/Validators/exist/exist.service';
     CategoriesModule,
     PublishersModule,
     AuthorsModule,
-    UsersModule,
+    CustomersModule,
     CartsModule,
     OrdersModule,
     DiscountsModule,
@@ -50,7 +50,7 @@ import { Exist } from './core/Validators/exist/exist.service';
     AdminPublishersModule,
     AdminCategoriesModule,
     AdminProductsModule,
-    AdminUsersModule
+    AdminCustomersModule
   ],
   providers: [
     Exist,

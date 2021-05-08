@@ -1,11 +1,11 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 
 import { BaseEntity } from './base.entity';
+import { Customer } from './customers.entity';
 import { Discount } from './discounts.entity';
 import { OrderItem } from './orders-item.entity';
 import { Shipping } from './shippings.entity';
 import { Transaction } from './transactions.entity';
-import { User } from './users.entity';
 
 @Entity()
 export class Order extends BaseEntity {
@@ -16,7 +16,7 @@ export class Order extends BaseEntity {
   sellerNote: string;
 
   @Column()
-  userId: number;
+  customerId: number;
 
   @Column({ default: null })
   discountId: number;
@@ -27,8 +27,8 @@ export class Order extends BaseEntity {
   @Column()
   shippingId: number;
 
-  @ManyToOne(() => User, (user) => user.orders)
-  user: User;
+  @ManyToOne(() => Customer, (customer) => customer.orders)
+  customer: Customer;
 
   @ManyToOne(() => Discount, (discount) => discount.orders, { eager: true })
   discount: Discount;

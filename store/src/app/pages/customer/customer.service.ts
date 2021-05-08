@@ -13,11 +13,11 @@ export class CustomerService {
   constructor(private http: HttpClient) {}
 
   getMe(): Observable<Customer> {
-    return this.http.get<Customer>(`${environment.apiUrl}/users/me`);
+    return this.http.get<Customer>(`${environment.apiUrl}/customers/me`);
   }
 
   updateMe(data: UpdateCustomer): Observable<UpdateCustomer> {
-    return this.http.patch<UpdateCustomer>(`${environment.apiUrl}/users/me`, data);
+    return this.http.patch<UpdateCustomer>(`${environment.apiUrl}/customers/me`, data);
   }
 
   getOrders(params): Observable<Order[]> {

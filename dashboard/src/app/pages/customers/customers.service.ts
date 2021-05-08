@@ -9,6 +9,6 @@ import { Pagination } from 'src/app/shared/Interfaces/pagination.interface';
 })
 export class CustomersService extends BaseService<Customer> {
   getMany(params: { [key: string]: string | string[] }): Observable<Pagination<Customer[]> | Customer[]> {
-    return this.http.get<Pagination<Customer[]> | Customer[]>(`${this.baseUrl}/users`, { params });
+    return this.http.get<Pagination<Customer[]> | Customer[]>(`${this.baseUrl}/customers`, { params });
   }
 }

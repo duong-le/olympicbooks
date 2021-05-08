@@ -3,9 +3,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudAuth, CrudController, Override, ParsedBody } from '@nestjsx/crud';
 
-import { UserInfo } from '../../../core/Decorators/user-info.decorator';
+import { CustomerInfo } from '../../../core/Decorators/customer-info.decorator';
+import { Customer } from '../../../entities/customers.entity';
 import { Order } from '../../../entities/orders.entity';
-import { User } from '../../../entities/users.entity';
 import { OrdersService } from '../../../services/orders.service';
 import { CreateOrderDto } from './orders.dto';
 
@@ -32,13 +32,13 @@ import { CreateOrderDto } from './orders.dto';
 })
 @CrudAuth({
   property: 'user',
-  filter: (user: User) => ({ userId: user.id })
+  filter: (customer: Customer) => ({ customerId: customer.id })
 })
 export class OrdersController implements CrudController<Order> {
   constructor(public service: OrdersService) {}
 
   @Override()
-  createOne(@ParsedBody() dto: CreateOrderDto, @UserInfo() user: User): Promise<Order> {
-    return this.service.createOrder(dto, user.id);
+  createOne(@ParsedBody() dto: CreateOrderDto, @CustomerInfo() customer: Customer): Promise<Order> {
+    return this.service.createOrder(dto, customer.id);
   }
 }

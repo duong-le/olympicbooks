@@ -1,7 +1,7 @@
-import { ApiPropertyOptional, OmitType, ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsOptional, IsString, IsEmail, IsBoolean, MinLength, MaxLength, Matches, IsDefined } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
+import { IsBoolean, IsDefined, IsEmail, IsOptional, IsString, Matches, MinLength } from 'class-validator';
 
-export class CreateUserDto {
+export class CreateCustomerDto {
   @ApiProperty()
   @IsDefined()
   @IsString()
@@ -23,7 +23,7 @@ export class CreateUserDto {
   password: string;
 }
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {
+export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
@@ -40,4 +40,4 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   isBlock: boolean;
 }
 
-export class UpdateMeDto extends OmitType(UpdateUserDto, ['email', 'isBlock'] as const) {}
+export class UpdateMeDto extends OmitType(UpdateCustomerDto, ['email', 'isBlock'] as const) {}

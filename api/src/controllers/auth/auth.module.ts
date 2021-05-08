@@ -3,7 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { User } from '../../entities/users.entity';
+import { Customer } from '../../entities/customers.entity';
 import { AuthService } from '../../services/auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
@@ -19,7 +19,7 @@ import { JwtStrategy } from './jwt.strategy';
         signOptions: { expiresIn: '30d' }
       })
     }),
-    TypeOrmModule.forFeature([User])
+    TypeOrmModule.forFeature([Customer])
   ],
   providers: [AuthService, JwtStrategy],
   exports: [JwtStrategy, PassportModule, AuthService]
