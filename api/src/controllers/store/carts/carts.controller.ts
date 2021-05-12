@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGua
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import { CustomerInfo } from '../../../core/Decorators/customer-info.decorator';
+import { UserInfo } from '../../../core/Decorators/user-info.decorator';
 import { CartItem } from '../../../entities/carts.entity';
 import { Customer } from '../../../entities/customers.entity';
 import { CartsService } from '../../../services/carts.service';
@@ -17,13 +17,13 @@ export class CartsController {
 
   @ApiOperation({ summary: 'Retrieve multiple CartItems' })
   @Get()
-  getMany(@CustomerInfo() customer: Customer): Promise<CartItem[]> {
+  getMany(@UserInfo() customer: Customer): Promise<CartItem[]> {
     return this.service.getManyCartItem(customer.id);
   }
 
   @ApiOperation({ summary: 'Create a single CartItem' })
   @Post()
-  createOne(@Body() dto: CreateCartItemDto, @CustomerInfo() customer: Customer): Promise<CartItem> {
+  createOne(@Body() dto: CreateCartItemDto, @UserInfo() customer: Customer): Promise<CartItem> {
     return this.service.createCartItem(dto, customer.id);
   }
 
@@ -35,13 +35,13 @@ export class CartsController {
 
   @ApiOperation({ summary: 'Delete a single CartItem' })
   @Delete(':id')
-  deleteOne(@Param('id', ParseIntPipe) id: number, @CustomerInfo() customer: Customer): Promise<void> {
+  deleteOne(@Param('id', ParseIntPipe) id: number, @UserInfo() customer: Customer): Promise<void> {
     return this.service.deleteOneCartItem(id, customer.id);
   }
 
   @ApiOperation({ summary: 'Delete multiple CartItems' })
   @Delete()
-  deleteMany(@CustomerInfo() customer: Customer): Promise<void> {
+  deleteMany(@UserInfo() customer: Customer): Promise<void> {
     return this.service.deleteCartItems(customer.id);
   }
 }

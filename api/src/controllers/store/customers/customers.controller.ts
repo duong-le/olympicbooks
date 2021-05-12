@@ -2,7 +2,7 @@ import { BadRequestException, Body, ConflictException, Controller, Get, Patch, P
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import { CustomerInfo } from '../../../core/Decorators/customer-info.decorator';
+import { UserInfo } from '../../../core/Decorators/user-info.decorator';
 import { Customer } from '../../../entities/customers.entity';
 import { CustomersService } from '../../../services/customers.service';
 import { CreateCustomerDto, UpdateCustomerDto } from './customers.dto';
@@ -26,7 +26,7 @@ export class CustomersController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @Get('me')
-  getCustomer(@CustomerInfo() customer: Customer): Customer {
+  getCustomer(@UserInfo() customer: Customer): Customer {
     return customer;
   }
 
@@ -34,7 +34,7 @@ export class CustomersController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @Patch('me')
-  async updateCustomer(@Body() dto: UpdateCustomerDto, @CustomerInfo() customer: Customer): Promise<Customer> {
+  async updateCustomer(@Body() dto: UpdateCustomerDto, @UserInfo() customer: Customer): Promise<Customer> {
     try {
       return await this.service.updateCustomer(customer.id, dto);
     } catch (error) {
