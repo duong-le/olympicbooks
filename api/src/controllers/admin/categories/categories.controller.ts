@@ -14,11 +14,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import { Roles } from '../../../core/Decorators/roles.decorator';
 import { Category } from '../../../entities/categories.entity';
 import { CategoriesService } from '../../../services/categories.service';
 import { UploadOptions } from '../../../services/cloud-storage.service';
-import { Role } from '../../../shared/Enums/roles.enum';
 import { File } from '../../../shared/Interfaces/file.interface';
 import { CreateCategoryDto, UpdateCategoryDto } from '../../admin/categories/categories.dto';
 import { CategoriesController } from '../../store/categories/categories.controller';
@@ -27,7 +25,6 @@ import { CategoriesController } from '../../store/categories/categories.controll
 @ApiBearerAuth()
 @Controller('admin/categories')
 @UseGuards(AuthGuard())
-@Roles(Role.ADMIN)
 export class AdminCategoriesController extends CategoriesController {
   constructor(public service: CategoriesService) {
     super(service);

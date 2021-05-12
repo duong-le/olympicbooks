@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Authentication } from 'src/app/shared/Interfaces/authentication.interface';
@@ -25,13 +25,10 @@ export class AuthenticationService {
     return this.http.post<Authentication>(`${environment.apiUrl}/auth`, data).pipe(
       map(({ accessToken }) => {
         const payload = this.decodeToken(accessToken);
-        if (payload.role >= 1) {
-          const user = { ...payload, accessToken };
-          localStorage.setItem('user', JSON.stringify(user));
-          this.userSubject.next(user);
-          return user;
-        }
-        return false;
+        const user = { ...payload, accessToken };
+        localStorage.setItem('user', JSON.stringify(user));
+        this.userSubject.next(user);
+        return user;
       })
     );
   }

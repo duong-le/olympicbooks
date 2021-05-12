@@ -4,11 +4,9 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudRequest, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
 
-import { Roles } from '../../../core/Decorators/roles.decorator';
 import { Product } from '../../../entities/products.entity';
 import { UploadOptions } from '../../../services/cloud-storage.service';
 import { ProductsService } from '../../../services/products.service';
-import { Role } from '../../../shared/Enums/roles.enum';
 import { File } from '../../../shared/Interfaces/file.interface';
 import { ProductsController } from '../../store/products/products.controller';
 import { CreateProductDto, UpdateProductDto } from './products.dto';
@@ -17,7 +15,6 @@ import { CreateProductDto, UpdateProductDto } from './products.dto';
 @ApiBearerAuth()
 @Controller('admin/products')
 @UseGuards(AuthGuard())
-@Roles(Role.ADMIN)
 @Crud({
   model: { type: Product },
   routes: {

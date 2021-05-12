@@ -4,9 +4,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud } from '@nestjsx/crud';
 import { AuthorsService } from 'src/services/authors.service';
 
-import { Roles } from '../../../core/Decorators/roles.decorator';
 import { Author } from '../../../entities/authors.entity';
-import { Role } from '../../../shared/Enums/roles.enum';
 import { AuthorsController } from '../../store/authors/authors.controller';
 import { CreateAuthorDto, UpdateAuthorDto } from './authors.dto';
 
@@ -14,7 +12,6 @@ import { CreateAuthorDto, UpdateAuthorDto } from './authors.dto';
 @ApiBearerAuth()
 @Controller('admin/authors')
 @UseGuards(AuthGuard())
-@Roles(Role.ADMIN)
 @Crud({
   model: { type: Author },
   routes: {

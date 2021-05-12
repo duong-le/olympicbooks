@@ -1,5 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { ExtractJwt } from 'passport-jwt';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -10,6 +11,7 @@ export class RolesGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
     const allowedRoles = this.reflector.getAllAndOverride<number[]>('roles', [context.getHandler(), context.getClass()]);
-    return this.authService.validateRole(allowedRoles, request);
+    const jwtToken = ExtractJwt.fromAuthHeaderAsBearerToken()(request);
+    return this.authService.validateRole(allowedRoles, jwtToken);
   }
 }

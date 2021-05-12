@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+
 import { AuthenticationService } from './authentication.service';
 
 @Component({
@@ -33,10 +34,8 @@ export class AuthenticationComponent implements OnInit {
     this.authenticationService.signIn(this.signInForm.value).subscribe(
       (response) => {
         this.isLoading = false;
-        if (response) {
-          this.messageService.success('Đăng nhập thành công!');
-          this.router.navigate(['/products']);
-        } else this.messageService.error('Tài khoản không hợp lệ!');
+        this.messageService.success('Đăng nhập thành công!');
+        this.router.navigate(['/products']);
       },
       (error) => {
         this.isLoading = false;

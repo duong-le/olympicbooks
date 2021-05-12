@@ -3,17 +3,14 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
 
-import { Roles } from '../../../core/Decorators/roles.decorator';
 import { Order } from '../../../entities/orders.entity';
 import { OrdersService } from '../../../services/orders.service';
-import { Role } from '../../../shared/Enums/roles.enum';
 import { UpdateOrderDto } from '../../store/orders/orders.dto';
 
 @ApiTags('Admin Orders')
 @ApiBearerAuth()
 @Controller('admin/orders')
 @UseGuards(AuthGuard())
-@Roles(Role.ADMIN)
 @Crud({
   model: { type: Order },
   routes: {
