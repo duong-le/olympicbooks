@@ -23,6 +23,8 @@ import { PublishersModule } from './controllers/store/publishers/publishers.modu
 import { ShippingsModule } from './controllers/store/shippings/shippings.module';
 import { TransactionsModule } from './controllers/store/transactions/transactions.module';
 
+import { SellersModule } from './controllers/seller/sellers/sellers.module';
+
 import OrmConfig from './core/Config/orm.config';
 import { RolesGuard } from './core/Guards/roles.guard';
 import { HttpRequestLogger } from './core/Loggers/http-request.logger';
@@ -50,7 +52,8 @@ import { Exist } from './core/Validators/exist/exist.service';
     AdminPublishersModule,
     AdminCategoriesModule,
     AdminProductsModule,
-    AdminCustomersModule
+    AdminCustomersModule,
+    SellersModule,
   ],
   providers: [
     Exist,
