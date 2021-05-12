@@ -5,7 +5,7 @@ import { Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest 
 
 import { Customer } from '../../../entities/customers.entity';
 import { CustomersService } from '../../../services/customers.service';
-import { UpdateCustomerDto } from '../../store/customers/customers.dto';
+import { AdminUpdateCustomerDto } from '../../store/customers/customers.dto';
 
 @ApiTags('Admin Customers')
 @ApiBearerAuth()
@@ -21,7 +21,7 @@ export class AdminCustomersController implements CrudController<Customer> {
   constructor(public service: CustomersService) {}
 
   @Override()
-  updateOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: UpdateCustomerDto): Promise<Customer> {
+  updateOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: AdminUpdateCustomerDto): Promise<Customer> {
     return this.service.updateCustomer(req.parsed.paramsFilter[0].value, dto);
   }
 }
