@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Admin } from '../../entities/admins.entity';
 import { Customer } from '../../entities/customers.entity';
+import { Seller } from '../../entities/sellers.entity';
 import { AuthService } from '../../services/auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
@@ -20,7 +21,7 @@ import { JwtStrategy } from './jwt.strategy';
         signOptions: { expiresIn: '30d' }
       })
     }),
-    TypeOrmModule.forFeature([Customer, Admin])
+    TypeOrmModule.forFeature([Customer, Admin, Seller])
   ],
   providers: [AuthService, JwtStrategy],
   exports: [JwtStrategy, PassportModule, AuthService]
