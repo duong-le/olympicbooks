@@ -10,7 +10,7 @@ import { CreateCartItemDto, UpdateCartItemDto } from './carts.dto';
 
 @ApiTags('Carts')
 @ApiBearerAuth()
-@Controller('me/carts')
+@Controller('customers/me/carts')
 @UseGuards(AuthGuard())
 export class CartsController {
   constructor(public service: CartsService) {}
@@ -29,19 +29,13 @@ export class CartsController {
 
   @ApiOperation({ summary: 'Update a single CartItem' })
   @Patch(':id')
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateCartItemDto: UpdateCartItemDto
-  ): Promise<CartItem> {
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateCartItemDto: UpdateCartItemDto): Promise<CartItem> {
     return this.service.updateCartItem(id, updateCartItemDto);
   }
 
   @ApiOperation({ summary: 'Delete a single CartItem' })
   @Delete(':id')
-  deleteOne(
-    @Param('id', ParseIntPipe) id: number,
-    @CustomerInfo() customer: Customer
-  ): Promise<void> {
+  deleteOne(@Param('id', ParseIntPipe) id: number, @CustomerInfo() customer: Customer): Promise<void> {
     return this.service.deleteOneCartItem(id, customer.id);
   }
 

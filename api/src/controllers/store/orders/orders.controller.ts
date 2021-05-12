@@ -11,7 +11,7 @@ import { CreateOrderDto } from './orders.dto';
 
 @ApiTags('Orders')
 @ApiBearerAuth()
-@Controller('me/orders')
+@Controller('customers/me/orders')
 @UseGuards(AuthGuard())
 @Crud({
   model: { type: Order },

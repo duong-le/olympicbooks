@@ -22,6 +22,6 @@ export class CheckOutService {
   }
 
   createOrder(data: Order): Observable<Order> {
-    return this.http.post<Order>(`${environment.apiUrl}/me/orders`, data);
+    return this.http.post<Order>(`${environment.apiUrl}/customers/me/orders`, data);
   }
 }
