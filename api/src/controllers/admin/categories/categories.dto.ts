@@ -1,6 +1,6 @@
-import { ApiProperty, ApiPropertyOptional, PartialType, OmitType } from '@nestjs/swagger';
-import { IsDefined, IsOptional, IsString, IsInt, Min } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { IsDefined, IsInt, IsOptional, IsString, Min } from 'class-validator';
 
 export class CreateCategoryDto {
   @ApiProperty()
@@ -15,7 +15,7 @@ export class CreateCategoryDto {
   @Min(0)
   parentId: number;
 
-  @ApiProperty({ type: 'string', format: 'binary' })
+  @ApiPropertyOptional({ type: 'string', format: 'binary' })
   @IsOptional()
   attachment: any;
 }

@@ -29,24 +29,25 @@ export class AdminCategoriesController extends CategoriesController {
   constructor(public service: CategoriesService) {
     super(service);
   }
-  @Post()
-  @ApiConsumes('multipart/form-data')
+
   @ApiOperation({ summary: 'Create one Category' })
+  @ApiConsumes('multipart/form-data')
+  @Post()
   @UseInterceptors(FileInterceptor('attachment', UploadOptions))
   async createOne(@Body() dto: CreateCategoryDto, @UploadedFile() uploadedFile: File): Promise<Category> {
     return this.service.createOne(dto, uploadedFile);
   }
 
-  @Patch(':id')
-  @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Update one Category' })
+  @ApiConsumes('multipart/form-data')
+  @Patch(':id')
   @UseInterceptors(FileInterceptor('attachment', UploadOptions))
   updateOne(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateCategoryDto, @UploadedFile() uploadedFile: File): Promise<Category> {
     return this.service.updateOne(id, dto, uploadedFile);
   }
 
-  @Delete(':id')
   @ApiOperation({ summary: 'Delete one Category' })
+  @Delete(':id')
   deleteOne(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.service.deleteOne(id);
   }

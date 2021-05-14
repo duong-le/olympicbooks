@@ -9,26 +9,26 @@ import { CategoriesService } from '../../../services/categories.service';
 export class CategoriesController {
   constructor(public service: CategoriesService) {}
 
-  @Get()
   @ApiOperation({ summary: 'Retrieve many Category' })
+  @Get()
   getMany(): Promise<Category[]> {
     return this.service.getMany();
   }
 
-  @Get(':id')
   @ApiOperation({ summary: 'Retrieve one Category' })
+  @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number): Promise<Category> {
     return this.service.getOne(id);
   }
 
-  @Get(':id/publishers')
   @ApiOperation({ summary: 'Retrieve many Publisher by Category' })
+  @Get(':id/publishers')
   getPublishersByCategory(@Param('id', ParseIntPipe) id: number): Promise<Category[]> {
     return this.service.getPublishersByCategory(id);
   }
 
-  @Get(':id/authors')
   @ApiOperation({ summary: 'Retrieve many Author by Category' })
+  @Get(':id/authors')
   getAuthorsByCategory(@Param('id', ParseIntPipe) id: number): Promise<Category[]> {
     return this.service.getAuthorsByCategory(id);
   }
