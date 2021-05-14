@@ -8,6 +8,7 @@ import { PublishersController } from './publishers.controller';
 @Module({
   controllers: [PublishersController],
   imports: [TypeOrmModule.forFeature([Publisher])],
-  providers: [PublishersService]
+  providers: [PublishersService],
+  exports: [PublishersService]
 })
 export class PublishersModule {}
