@@ -5,20 +5,23 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserInfo } from '../../../core/Decorators/user-info.decorator';
 import { Seller } from '../../../entities/sellers.entity';
 import { SellersService } from '../../../services/sellers.service';
+import { ShopsService } from '../../../services/shops.service';
 import { CreateSellerDto, UpdateSellerDto } from './sellers.dto';
 
 @ApiTags('Sellers')
 @Controller('sellers')
 export class SellersController {
-  constructor(private readonly service: SellersService) {}
+  constructor(public service: SellersService, public shopsService: ShopsService) {}
 
   @ApiOperation({ summary: 'Create a single Seller' })
   @Post()
-  async createSeller(@Body() createSellerDto: CreateSellerDto) {
+  async createSeller(@Body() createSellerDto: CreateSellerDto): Promise<Seller> {
     try {
       return await this.service.createSeller(createSellerDto);
     } catch (error) {
-      throw error.code === '23505' ? new ConflictException('Email already exists') : new BadRequestException(error?.message);
+      throw error.code === '23505'
+        ? new ConflictException('Email already exists')
+        : new BadRequestException(error?.message);
     }
   }
 
@@ -26,7 +29,8 @@ export class SellersController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @Get('me')
-  findSeller(@UserInfo() seller: Seller): Seller {
+  async findSeller(@UserInfo() seller: Seller): Promise<Seller> {
+    seller.shops = await this.shopsService.getManyShops(seller.id);
     return seller;
   }
 
@@ -34,11 +38,13 @@ export class SellersController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @Patch('me')
-  async updateSeller(@Body() updateSellerDto: UpdateSellerDto, @UserInfo() seller: Seller) {
+  async updateSeller(@Body() updateSellerDto: UpdateSellerDto, @UserInfo() seller: Seller): Promise<Seller> {
     try {
       return await this.service.updateSeller(seller.id, updateSellerDto);
     } catch (error) {
-      throw error.code === '23505' ? new ConflictException('Email already exists') : new BadRequestException(error?.message);
+      throw error.code === '23505'
+        ? new ConflictException('Email already exists')
+        : new BadRequestException(error?.message);
     }
   }
 }
