@@ -13,7 +13,7 @@ export class ShopsService {
     private cloudStorageService: CloudStorageService
   ) {}
 
-  async getManyShops(sellerId: number): Promise<Shop[]> {
+  async getManyShopsBySeller(sellerId: number): Promise<Shop[]> {
     return await this.shopRepository
       .createQueryBuilder('shop')
       .innerJoin('shop.sellers', 'seller')
@@ -21,7 +21,7 @@ export class ShopsService {
       .getMany();
   }
 
-  async getOneShop(shopId: number, sellerId: number): Promise<Shop> {
+  async getOneShopBySeller(shopId: number, sellerId: number): Promise<Shop> {
     return await this.shopRepository
       .createQueryBuilder('shop')
       .innerJoin('shop.sellers', 'seller')

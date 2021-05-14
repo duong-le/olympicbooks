@@ -30,7 +30,7 @@ export class SellersController {
   @UseGuards(AuthGuard())
   @Get('me')
   async findSeller(@UserInfo() seller: Seller): Promise<Seller> {
-    seller.shops = await this.shopsService.getManyShops(seller.id);
+    seller.shops = await this.shopsService.getManyShopsBySeller(seller.id);
     return seller;
   }
 

@@ -4,7 +4,7 @@ import { Crud, CrudController, CrudRequest, GetManyDefaultResponse, Override, Pa
 
 import { Product } from '../../../entities/products.entity';
 import { ProductsService } from '../../../services/products.service';
-import { ProductType } from '../../../shared/Enums/product-type.enum';
+import { ProductCollectionType } from '../../../shared/Enums/products.enum';
 
 @ApiTags('Products')
 @Controller('products')
@@ -28,8 +28,12 @@ export class ProductsController implements CrudController<Product> {
 
   @Override()
   @ApiQuery({ name: 'type', required: false })
-  getMany(@ParsedRequest() req: CrudRequest, @Query('type') type: string): Promise<GetManyDefaultResponse<Product> | Product[]> {
-    if (type === ProductType.TOP_SELLING) return this.service.getTopSellingProducts(req.parsed.limit);
+  getMany(
+    @ParsedRequest() req: CrudRequest,
+    @Query('type') type: string
+  ): Promise<GetManyDefaultResponse<Product> | Product[]> {
+    if (type === ProductCollectionType.TOP_SELLING)
+      return this.service.getTopSellingProducts(req.parsed.limit);
     return this.service.getMany(req);
   }
 

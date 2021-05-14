@@ -38,13 +38,13 @@ export class ShopsController {
   @ApiOperation({ summary: 'Retrieve many Shop' })
   @Get()
   async getMany(@UserInfo() seller: Seller): Promise<Shop[]> {
-    return await this.service.getManyShops(seller.id);
+    return await this.service.getManyShopsBySeller(seller.id);
   }
 
   @ApiOperation({ summary: 'Retrieve one Shop' })
   @Get(':id')
   async getOne(@Param('id', ParseIntPipe) id: number, @UserInfo() seller: Seller): Promise<Shop> {
-    const shop = await this.service.getOneShop(id, seller.id);
+    const shop = await this.service.getOneShopBySeller(id, seller.id);
     if (!shop) throw new NotFoundException(`Shop ${id} not found`);
     return shop;
   }
@@ -80,7 +80,7 @@ export class ShopsController {
     @UploadedFile() uploadedFile: File,
     @UserInfo() seller: Seller
   ): Promise<Shop> {
-    const shop = await this.service.getOneShop(id, seller.id);
+    const shop = await this.service.getOneShopBySeller(id, seller.id);
     if (!shop) throw new NotFoundException(`Shop ${id} not found`);
 
     if (dto?.name) shop.name = dto.name;
