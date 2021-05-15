@@ -3,21 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Repository } from 'typeorm';
 
-import { CreateOrderDto, UpdateOrderDto } from '../controllers/store/orders/orders.dto';
+import { UpdateOrderDto } from '../controllers/store/orders/orders.dto';
 import { OrderItem } from '../entities/orders-item.entity';
 import { Order } from '../entities/orders.entity';
-import { Product } from '../entities/products.entity';
-import { ShippingMethod } from '../entities/shipping-methods.entity';
-import { FREE_SHIPPING_ORDER_VALUE_THRESHOLD } from '../shared/Constants/transaction.constant';
 import { DeliveryState } from '../shared/Enums/delivery-state.enum';
 
 @Injectable()
 export class OrdersService extends TypeOrmCrudService<Order> {
-  constructor(
-    @InjectRepository(Order) private orderRepository: Repository<Order>,
-    @InjectRepository(Product) private productRepository: Repository<Product>,
-    @InjectRepository(ShippingMethod) private shippingMethodRepository: Repository<ShippingMethod>
-  ) {
+  constructor(@InjectRepository(Order) private orderRepository: Repository<Order>) {
     super(orderRepository);
   }
 
@@ -44,24 +37,9 @@ export class OrdersService extends TypeOrmCrudService<Order> {
     });
   }
 
-  async createOrder(dto: CreateOrderDto, customerId: number): Promise<Order> {
-    const order = this.orderRepository.create({ ...dto, customerId });
-    const shippingMethod = await this.shippingMethodRepository.findOne(dto.shipping.shippingMethodId);
-    const products = await this.productRepository.findByIds(dto.orderItems.map((el) => el.productId));
-
-    order.orderItems = order.orderItems.map((orderItem) => {
-      const product = products.find((product) => product.id === orderItem.productId);
-      orderItem.totalValue = orderItem.quantity * product.price;
-      orderItem.productTitle = product.title;
-      return orderItem;
-    });
-
-    order.transaction.value = order.orderItems.reduce((total: number, current: OrderItem) => (total += current.totalValue), 0);
-
-    if (order.transaction.value < FREE_SHIPPING_ORDER_VALUE_THRESHOLD) {
-      order.shipping.fee = shippingMethod.fee;
-      order.transaction.value += order.shipping.fee;
-    }
-    return await this.orderRepository.save(order);
+  calculateOrderValue(orderItems: OrderItem[], shippingFee: number): number {
+    return (
+      orderItems.reduce((total: number, current: OrderItem) => (total += current.totalValue), 0) + shippingFee
+    );
   }
 }

@@ -17,7 +17,7 @@ export class ShippingsService extends TypeOrmCrudService<Shipping> {
   }
 
   async getShippingMethods(transactionValue: number): Promise<ShippingMethod[]> {
-    let shippingMethods = await this.shippingMethodRepository.createQueryBuilder('shipping-method').orderBy('id', 'ASC').getMany();
+    let shippingMethods = await this.shippingMethodRepository.find({ order: { id: 'ASC' } });
 
     if (transactionValue >= FREE_SHIPPING_ORDER_VALUE_THRESHOLD)
       shippingMethods = shippingMethods.map((method) => {

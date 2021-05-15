@@ -1,14 +1,7 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDefined, IsEnum, IsNumber } from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsDefined, IsEnum } from 'class-validator';
 
 import { TransactionState } from '../../../shared/Enums/transaction-state.enum';
-
-export class CreateTransactionDto {
-  @ApiProperty()
-  @IsDefined()
-  @IsNumber()
-  transactionMethodId: number;
-}
 
 export class UpdateTransactionDto {
   @ApiPropertyOptional({ enum: TransactionState })

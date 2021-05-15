@@ -1,60 +1,20 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsArray, IsDefined, IsNumber, IsOptional, IsString, Min, Validate, ValidateNested } from 'class-validator';
+import { IsDefined, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 
-import { ArrayExist } from '../../../core/Validators/array-exist/array-exist.service';
-import { Exist } from '../../../core/Validators/exist/exist.service';
-import { Product } from '../../../entities/products.entity';
-import { ShippingMethod } from '../../../entities/shipping-methods.entity';
-import { TransactionMethod } from '../../../entities/transaction-methods.entity';
-import { CreateShippingDto, UpdateShippingDto } from '../shippings/shippings.dto';
-import { CreateTransactionDto, UpdateTransactionDto } from '../transactions/transactions.dto';
-
-export class CreateOrderItemDto {
-  @ApiProperty()
-  @IsDefined()
-  @IsNumber()
-  @Min(1)
-  quantity: number;
-
-  @ApiProperty()
-  @IsDefined()
-  @IsNumber()
-  productId: number;
-}
+import { UpdateShippingDto } from '../shippings/shippings.dto';
+import { UpdateTransactionDto } from '../transactions/transactions.dto';
 
 export class CreateOrderDto {
-  @ApiProperty({ type: CreateTransactionDto })
+  @ApiProperty()
   @IsDefined()
-  @ValidateNested()
-  @Type(() => CreateTransactionDto)
-  @Validate(
-    Exist,
-    [TransactionMethod, ({ value: { transactionMethodId } }: { value: CreateTransactionDto }) => ({ id: transactionMethodId })],
-    {
-      message: () => 'Transaction method not found'
-    }
-  )
-  transaction: CreateTransactionDto;
+  @IsNumber()
+  transactionMethodId: number;
 
-  @ApiProperty({ type: CreateShippingDto })
+  @ApiProperty()
   @IsDefined()
-  @ValidateNested()
-  @Type(() => CreateShippingDto)
-  @Validate(Exist, [ShippingMethod, ({ value: { shippingMethodId } }: { value: CreateShippingDto }) => ({ id: shippingMethodId })], {
-    message: () => 'Shipping method not found'
-  })
-  shipping: CreateShippingDto;
-
-  @ApiProperty({ type: [CreateOrderItemDto] })
-  @IsDefined()
-  @IsArray()
-  @ValidateNested()
-  @Type(() => CreateOrderItemDto)
-  @Validate(ArrayExist, [Product, 'id', 'productId'], {
-    message: () => 'Product not found'
-  })
-  orderItems: CreateOrderItemDto[];
+  @IsNumber()
+  shippingMethodId: number;
 
   @ApiPropertyOptional()
   @IsOptional()
