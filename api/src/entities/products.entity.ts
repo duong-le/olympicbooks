@@ -6,6 +6,7 @@ import { Category } from './categories.entity';
 import { OrderItem } from './orders-item.entity';
 import { ProductImage } from './product-images.entity';
 import { Publisher } from './publishers.entity';
+import { Shop } from './shops.entity';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -33,20 +34,20 @@ export class Product extends BaseEntity {
   @Column({ default: true })
   inStock: boolean;
 
-  @Column()
-  categoryId: number;
-
-  @Column()
-  publisherId: number;
-
   @OneToMany(() => ProductImage, (productImage) => productImage.product, { eager: true, cascade: true })
   images: ProductImage[];
 
   @ManyToOne(() => Category, (category) => category.products, { eager: true })
   category: Category;
 
+  @Column()
+  categoryId: number;
+
   @ManyToOne(() => Publisher, (publisher) => publisher.products, { eager: true })
   publisher: Publisher;
+
+  @Column()
+  publisherId: number;
 
   @ManyToMany(() => Author, (author) => author.products, { eager: true })
   @JoinTable({ name: 'products_authors' })
@@ -54,4 +55,10 @@ export class Product extends BaseEntity {
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
   orderItems: OrderItem[];
+
+  @ManyToOne(() => Shop, (shop) => shop.products)
+  shop: Shop;
+
+  @Column()
+  shopId: number;
 }

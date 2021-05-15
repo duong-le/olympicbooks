@@ -16,7 +16,7 @@ export class ShopsService {
   async getManyShopsBySeller(sellerId: number): Promise<Shop[]> {
     return await this.shopRepository
       .createQueryBuilder('shop')
-      .innerJoin('shop.sellers', 'seller')
+      .leftJoin('shop.sellers', 'seller')
       .where('seller.id = :sellerId', { sellerId })
       .getMany();
   }
@@ -24,7 +24,7 @@ export class ShopsService {
   async getOneShopBySeller(shopId: number, sellerId: number): Promise<Shop> {
     return await this.shopRepository
       .createQueryBuilder('shop')
-      .innerJoin('shop.sellers', 'seller')
+      .leftJoin('shop.sellers', 'seller')
       .where('seller.id = :sellerId', { sellerId })
       .andWhere('shop.id = :shopId', { shopId })
       .getOne();

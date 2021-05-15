@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   NotFoundException,
   Param,
   ParseIntPipe,
@@ -17,38 +18,68 @@ import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagg
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { UserInfo } from '../../../core/Decorators/user-info.decorator';
 import { Author } from '../../../entities/authors.entity';
 import { Category } from '../../../entities/categories.entity';
 import { ProductImage } from '../../../entities/product-images.entity';
 import { Product } from '../../../entities/products.entity';
 import { Publisher } from '../../../entities/publishers.entity';
+import { Seller } from '../../../entities/sellers.entity';
 import { UploadOptions } from '../../../services/cloud-storage.service';
 import { ProductsService } from '../../../services/products.service';
+import { ShopsService } from '../../../services/shops.service';
 import { File } from '../../../shared/Interfaces/file.interface';
 import { CreateProductDto, UpdateProductDto } from '../../admin/products/products.dto';
-import { ProductsController } from '../../store/products/products.controller';
 
-@ApiTags('Seller Products')
+@ApiTags('Shop Products')
 @ApiBearerAuth()
-@Controller('sellers/products')
+@Controller('shops/:shopId/products')
 @UseGuards(AuthGuard())
-export class SellerProductsController extends ProductsController {
+export class SellerProductsController {
   constructor(
     public service: ProductsService,
+    public shopService: ShopsService,
     @InjectRepository(Product) private productRepository: Repository<Product>,
     @InjectRepository(ProductImage) private productImageRepository: Repository<ProductImage>,
     @InjectRepository(Category) private categoryRepository: Repository<Category>,
     @InjectRepository(Author) private authorRepository: Repository<Author>,
     @InjectRepository(Publisher) private publisherRepository: Repository<Publisher>
-  ) {
-    super(service);
+  ) {}
+
+  @ApiOperation({ summary: 'Retrieve many Product' })
+  @Get()
+  async getMany(
+    @Param('shopId', ParseIntPipe) shopId: number,
+    @UserInfo() seller: Seller
+  ): Promise<Product[]> {
+    return await this.service.getManyProductsByShopAndSeller(shopId, seller.id);
+  }
+
+  @ApiOperation({ summary: 'Retrieve a single Product' })
+  @Get(':productId')
+  async getOne(
+    @Param('shopId', ParseIntPipe) shopId: number,
+    @Param('productId', ParseIntPipe) productId: number,
+    @UserInfo() seller: Seller
+  ): Promise<Product> {
+    const product = await this.service.getOneProductByShopAndSeller(productId, shopId, seller.id);
+    if (!product) throw new NotFoundException(`Product ${productId} not found`);
+    return product;
   }
 
   @ApiOperation({ summary: 'Create a single Product' })
   @ApiConsumes('multipart/form-data')
   @Post()
   @UseInterceptors(FilesInterceptor('attachment', null, UploadOptions))
-  async createOne(@Body() dto: CreateProductDto, @UploadedFiles() uploadedFiles: File[]): Promise<Product> {
+  async createOne(
+    @Param('shopId', ParseIntPipe) shopId: number,
+    @Body() dto: CreateProductDto,
+    @UploadedFiles() uploadedFiles: File[],
+    @UserInfo() seller: Seller
+  ): Promise<Product> {
+    const shop = await this.shopService.getOneShopBySeller(shopId, seller.id);
+    if (!shop) throw new NotFoundException(`Shop ${shopId} not found`);
+
     const { authorIds, ...others } = dto;
 
     const product = this.productRepository.create(others);
@@ -62,19 +93,20 @@ export class SellerProductsController extends ProductsController {
 
   @ApiOperation({ summary: 'Update a single Product' })
   @ApiConsumes('multipart/form-data')
-  @Patch(':id')
+  @Patch(':productId')
   @UseInterceptors(FilesInterceptor('attachment', null, UploadOptions))
   async updateOne(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('shopId', ParseIntPipe) shopId: number,
+    @Param('productId', ParseIntPipe) productId: number,
+    @UserInfo() seller: Seller,
     @Body() dto: UpdateProductDto,
     @UploadedFiles() uploadedFiles: File[]
   ): Promise<Product> {
+    const product = await this.service.getOneProductByShopAndSeller(productId, shopId, seller.id);
+    if (!product) throw new NotFoundException(`Product ${productId} not found`);
+
     const { authorIds, removedImageIds, ...others } = dto;
-
-    const product = await this.productRepository.findOne(id);
-    if (!product) throw new NotFoundException(`Product ${id} not found`);
-
-    if (product?.category?.id !== dto?.categoryId) {
+    if (dto?.categoryId && product?.category?.id !== dto.categoryId) {
       product.category = await this.categoryRepository.findOne(dto.categoryId);
     }
 
@@ -82,7 +114,7 @@ export class SellerProductsController extends ProductsController {
       product.authors = await this.authorRepository.findByIds(authorIds);
     }
 
-    if (product?.publisher?.id !== dto?.publisherId) {
+    if (dto?.publisherId && product?.publisher?.id !== dto.publisherId) {
       product.publisher = await this.publisherRepository.findOne(dto.publisherId);
     }
 
@@ -100,11 +132,14 @@ export class SellerProductsController extends ProductsController {
   }
 
   @ApiOperation({ summary: 'Delete one Product' })
-  @Delete(':id')
-  async deleteOne(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    const product = await this.productRepository.findOne(id);
-    if (!product) throw new NotFoundException(`Product ${id} not found`);
-
+  @Delete(':productId')
+  async deleteOne(
+    @Param('shopId', ParseIntPipe) shopId: number,
+    @Param('productId', ParseIntPipe) productId: number,
+    @UserInfo() seller: Seller
+  ): Promise<void> {
+    const product = await this.service.getOneProductByShopAndSeller(productId, shopId, seller.id);
+    if (!product) throw new NotFoundException(`Product ${productId} not found`);
     await this.service.removeProduct(product);
   }
 }

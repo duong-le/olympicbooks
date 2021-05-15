@@ -8,13 +8,15 @@ import { CartItem } from '../../../entities/carts.entity';
 import { ProductImage } from '../../../entities/product-images.entity';
 import { Product } from '../../../entities/products.entity';
 import { ProductsModule } from '../../store/products/products.module';
+import { ShopsModule } from '../shops/shops.module';
 import { SellerProductsController } from './products.controller';
 
 @Module({
   controllers: [SellerProductsController],
   imports: [
     TypeOrmModule.forFeature([Product, ProductImage, Category, Author, Publisher, CartItem]),
-    ProductsModule
+    ProductsModule,
+    ShopsModule
   ]
 })
 export class SellerProductsModule {}
