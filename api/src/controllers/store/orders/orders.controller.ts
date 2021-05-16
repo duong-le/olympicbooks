@@ -63,7 +63,8 @@ export class OrdersController implements CrudController<Order> {
 
     // Split into multiple orders based on the product's shop
     const orders: Order[] = [];
-    const cart = await this.cartService.getCartOrderedByShop(customer.id);
+    const cartItems = await this.cartRepository.find({ customerId: customer.id });
+    const cart = await this.cartService.getCartOrderedByShop(cartItems);
 
     for (const [shopId, cartItems] of Object.entries(cart)) {
       const orderItems: OrderItem[] = [];

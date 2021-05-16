@@ -8,17 +8,17 @@ import { Product } from './products.entity';
 @Unique(['customerId', 'productId'])
 export class CartItem extends BaseEntity {
   @Column()
-  customerId: number;
-
-  @Column()
   quantity: number;
-
-  @Column()
-  productId: number;
 
   @ManyToOne(() => Customer, (customer) => customer.cartItems)
   customer: Customer;
 
+  @Column()
+  customerId: number;
+
   @ManyToOne(() => Product, { eager: true, onDelete: 'CASCADE' })
   product: Product;
+
+  @Column()
+  productId: number;
 }
