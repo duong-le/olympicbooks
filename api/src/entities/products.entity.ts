@@ -56,7 +56,7 @@ export class Product extends BaseEntity {
   @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
   orderItems: OrderItem[];
 
-  @ManyToOne(() => Shop, (shop) => shop.products)
+  @ManyToOne(() => Shop, (shop) => shop.products, { eager: true })
   shop: Shop;
 
   @Column()

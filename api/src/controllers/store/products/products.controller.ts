@@ -18,9 +18,10 @@ import { ProductCollectionType } from '../../../shared/Enums/products.enum';
       images: { eager: true },
       category: { eager: true },
       publisher: { eager: true },
-      authors: { eager: true }
+      authors: { eager: true },
+      shop: { eager: true }
     },
-    exclude: ['categoryId', 'publisherId']
+    exclude: ['categoryId', 'publisherId', 'shopId']
   }
 })
 export class ProductsController implements CrudController<Product> {
