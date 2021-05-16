@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { forkJoin } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { forkJoin, Subscription } from 'rxjs';
 
 import { Cart } from '../../shared/Interfaces/cart.interface';
 import { Customer } from '../../shared/Interfaces/customer.interface';
@@ -17,13 +16,14 @@ import { CheckOutService } from './check-out.service';
   templateUrl: './check-out.component.html',
   styleUrls: ['./check-out.component.scss']
 })
-export class CheckOutComponent implements OnInit {
+export class CheckOutComponent implements OnInit, OnDestroy {
   orderForm: FormGroup;
   addressForm: FormGroup;
   cart: Cart;
   customer: Customer;
   transactionMethods: TransactionMethod[];
   shippingMethods: ShippingMethod[];
+  cartSubscription: Subscription;
 
   isLoading = false;
   isUpdateLoading = false;
@@ -31,7 +31,7 @@ export class CheckOutComponent implements OnInit {
   isAddressModalVisible = false;
   success = false;
   error = false;
-  shippingValue = 0;
+  shippingFee = 0;
   discountValue = 0;
 
   constructor(
@@ -48,32 +48,26 @@ export class CheckOutComponent implements OnInit {
     this.isLoading = true;
     this.initForms();
 
-    this.cartService.cart$.subscribe((response) => {
-      this.cart = response;
+    forkJoin([
+      this.customerService.getMe(),
+      this.checkOutService.getTransactionMethods(),
+      this.checkOutService.getShippingMethods()
+    ]).subscribe((response) => {
+      [this.customer, this.transactionMethods, this.shippingMethods] = response;
+
+      this.orderForm.setValue({
+        shippingMethodId: this.shippingMethods[0]?.id,
+        transactionMethodId: this.transactionMethods[0]?.id
+      });
+      this.changeShippingValue(this.shippingMethods[0]);
+
+      this.setAddressForm();
       this.isLoading = false;
 
-      if (this.cart.cartItems.length) {
-        this.isLoading = true;
-        forkJoin([
-          this.customerService.getMe(),
-          this.checkOutService.getTransactionMethods(),
-          this.checkOutService.getShippingMethods(this.cart.totalValue)
-        ]).subscribe((response) => {
-          [this.customer, this.transactionMethods, this.shippingMethods] = response;
-
-          this.orderForm.setValue({
-            shippingMethodId: this.shippingMethods[0]?.id,
-            transactionMethodId: this.transactionMethods[0]?.id
-          });
-          this.changeShippingValue(this.shippingMethods[0]);
-
-          this.setAddressForm();
-          this.isLoading = false;
-
-          if (!this.addressForm.value.address || !this.addressForm.value.phoneNumber) this.showAddressModal();
-        });
-      }
+      if (!this.addressForm.value.address || !this.addressForm.value.phoneNumber) this.showAddressModal();
     });
+
+    this.cartSubscription = this.cartService.cart$.subscribe((response) => (this.cart = response));
   }
 
   initForms(): void {
@@ -119,7 +113,8 @@ export class CheckOutComponent implements OnInit {
   }
 
   changeShippingValue(method: ShippingMethod): void {
-    this.shippingValue = method.fee;
+    this.shippingFee = method.fee;
+    this.cartService.setCart(method.id);
   }
 
   changeTransactionMethod(method: TransactionMethod): void {
@@ -136,19 +131,20 @@ export class CheckOutComponent implements OnInit {
     }
 
     this.isProcessingOrder = true;
-    this.checkOutService
-      .createOrder(this.orderForm.value)
-      .pipe(switchMap((response) => this.cartService.getCart()))
-      .subscribe(
-        (response) => {
-          this.cartService.setCart(response);
-          this.isProcessingOrder = false;
-          this.success = true;
-        },
-        (error) => {
-          this.isProcessingOrder = false;
-          this.error = true;
-        }
-      );
+    this.checkOutService.createOrder(this.orderForm.value).subscribe(
+      (response) => {
+        this.cartService.setCart();
+        this.isProcessingOrder = false;
+        this.success = true;
+      },
+      (error) => {
+        this.isProcessingOrder = false;
+        this.error = true;
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    this.cartSubscription.unsubscribe();
   }
 }

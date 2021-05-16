@@ -1,9 +1,10 @@
 import { Product } from './product.interface';
 
 export interface Cart {
-  totalQty?: number;
-  totalValue?: number;
-  cartItems?: CartItem[];
+  orderValue: number;
+  totalShippingFee: number;
+  totalQuantity: number;
+  items: { [key: string]: CartItem[] };
 }
 
 export interface CartItem {

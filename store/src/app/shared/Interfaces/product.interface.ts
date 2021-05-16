@@ -1,6 +1,7 @@
+import { Author } from './author.interface';
 import { Category } from './category.interface';
 import { Publisher } from './publisher.interface';
-import { Author } from './author.interface';
+import { Shop } from './shop.interface';
 
 export interface Product {
   id: number;
@@ -16,6 +17,7 @@ export interface Product {
   publisher: Publisher;
   authors: Author[];
   inStock: boolean;
+  shop: Shop;
 }
 
 export interface ProductImage {

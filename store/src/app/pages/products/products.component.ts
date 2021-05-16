@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { switchMap } from 'rxjs/operators';
 
+import { CartItem } from '../../shared/Interfaces/cart.interface';
 import { Product } from '../../shared/Interfaces/product.interface';
 import { TitleMetaService } from '../../shared/Providers/title-meta.service';
 import { AuthenticationService } from '../authentication/authentication.service';
@@ -56,7 +57,11 @@ export class ProductsComponent implements OnInit {
       .pipe(
         switchMap((response) => {
           this.product = response;
-          this.titleMetaService.updateTitleAndMetaTags(this.product?.title, this.product?.description, this.product?.images[0]?.imgUrl);
+          this.titleMetaService.updateTitleAndMetaTags(
+            this.product?.title,
+            this.product?.description,
+            this.product?.images[0]?.imgUrl
+          );
 
           if (!this.product.images.length) {
             this.isProductLoading = false;
@@ -94,25 +99,28 @@ export class ProductsComponent implements OnInit {
       return;
     }
 
-    this.isBtnLoading[btnName] = true;
-    const existedProduct = this.cartService.cartValue.cartItems.find((el) => el.product.id === this.product.id);
+    let existedProduct: CartItem;
+    if (this.product.shop.id in this.cartService.cart.items) {
+      existedProduct = this.cartService.cart.items[this.product.shop.id].find(
+        (item: CartItem) => item.product.id === this.product.id
+      );
+    }
 
+    this.isBtnLoading[btnName] = true;
     this.cartService[existedProduct ? 'updateCartItem' : 'createCartItem'](
       existedProduct ? existedProduct.id : this.product.id,
       existedProduct ? this.quantity + existedProduct.quantity : this.quantity
-    )
-      .pipe(switchMap((response) => this.cartService.getCart()))
-      .subscribe(
-        (response) => {
-          this.cartService.setCart(response);
-          this.isBtnLoading[btnName] = false;
-          this.messageService.success('Thêm vào giỏ hàng thành công!');
-          if (btnName === 'buyNow') this.router.navigate(['cart']);
-        },
-        (error) => {
-          this.isBtnLoading[btnName] = false;
-          this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
-        }
-      );
+    ).subscribe(
+      (response) => {
+        this.cartService.setCart();
+        this.isBtnLoading[btnName] = false;
+        this.messageService.success('Thêm vào giỏ hàng thành công!');
+        if (btnName === 'buyNow') this.router.navigate(['cart']);
+      },
+      (error) => {
+        this.isBtnLoading[btnName] = false;
+        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+      }
+    );
   }
 }
