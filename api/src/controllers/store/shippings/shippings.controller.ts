@@ -1,4 +1,4 @@
-import { BadRequestException, Controller, Get, ParseIntPipe, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
@@ -13,8 +13,7 @@ export class ShippingsController {
   constructor(public service: ShippingsService) {}
 
   @Get('/methods')
-  getShippingMethods(@Query('transactionValue', ParseIntPipe) transactionValue: number): Promise<ShippingMethod[]> {
-    if (!transactionValue) throw new BadRequestException('Transaction value is not valid');
-    return this.service.getShippingMethods(transactionValue);
+  getShippingMethods(): Promise<ShippingMethod[]> {
+    return this.service.getShippingMethods();
   }
 }

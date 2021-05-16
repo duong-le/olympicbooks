@@ -17,8 +17,8 @@ export class CheckOutService {
     return this.http.get<TransactionMethod[]>(`${environment.apiUrl}/transactions/methods`);
   }
 
-  getShippingMethods(transactionValue: number): Observable<ShippingMethod[]> {
-    return this.http.get<ShippingMethod[]>(`${environment.apiUrl}/shippings/methods?transactionValue=${transactionValue}`);
+  getShippingMethods(): Observable<ShippingMethod[]> {
+    return this.http.get<ShippingMethod[]>(`${environment.apiUrl}/shippings/methods`);
   }
 
   createOrder(data: Order): Observable<Order> {
