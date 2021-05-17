@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 
-import { DeliveryState } from '../shared/Enums/delivery-state.enum';
+import { ShippingState } from '../shared/Enums/shippings.enum';
 import { BaseEntity } from './base.entity';
 import { ShippingMethod } from './shipping-methods.entity';
 
@@ -15,8 +15,8 @@ export class Shipping extends BaseEntity {
   @Column()
   phoneNumber: string;
 
-  @Column({ enum: DeliveryState, default: DeliveryState.PROCESSING })
-  state: DeliveryState;
+  @Column({ enum: ShippingState, default: ShippingState.PROCESSING })
+  state: ShippingState;
 
   @Column({ default: null })
   code: string;

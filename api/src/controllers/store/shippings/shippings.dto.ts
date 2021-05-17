@@ -1,13 +1,13 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 
-import { DeliveryState } from '../../../shared/Enums/delivery-state.enum';
+import { ShippingState } from '../../../shared/Enums/shippings.enum';
 
 export class UpdateShippingDto {
-  @ApiPropertyOptional({ enum: DeliveryState })
+  @ApiPropertyOptional({ enum: ShippingState })
   @IsOptional()
-  @IsEnum(DeliveryState)
-  state: DeliveryState;
+  @IsEnum(ShippingState)
+  state: ShippingState;
 
   @ApiPropertyOptional()
   @IsOptional()

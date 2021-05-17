@@ -1,4 +1,4 @@
-export enum DeliveryState {
+export enum ShippingState {
   PROCESSING = 'PROCESSING',
   SHIPPING = 'SHIPPING',
   DELIVERED = 'DELIVERED',
