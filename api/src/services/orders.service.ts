@@ -1,12 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Repository } from 'typeorm';
 
-import { UpdateOrderDto } from '../controllers/store/orders/orders.dto';
 import { OrderItem } from '../entities/orders-item.entity';
 import { Order } from '../entities/orders.entity';
-import { DeliveryState } from '../shared/Enums/delivery-state.enum';
 
 @Injectable()
 export class OrdersService extends TypeOrmCrudService<Order> {
@@ -14,27 +12,37 @@ export class OrdersService extends TypeOrmCrudService<Order> {
     super(orderRepository);
   }
 
-  async updateOrder(id: number, dto: UpdateOrderDto): Promise<Order> {
-    const order = await this.orderRepository.findOne(id);
-    if (!order) throw new NotFoundException(`Order ${id} not found`);
+  async getManyOrdersByShopAndSeller(shopId: number, sellerId: number): Promise<Order[]> {
+    return await this.orderRepository
+      .createQueryBuilder('order')
+      .leftJoinAndSelect('order.orderItems', 'orderItem')
+      .leftJoinAndSelect('orderItem.product', 'product')
+      .leftJoinAndSelect('order.transaction', 'transaction')
+      .leftJoinAndSelect('transaction.transactionMethod', 'transactionMethod')
+      .leftJoinAndSelect('order.shipping', 'shipping')
+      .leftJoinAndSelect('shipping.shippingMethod', 'shippingMethod')
+      .leftJoin('order.shop', 'shop')
+      .leftJoin('shop.sellers', 'seller')
+      .where('shop.id = :shopId', { shopId })
+      .andWhere('seller.id = :sellerId', { sellerId })
+      .getMany();
+  }
 
-    switch (dto?.shipping?.state) {
-      case DeliveryState.DELIVERED:
-        if (!order.shipping.deliveryDate) order.shipping.deliveryDate = new Date();
-        break;
-      case DeliveryState.CANCELLED:
-        order.shipping.deliveryDate = null;
-        break;
-    }
-
-    if (dto?.shipping?.fee) order.transaction.value += -order.shipping.fee + dto.shipping.fee;
-
-    return await this.orderRepository.save({
-      ...order,
-      ...dto,
-      transaction: { ...order.transaction, ...dto.transaction },
-      shipping: { ...order.shipping, ...dto.shipping }
-    });
+  async getOneOrderByShopAndSeller(orderId: number, shopId: number, sellerId: number): Promise<Order> {
+    return await this.orderRepository
+      .createQueryBuilder('order')
+      .leftJoinAndSelect('order.orderItems', 'orderItem')
+      .leftJoinAndSelect('orderItem.product', 'product')
+      .leftJoinAndSelect('order.transaction', 'transaction')
+      .leftJoinAndSelect('transaction.transactionMethod', 'transactionMethod')
+      .leftJoinAndSelect('order.shipping', 'shipping')
+      .leftJoinAndSelect('shipping.shippingMethod', 'shippingMethod')
+      .leftJoin('order.shop', 'shop')
+      .leftJoin('shop.sellers', 'seller')
+      .where('order.id = :orderId', { orderId })
+      .andWhere('shop.id = :shopId', { shopId })
+      .andWhere('seller.id = :sellerId', { sellerId })
+      .getOne();
   }
 
   calculateOrderValue(orderItems: OrderItem[], shippingFee: number): number {

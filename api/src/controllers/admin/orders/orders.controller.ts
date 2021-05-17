@@ -1,11 +1,10 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
+import { Crud, CrudController } from '@nestjsx/crud';
 
 import { Order } from '../../../entities/orders.entity';
 import { OrdersService } from '../../../services/orders.service';
-import { UpdateOrderDto } from '../../store/orders/orders.dto';
 
 @ApiTags('Admin Orders')
 @ApiBearerAuth()
@@ -14,7 +13,7 @@ import { UpdateOrderDto } from '../../store/orders/orders.dto';
 @Crud({
   model: { type: Order },
   routes: {
-    only: ['getManyBase', 'getOneBase', 'updateOneBase', 'deleteOneBase']
+    only: ['getManyBase', 'getOneBase']
   },
   query: {
     join: {
@@ -27,14 +26,8 @@ import { UpdateOrderDto } from '../../store/orders/orders.dto';
       discount: { eager: true }
     },
     exclude: ['transactionId', 'shippingId', 'discountId']
-  },
-  dto: { update: UpdateOrderDto }
+  }
 })
 export class AdminOrdersController implements CrudController<Order> {
   constructor(public service: OrdersService) {}
-
-  @Override()
-  updateOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: UpdateOrderDto): Promise<Order> {
-    return this.service.updateOrder(req.parsed.paramsFilter[0].value, dto);
-  }
 }
