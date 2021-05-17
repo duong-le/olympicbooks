@@ -105,7 +105,11 @@ export class ProductsDetailComponent implements OnInit {
 
   renderDependencies() {
     this.isLoading = true;
-    forkJoin([this.categoriesService.getMany(), this.publishersService.getMany(null), this.authorsService.getMany(null)]).subscribe(
+    forkJoin([
+      this.categoriesService.getMany(),
+      this.publishersService.getMany(null),
+      this.authorsService.getMany(null)
+    ]).subscribe(
       (response) => {
         [this.categoryTree, this.publishers, this.authors] = response;
         this.isLoading = false;
@@ -163,7 +167,8 @@ export class ProductsDetailComponent implements OnInit {
   createFormData(): FormData {
     const formData = new FormData();
 
-    for (const formControl in this.productForm.value) formData.append(formControl, this.productForm.value[formControl]);
+    for (const formControl in this.productForm.value)
+      formData.append(formControl, this.productForm.value[formControl]);
     if (this.fileList.length)
       this.fileList.forEach((file: NzUploadFile) => {
         if (!file.url) formData.append('attachment', file as any);

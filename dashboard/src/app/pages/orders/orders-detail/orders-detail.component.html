@@ -31,7 +31,7 @@
               <nz-form-control [nzSm]="14" [nzXs]="24">
                 <nz-select formControlName="state">
                   <nz-option *ngFor="let state of deliveryState | keyvalue" [nzLabel]="state.value"
-                    [nzValue]="state.value">
+                             [nzValue]="state.value">
                   </nz-option>
                 </nz-select>
               </nz-form-control>
@@ -94,7 +94,7 @@
               <nz-form-control [nzSm]="14" [nzXs]="24">
                 <nz-select formControlName="state">
                   <nz-option *ngFor="let state of transactionState | keyvalue" [nzLabel]="state.value"
-                    [nzValue]="state.value">
+                             [nzValue]="state.value">
                   </nz-option>
                 </nz-select>
               </nz-form-control>
@@ -110,7 +110,7 @@
               <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="value">Giá trị đơn hàng</nz-form-label>
               <nz-form-control [nzSm]="14" [nzXs]="24">
                 <input nz-input formControlName="value" type="text"
-                  [value]="orderForm.get('transaction').get('value').value | price">
+                       [value]="orderForm.get('transaction').get('value').value | price">
               </nz-form-control>
             </nz-form-item>
           </div>
@@ -144,11 +144,14 @@
     </nz-card-tab>
   </nz-card>
 </form>
+
 <ng-template #title>
   <a routerLink="/orders" class="go-back"><i nz-icon nzType="arrow-left" nzTheme="outline"></i></a>
   Đơn hàng #{{ order?.id }}
 </ng-template>
 <ng-template #buttonGroup>
   <button nz-button nzType="primary" [nzLoading]="isBtnLoading" (click)="update()"
-    [disabled]="orderForm.invalid || orderForm.pristine"><i nz-icon nzType="save" nzTheme="outline"></i> Lưu</button>
+          [disabled]="orderForm.invalid || orderForm.pristine">
+    <i nz-icon nzType="save" nzTheme="outline"></i>Lưu
+  </button>
 </ng-template>

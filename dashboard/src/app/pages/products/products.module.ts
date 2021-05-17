@@ -1,30 +1,28 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { ProductsRoutingModule } from './products-routing.module';
-import { ProductsComponent } from './products.component';
-import { ProductsDetailComponent } from './products-detail/products-detail.component';
-
-import { SharedModule } from 'src/app/shared/shared.module';
-import { IconModule } from 'src/app/shared/icon.module';
-
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
-import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
-import { NzImageModule } from 'ng-zorro-antd/image';
+
+import { IconModule } from '../../shared/icon.module';
+import { SharedModule } from '../../shared/shared.module';
+import { ProductsDetailComponent } from './products-detail/products-detail.component';
+import { ProductsRoutingModule } from './products-routing.module';
+import { ProductsComponent } from './products.component';
 
 @NgModule({
   declarations: [ProductsComponent, ProductsDetailComponent],

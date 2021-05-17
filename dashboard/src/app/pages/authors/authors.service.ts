@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseService } from 'src/app/shared/Base/base.service';
-import { Author } from 'src/app/shared/Interfaces/author.interface';
-import { Pagination } from 'src/app/shared/Interfaces/pagination.interface';
+
+import { BaseService } from '../../shared/Base/base.service';
+import { Author } from '../../shared/Interfaces/author.interface';
+import { Pagination } from '../../shared/Interfaces/pagination.interface';
 
 @Injectable({
   providedIn: 'root'

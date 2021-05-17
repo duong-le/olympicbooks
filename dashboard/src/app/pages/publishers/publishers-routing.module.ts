@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { PublishersComponent } from './publishers.component';
+import { RouterModule, Routes } from '@angular/router';
+
 import { PublishersDetailComponent } from './publishers-detail/publishers-detail.component';
+import { PublishersComponent } from './publishers.component';
 
 const routes: Routes = [
   {

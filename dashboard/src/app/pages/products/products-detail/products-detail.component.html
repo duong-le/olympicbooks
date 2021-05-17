@@ -58,7 +58,7 @@
       <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="categoryId" nzRequired>Danh mục</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <nz-tree-select [nzNodes]="categoryTree" nzShowSearch [nzHideUnMatched]="true" [nzDefaultExpandAll]="true"
-          [nzDropdownStyle]="{ 'max-height': '500px' }" formControlName="categoryId">
+                        [nzDropdownStyle]="{ 'max-height': '500px' }" formControlName="categoryId">
         </nz-tree-select>
       </nz-form-control>
     </nz-form-item>
@@ -84,17 +84,18 @@
   <div nz-row>
     <div nz-col [nzSpan]="14" [nzMd]="{ offset: 6 }" [nzSm]="{ offset: 8 }">
       <nz-upload [(nzFileList)]="fileList" nzListType="picture" [nzAccept]="fileTypeLimit" [nzFileType]="fileTypeLimit"
-        [nzSize]="fileSizeLimit" [nzMultiple]="true" [nzBeforeUpload]="beforeUpload"
-        (nzChange)="handleUploadEventChange($event)">
+                 [nzSize]="fileSizeLimit" [nzMultiple]="true" [nzBeforeUpload]="beforeUpload"
+                 (nzChange)="handleUploadEventChange($event)">
         <button nz-button><i nz-icon nzType="upload"></i>Tải ảnh lên</button>
       </nz-upload>
     </div>
   </div>
 </nz-card>
+
 <ng-template #title>
   <a routerLink="/products" class="go-back"><i nz-icon nzType="arrow-left" nzTheme="outline"></i></a>
 </ng-template>
 <ng-template #buttonGroup>
   <button nz-button nzType="primary" [nzLoading]="isBtnLoading" (click)="isNew ? create() : update()"
-    [disabled]="productForm.invalid || productForm.pristine">Lưu</button>
+          [disabled]="productForm.invalid || productForm.pristine">Lưu</button>
 </ng-template>

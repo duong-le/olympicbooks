@@ -58,17 +58,19 @@ export class PublishersDetailComponent implements OnInit {
 
   update() {
     this.isBtnLoading = true;
-    this.publishersService.updateOne(this.publisherForm.controls['id'].value, this.publisherForm.value).subscribe(
-      (response) => {
-        this.isBtnLoading = false;
-        this.messageService.success('Cập nhật thành công!');
-        this.router.navigate(['/', 'publishers']);
-      },
-      (error) => {
-        this.isBtnLoading = false;
-        this.messageService.error(error?.error?.message);
-      }
-    );
+    this.publishersService
+      .updateOne(this.publisherForm.controls['id'].value, this.publisherForm.value)
+      .subscribe(
+        (response) => {
+          this.isBtnLoading = false;
+          this.messageService.success('Cập nhật thành công!');
+          this.router.navigate(['/', 'publishers']);
+        },
+        (error) => {
+          this.isBtnLoading = false;
+          this.messageService.error(error?.error?.message);
+        }
+      );
   }
 
   create() {
