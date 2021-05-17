@@ -1,6 +1,7 @@
 import { BadRequestException, Body, ConflictException, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { plainToClass } from 'class-transformer';
 
 import { UserInfo } from '../../../core/Decorators/user-info.decorator';
 import { Seller } from '../../../entities/sellers.entity';
@@ -17,7 +18,8 @@ export class SellersController {
   @Post()
   async createSeller(@Body() createSellerDto: CreateSellerDto): Promise<Seller> {
     try {
-      return await this.service.createSeller(createSellerDto);
+      const seller = await this.service.createSeller(createSellerDto);
+      return plainToClass(Seller, seller);
     } catch (error) {
       throw error.code === '23505'
         ? new ConflictException('Email already exists')
@@ -40,7 +42,8 @@ export class SellersController {
   @Patch('me')
   async updateSeller(@Body() updateSellerDto: UpdateSellerDto, @UserInfo() seller: Seller): Promise<Seller> {
     try {
-      return await this.service.updateSeller(seller.id, updateSellerDto);
+      const updatedSeller = await this.service.updateSeller(seller, updateSellerDto);
+      return plainToClass(Seller, updatedSeller);
     } catch (error) {
       throw error.code === '23505'
         ? new ConflictException('Email already exists')

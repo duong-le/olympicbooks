@@ -10,6 +10,7 @@ import { AdminCustomersModule } from './controllers/admin/customers/customers.mo
 import { AdminOrdersModule } from './controllers/admin/orders/orders.module';
 import { AdminProductsModule } from './controllers/admin/products/products.module';
 import { AdminPublishersModule } from './controllers/admin/publishers/publishers.module';
+import { AdminSellersModule } from './controllers/admin/sellers/sellers.module';
 
 import { AuthModule } from './controllers/auth/auth.module';
 import { AuthorsModule } from './controllers/store/authors/authors.module';
@@ -56,6 +57,7 @@ import { Exist } from './core/Validators/exist/exist.service';
     AdminCategoriesModule,
     AdminProductsModule,
     AdminCustomersModule,
+    AdminSellersModule,
     SellersModule,
     ShopsModule,
     ShopProductsModule,

@@ -9,6 +9,7 @@ import { SellersController } from './sellers.controller';
 @Module({
   controllers: [SellersController],
   imports: [TypeOrmModule.forFeature([Seller]), ShopsModule],
-  providers: [SellersService]
+  providers: [SellersService],
+  exports: [SellersService]
 })
 export class SellersModule {}
