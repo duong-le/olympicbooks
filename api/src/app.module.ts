@@ -4,6 +4,7 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { AdminsModule } from './controllers/admin/admins/admins.module';
 import { AdminAuthorsModule } from './controllers/admin/authors/authors.module';
 import { AdminCategoriesModule } from './controllers/admin/categories/categories.module';
 import { AdminCustomersModule } from './controllers/admin/customers/customers.module';
@@ -52,6 +53,7 @@ import { Exist } from './core/Validators/exist/exist.service';
     DiscountsModule,
     TransactionsModule,
     ShippingsModule,
+    AdminsModule,
     AdminOrdersModule,
     AdminAuthorsModule,
     AdminPublishersModule,
