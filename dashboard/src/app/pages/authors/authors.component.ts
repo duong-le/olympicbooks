@@ -21,13 +21,22 @@ export class AuthorsComponent extends BaseComponent<Author> {
     { title: 'Tên tác giả', key: 'name', sort: true, width: '70%' }
   ];
 
-  constructor(private authorsService: AuthorsService, private messageService: NzMessageService, private modalService: NzModalService) {
-    super(authorsService);
+  constructor(
+    private authorsService: AuthorsService,
+    private messageService: NzMessageService,
+    public modalService: NzModalService
+  ) {
+    super(authorsService, modalService);
   }
 
   onSearchByName() {
     delete this.qb.queryObject.filter;
-    if (this.searchInputByName) this.qb.setFilter({ field: 'name', operator: CondOperator.CONTAINS_LOW, value: this.searchInputByName });
+    if (this.searchInputByName)
+      this.qb.setFilter({
+        field: 'name',
+        operator: CondOperator.CONTAINS_LOW,
+        value: this.searchInputByName
+      });
     this.renderPage();
   }
 

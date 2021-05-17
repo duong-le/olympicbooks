@@ -1,6 +1,8 @@
-import { OnInit, Directive } from '@angular/core';
-import { RequestQueryBuilder, CondOperator } from '@nestjsx/crud-request';
+import { Directive, OnInit, TemplateRef } from '@angular/core';
+import { CondOperator, RequestQueryBuilder } from '@nestjsx/crud-request';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+
 import { Pagination } from '../Interfaces/pagination.interface';
 import { BaseService } from './base.service';
 
@@ -15,8 +17,11 @@ export abstract class BaseComponent<T> implements OnInit {
   pageIndex = 1;
   pageSize = 10;
 
-  constructor(private service: BaseService<T>) {
-    this.qb = RequestQueryBuilder.create().sortBy({ field: 'id', order: 'DESC' }).setPage(this.pageIndex).setLimit(this.pageSize);
+  constructor(private service: BaseService<T>, public modalService: NzModalService) {
+    this.qb = RequestQueryBuilder.create()
+      .sortBy({ field: 'id', order: 'DESC' })
+      .setPage(this.pageIndex)
+      .setLimit(this.pageSize);
   }
 
   ngOnInit(): void {
@@ -39,7 +44,8 @@ export abstract class BaseComponent<T> implements OnInit {
 
   onSearchById() {
     delete this.qb.queryObject.filter;
-    if (this.searchInputById) this.qb.setFilter({ field: 'id', operator: CondOperator.EQUALS, value: this.searchInputById });
+    if (this.searchInputById)
+      this.qb.setFilter({ field: 'id', operator: CondOperator.EQUALS, value: this.searchInputById });
     this.renderPage();
   }
 
@@ -51,5 +57,17 @@ export abstract class BaseComponent<T> implements OnInit {
       ? this.qb.sortBy({ field: sort.key, order: sort.value === 'ascend' ? 'ASC' : 'DESC' })
       : this.qb.sortBy({ field: 'id', order: 'DESC' });
     this.renderPage();
+  }
+
+  showDetailModal(modalContent: TemplateRef<{}>, item: T): void {
+    this.modalService.create({
+      nzTitle: `Chi tiết #${item['id']}`,
+      nzContent: modalContent,
+      nzWidth: 1000,
+      nzMaskClosable: true,
+      nzClosable: true,
+      nzFooter: null,
+      nzComponentParams: item
+    });
   }
 }

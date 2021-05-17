@@ -24,14 +24,19 @@ export class PublishersComponent extends BaseComponent<Publisher> {
   constructor(
     private publishersService: PublishersService,
     private messageService: NzMessageService,
-    private modalService: NzModalService
+    public modalService: NzModalService
   ) {
-    super(publishersService);
+    super(publishersService, modalService);
   }
 
   onSearchByName() {
     delete this.qb.queryObject.filter;
-    if (this.searchInputByName) this.qb.setFilter({ field: 'name', operator: CondOperator.CONTAINS_LOW, value: this.searchInputByName });
+    if (this.searchInputByName)
+      this.qb.setFilter({
+        field: 'name',
+        operator: CondOperator.CONTAINS_LOW,
+        value: this.searchInputByName
+      });
     this.renderPage();
   }
 

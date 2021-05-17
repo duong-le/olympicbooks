@@ -4,14 +4,14 @@
       <div nz-col>
         <nz-input-group [nzPrefix]="inputSearch" [nzSuffix]="inputClearById">
           <input #input type="number" nz-input placeholder="Tìm kiếm theo ID" [(ngModel)]="searchInputById"
-            (keyup.enter)="onSearchById()">
+                 (keyup.enter)="onSearchById()">
         </nz-input-group>
       </div>
 
       <div nz-col>
         <nz-input-group [nzPrefix]="inputSearch" [nzSuffix]="inputClearByName">
           <input type="text" nz-input placeholder="Tìm kiếm theo Tên" [(ngModel)]="searchInputByTitle"
-            (keyup.enter)="onSearchByTitle()">
+                 (keyup.enter)="onSearchByTitle()">
         </nz-input-group>
       </div>
     </div>
@@ -27,8 +27,8 @@
 
 <nz-card [nzBodyStyle]="{ padding: 0 }">
   <nz-table #table [nzLoading]="isLoading" [nzLoadingIndicator]="loadingIndicator" [nzScroll]="{ x: '1150px' }"
-    [nzData]="data" nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total" [nzPageSize]="pageSize"
-    [nzPageIndex]="pageIndex" (nzQueryParams)="onTableQueryParamsChange($event)">
+            [nzData]="data" nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total" [nzPageSize]="pageSize"
+            [nzPageIndex]="pageIndex" (nzQueryParams)="onTableQueryParamsChange($event)">
     <thead>
       <tr>
         <th *ngFor="let column of columns" [nzSortFn]="column.sort" [nzColumnKey]="column.key" [nzWidth]="column.width">
@@ -42,7 +42,7 @@
           <nz-space>
             <nz-space-item>
               <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Chi tiết sản phẩm"
-                (click)="showProductsModal(modalContent, item)">
+                      (click)="showDetailModal(productModal, item)">
                 <i nz-icon nzType="eye" theme="twotone"></i>
               </button>
             </nz-space-item>
@@ -53,7 +53,7 @@
             </nz-space-item>
             <nz-space-item>
               <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Xoá sản phẩm" nzDanger
-                (click)="showDeleteConfirm(item?.id)">
+                      (click)="showDeleteConfirm(item?.id)">
                 <i nz-icon nzType="delete" theme="outline"></i>
               </button>
             </nz-space-item>
@@ -69,7 +69,7 @@
         <td>
           <i nz-icon *ngIf="item?.inStock" nzType="check-circle" nzTheme="twotone" class="in-stock-icon"></i>
           <i nz-icon *ngIf="!item?.inStock" nzType="close-circle" nzTheme="twotone" nzTwotoneColor="#ff4d4f"
-            class="in-stock-icon"></i>
+             class="in-stock-icon"></i>
         </td>
         <td>{{ item?.price | price }}</td>
         <td>{{ item?.originalPrice | price }}</td>
@@ -80,12 +80,12 @@
 
 <ng-template #inputSearch><i nz-icon nzType="search"></i></ng-template>
 <ng-template #inputClearById><i nz-icon nzType="close-circle" class="ant-input-clear-icon" nzTheme="fill"
-    *ngIf="searchInputById" (click)="searchInputById = null; onSearchById()"></i></ng-template>
+     *ngIf="searchInputById" (click)="searchInputById = null; onSearchById()"></i></ng-template>
 <ng-template #inputClearByName><i nz-icon nzType="close-circle" class="ant-input-clear-icon" nzTheme="fill"
-    *ngIf="searchInputByTitle" (click)="searchInputByTitle = null; onSearchByTitle()"></i></ng-template>
+     *ngIf="searchInputByTitle" (click)="searchInputByTitle = null; onSearchByTitle()"></i></ng-template>
 <ng-template #loadingIndicator><i nz-icon nzType="loading" class="loading"></i></ng-template>
 
-<ng-template #modalContent let-product>
+<ng-template #productModal let-product>
   <nz-descriptions nzBordered [nzColumn]="1">
     <nz-descriptions-item nzTitle="Tên Sách">{{ product?.title }}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Số trang">{{ product?.pages }}</nz-descriptions-item>
@@ -96,7 +96,7 @@
     <nz-descriptions-item nzTitle="Có hàng">
       <i nz-icon *ngIf="product?.inStock" nzType="check-circle" nzTheme="twotone" class="in-stock-icon"></i>
       <i nz-icon *ngIf="!product?.inStock" nzType="close-circle" nzTheme="twotone" nzTwotoneColor="#ff4d4f"
-        class="in-stock-icon"></i>
+         class="in-stock-icon"></i>
     </nz-descriptions-item>
     <nz-descriptions-item nzTitle="Danh mục">{{ product?.category?.title }}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Nhà xuất bản">{{ product?.publisher?.name }}</nz-descriptions-item>

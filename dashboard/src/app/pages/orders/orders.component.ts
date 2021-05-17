@@ -1,4 +1,4 @@
-import { Component, TemplateRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
@@ -24,8 +24,12 @@ export class OrdersComponent extends BaseComponent<Order> {
     // { title: 'Giảm giá' }
   ];
 
-  constructor(private ordersService: OrdersService, private messageService: NzMessageService, private modalService: NzModalService) {
-    super(ordersService);
+  constructor(
+    private ordersService: OrdersService,
+    private messageService: NzMessageService,
+    public modalService: NzModalService
+  ) {
+    super(ordersService, modalService);
   }
 
   showDeleteConfirm(id: number) {
@@ -48,17 +52,5 @@ export class OrdersComponent extends BaseComponent<Order> {
         this.messageService.error(error?.error?.message);
       }
     );
-  }
-
-  showProductsModal(modalContent: TemplateRef<{}>, item: Order): void {
-    this.modalService.create({
-      nzTitle: `Chi tiết đơn hàng #${item.id}`,
-      nzContent: modalContent,
-      nzWidth: 1000,
-      nzMaskClosable: true,
-      nzClosable: true,
-      nzFooter: null,
-      nzComponentParams: item
-    });
   }
 }

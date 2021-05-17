@@ -1,4 +1,4 @@
-import { Component, TemplateRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { CondOperator } from '@nestjsx/crud-request';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -27,13 +27,22 @@ export class ProductsComponent extends BaseComponent<Product> {
     { title: 'Giá gốc', key: 'originalPrice', sort: true }
   ];
 
-  constructor(private productsService: ProductsService, private messageService: NzMessageService, private modalService: NzModalService) {
-    super(productsService);
+  constructor(
+    private productsService: ProductsService,
+    private messageService: NzMessageService,
+    public modalService: NzModalService
+  ) {
+    super(productsService, modalService);
   }
 
   onSearchByTitle() {
     delete this.qb.queryObject.filter;
-    if (this.searchInputByTitle) this.qb.setFilter({ field: 'title', operator: CondOperator.CONTAINS_LOW, value: this.searchInputByTitle });
+    if (this.searchInputByTitle)
+      this.qb.setFilter({
+        field: 'title',
+        operator: CondOperator.CONTAINS_LOW,
+        value: this.searchInputByTitle
+      });
     this.renderPage();
   }
 
@@ -57,17 +66,5 @@ export class ProductsComponent extends BaseComponent<Product> {
         this.messageService.error(error?.error?.message);
       }
     );
-  }
-
-  showProductsModal(modalContent: TemplateRef<{}>, item: Product): void {
-    this.modalService.create({
-      nzTitle: `Chi tiết sản phẩm #${item.id}`,
-      nzContent: modalContent,
-      nzWidth: 1000,
-      nzMaskClosable: true,
-      nzClosable: true,
-      nzFooter: null,
-      nzComponentParams: item
-    });
   }
 }

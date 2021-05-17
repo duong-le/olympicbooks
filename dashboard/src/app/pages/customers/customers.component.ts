@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CondOperator } from '@nestjsx/crud-request';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 import { BaseComponent } from '../../shared/Base/base.component';
 import { Customer } from '../../shared/Interfaces/customer.interface';
@@ -22,13 +23,18 @@ export class CustomersComponent extends BaseComponent<Customer> {
     { title: 'Số điện thoại' }
   ];
 
-  constructor(private customersService: CustomersService) {
-    super(customersService);
+  constructor(private customersService: CustomersService, public modalService: NzModalService) {
+    super(customersService, modalService);
   }
 
   onSearchByName() {
     delete this.qb.queryObject.filter;
-    if (this.searchInputByName) this.qb.setFilter({ field: 'name', operator: CondOperator.CONTAINS_LOW, value: this.searchInputByName });
+    if (this.searchInputByName)
+      this.qb.setFilter({
+        field: 'name',
+        operator: CondOperator.CONTAINS_LOW,
+        value: this.searchInputByName
+      });
     this.renderPage();
   }
 }
