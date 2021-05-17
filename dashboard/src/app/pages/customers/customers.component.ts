@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CondOperator } from '@nestjsx/crud-request';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
@@ -13,8 +12,6 @@ import { CustomersService } from './customers.service';
   styleUrls: ['./customers.component.scss']
 })
 export class CustomersComponent extends BaseComponent<Customer> {
-  searchInputByName: string;
-
   columns = [
     { title: 'Actions' },
     { title: 'ID', key: 'id', sort: true },
@@ -30,16 +27,5 @@ export class CustomersComponent extends BaseComponent<Customer> {
     public modalService: NzModalService
   ) {
     super(customersService, messageService, modalService);
-  }
-
-  onSearchByName() {
-    delete this.qb.queryObject.filter;
-    if (this.searchInputByName)
-      this.qb.setFilter({
-        field: 'name',
-        operator: CondOperator.CONTAINS_LOW,
-        value: this.searchInputByName
-      });
-    this.renderPage();
   }
 }

@@ -13,10 +13,13 @@ export abstract class BaseComponent<T> implements OnInit {
   data: T[];
 
   isLoading = false;
-  searchInputById: number;
   total: number;
   pageIndex = 1;
   pageSize = 10;
+
+  searchInputById: number;
+  searchInputByName: string;
+  searchInputByTitle: string;
 
   constructor(
     private service: BaseService<T>,
@@ -42,6 +45,7 @@ export abstract class BaseComponent<T> implements OnInit {
         this.isLoading = false;
       },
       (error) => {
+        this.messageService.error(error?.error?.message);
         this.isLoading = false;
       }
     );
@@ -50,7 +54,33 @@ export abstract class BaseComponent<T> implements OnInit {
   onSearchById() {
     delete this.qb.queryObject.filter;
     if (this.searchInputById)
-      this.qb.setFilter({ field: 'id', operator: CondOperator.EQUALS, value: this.searchInputById });
+      this.qb.setFilter({
+        field: 'id',
+        operator: CondOperator.EQUALS,
+        value: this.searchInputById
+      });
+    this.renderPage();
+  }
+
+  onSearchByName() {
+    delete this.qb.queryObject.filter;
+    if (this.searchInputByName)
+      this.qb.setFilter({
+        field: 'name',
+        operator: CondOperator.CONTAINS_LOW,
+        value: this.searchInputByName
+      });
+    this.renderPage();
+  }
+
+  onSearchByTitle() {
+    delete this.qb.queryObject.filter;
+    if (this.searchInputByTitle)
+      this.qb.setFilter({
+        field: 'title',
+        operator: CondOperator.CONTAINS_LOW,
+        value: this.searchInputByTitle
+      });
     this.renderPage();
   }
 
