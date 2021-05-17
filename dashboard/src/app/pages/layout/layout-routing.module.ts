@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+
 import { LayoutComponent } from './layout.component';
 
 const routes: Routes = [
@@ -30,6 +31,10 @@ const routes: Routes = [
       {
         path: 'customers',
         loadChildren: () => import('../customers/customers.module').then((m) => m.CustomersModule)
+      },
+      {
+        path: 'sellers',
+        loadChildren: () => import('../sellers/sellers.module').then((m) => m.SellersModule)
       }
     ]
   }
