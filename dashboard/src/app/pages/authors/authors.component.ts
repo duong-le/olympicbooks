@@ -23,10 +23,10 @@ export class AuthorsComponent extends BaseComponent<Author> {
 
   constructor(
     private authorsService: AuthorsService,
-    private messageService: NzMessageService,
+    public messageService: NzMessageService,
     public modalService: NzModalService
   ) {
-    super(authorsService, modalService);
+    super(authorsService, messageService, modalService);
   }
 
   onSearchByName() {
@@ -38,20 +38,5 @@ export class AuthorsComponent extends BaseComponent<Author> {
         value: this.searchInputByName
       });
     this.renderPage();
-  }
-
-  delete(id: number) {
-    this.isLoading = true;
-    this.authorsService.deleteOne(id).subscribe(
-      (response) => {
-        this.isLoading = false;
-        this.messageService.success('Xoá thành công!');
-        this.renderPage();
-      },
-      (error) => {
-        this.isLoading = false;
-        this.messageService.error(error?.error?.message);
-      }
-    );
   }
 }

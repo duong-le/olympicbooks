@@ -26,24 +26,9 @@ export class OrdersComponent extends BaseComponent<Order> {
 
   constructor(
     private ordersService: OrdersService,
-    private messageService: NzMessageService,
+    public messageService: NzMessageService,
     public modalService: NzModalService
   ) {
-    super(ordersService, modalService);
-  }
-
-  delete(id: number) {
-    this.isLoading = true;
-    this.ordersService.deleteOne(id).subscribe(
-      (response) => {
-        this.isLoading = false;
-        this.messageService.success('Xoá thành công!');
-        this.renderPage();
-      },
-      (error) => {
-        this.isLoading = false;
-        this.messageService.error(error?.error?.message);
-      }
-    );
+    super(ordersService, messageService, modalService);
   }
 }

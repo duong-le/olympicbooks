@@ -1,5 +1,6 @@
 import { Directive, OnInit, TemplateRef } from '@angular/core';
 import { CondOperator, RequestQueryBuilder } from '@nestjsx/crud-request';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
@@ -17,7 +18,11 @@ export abstract class BaseComponent<T> implements OnInit {
   pageIndex = 1;
   pageSize = 10;
 
-  constructor(private service: BaseService<T>, public modalService: NzModalService) {
+  constructor(
+    private service: BaseService<T>,
+    public messageService: NzMessageService,
+    public modalService: NzModalService
+  ) {
     this.qb = RequestQueryBuilder.create()
       .sortBy({ field: 'id', order: 'DESC' })
       .setPage(this.pageIndex)
@@ -78,5 +83,18 @@ export abstract class BaseComponent<T> implements OnInit {
     });
   }
 
-  abstract delete(id: number): void;
+  delete(id: number) {
+    this.isLoading = true;
+    this.service.deleteOne(id).subscribe(
+      (response) => {
+        this.isLoading = false;
+        this.messageService.success('Xoá thành công!');
+        this.renderPage();
+      },
+      (error) => {
+        this.isLoading = false;
+        this.messageService.error(error?.error?.message);
+      }
+    );
+  }
 }

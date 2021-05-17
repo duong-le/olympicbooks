@@ -16,6 +16,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 
 @NgModule({
   declarations: [CustomersComponent],
@@ -32,7 +33,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     NzToolTipModule,
     NzSpaceModule,
     NzGridModule,
-    NzModalModule
+    NzModalModule,
+    NzMessageModule
   ]
 })
 export class CustomersModule {}

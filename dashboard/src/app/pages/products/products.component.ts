@@ -29,10 +29,10 @@ export class ProductsComponent extends BaseComponent<Product> {
 
   constructor(
     private productsService: ProductsService,
-    private messageService: NzMessageService,
+    public messageService: NzMessageService,
     public modalService: NzModalService
   ) {
-    super(productsService, modalService);
+    super(productsService, messageService, modalService);
   }
 
   onSearchByTitle() {
@@ -44,20 +44,5 @@ export class ProductsComponent extends BaseComponent<Product> {
         value: this.searchInputByTitle
       });
     this.renderPage();
-  }
-
-  delete(id: number) {
-    this.isLoading = true;
-    this.productsService.deleteOne(id).subscribe(
-      (response) => {
-        this.isLoading = false;
-        this.messageService.success('Xoá thành công!');
-        this.renderPage();
-      },
-      (error) => {
-        this.isLoading = false;
-        this.messageService.error(error?.error?.message);
-      }
-    );
   }
 }

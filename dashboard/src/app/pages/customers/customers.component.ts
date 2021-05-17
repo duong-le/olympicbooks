@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CondOperator } from '@nestjsx/crud-request';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
 import { BaseComponent } from '../../shared/Base/base.component';
@@ -23,8 +24,12 @@ export class CustomersComponent extends BaseComponent<Customer> {
     { title: 'Số điện thoại' }
   ];
 
-  constructor(private customersService: CustomersService, public modalService: NzModalService) {
-    super(customersService, modalService);
+  constructor(
+    private customersService: CustomersService,
+    public messageService: NzMessageService,
+    public modalService: NzModalService
+  ) {
+    super(customersService, messageService, modalService);
   }
 
   onSearchByName() {
@@ -37,6 +42,4 @@ export class CustomersComponent extends BaseComponent<Customer> {
       });
     this.renderPage();
   }
-
-  delete(id: number) {}
 }
