@@ -7,59 +7,65 @@
   </div>
 </div>
 
-<nz-card [nzBodyStyle]="{ padding: 0 }">
-  <nz-table #table [nzLoading]="isLoading" [nzLoadingIndicator]="loadingIndicator" [nzScroll]="{ x: '1150px' }"
-            [nzData]="data" nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total" [nzPageSize]="pageSize"
-            [nzPageIndex]="pageIndex" (nzQueryParams)="onTableQueryParamsChange($event)">
-    <thead>
-      <tr>
-        <th *ngFor="let column of columns" [nzSortFn]="column.sort" [nzColumnKey]="column.key">{{ column.title }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of table.data">
-        <td>
-          <nz-space>
-            <nz-space-item>
-              <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Chi tiết đơn hàng"
-                      (click)="showDetailModal(orderModal, item)">
-                <i nz-icon nzType="eye" theme="twotone"></i>
-              </button>
-            </nz-space-item>
-            <nz-space-item>
-              <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Chỉnh sửa đơn hàng" [routerLink]="item?.id">
-                <i nz-icon nzType="edit" theme="twotone"></i>
-              </button>
-            </nz-space-item>
-            <nz-space-item>
-              <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Xoá đơn hàng" nzDanger
-                      (click)="showDeleteConfirmModal(item?.id)">
-                <i nz-icon nzType="delete" theme="outline"></i>
-              </button>
-            </nz-space-item>
-          </nz-space>
-        </td>
-        <td>{{ item?.id }}</td>
-        <td>{{ item?.shipping?.code }}</td>
-        <td>{{ item?.createdAt | date: 'dd-MM-yyyy' }}</td>
-        <td>
+<nz-table #table nzOuterBordered [nzLoading]="isLoading" [nzLoadingIndicator]="loadingIndicator"
+          [nzScroll]="{ x: '1150px' }" [nzData]="data" nzShowSizeChanger [nzFrontPagination]="false" [nzTotal]="total"
+          [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" (nzQueryParams)="onTableQueryParamsChange($event)">
+  <thead>
+    <tr>
+      <th *ngFor="let column of columns" [nzSortFn]="column.sort" [nzColumnKey]="column.key">{{ column.title }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of table.data">
+      <td>
+        <nz-space>
+          <nz-space-item>
+            <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Chi tiết đơn hàng"
+                    (click)="showDetailModal(orderModal, item)">
+              <i nz-icon nzType="eye" theme="twotone"></i>
+            </button>
+          </nz-space-item>
+          <nz-space-item>
+            <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Chỉnh sửa đơn hàng" [routerLink]="item?.id">
+              <i nz-icon nzType="edit" theme="twotone"></i>
+            </button>
+          </nz-space-item>
+          <nz-space-item>
+            <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Xoá đơn hàng" nzDanger
+                    (click)="showDeleteConfirmModal(item?.id)">
+              <i nz-icon nzType="delete" theme="outline"></i>
+            </button>
+          </nz-space-item>
+        </nz-space>
+      </td>
+      <td>{{ item?.id }}</td>
+      <!-- <td>{{ item?.shipping?.code }}</td> -->
+      <td>{{ item?.createdAt | date: 'dd-MM-yyyy' }}</td>
+      <td>
+        <nz-space>
           <nz-tag nzColor="{{ item?.shipping?.state | orderState: true }}">
             {{ item?.shipping?.state | orderState }}
           </nz-tag>
-          <p>{{ item?.shipping?.shippingMethod?.name }}</p>
-        </td>
-        <td>
+          <nz-tag nzColor="default">
+            {{ item?.shipping?.shippingMethod?.name }}
+          </nz-tag>
+        </nz-space>
+      </td>
+      <td>
+        <nz-space>
           <nz-tag nzColor="{{ item?.transaction?.state | orderState: true }}">
             {{ item?.transaction?.state | orderState }}
           </nz-tag>
-          <p>{{ item?.transaction?.transactionMethod?.name }}</p>
-        </td>
-        <td>{{ item?.shipping?.fee | price }}</td>
-        <td>{{ item?.transaction?.value | price }}</td>
-      </tr>
-    </tbody>
-  </nz-table>
-</nz-card>
+          <nz-tag nzColor="default">
+            {{ item?.transaction?.transactionMethod?.name }}
+          </nz-tag>
+        </nz-space>
+      </td>
+      <td>{{ item?.shipping?.fee | price }}</td>
+      <td>{{ item?.transaction?.value | price }}</td>
+    </tr>
+  </tbody>
+</nz-table>
 
 <ng-template #orderModal let-order>
   <nz-table #table [nzData]="order?.orderItems" [nzFrontPagination]="false" [nzScroll]="{ x: '576px' }">

@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -23,7 +22,6 @@ import { CustomersComponent } from './customers.component';
     FormsModule,
     CustomersRoutingModule,
     IconModule,
-    NzCardModule,
     NzInputModule,
     NzTableModule,
     NzButtonModule,
