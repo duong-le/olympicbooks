@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Repository } from 'typeorm';
 
 import { Shop } from '../entities/shops.entity';
@@ -7,11 +8,13 @@ import { File } from '../shared/Interfaces/file.interface';
 import { CloudStorageService } from './cloud-storage.service';
 
 @Injectable()
-export class ShopsService {
+export class ShopsService extends TypeOrmCrudService<Shop> {
   constructor(
     @InjectRepository(Shop) private shopRepository: Repository<Shop>,
     private cloudStorageService: CloudStorageService
-  ) {}
+  ) {
+    super(shopRepository);
+  }
 
   async getManyShopsBySeller(sellerId: number): Promise<Shop[]> {
     return await this.shopRepository
