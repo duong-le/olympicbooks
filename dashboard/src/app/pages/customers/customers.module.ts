@@ -17,6 +17,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 
 @NgModule({
   declarations: [CustomersComponent],
@@ -34,7 +35,8 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     NzSpaceModule,
     NzGridModule,
     NzModalModule,
-    NzMessageModule
+    NzMessageModule,
+    NzDescriptionsModule
   ]
 })
 export class CustomersModule {}

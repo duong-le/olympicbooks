@@ -14,14 +14,18 @@ export class LayoutComponent implements OnInit {
   user: Authentication;
   headerWidth = 'calc(100% - 300px)';
 
-  constructor(private router: Router, private authenticationService: AuthenticationService, private themeService: ThemeService) {}
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private themeService: ThemeService
+  ) {}
 
   ngOnInit(): void {
     this.authenticationService.user$.subscribe((user) => (this.user = user));
   }
 
-  collapse(e: EventEmitter<any>): void {
-    this.headerWidth = `calc(100% - ${e ? '80' : '300'}px)`;
+  collapse(event: EventEmitter<any>): void {
+    this.headerWidth = `calc(100% - ${event ? '80' : '300'}px)`;
   }
 
   toggleTheme(): void {

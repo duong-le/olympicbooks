@@ -5,7 +5,6 @@ export interface Customer {
   address?: string;
   phoneNumber?: string;
   isBlock?: boolean;
-  role?: number;
 }
 
 export interface UpdateCustomer {
