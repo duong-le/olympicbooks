@@ -46,13 +46,6 @@ export class ProductsComponent extends BaseComponent<Product> {
     this.renderPage();
   }
 
-  showDeleteConfirm(id: number) {
-    this.modalService.confirm({
-      nzTitle: 'Bạn có chắc chắn muốn xóa không?',
-      nzOnOk: () => this.delete(id)
-    });
-  }
-
   delete(id: number) {
     this.isLoading = true;
     this.productsService.deleteOne(id).subscribe(

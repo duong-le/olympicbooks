@@ -40,13 +40,6 @@ export class PublishersComponent extends BaseComponent<Publisher> {
     this.renderPage();
   }
 
-  showDeleteConfirm(id: number) {
-    this.modalService.confirm({
-      nzTitle: 'Bạn có chắc chắn muốn xóa không?',
-      nzOnOk: () => this.delete(id)
-    });
-  }
-
   delete(id: number) {
     this.isLoading = true;
     this.publishersService.deleteOne(id).subscribe(

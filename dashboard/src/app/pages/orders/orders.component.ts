@@ -32,13 +32,6 @@ export class OrdersComponent extends BaseComponent<Order> {
     super(ordersService, modalService);
   }
 
-  showDeleteConfirm(id: number) {
-    this.modalService.confirm({
-      nzTitle: 'Bạn có chắc chắn muốn xóa không?',
-      nzOnOk: () => this.delete(id)
-    });
-  }
-
   delete(id: number) {
     this.isLoading = true;
     this.ordersService.deleteOne(id).subscribe(

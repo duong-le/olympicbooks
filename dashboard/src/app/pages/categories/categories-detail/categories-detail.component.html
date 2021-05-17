@@ -1,5 +1,5 @@
 <nz-card [nzLoading]="isLoading" nzTitle="{{ isNew ? 'Thêm mới Danh Mục' : 'Chi tiết Danh Mục' }}"
-  [nzExtra]="buttonGroup">
+         [nzExtra]="buttonGroup">
   <form nz-form nzLayout="vertical" [formGroup]="categoryForm">
     <nz-form-item *ngIf="!isNew">
       <nz-form-label nzFor="id">ID</nz-form-label>
@@ -17,7 +17,7 @@
       <nz-form-label nzFor="parentId">Danh mục cha</nz-form-label>
       <nz-form-control>
         <nz-tree-select [nzNodes]="categoryTree" nzShowSearch [nzHideUnMatched]="true" [nzDefaultExpandAll]="true"
-          [nzDropdownStyle]="{ 'max-height': '300px' }" formControlName="parentId">
+                        [nzDropdownStyle]="{ 'max-height': '300px' }" formControlName="parentId">
         </nz-tree-select>
       </nz-form-control>
     </nz-form-item>
@@ -29,7 +29,7 @@
       <i nz-icon nzType="info-circle" nzTheme="outline"></i>
     </span>
     <nz-upload [(nzFileList)]="fileList" nzListType="picture" [nzAccept]="fileTypeLimit" [nzFileType]="fileTypeLimit"
-      [nzSize]="fileSizeLimit" [nzDisabled]="fileList.length >= 1" [nzBeforeUpload]="beforeUpload">
+               [nzSize]="fileSizeLimit" [nzDisabled]="fileList.length >= 1" [nzBeforeUpload]="beforeUpload">
       <button nz-button><i nz-icon nzType="upload"></i>Tải ảnh lên</button>
     </nz-upload>
   </div>
@@ -37,11 +37,11 @@
 <ng-template #buttonGroup>
   <nz-space>
     <nz-space-item *ngIf="!isNew && category?.isLeaf">
-      <button nz-button nzType="primary" nzDanger (click)="showDeleteConfirm()">Delete</button>
+      <button nz-button nzType="primary" nzDanger (click)="showDeleteConfirmModal()">Delete</button>
     </nz-space-item>
     <nz-space-item>
       <button nz-button nzType="primary" [nzLoading]="isBtnLoading" (click)="isNew ? create() : update()"
-        [disabled]="categoryForm.invalid || categoryForm.pristine">Lưu</button>
+              [disabled]="categoryForm.invalid || categoryForm.pristine">Lưu</button>
     </nz-space-item>
   </nz-space>
 </ng-template>

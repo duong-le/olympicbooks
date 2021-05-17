@@ -37,4 +37,6 @@ export class CustomersComponent extends BaseComponent<Customer> {
       });
     this.renderPage();
   }
+
+  delete(id: number) {}
 }

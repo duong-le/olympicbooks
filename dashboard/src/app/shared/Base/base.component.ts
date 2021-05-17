@@ -70,4 +70,13 @@ export abstract class BaseComponent<T> implements OnInit {
       nzComponentParams: item
     });
   }
+
+  showDeleteConfirmModal(id: number) {
+    this.modalService.confirm({
+      nzTitle: 'Bạn có chắc chắn muốn xóa không?',
+      nzOnOk: () => this.delete(id)
+    });
+  }
+
+  abstract delete(id: number): void;
 }

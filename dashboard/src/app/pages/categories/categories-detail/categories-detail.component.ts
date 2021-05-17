@@ -67,7 +67,10 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
         this.categoryForm.setValue({
           id: this.category.id,
           title: this.category.title,
-          parentId: this.category?.parent?.length > 1 ? this.category.parent[this.category.parent.length - 2].id : null
+          parentId:
+            this.category?.parent?.length > 1
+              ? this.category.parent[this.category.parent.length - 2].id
+              : null
         });
         if (this.category.imgName && this.category.imgUrl) {
           this.fileList = [
@@ -129,7 +132,7 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
     );
   }
 
-  showDeleteConfirm() {
+  showDeleteConfirmModal() {
     this.modal.confirm({
       nzTitle: 'Bạn có chắc chắn muốn xóa không?',
       nzOnOk: () => this.delete()
