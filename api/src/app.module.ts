@@ -25,7 +25,7 @@ import { TransactionsModule } from './controllers/store/transactions/transaction
 
 import { SellersModule } from './controllers/seller/sellers/sellers.module';
 import { ShopsModule } from './controllers/seller/shops/shops.module';
-import { SellerProductsModule } from './controllers/seller/products/products.module';
+import { ShopProductsModule } from './controllers/seller/products/products.module';
 
 import OrmConfig from './core/Config/orm.config';
 import { RolesGuard } from './core/Guards/roles.guard';
@@ -57,7 +57,7 @@ import { Exist } from './core/Validators/exist/exist.service';
     AdminCustomersModule,
     SellersModule,
     ShopsModule,
-    SellerProductsModule
+    ShopProductsModule,
   ],
   providers: [
     Exist,

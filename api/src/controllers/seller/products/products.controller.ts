@@ -35,7 +35,7 @@ import { CreateProductDto, UpdateProductDto } from '../../admin/products/product
 @ApiBearerAuth()
 @Controller('shops/:shopId/products')
 @UseGuards(AuthGuard())
-export class SellerProductsController {
+export class ShopProductsController {
   constructor(
     public service: ProductsService,
     public shopService: ShopsService,

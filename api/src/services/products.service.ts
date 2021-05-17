@@ -33,7 +33,7 @@ export class ProductsService extends TypeOrmCrudService<Product> {
       .leftJoinAndSelect('product.authors', 'author')
       .leftJoin('product.shop', 'shop')
       .leftJoin('shop.sellers', 'seller')
-      .andWhere('shop.id = :shopId', { shopId })
+      .where('shop.id = :shopId', { shopId })
       .andWhere('seller.id = :sellerId', { sellerId })
       .getMany();
   }
