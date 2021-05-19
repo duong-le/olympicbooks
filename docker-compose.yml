@@ -31,6 +31,21 @@ services:
     networks:
       - olympicbooks-network
 
+  olympicbooks-seller:
+    container_name: olympicbooks-seller
+    working_dir: /usr/src/app
+    build:
+      context: ./seller
+      target: development
+    volumes:
+      - ./seller:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 4300:4300
+    command: yarn start:dev
+    networks:
+      - olympicbooks-network
+
   olympicbooks-api:
     container_name: olympicbooks-api
     build:
