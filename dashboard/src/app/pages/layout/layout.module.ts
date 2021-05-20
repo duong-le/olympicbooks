@@ -5,7 +5,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
-import { IconModule } from '../../shared/icon.module';
+import { IconsModule } from '../../shared/icons.module';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 
@@ -13,7 +13,7 @@ import { LayoutComponent } from './layout.component';
   declarations: [LayoutComponent],
   imports: [
     CommonModule,
-    IconModule,
+    IconsModule,
     LayoutRoutingModule,
     NzLayoutModule,
     NzMenuModule,

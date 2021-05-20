@@ -1,17 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { IconModule } from 'src/app/shared/icon.module';
-import { AuthenticationRoutingModule } from './authentication-routing.module';
-import { AuthenticationComponent } from './authentication.component';
-
+import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+
+import { IconsModule } from '../../shared/icons.module';
+import { AuthenticationRoutingModule } from './authentication-routing.module';
+import { AuthenticationComponent } from './authentication.component';
 
 @NgModule({
   declarations: [AuthenticationComponent],
@@ -19,7 +18,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    IconModule,
+    IconsModule,
     AuthenticationRoutingModule,
     NzCardModule,
     NzFormModule,

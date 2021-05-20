@@ -18,7 +18,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 
-import { IconModule } from '../../shared/icon.module';
+import { IconsModule } from '../../shared/icons.module';
 import { SharedModule } from '../../shared/shared.module';
 import { ProductsDetailComponent } from './products-detail/products-detail.component';
 import { ProductsRoutingModule } from './products-routing.module';
@@ -32,7 +32,7 @@ import { ProductsComponent } from './products.component';
     ReactiveFormsModule,
     ProductsRoutingModule,
     SharedModule,
-    IconModule,
+    IconsModule,
     NzCardModule,
     NzInputModule,
     NzTableModule,

@@ -15,7 +15,7 @@ import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 
-import { IconModule } from '../../shared/icon.module';
+import { IconsModule } from '../../shared/icons.module';
 import { CategoriesDetailComponent } from './categories-detail/categories-detail.component';
 import { CategoriesRoutingModule } from './categories-routing.module';
 import { CategoriesComponent } from './categories.component';
@@ -27,7 +27,7 @@ import { CategoriesComponent } from './categories.component';
     CategoriesRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    IconModule,
+    IconsModule,
     NzCardModule,
     NzInputModule,
     NzSelectModule,

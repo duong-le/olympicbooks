@@ -9,7 +9,7 @@ import { NZ_I18N, vi_VN } from 'ng-zorro-antd/i18n';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { IconModule } from './shared/icon.module';
+import { IconsModule } from './shared/icons.module';
 import { ErrorInterceptor } from './shared/Providers/error.interceptor';
 import { JwtInterceptor } from './shared/Providers/jwt.interceptor';
 import { ThemeInitializerProvider } from './shared/Providers/theme.initializer';
@@ -18,7 +18,14 @@ registerLocaleData(vi);
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [FormsModule, HttpClientModule, BrowserModule, BrowserAnimationsModule, AppRoutingModule, IconModule],
+  imports: [
+    FormsModule,
+    HttpClientModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    IconsModule
+  ],
   providers: [
     ThemeInitializerProvider,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

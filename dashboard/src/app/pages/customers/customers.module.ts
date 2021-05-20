@@ -11,7 +11,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
-import { IconModule } from '../../shared/icon.module';
+import { IconsModule } from '../../shared/icons.module';
 import { CustomersRoutingModule } from './customers-routing.module';
 import { CustomersComponent } from './customers.component';
 
@@ -21,7 +21,7 @@ import { CustomersComponent } from './customers.component';
     CommonModule,
     FormsModule,
     CustomersRoutingModule,
-    IconModule,
+    IconsModule,
     NzInputModule,
     NzTableModule,
     NzButtonModule,

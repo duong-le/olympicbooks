@@ -13,7 +13,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
-import { IconModule } from '../../shared/icon.module';
+import { IconsModule } from '../../shared/icons.module';
 import { AuthorsDetailComponent } from './authors-detail/authors-detail.component';
 import { AuthorsRoutingModule } from './authors-routing.module';
 import { AuthorsComponent } from './authors.component';
@@ -25,7 +25,7 @@ import { AuthorsComponent } from './authors.component';
     AuthorsRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    IconModule,
+    IconsModule,
     NzCardModule,
     NzInputModule,
     NzSelectModule,
