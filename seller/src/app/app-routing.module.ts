@@ -13,7 +13,7 @@ const routes: Routes = [
     canActivate: [UnAuthGuard]
   },
   {
-    path: 'sellers',
+    path: 'me',
     loadChildren: () => import('./pages/sellers/sellers.module').then((m) => m.SellersModule),
     canActivate: [AuthGuard]
   }

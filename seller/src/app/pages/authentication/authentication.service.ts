@@ -14,7 +14,7 @@ export class AuthenticationService {
   public user$: Observable<Authentication>;
 
   constructor(private http: HttpClient) {
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const user = JSON.parse(localStorage.getItem('user'));
     this.userSubject = new BehaviorSubject<Authentication>(user);
     this.user$ = this.userSubject.asObservable();
   }
@@ -37,7 +37,7 @@ export class AuthenticationService {
 
   signOut() {
     localStorage.removeItem('user');
-    this.userSubject.next(null as any);
+    this.userSubject.next(null);
   }
 
   decodeToken(accessToken: string) {

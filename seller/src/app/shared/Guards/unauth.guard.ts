@@ -15,7 +15,7 @@ export class UnAuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (!this.authenticationService.userValue) return true;
-    this.router.navigate(['/sellers']);
+    this.router.navigate(['/me']);
     return false;
   }
 }
