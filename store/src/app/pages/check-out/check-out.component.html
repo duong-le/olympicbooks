@@ -108,29 +108,32 @@
               <i nz-icon nzType="edit" nzTheme="outline"></i> Thay đổi
             </button>
             <nz-modal nzTitle="Cập nhật địa chỉ giao hàng" [nzVisible]="isAddressModalVisible"
-                      (nzOnCancel)="hideAddressModal()" [nzFooter]="modalFooter">
-              <form nz-form [formGroup]="addressForm">
-                <nz-form-item>
-                  <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>Họ tên</nz-form-label>
-                  <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập họ tên">
-                    <input nz-input id="name" formControlName="name" />
-                  </nz-form-control>
-                </nz-form-item>
+                      (nzOnCancel)="hideAddressModal()" [nzContent]="modalContent" [nzFooter]="modalFooter">
+              <ng-template #modalContent>
+                <form nz-form [formGroup]="addressForm">
+                  <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>Họ tên</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập họ tên">
+                      <input nz-input id="name" formControlName="name" />
+                    </nz-form-control>
+                  </nz-form-item>
 
-                <nz-form-item>
-                  <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phone" nzRequired>Số điện thoại</nz-form-label>
-                  <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập số điện thoại">
-                    <input nz-input id="phone" formControlName="phoneNumber" type="tel" />
-                  </nz-form-control>
-                </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phone" nzRequired>Số điện thoại</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập số điện thoại">
+                      <input nz-input id="phone" formControlName="phoneNumber" type="tel" />
+                    </nz-form-control>
+                  </nz-form-item>
 
-                <nz-form-item>
-                  <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address" nzRequired>Địa chỉ</nz-form-label>
-                  <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập địa chỉ">
-                    <input nz-input id="address" formControlName="address" />
-                  </nz-form-control>
-                </nz-form-item>
-              </form>
+                  <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address" nzRequired>Địa chỉ</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập địa chỉ">
+                      <input nz-input id="address" formControlName="address" />
+                    </nz-form-control>
+                  </nz-form-item>
+                </form>
+              </ng-template>
+
               <ng-template #modalFooter>
                 <button nz-button nzType="default" (click)="hideAddressModal()">Hủy bỏ</button>
                 <button nz-button nzType="primary" (click)="updateAddress()" [nzLoading]="isUpdateLoading"
