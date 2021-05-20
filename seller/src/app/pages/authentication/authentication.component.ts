@@ -35,7 +35,7 @@ export class AuthenticationComponent implements OnInit {
       (response) => {
         this.isLoading = false;
         this.messageService.success('Đăng nhập thành công!');
-        this.router.navigate(['/welcome']);
+        this.router.navigate(['/sellers']);
       },
       (error) => {
         this.isLoading = false;

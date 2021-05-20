@@ -35,10 +35,6 @@ export class AuthenticationService {
     );
   }
 
-  signUp(data: Authentication): Observable<Authentication> {
-    return this.http.post<Authentication>(`${environment.apiUrl}/auth/signup`, data);
-  }
-
   signOut() {
     localStorage.removeItem('user');
     this.userSubject.next(null as any);
