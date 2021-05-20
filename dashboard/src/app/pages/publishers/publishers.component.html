@@ -39,17 +39,13 @@
     <tr *ngFor="let item of table.data">
       <td>
         <nz-space>
-          <nz-space-item>
-            <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Edit" [routerLink]="item?.id">
-              <i nz-icon nzType="edit" theme="twotone"></i>
-            </button>
-          </nz-space-item>
-          <nz-space-item>
-            <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Delete" nzDanger
-                    (click)="showDeleteConfirmModal(item?.id)">
-              <i nz-icon nzType="delete" theme="outline"></i>
-            </button>
-          </nz-space-item>
+          <button *nzSpaceItem nz-button nzType="text" nz-tooltip nzTooltipTitle="Edit" [routerLink]="item?.id">
+            <i nz-icon nzType="edit" theme="twotone"></i>
+          </button>
+          <button *nzSpaceItem nz-button nzType="text" nz-tooltip nzTooltipTitle="Delete" nzDanger
+                  (click)="showDeleteConfirmModal(item?.id)">
+            <i nz-icon nzType="delete" theme="outline"></i>
+          </button>
         </nz-space>
       </td>
       <td>{{ item?.id }}</td>

@@ -26,12 +26,10 @@
     <tr *ngFor="let item of table.data">
       <td>
         <nz-space>
-          <nz-space-item>
-            <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Chi tiết quản trị viên"
-                    (click)="showDetailModal(adminModal, item)">
-              <i nz-icon nzType="eye" theme="twotone"></i>
-            </button>
-          </nz-space-item>
+          <button *nzSpaceItem nz-button nzType="text" nz-tooltip nzTooltipTitle="Chi tiết quản trị viên"
+                  (click)="showDetailModal(adminModal, item)">
+            <i nz-icon nzType="eye" theme="twotone"></i>
+          </button>
         </nz-space>
       </td>
       <td>{{ item?.id }}</td>

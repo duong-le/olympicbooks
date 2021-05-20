@@ -37,12 +37,10 @@
 
 <ng-template #buttonGroup>
   <nz-space>
-    <nz-space-item *ngIf="!isNew && category?.isLeaf">
-      <button nz-button nzType="primary" nzDanger (click)="showDeleteConfirmModal()">Delete</button>
-    </nz-space-item>
-    <nz-space-item>
-      <button nz-button nzType="primary" [nzLoading]="isBtnLoading" (click)="isNew ? create() : update()"
-              [disabled]="categoryForm.invalid || categoryForm.pristine">Lưu</button>
-    </nz-space-item>
+    <ng-container *ngIf="!isNew && category?.isLeaf">
+      <button *nzSpaceItem nz-button nzType="primary" nzDanger (click)="showDeleteConfirmModal()">Delete</button>
+    </ng-container>
+    <button *nzSpaceItem nz-button nzType="primary" [nzLoading]="isBtnLoading" (click)="isNew ? create() : update()"
+            [disabled]="categoryForm.invalid || categoryForm.pristine">Lưu</button>
   </nz-space>
 </ng-template>

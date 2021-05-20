@@ -39,23 +39,18 @@
     <tr *ngFor="let item of table.data">
       <td>
         <nz-space>
-          <nz-space-item>
-            <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Chi tiết sản phẩm"
-                    (click)="showDetailModal(productModal, item)">
-              <i nz-icon nzType="eye" theme="twotone"></i>
-            </button>
-          </nz-space-item>
-          <nz-space-item>
-            <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Chỉnh sửa sản phẩm" [routerLink]="item?.id">
-              <i nz-icon nzType="edit" theme="twotone"></i>
-            </button>
-          </nz-space-item>
-          <nz-space-item>
-            <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Xoá sản phẩm" nzDanger
-                    (click)="showDeleteConfirmModal(item?.id)">
-              <i nz-icon nzType="delete" theme="outline"></i>
-            </button>
-          </nz-space-item>
+          <button *nzSpaceItem nz-button nzType="text" nz-tooltip nzTooltipTitle="Chi tiết sản phẩm"
+                  (click)="showDetailModal(productModal, item)">
+            <i nz-icon nzType="eye" theme="twotone"></i>
+          </button>
+          <button *nzSpaceItem nz-button nzType="text" nz-tooltip nzTooltipTitle="Chỉnh sửa sản phẩm"
+                  [routerLink]="item?.id">
+            <i nz-icon nzType="edit" theme="twotone"></i>
+          </button>
+          <button *nzSpaceItem nz-button nzType="text" nz-tooltip nzTooltipTitle="Xoá sản phẩm" nzDanger
+                  (click)="showDeleteConfirmModal(item?.id)">
+            <i nz-icon nzType="delete" theme="outline"></i>
+          </button>
         </nz-space>
       </td>
       <td>{{ item?.id }}</td>
