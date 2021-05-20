@@ -75,7 +75,7 @@
     <tbody>
       <tr *ngFor="let item of table.data">
         <td id="title" *ngIf="item?.product; else deletedProduct">
-          <a [routerLink]="['/products/', item?.product?.id ]">{{ item?.product?.title }}</a>
+          <a [routerLink]="['/products', item?.product?.id ]">{{ item?.product?.title }}</a>
         </td>
         <ng-template #deletedProduct>
           <td id="title">{{ item?.productTitle }}</td>

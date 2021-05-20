@@ -4,7 +4,7 @@ import { Category } from 'src/app/shared/Interfaces/category.interface';
 @Component({
   selector: 'app-category',
   template: `
-    <a [routerLink]="['/categories/', category.id]">
+    <a [routerLink]="['/categories', category?.id]">
       <nz-card nzHoverable [nzCover]="coverTemplate" [nzBordered]="false" [nzLoading]="isLoading">
         <h3>{{ category.title }}</h3>
       </nz-card>

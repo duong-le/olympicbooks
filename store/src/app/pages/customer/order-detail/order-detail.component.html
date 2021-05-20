@@ -9,7 +9,7 @@
 
     <div nz-col nzSpan="24" *ngIf="order?.sellerNote">
       <nz-alert nzType="warning" nzMessage="Lưu ý từ người bán" [nzDescription]="order?.sellerNote" nzCloseable
-        nzShowIcon>
+                nzShowIcon>
       </nz-alert>
     </div>
 
@@ -60,7 +60,7 @@
 
     <div nz-col nzSpan="24">
       <nz-table #table [nzData]="order?.orderItems" [nzLoading]="isLoading" [nzFrontPagination]="false"
-        [nzScroll]="{ x: '576px' }" [nzLoadingIndicator]="indicatorTemplate">
+                [nzScroll]="{ x: '576px' }" [nzLoadingIndicator]="indicatorTemplate">
         <thead>
           <tr>
             <th nzWidth="55%">Sản phẩm</th>
@@ -72,7 +72,7 @@
         <tbody>
           <tr *ngFor="let data of table.data">
             <td id="title" *ngIf="data?.product; else deletedProduct">
-              <a [routerLink]="['/products/', data?.product?.id ]">{{ data?.product?.title }}</a>
+              <a [routerLink]="['/products', data?.product?.id ]">{{ data?.product?.title }}</a>
             </td>
             <ng-template #deletedProduct>
               <td id="title">{{ data?.productTitle }}</td>
