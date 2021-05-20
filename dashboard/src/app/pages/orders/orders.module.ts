@@ -17,7 +17,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 import { IconsModule } from '../../shared/icons.module';
-import { SharedModule } from '../../shared/shared.module';
+import { PipesModule } from '../../shared/Pipes/pipes.module';
 import { OrdersDetailComponent } from './orders-detail/orders-detail.component';
 import { OrdersRoutingModule } from './orders-routing.module';
 import { OrdersComponent } from './orders.component';
@@ -29,7 +29,7 @@ import { OrdersComponent } from './orders.component';
     FormsModule,
     ReactiveFormsModule,
     OrdersRoutingModule,
-    SharedModule,
+    PipesModule,
     IconsModule,
     NzCardModule,
     NzInputModule,

@@ -19,7 +19,7 @@ import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 import { IconsModule } from '../../shared/icons.module';
-import { SharedModule } from '../../shared/shared.module';
+import { PipesModule } from '../../shared/Pipes/pipes.module';
 import { ProductsDetailComponent } from './products-detail/products-detail.component';
 import { ProductsRoutingModule } from './products-routing.module';
 import { ProductsComponent } from './products.component';
@@ -31,7 +31,7 @@ import { ProductsComponent } from './products.component';
     FormsModule,
     ReactiveFormsModule,
     ProductsRoutingModule,
-    SharedModule,
+    PipesModule,
     IconsModule,
     NzCardModule,
     NzInputModule,
