@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from './shared/Guards/auth.guard';
 import { UnAuthGuard } from './shared/Guards/unauth.guard';
@@ -16,11 +16,22 @@ const routes: Routes = [
     path: 'me',
     loadChildren: () => import('./pages/sellers/sellers.module').then((m) => m.SellersModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'shops',
+    loadChildren: () => import('./pages/shops/shops.module').then((m) => m.ShopsModule),
+    canActivate: [AuthGuard]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'enabled',
+      preloadingStrategy: PreloadAllModules,
+      paramsInheritanceStrategy: 'always'
+    })
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}
