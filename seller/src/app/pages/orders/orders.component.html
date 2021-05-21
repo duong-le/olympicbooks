@@ -1,0 +1,167 @@
+<nz-table
+  #table
+  nzOuterBordered
+  nzShowSizeChanger
+  [nzLoading]="isLoading"
+  [nzLoadingIndicator]="loadingIndicator"
+  [nzData]="orders"
+  [nzTotal]="total"
+  [nzPageSize]="pageSize"
+  [nzPageIndex]="pageIndex"
+  [nzScroll]="{ x: '1150px' }"
+>
+  <thead>
+    <tr>
+      <th *ngFor="let column of columns" [nzWidth]="column.width">{{ column.title }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let order of table.data">
+      <tr>
+        <td [(nzExpand)]="order.expand"></td>
+        <td>
+          <nz-space>
+            <button
+              *nzSpaceItem
+              nz-button
+              nzType="text"
+              nz-tooltip
+              nzTooltipTitle="Chi tiết đơn hàng"
+              (click)="showDetailModal(orderModal, order)"
+            >
+              <i nz-icon nzType="eye" theme="twotone"></i>
+            </button>
+            <button
+              *nzSpaceItem
+              nz-button
+              nzType="text"
+              nz-tooltip
+              nzTooltipTitle="Chỉnh sửa đơn hàng"
+              [routerLink]="[order?.id]"
+            >
+              <i nz-icon nzType="edit" theme="twotone"></i>
+            </button>
+          </nz-space>
+        </td>
+        <td>{{ order?.id }}</td>
+        <!-- <td>{{ order?.shipping?.code }}</td> -->
+        <td>{{ order?.createdAt | date: 'dd-MM-yyyy' }}</td>
+        <td>
+          <nz-space>
+            <nz-tag nzColor="{{ order?.shipping?.state | orderState: true }}">
+              {{ order?.shipping?.state | orderState }}
+            </nz-tag>
+            <nz-tag nzColor="default">
+              {{ order?.shipping?.shippingMethod?.name }}
+            </nz-tag>
+          </nz-space>
+        </td>
+        <td>
+          <nz-space>
+            <nz-tag nzColor="{{ order?.transaction?.state | orderState: true }}">
+              {{ order?.transaction?.state | orderState }}
+            </nz-tag>
+            <nz-tag nzColor="default">
+              {{ order?.transaction?.transactionMethod?.name }}
+            </nz-tag>
+          </nz-space>
+        </td>
+        <td>{{ order?.shipping?.fee | price }}</td>
+        <td>{{ order?.transaction?.value | price }}</td>
+      </tr>
+      <tr [nzExpand]="order.expand">
+        <nz-table
+          #innerTable
+          nzOuterBordered
+          [nzData]="order?.orderItems"
+          [nzShowPagination]="false"
+          [nzScroll]="{ x: '576px' }"
+        >
+          <thead>
+            <tr>
+              <th nzWidth="55%">Sản phẩm</th>
+              <th>Giá</th>
+              <th>Số lượng</th>
+              <th>Tạm tính</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of innerTable.data">
+              <td id="title" *ngIf="item?.product; else deletedProduct">
+                <a [routerLink]="['/products', item?.product?.id]">{{ item?.product?.title }}</a>
+              </td>
+              <ng-template #deletedProduct>
+                <td id="title">{{ item?.productTitle }}</td>
+              </ng-template>
+              <td>{{ item?.totalValue / item?.quantity | price }}</td>
+              <td>{{ item?.quantity }}</td>
+              <td>{{ item?.totalValue | price }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </tr>
+    </ng-container>
+  </tbody>
+</nz-table>
+
+<ng-template #loadingIndicator><i nz-icon nzType="loading" class="loading"></i></ng-template>
+
+<ng-template #orderModal let-order>
+  <nz-table
+    #table
+    nzOuterBordered
+    [nzData]="order?.orderItems"
+    [nzShowPagination]="false"
+    [nzScroll]="{ x: '576px' }"
+  >
+    <thead>
+      <tr>
+        <th nzWidth="55%">Sản phẩm</th>
+        <th>Giá</th>
+        <th>Số lượng</th>
+        <th>Tạm tính</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of table.data">
+        <td id="title" *ngIf="item?.product; else deletedProduct">
+          <a [routerLink]="['/products', item?.product?.id]">{{ item?.product?.title }}</a>
+        </td>
+        <ng-template #deletedProduct>
+          <td id="title">{{ item?.productTitle }}</td>
+        </ng-template>
+        <td>{{ item?.totalValue / item?.quantity | price }}</td>
+        <td>{{ item?.quantity }}</td>
+        <td>{{ item?.totalValue | price }}</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colSpan="2"></td>
+        <td><b>Tạm tính</b></td>
+        <td>{{ order?.transaction?.value - order?.shipping?.fee | price }}</td>
+      </tr>
+      <tr>
+        <td colSpan="2"></td>
+        <td><b>Phí vận chuyển</b></td>
+        <td>{{ order?.shipping?.fee | price }}</td>
+      </tr>
+      <tr>
+        <td colSpan="2"></td>
+        <td><b>Tổng cộng</b></td>
+        <td>{{ order?.transaction?.value | price }}</td>
+      </tr>
+    </tfoot>
+  </nz-table>
+
+  <nz-descriptions nzTitle="Địa chỉ" nzBordered [nzColumn]="1">
+    <nz-descriptions-item nzTitle="Họ tên">{{ order?.shipping?.name }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Địa chỉ">{{ order?.shipping?.address }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Số điện thoại">{{ order?.shipping?.phoneNumber }}</nz-descriptions-item>
+  </nz-descriptions>
+
+  <nz-descriptions nzTitle="Lời nhắn" nzBordered [nzColumn]="1">
+    <nz-descriptions-item nzTitle="Của người mua">{{ order?.buyerNote }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Của người bán">{{ order?.sellerNote }}</nz-descriptions-item>
+  </nz-descriptions>
+</ng-template>

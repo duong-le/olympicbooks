@@ -1,10 +1,11 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
-import { DeliveryState } from '../../../shared/Enums/delivery-state.enum';
-import { TransactionState } from '../../../shared/Enums/transaction-state.enum';
+import { ShippingState } from '../../../shared/Enums/shippings.enum';
+import { TransactionState } from '../../../shared/Enums/transactions.enum';
 import { Order } from '../../../shared/Interfaces/order.interface';
 import { OrdersService } from '../orders.service';
 
@@ -18,15 +19,18 @@ export class OrdersDetailComponent implements OnInit {
   order: Order;
   isLoading = true;
   isBtnLoading = false;
-  deliveryState = DeliveryState;
+  shippingState = ShippingState;
   transactionState = TransactionState;
+
+  shopId: number;
+  orderId: number;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     private ordersService: OrdersService,
     private messageService: NzMessageService,
-    private router: Router
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -52,13 +56,15 @@ export class OrdersDetailComponent implements OnInit {
       })
     });
 
-    this.activatedRoute.params.subscribe(({ id }) => {
-      this.renderOrder(id);
+    this.activatedRoute.params.subscribe(({ shopId, orderId }) => {
+      this.shopId = shopId;
+      this.orderId = orderId;
+      this.renderOrder();
     });
   }
 
-  renderOrder(id: number) {
-    this.ordersService.getOne(id).subscribe(
+  renderOrder() {
+    this.ordersService.getOne(this.shopId, this.orderId).subscribe(
       (response) => {
         this.order = response;
         this.orderForm.setValue({
@@ -85,24 +91,29 @@ export class OrdersDetailComponent implements OnInit {
         this.isLoading = false;
       },
       (error) => {
-        this.isLoading = false;
         this.messageService.error(error?.error?.message);
+        this.isLoading = false;
       }
     );
   }
 
   update() {
     this.isBtnLoading = true;
-    this.ordersService.updateOne(this.order.id, this.orderForm.value).subscribe(
+    console.log(this.orderForm.value);
+    this.ordersService.updateOne(this.shopId, this.order.id, this.orderForm.value).subscribe(
       (response) => {
         this.isBtnLoading = false;
         this.messageService.success('Cập nhật thành công!');
-        this.router.navigate(['/', 'orders']);
+        this.goBack();
       },
       (error) => {
         this.isBtnLoading = false;
         this.messageService.error(error?.error?.message);
       }
     );
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
