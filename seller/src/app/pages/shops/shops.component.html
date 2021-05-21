@@ -1,6 +1,12 @@
 <nz-layout class="app-layout">
-  <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
-            [nzTrigger]="null">
+  <nz-sider
+    class="menu-sidebar"
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+  >
     <div class="sidebar-logo">
       <a [routerLink]="['/me']">
         <h1>Kênh bán hàng</h1>
@@ -10,7 +16,12 @@
       <li nz-submenu nzOpen nzTitle="Thống kê" nzIcon="dashboard"></li>
       <li nz-submenu nzOpen nzTitle="Sản phẩm" nzIcon="appstore">
         <ul>
-          <li nz-menu-item nzMatchRouter><a routerLink="products">Tất cả sản phẩm</a></li>
+          <li nz-menu-item nzMatchRouter nzMatchRouterExact><a routerLink="products">Tất cả sản phẩm</a></li>
+        </ul>
+        <ul>
+          <li nz-menu-item nzMatchRouter nzMatchRouterExact>
+            <a [routerLink]="['products', 'new']">Thêm mới sản phẩm</a>
+          </li>
         </ul>
       </li>
       <li nz-submenu nzOpen nzTitle="Đơn hàng" nzIcon="unordered-list">

@@ -1,0 +1,11 @@
+.container {
+  padding-right: 170px;
+}
+
+:host ::ng-deep .ant-page-header {
+  border-radius: 16px;
+}
+
+nz-card {
+  margin-top: 16px;
+}
