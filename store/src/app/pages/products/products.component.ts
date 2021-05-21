@@ -19,6 +19,7 @@ export class ProductsComponent implements OnInit {
   product: Product;
   relatedProducts: Product[];
 
+  productId: number;
   isProductLoading = false;
   isRelatedProductsLoading = false;
   isBtnLoading = { addToCart: false, buyNow: false, comment: false };
@@ -40,12 +41,13 @@ export class ProductsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((paramsId) => {
-      this.render(Number(paramsId.id));
+    this.activatedRoute.params.subscribe(({ productId }) => {
+      this.productId = Number(productId);
+      this.render();
     });
   }
 
-  render(productId: number) {
+  render() {
     if (this.product) {
       this.product.images = null;
       this.relatedProductStyle = null;
@@ -53,7 +55,7 @@ export class ProductsComponent implements OnInit {
     }
     this.isProductLoading = true;
     this.productsService
-      .getOneProduct(productId)
+      .getOneProduct(this.productId)
       .pipe(
         switchMap((response) => {
           this.product = response;

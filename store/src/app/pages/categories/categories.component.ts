@@ -44,8 +44,8 @@ export class CategoriesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(({ id }) => {
-      this.categoryId = Number(id);
+    this.activatedRoute.params.subscribe(({ categoryId }) => {
+      this.categoryId = Number(categoryId);
       this.resetStateForRouting();
       this.renderCategory();
       this.qb = RequestQueryBuilder.create()

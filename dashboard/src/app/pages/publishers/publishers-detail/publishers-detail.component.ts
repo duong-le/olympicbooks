@@ -32,10 +32,10 @@ export class PublishersDetailComponent implements OnInit {
       name: ['', [Validators.required]]
     });
 
-    this.activatedRoute.params.subscribe(({ id }) => {
-      this.isNew = id === 'new';
+    this.activatedRoute.params.subscribe(({ publisherId }) => {
+      this.isNew = publisherId === 'new';
       if (this.isNew) this.isLoading = false;
-      else this.render(id);
+      else this.render(publisherId);
     });
   }
 

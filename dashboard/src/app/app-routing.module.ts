@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { UnAuthGuard } from './shared/Guards/unauth.guard';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+
 import { AuthGuard } from './shared/Guards/auth.guard';
+import { UnAuthGuard } from './shared/Guards/unauth.guard';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/auth' },
   {
     path: 'auth',
-    loadChildren: () => import('./pages/authentication/authentication.module').then((m) => m.AuthenticationModule),
+    loadChildren: () =>
+      import('./pages/authentication/authentication.module').then((m) => m.AuthenticationModule),
     canActivate: [UnAuthGuard]
   },
   {
@@ -20,10 +22,9 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-    scrollPositionRestoration: 'enabled',
-    preloadingStrategy: PreloadAllModules,
-    relativeLinkResolution: 'legacy'
-})
+      scrollPositionRestoration: 'enabled',
+      preloadingStrategy: PreloadAllModules
+    })
   ],
   exports: [RouterModule]
 })

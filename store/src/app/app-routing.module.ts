@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 import { NotExistComponent } from './shared/Components/result/error/not-exist.component';
 import { AuthGuard } from './shared/Guards/auth.guard';
@@ -13,7 +13,8 @@ const routes: Routes = [
   { path: 'home', pathMatch: 'full', redirectTo: '' },
   {
     path: '',
-    loadChildren: () => import('./pages/authentication/authentication.module').then((m) => m.AuthenticationModule),
+    loadChildren: () =>
+      import('./pages/authentication/authentication.module').then((m) => m.AuthenticationModule),
     canActivate: [UnAuthGuard]
   },
   {
@@ -45,10 +46,9 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-    scrollPositionRestoration: 'enabled',
-    preloadingStrategy: PreloadAllModules,
-    relativeLinkResolution: 'legacy'
-})
+      scrollPositionRestoration: 'enabled',
+      preloadingStrategy: PreloadAllModules
+    })
   ],
   exports: [RouterModule]
 })
