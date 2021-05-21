@@ -1,19 +1,19 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { forkJoin } from 'rxjs';
 
-import { AuthorsService } from '../../../pages/authors/authors.service';
-import { CategoriesService } from '../../../pages/categories/categories.service';
-import { PublishersService } from '../../../pages/publishers/publishers.service';
 import { Author } from '../../../shared/Interfaces/author.interface';
-import { Pagination } from '../../../shared/Interfaces/pagination.interface';
 import { Product } from '../../../shared/Interfaces/product.interface';
 import { Publisher } from '../../../shared/Interfaces/publisher.interface';
+import { AuthorsService } from '../authors.service';
+import { CategoriesService } from '../categories.service';
 import { ProductsService } from '../products.service';
+import { PublishersService } from '../publishers.service';
 
 @Component({
   selector: 'app-products-detail',
@@ -24,10 +24,12 @@ export class ProductsDetailComponent implements OnInit {
   productForm: FormGroup;
   product: Product;
   categoryTree: NzTreeNodeOptions[] = [];
-  publishers: Pagination<Publisher[]> | Publisher[];
-  authors: Pagination<Author[]> | Author[];
+  publishers: Publisher[];
+  authors: Author[];
   fileList: NzUploadFile[] = [];
   removedFileList: number[] = [];
+  shopId: number;
+  productId: number;
 
   isNew = true;
   isLoading = false;
@@ -43,7 +45,7 @@ export class ProductsDetailComponent implements OnInit {
     private authorsService: AuthorsService,
     private publishersService: PublishersService,
     private messageService: NzMessageService,
-    private router: Router
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -62,16 +64,20 @@ export class ProductsDetailComponent implements OnInit {
       authorIds: [[], [Validators.required]]
     });
 
-    this.activatedRoute.params.subscribe(({ id }) => {
-      this.isNew = id === 'new';
-      this.renderDependencies();
-      if (!this.isNew) this.renderProduct(id);
+    this.renderDependencies();
+
+    this.activatedRoute.params.subscribe(({ shopId, productId }) => {
+      this.shopId = shopId;
+      this.productId = productId;
+
+      this.isNew = productId === 'new';
+      if (!this.isNew) this.renderProduct();
     });
   }
 
-  renderProduct(id: number) {
+  renderProduct() {
     this.isLoading = true;
-    this.productsService.getOne(id).subscribe(
+    this.productsService.getOne(this.shopId, this.productId).subscribe(
       (response) => {
         this.product = response;
         this.productForm.setValue({
@@ -107,8 +113,8 @@ export class ProductsDetailComponent implements OnInit {
     this.isLoading = true;
     forkJoin([
       this.categoriesService.getMany(),
-      this.publishersService.getMany(null),
-      this.authorsService.getMany(null)
+      this.publishersService.getMany(),
+      this.authorsService.getMany()
     ]).subscribe(
       (response) => {
         [this.categoryTree, this.publishers, this.authors] = response;
@@ -123,11 +129,11 @@ export class ProductsDetailComponent implements OnInit {
 
   update() {
     this.isBtnLoading = true;
-    this.productsService.updateOne(this.productForm.controls['id'].value, this.createFormData()).subscribe(
+    this.productsService.updateOne(this.shopId, this.product.id, this.createFormData()).subscribe(
       (response) => {
         this.isBtnLoading = false;
         this.messageService.success('Cập nhật thành công!');
-        this.router.navigate(['/', 'products']);
+        this.goBack();
       },
       (error) => {
         this.isBtnLoading = false;
@@ -138,11 +144,11 @@ export class ProductsDetailComponent implements OnInit {
 
   create() {
     this.isBtnLoading = true;
-    this.productsService.createOne(this.createFormData()).subscribe(
+    this.productsService.createOne(this.shopId, this.createFormData()).subscribe(
       (response) => {
         this.isBtnLoading = false;
         this.messageService.success('Thêm mới thành công!');
-        this.router.navigate(['/', 'products']);
+        this.goBack();
       },
       (error) => {
         this.isBtnLoading = false;
@@ -176,5 +182,9 @@ export class ProductsDetailComponent implements OnInit {
     if (this.removedFileList.length) formData.append('removedImageIds', this.removedFileList as any);
 
     return formData;
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

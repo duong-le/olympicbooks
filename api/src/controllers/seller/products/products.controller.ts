@@ -82,7 +82,7 @@ export class ShopProductsController {
 
     const { authorIds, ...others } = dto;
 
-    const product = this.productRepository.create(others);
+    const product = this.productRepository.create({ ...others, shopId });
     product.authors = await this.authorRepository.findByIds(authorIds);
 
     if (uploadedFiles?.length) {

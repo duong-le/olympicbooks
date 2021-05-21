@@ -93,7 +93,8 @@
 </nz-card>
 
 <ng-template #title>
-  <a routerLink="/products" class="go-back"><i nz-icon nzType="arrow-left" nzTheme="outline"></i></a>
+  <button nz-button nzType="link" class="go-back" (click)="goBack()">
+    <i nz-icon nzType="arrow-left" nzTheme="outline"></i></button>
 </ng-template>
 <ng-template #buttonGroup>
   <button nz-button nzType="primary" [nzLoading]="isBtnLoading" (click)="isNew ? create() : update()"
