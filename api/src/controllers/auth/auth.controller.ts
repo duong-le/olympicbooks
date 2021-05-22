@@ -25,7 +25,11 @@ export class AuthController {
     const customer = await this.customerRepository.findOne({ email });
     this.validateUser(customer, password);
 
-    const accessToken = this.authService.createAccessToken({ name: customer.name, email, type: UserType.CUSTOMER });
+    const accessToken = this.authService.createAccessToken({
+      name: customer.name,
+      email,
+      type: UserType.CUSTOMER
+    });
     return { accessToken };
   }
 
@@ -34,16 +38,24 @@ export class AuthController {
     const admin = await this.adminRepository.findOne({ email });
     this.validateUser(admin, password);
 
-    const accessToken = this.authService.createAccessToken({ name: admin.name, email, type: UserType.ADMIN });
+    const accessToken = this.authService.createAccessToken({
+      name: admin.name,
+      email,
+      type: UserType.ADMIN
+    });
     return { accessToken };
   }
 
-  @Post('seller/auth')
+  @Post('sellers/auth')
   async authenticationSeller(@Body() { email, password }: AuthDto): Promise<{ accessToken: string }> {
     const seller = await this.sellerRepository.findOne({ email });
     this.validateUser(seller, password);
 
-    const accessToken = this.authService.createAccessToken({ name: seller.name, email, type: UserType.SELLER });
+    const accessToken = this.authService.createAccessToken({
+      name: seller.name,
+      email,
+      type: UserType.SELLER
+    });
     return { accessToken };
   }
 

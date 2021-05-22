@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ShopsModule } from 'src/controllers/seller/shops/shops.module';
 
+import { ShopsModule } from '../../store/shops/shops.module';
 import { AdminShopsController } from './shops.controller';
 
 @Module({

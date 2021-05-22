@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Seller } from '../../../entities/sellers.entity';
 import { SellersService } from '../../../services/sellers.service';
-import { ShopsModule } from '../shops/shops.module';
+import { ShopsModule } from '../../store/shops/shops.module';
 import { SellersController } from './sellers.controller';
 
 @Module({

@@ -31,9 +31,9 @@ import { ShopsService } from '../../../services/shops.service';
 import { File } from '../../../shared/Interfaces/file.interface';
 import { CreateProductDto, UpdateProductDto } from '../../admin/products/products.dto';
 
-@ApiTags('Shop Products')
+@ApiTags('Seller Shop Products')
 @ApiBearerAuth()
-@Controller('shops/:shopId/products')
+@Controller('sellers/me/shops/:shopId/products')
 @UseGuards(AuthGuard())
 export class ShopProductsController {
   constructor(

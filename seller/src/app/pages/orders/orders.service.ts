@@ -9,7 +9,7 @@ import { Order } from '../../shared/Interfaces/order.interface';
   providedIn: 'root'
 })
 export class OrdersService {
-  baseUrl = `${environment.apiUrl}/shops`;
+  baseUrl = `${environment.apiUrl}/sellers/me/shops`;
 
   constructor(protected http: HttpClient) {}
 

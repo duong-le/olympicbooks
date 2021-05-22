@@ -11,9 +11,9 @@ import { OrdersService } from '../../../services/orders.service';
 import { ShippingState } from '../../../shared/Enums/shippings.enum';
 import { UpdateOrderDto } from './orders.dto';
 
-@ApiTags('Shop Orders')
+@ApiTags('Seller Shop Orders')
 @ApiBearerAuth()
-@Controller('shops/:shopId/orders')
+@Controller('sellers/me/shops/:shopId/orders')
 @UseGuards(AuthGuard())
 export class ShopOrdersController {
   constructor(

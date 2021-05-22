@@ -8,7 +8,7 @@ import { CartItem } from '../../../entities/carts.entity';
 import { ProductImage } from '../../../entities/product-images.entity';
 import { Product } from '../../../entities/products.entity';
 import { ProductsModule } from '../../store/products/products.module';
-import { ShopsModule } from '../shops/shops.module';
+import { ShopsModule } from '../../store/shops/shops.module';
 import { ShopProductsController } from './products.controller';
 
 @Module({

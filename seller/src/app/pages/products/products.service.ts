@@ -9,7 +9,7 @@ import { Product } from '../../shared/Interfaces/product.interface';
   providedIn: 'root'
 })
 export class ProductsService {
-  baseUrl = `${environment.apiUrl}/shops`;
+  baseUrl = `${environment.apiUrl}/sellers/me/shops`;
 
   constructor(protected http: HttpClient) {}
 

@@ -25,11 +25,11 @@ import { ShopsService } from '../../../services/shops.service';
 import { File } from '../../../shared/Interfaces/file.interface';
 import { CreateShopDto, UpdateShopDto } from './shops.dto';
 
-@ApiTags('Shops')
+@ApiTags('Seller Shops')
 @ApiBearerAuth()
 @UseGuards(AuthGuard())
 @Controller('sellers/me/shops')
-export class ShopsController {
+export class SellerShopsController {
   constructor(
     public service: ShopsService,
     @InjectRepository(Shop) private shopRepository: Repository<Shop>
