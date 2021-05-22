@@ -28,14 +28,16 @@ export class CartService {
     return this.cartSubject.value;
   }
 
-  setCart(shippingMethodId: number = 0) {
-    this.getCart(shippingMethodId).subscribe((response) => this.cartSubject.next(response));
+  setCart(shippingMethodId: number = 0): void {
+    const params = {
+      shippingMethodId: String(shippingMethodId)
+    };
+
+    this.getCart(params).subscribe((response) => this.cartSubject.next(response));
   }
 
-  getCart(shippingMethodId: number): Observable<Cart> {
-    return this.http.get<Cart>(
-      `${environment.apiUrl}/customers/me/carts?shippingMethodId=${shippingMethodId}`
-    );
+  getCart(params: { [key: string]: string | string[] }): Observable<Cart> {
+    return this.http.get<Cart>(`${environment.apiUrl}/customers/me/carts`, { params });
   }
 
   createCartItem(productId: number, quantity: number): Observable<CartItem> {

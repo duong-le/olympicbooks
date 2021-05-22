@@ -20,7 +20,7 @@ export class CustomerService {
     return this.http.patch<UpdateCustomer>(`${environment.apiUrl}/customers/me`, data);
   }
 
-  getOrders(params): Observable<Order[]> {
+  getOrders(params: { [key: string]: string | string[] }): Observable<Order[]> {
     return this.http.get<Order[]>(`${environment.apiUrl}/customers/me/orders`, { params });
   }
 

@@ -77,7 +77,7 @@ export class ProductsComponent implements OnInit {
               `id||$ne||${this.product.id}`,
               'inStock||$eq||true'
             ],
-            limit: this.maxRelatedProduct
+            limit: String(this.maxRelatedProduct)
           });
         })
       )

@@ -15,7 +15,7 @@ export class ProductsService {
     return this.http.get<Product>(`${environment.apiUrl}/products/${id}`);
   }
 
-  getManyProducts(params): Observable<Product[]> {
+  getManyProducts(params: { [key: string]: string | string[] }): Observable<Product[]> {
     return this.http.get<Product[]>(`${environment.apiUrl}/products`, { params });
   }
 }

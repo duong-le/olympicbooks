@@ -30,8 +30,12 @@ export class HomeComponent implements OnInit {
     this.isLoading = true;
     combineLatest([
       this.categoriesService.categories$,
-      this.productsService.getManyProducts({ limit: this.maxProductPerRow, sort: 'updatedAt,DESC', filter: 'inStock||$eq||true' }),
-      this.productsService.getManyProducts({ limit: this.maxProductPerRow, type: 'topSelling' })
+      this.productsService.getManyProducts({
+        limit: String(this.maxProductPerRow),
+        sort: 'updatedAt,DESC',
+        filter: 'inStock||$eq||true'
+      }),
+      this.productsService.getManyProducts({ limit: String(this.maxProductPerRow), type: 'topSelling' })
     ]).subscribe(
       (response) => {
         [this.categories, this.newProducts, this.topSellingProducts] = response;
