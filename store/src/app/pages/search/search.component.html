@@ -1,0 +1,13 @@
+<nz-card class="container">
+  <h3>
+    {{ products.length }} kết quả tìm kiếm cho từ khoá <b class="primary-color">{{ keyword }}</b>
+  </h3>
+</nz-card>
+
+<app-collection
+  [products]="products"
+  [isLoading]="isLoading"
+  (onPageChange)="onPageChange($event)"
+  (onSortingChange)="onSortingChange($event)"
+  (onPriceRangeChange)="onPriceRangeChange($event)"
+></app-collection>

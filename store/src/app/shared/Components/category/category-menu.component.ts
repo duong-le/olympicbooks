@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Category } from 'src/app/shared/Interfaces/category.interface';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { Category } from '../../Interfaces/category.interface';
 
 @Component({
   selector: '[app-category-menu]',

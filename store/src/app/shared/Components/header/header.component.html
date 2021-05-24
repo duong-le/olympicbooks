@@ -1,7 +1,7 @@
 <nz-card [nzBordered]="false" [nzBodyStyle]="{ padding: '5px 10% 1px' }">
   <div nz-row nzJustify="space-between" nzAlign="middle">
     <div nz-col>
-      <a routerLink="/"><embed src="assets/icons/logo.svg" alt="logo"></a>
+      <a routerLink="/"><embed src="assets/icons/logo.svg" alt="logo" /></a>
     </div>
 
     <div nz-col class="hidden-lg">
@@ -9,7 +9,7 @@
     </div>
 
     <div nz-col class="hidden-lg" [style.width.px]="260">
-      <app-search></app-search>
+      <app-search placeHolder="Tìm sản phẩm" (onSearch)="onSearch($event)"></app-search>
     </div>
 
     <div nz-col class="hidden-lg">
@@ -27,7 +27,13 @@
             <i nz-icon nzType="menu" nzTheme="outline"></i>
           </button>
 
-          <nz-drawer nzTitle="Menu" [nzVisible]="visible" nzPlacement="right" nzWidth="100%" (nzOnClose)="close()">
+          <nz-drawer
+            nzTitle="Menu"
+            [nzVisible]="visible"
+            nzPlacement="right"
+            nzWidth="100%"
+            (nzOnClose)="close()"
+          >
             <ng-container *nzDrawerContent>
               <app-left-menu [mode]="verticalMode" [mobile]="true" (onNavigate)="close()"></app-left-menu>
               <app-right-menu [mode]="verticalMode" (onNavigate)="close()"></app-right-menu>

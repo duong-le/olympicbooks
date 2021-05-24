@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IconDefinition } from '@ant-design/icons-angular';
 import {
-  BookOutline,
+  AppstoreOutline,
   CarryOutOutline,
   CloseCircleFill,
   CommentOutline,
@@ -35,7 +35,6 @@ import {
 import { NZ_ICONS, NzIconModule } from 'ng-zorro-antd/icon';
 
 const icons: IconDefinition[] = [
-  BookOutline,
   CarryOutOutline,
   CommentOutline,
   CopyrightOutline,
@@ -64,7 +63,8 @@ const icons: IconDefinition[] = [
   UserAddOutline,
   UserOutline,
   CloseCircleFill,
-  ShopOutline
+  ShopOutline,
+  AppstoreOutline
 ];
 
 @NgModule({
