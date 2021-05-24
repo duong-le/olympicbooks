@@ -99,7 +99,6 @@ export class OrdersDetailComponent implements OnInit {
 
   update() {
     this.isBtnLoading = true;
-    console.log(this.orderForm.value);
     this.ordersService.updateOne(this.shopId, this.order.id, this.orderForm.value).subscribe(
       (response) => {
         this.isBtnLoading = false;
