@@ -10,6 +10,9 @@ import { Product } from '../../Interfaces/product.interface';
 })
 export class CollectionComponent implements OnChanges {
   @Input() products: Product[];
+  @Input() totalProducts: number;
+  @Input() pageIndex: number;
+  @Input() pageSize: number;
   @Input() isLoading: boolean;
   @Output() onSortingChange: EventEmitter<any> = new EventEmitter();
   @Output() onPriceRangeChange: EventEmitter<any> = new EventEmitter();
@@ -18,9 +21,6 @@ export class CollectionComponent implements OnChanges {
   sortingOption = null;
   maxPrice = 1000000;
   priceRange = [0, this.maxPrice];
-  productsPerPage = 12;
-  totalProduct: number;
-  pageIndex: number;
   productsStyle = null;
 
   constructor() {}

@@ -59,6 +59,8 @@ export class ShopsComponent extends CollectionBaseComponent implements OnInit {
       this.queryParams.filter.push(`price||$between||${value[0]},${value[1]}`);
     }
 
+    this.queryParams.page = '1';
+
     this.renderProducts();
   }
 
@@ -72,6 +74,8 @@ export class ShopsComponent extends CollectionBaseComponent implements OnInit {
       if (value) this.queryParams.filter.push(`title||$contL||${value}`);
       else return;
     }
+
+    this.queryParams.page = '1';
 
     this.renderProducts();
   }

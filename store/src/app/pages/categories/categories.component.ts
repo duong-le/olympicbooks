@@ -58,6 +58,7 @@ export class CategoriesComponent extends CollectionBaseComponent implements OnIn
       `categoryId||$eq||${this.categoryId}`,
       `price||$between||${value[0]},${value[1]}`
     ];
+    this.queryParams.page = '1';
     this.renderProducts();
   }
 }

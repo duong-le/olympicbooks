@@ -26,8 +26,11 @@
 </nz-card>
 
 <app-collection
-  [products]="products"
   [isLoading]="isLoading"
+  [products]="products"
+  [totalProducts]="totalProducts"
+  [pageIndex]="pageIndex"
+  [pageSize]="pageSize"
   (onPageChange)="onPageChange($event)"
   (onSortingChange)="onSortingChange($event)"
   (onPriceRangeChange)="onPriceRangeChange($event)"

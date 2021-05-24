@@ -10,12 +10,14 @@ export abstract class CollectionBaseComponent {
   products: Product[];
 
   isLoading = false;
-  productsPerPage = 12;
+  pageSize = 12;
+  totalProducts: number;
+  pageIndex: number;
   queryParams = {
     filter: [],
     sort: 'id,DESC',
     page: '1',
-    limit: String(this.productsPerPage)
+    limit: String(this.pageSize)
   };
 
   constructor(public productsService: ProductsService, public router: Router) {}
@@ -25,6 +27,8 @@ export abstract class CollectionBaseComponent {
     this.productsService.getManyProducts(this.queryParams).subscribe(
       (response) => {
         this.products = response['data'];
+        this.totalProducts = response['total'];
+        this.pageIndex = response['page'];
         this.isLoading = false;
       },
       (error) => this.router.navigate(['/'])
@@ -50,7 +54,7 @@ export abstract class CollectionBaseComponent {
       filter: filter,
       sort: 'id,DESC',
       page: '1',
-      limit: String(this.productsPerPage)
+      limit: String(this.pageSize)
     };
   }
 }

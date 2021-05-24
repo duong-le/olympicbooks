@@ -58,8 +58,8 @@
     <div *ngIf="products?.length" nz-col [nzSm]="{ span: 24, order: 3 }" [nzXs]="{ span: 24, order: 2 }">
       <nz-pagination
         [nzPageIndex]="pageIndex"
-        [nzTotal]="totalProduct"
-        [nzPageSize]="productsPerPage"
+        [nzTotal]="totalProducts"
+        [nzPageSize]="pageSize"
         (nzPageIndexChange)="changePage($event)"
         [nzHideOnSinglePage]="true"
         [nzResponsive]="true"

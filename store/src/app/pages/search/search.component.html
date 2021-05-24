@@ -1,12 +1,15 @@
 <nz-card class="container">
   <h3>
-    {{ products.length }} kết quả tìm kiếm cho từ khoá <b class="primary-color">{{ keyword }}</b>
+    {{ totalProducts }} kết quả tìm kiếm cho từ khoá <b class="primary-color">{{ keyword }}</b>
   </h3>
 </nz-card>
 
 <app-collection
-  [products]="products"
   [isLoading]="isLoading"
+  [products]="products"
+  [totalProducts]="totalProducts"
+  [pageIndex]="pageIndex"
+  [pageSize]="pageSize"
   (onPageChange)="onPageChange($event)"
   (onSortingChange)="onSortingChange($event)"
   (onPriceRangeChange)="onPriceRangeChange($event)"

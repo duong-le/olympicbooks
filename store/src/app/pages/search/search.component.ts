@@ -41,6 +41,7 @@ export class SearchComponent extends CollectionBaseComponent implements OnInit, 
 
   onPriceRangeChange(value: NzSliderValue) {
     this.queryParams.filter = [`title||$contL||${this.keyword}`, `price||$between||${value[0]},${value[1]}`];
+    this.queryParams.page = '1';
     this.renderProducts();
   }
 
