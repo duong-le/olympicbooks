@@ -28,7 +28,7 @@ export class CategoriesService {
       .createAncestorsQueryBuilder('category', 'categoryClosure', category)
       .orderBy('category.id', 'ASC')
       .getMany()) as any;
-    category.isLeaf = category.children.length ? false : true;
+    if (!category.children.length) category.isLeaf = true;
     return category;
   }
 
@@ -102,7 +102,6 @@ export class CategoriesService {
     for (const category of categories) {
       if (!category.children.length) category.isLeaf = true;
       else {
-        category.isLeaf = false;
         category.children = this.setLeaf(category.children);
       }
     }

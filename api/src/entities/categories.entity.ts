@@ -21,16 +21,14 @@ export class Category extends BaseEntity {
   @TreeChildren({ cascade: true })
   children: Category[];
 
-  @Column({ default: null })
-  key: number;
-
-  isLeaf: boolean;
-
-  @Column({ default: true })
-  expanded: boolean;
-
   @OneToMany(() => Product, (product) => product.category)
   products: Product[];
+
+  key: number;
+
+  isLeaf = false;
+
+  expanded = true;
 
   @AfterLoad()
   setKey(): void {
