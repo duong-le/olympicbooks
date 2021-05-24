@@ -4,8 +4,10 @@ import { combineLatest } from 'rxjs';
 
 import { Category } from '../../shared/Interfaces/category.interface';
 import { Product } from '../../shared/Interfaces/product.interface';
+import { Shop } from '../../shared/Interfaces/shop.interface';
 import { CategoriesService } from '../categories/categories.service';
 import { ProductsService } from '../products/products.service';
+import { ShopsService } from '../shops/shops.service';
 
 @Component({
   selector: 'app-home',
@@ -14,15 +16,21 @@ import { ProductsService } from '../products/products.service';
 })
 export class HomeComponent implements OnInit {
   categories: Category[];
+  shops: Shop[];
   newProducts: Product[];
   topSellingProducts: Product[];
 
   isLoading = false;
   maxProductPerRow = 6;
-  banner = { left: 'assets/images/cover.png', right: 'assets/images/community.jpg' };
+  banner = { left: 'url(assets/images/cover.png)', right: 'url(assets/images/promotion.png)' };
   cardStyle = null;
 
-  constructor(private titleService: Title, private categoriesService: CategoriesService, private productsService: ProductsService) {
+  constructor(
+    private titleService: Title,
+    private categoriesService: CategoriesService,
+    private productsService: ProductsService,
+    private shopsService: ShopsService
+  ) {
     this.titleService.setTitle('Trang chủ | OlympicBooks');
   }
 
@@ -30,6 +38,10 @@ export class HomeComponent implements OnInit {
     this.isLoading = true;
     combineLatest([
       this.categoriesService.categories$,
+      this.shopsService.getManyShops({
+        limit: String(this.maxProductPerRow),
+        sort: 'updatedAt,DESC'
+      }),
       this.productsService.getManyProducts({
         limit: String(this.maxProductPerRow),
         sort: 'updatedAt,DESC',
@@ -38,7 +50,7 @@ export class HomeComponent implements OnInit {
       this.productsService.getManyProducts({ limit: String(this.maxProductPerRow), type: 'topSelling' })
     ]).subscribe(
       (response) => {
-        [this.categories, this.newProducts, this.topSellingProducts] = response;
+        [this.categories, this.shops, this.newProducts, this.topSellingProducts] = response;
         this.isLoading = false;
         this.cardStyle = { padding: '1px' };
       },

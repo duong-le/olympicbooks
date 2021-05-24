@@ -1,24 +1,30 @@
 <div nz-row class="banner-section" [nzGutter]="[16, 16]">
   <div nz-col nzLg="15" nzXs="24" class="banner">
-    <div class="banner-image" style="background-image: url({{banner.left}})"></div>
+    <div class="banner-image" [style.background-image]="banner.left"></div>
   </div>
 
   <div nz-col nzLg="9" nzXs="24" class="banner">
-    <a href="https://medium.com/olympicbooks" target="_blank">
-      <div class="banner-image" style="background-image: url({{banner.right}})"></div>
-    </a>
+    <div class="banner-image" [style.background-image]="banner.right"></div>
   </div>
 </div>
 
-<nz-card class="container" nzTitle="Danh mục sách" [nzBodyStyle]="cardStyle" [nzLoading]="isLoading">
+<nz-card class="container" nzTitle="Danh mục" [nzBodyStyle]="cardStyle" [nzLoading]="isLoading">
   <div nz-row>
-    <div nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let item of categories">
+    <div nz-card-grid nz-col nzXl="3" nzLg="4" nzMd="6" nzXs="8" *ngFor="let item of categories">
       <app-category [category]="item"></app-category>
     </div>
   </div>
 </nz-card>
 
-<nz-card class="container" nzTitle="Sách mới" [nzBodyStyle]="cardStyle" [nzLoading]="isLoading">
+<nz-card class="container" nzTitle="Cửa hàng" [nzBodyStyle]="cardStyle" [nzLoading]="isLoading">
+  <div nz-row>
+    <div nz-card-grid nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let item of shops">
+      <app-shop [shop]="item"></app-shop>
+    </div>
+  </div>
+</nz-card>
+
+<nz-card class="container" nzTitle="Sản phẩm mới" [nzBodyStyle]="cardStyle" [nzLoading]="isLoading">
   <div nz-row>
     <div nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let item of newProducts">
       <app-product [product]="item"></app-product>
@@ -26,7 +32,7 @@
   </div>
 </nz-card>
 
-<nz-card class="container" nzTitle="Sách bán chạy" [nzBodyStyle]="cardStyle" [nzLoading]="isLoading">
+<nz-card class="container" nzTitle="Sản phẩm bán chạy" [nzBodyStyle]="cardStyle" [nzLoading]="isLoading">
   <div nz-row>
     <div nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let item of topSellingProducts">
       <app-product [product]="item"></app-product>

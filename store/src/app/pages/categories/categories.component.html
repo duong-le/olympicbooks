@@ -1,4 +1,4 @@
-<nz-card class="container">
+<nz-card class="container" [nzLoading]="isLoading">
   <nz-breadcrumb nzSeparator=">">
     <nz-breadcrumb-item>
       <a routerLink="/"><i nz-icon nzType="home"></i></a>
@@ -12,9 +12,14 @@
   </nz-breadcrumb>
 </nz-card>
 
-<nz-card class="container" [nzBodyStyle]="categoriesStyle" *ngIf="category?.children?.length">
+<nz-card
+  class="container"
+  *ngIf="category?.children?.length"
+  [nzLoading]="isLoading"
+  [nzBodyStyle]="categoriesStyle"
+>
   <div nz-row>
-    <div nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let item of category?.children">
+    <div nz-card-grid nz-col nzXl="3" nzLg="4" nzMd="6" nzXs="12" *ngFor="let item of category?.children">
       <app-category [category]="item"></app-category>
     </div>
   </div>

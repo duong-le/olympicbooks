@@ -29,6 +29,7 @@ import { NotExistComponent } from '../Components/result/error/not-exist.componen
 import { OrderErrorComponent } from '../Components/result/error/order-error.component';
 import { OrderSuccessComponent } from '../Components/result/success/order-success.component';
 import { SearchComponent } from '../Components/search/search.component';
+import { ShopComponent } from '../Components/shop/shop.component';
 import { OrderStatePipe } from '../Pipes/order-state.pipe';
 import { PricePipe } from '../Pipes/price.pipe';
 import { IconModule } from './icon.module';
@@ -50,6 +51,7 @@ import { IconModule } from './icon.module';
     PricePipe,
     OrderStatePipe,
     CollectionComponent,
+    ShopComponent
   ],
   imports: [
     CommonModule,
@@ -88,6 +90,7 @@ import { IconModule } from './icon.module';
     PricePipe,
     OrderStatePipe,
     CollectionComponent,
+    ShopComponent
   ]
 })
 export class SharedModule {}
