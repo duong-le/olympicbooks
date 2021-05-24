@@ -3,6 +3,7 @@ import { IconDefinition } from '@ant-design/icons-angular';
 import {
   BookOutline,
   CarryOutOutline,
+  CloseCircleFill,
   CommentOutline,
   CopyrightOutline,
   CreditCardOutline,
@@ -60,7 +61,8 @@ const icons: IconDefinition[] = [
   ShoppingCartOutline,
   TeamOutline,
   UserAddOutline,
-  UserOutline
+  UserOutline,
+  CloseCircleFill
 ];
 
 @NgModule({
