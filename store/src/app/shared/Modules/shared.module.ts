@@ -1,17 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzResultModule } from 'ng-zorro-antd/result';
-import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
 
 import { CategoryMenuComponent } from '../Components/category/category-menu.component';
 import { CategoryComponent } from '../Components/category/category.component';
+import { CollectionComponent } from '../Components/collection/collection.component';
 import { FooterComponent } from '../Components/footer/footer.component';
 import { HeaderComponent } from '../Components/header/header.component';
 import { LeftMenuComponent } from '../Components/header/sub-menu/left-menu.component';
@@ -41,11 +48,14 @@ import { IconModule } from './icon.module';
     OrderErrorComponent,
     CartEmptyComponent,
     PricePipe,
-    OrderStatePipe
+    OrderStatePipe,
+    CollectionComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
     IconModule,
     NzMenuModule,
     NzDrawerModule,
@@ -54,7 +64,13 @@ import { IconModule } from './icon.module';
     NzInputModule,
     NzCardModule,
     NzResultModule,
-    NzImageModule
+    NzImageModule,
+    NzDividerModule,
+    NzGridModule,
+    NzSelectModule,
+    NzPaginationModule,
+    NzEmptyModule,
+    NzSliderModule
   ],
   exports: [
     HeaderComponent,
@@ -70,7 +86,8 @@ import { IconModule } from './icon.module';
     OrderErrorComponent,
     CartEmptyComponent,
     PricePipe,
-    OrderStatePipe
+    OrderStatePipe,
+    CollectionComponent,
   ]
 })
 export class SharedModule {}

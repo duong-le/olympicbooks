@@ -1,0 +1,69 @@
+<div class="container overflow-hidden">
+  <div nz-row [nzGutter]="[16, 16]">
+    <div
+      nz-col
+      [nzXl]="{ span: 6, order: 1 }"
+      [nzMd]="{ span: 8, order: 1 }"
+      [nzSm]="{ span: 12, order: 1 }"
+      [nzXs]="{ span: 24, order: 3 }"
+    >
+      <nz-card nzTitle="Bộ lọc" [nzBodyStyle]="{ padding: '0 24px' }">
+        <div>
+          <nz-divider nzText="Sắp xếp theo" nzOrientation="left"></nz-divider>
+          <nz-select
+            [(ngModel)]="sortingOption"
+            nzAllowClear
+            nzPlaceHolder="Mặc định"
+            (ngModelChange)="changeSorting($event)"
+          >
+            <nz-option nzValue="ASC" nzLabel="Giá từ thấp đến cao"></nz-option>
+            <nz-option nzValue="DESC" nzLabel="Giá từ cao đến thấp"></nz-option>
+          </nz-select>
+        </div>
+
+        <div>
+          <nz-divider nzText="Khoảng giá" nzOrientation="left"></nz-divider>
+          <nz-slider
+            nzRange
+            [(ngModel)]="priceRange"
+            [nzMax]="maxPrice"
+            [nzTipFormatter]="formatter"
+            (nzOnAfterChange)="changePriceRange($event)"
+          >
+          </nz-slider>
+        </div>
+      </nz-card>
+    </div>
+
+    <div
+      nz-col
+      [nzXl]="{ span: 18, order: 2 }"
+      [nzMd]="{ span: 16, order: 2 }"
+      [nzSm]="{ span: 12, order: 2 }"
+      [nzXs]="{ span: 24, order: 1 }"
+    >
+      <nz-card *ngIf="products?.length" [nzLoading]="isLoading" [nzBodyStyle]="productsStyle">
+        <div nz-row>
+          <div nz-col nzXl="6" nzLg="8" nzMd="12" nzSm="24" nzXs="12" *ngFor="let product of products">
+            <app-product [product]="product"></app-product>
+          </div>
+        </div>
+      </nz-card>
+
+      <nz-card *ngIf="!products?.length" [nzLoading]="isLoading">
+        <nz-empty nzNotFoundContent="Không tìm thấy sản phẩm nào"></nz-empty>
+      </nz-card>
+    </div>
+
+    <div *ngIf="products?.length" nz-col [nzSm]="{ span: 24, order: 3 }" [nzXs]="{ span: 24, order: 2 }">
+      <nz-pagination
+        [nzPageIndex]="pageIndex"
+        [nzTotal]="totalProduct"
+        [nzPageSize]="productsPerPage"
+        (nzPageIndexChange)="changePage($event)"
+        [nzHideOnSinglePage]="true"
+        [nzResponsive]="true"
+      ></nz-pagination>
+    </div>
+  </div>
+</div>
