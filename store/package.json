@@ -20,7 +20,6 @@
     "@angular/platform-browser-dynamic": "~11.2.11",
     "@angular/platform-server": "~11.2.11",
     "@angular/router": "~11.2.11",
-    "@nestjsx/crud-request": "^5.0.0-alpha.3",
     "@nguniversal/express-engine": "^11.2.1",
     "device-detector-js": "^2.2.7",
     "express": "^4.17.1",
