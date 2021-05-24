@@ -26,6 +26,7 @@ import {
   PhoneOutline,
   ProfileOutline,
   SearchOutline,
+  ShopOutline,
   ShoppingCartOutline,
   TeamOutline,
   UserAddOutline,
@@ -62,7 +63,8 @@ const icons: IconDefinition[] = [
   TeamOutline,
   UserAddOutline,
   UserOutline,
-  CloseCircleFill
+  CloseCircleFill,
+  ShopOutline
 ];
 
 @NgModule({

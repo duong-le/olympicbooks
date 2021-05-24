@@ -7,15 +7,24 @@
     <div nz-col nzXl="16" nzMd="12" nzXs="24">
       <div nz-row [nzGutter]="[0, 16]">
         <form nz-form [formGroup]="orderForm">
-
           <div nz-col nzSpan="24">
             <nz-card [nzLoading]="isLoading" nzTitle="Sản phẩm" [nzBordered]="false" [nzExtra]="editOrder">
-              <div *ngFor="let item of cart?.items | keyvalue; let last = last ">
-                <nz-card nzType="inner" [nzLoading]="isLoading" [nzTitle]="item?.value[0]?.product?.shop?.name"
-                         [style]="!last ? 'margin-bottom: 16px': '' ">
+              <div *ngFor="let item of cart?.items | keyvalue; let last = last">
+                <nz-card
+                  nzType="inner"
+                  [nzLoading]="isLoading"
+                  [nzTitle]="shopName"
+                  [style]="!last ? 'margin-bottom: 16px' : ''"
+                >
+                  <ng-template #shopName>
+                    <a [routerLink]="['/shops', item?.value[0]?.product?.shop?.id]">
+                      {{ item?.value[0]?.product?.shop?.name }}
+                    </a>
+                  </ng-template>
+
                   <div class="cartItem-wrapper" *ngFor="let cartItem of item?.value">
                     <a class="cartItem" [routerLink]="['/products', cartItem?.product.id]">
-                      <img [src]="cartItem?.product?.images[0]?.imgUrl" width="30" height="30">
+                      <img [src]="cartItem?.product?.images[0]?.imgUrl" width="30" height="30" />
                     </a>
                     <div class="cartItem-title">
                       <a [routerLink]="['/products', cartItem?.product.id]">
@@ -40,7 +49,6 @@
                       {{ shippingFee | price }}
                     </div>
                   </div>
-
                 </nz-card>
               </div>
             </nz-card>
@@ -52,8 +60,12 @@
                 <nz-form-control>
                   <nz-radio-group formControlName="shippingMethodId">
                     <ng-container *ngFor="let method of shippingMethods">
-                      <label nz-radio [nzValue]="method.id" [nzDisabled]="method.disabled"
-                             (click)="changeShippingValue(method)">
+                      <label
+                        nz-radio
+                        [nzValue]="method.id"
+                        [nzDisabled]="method.disabled"
+                        (click)="changeShippingValue(method)"
+                      >
                         <nz-tag nzColor="processing">{{ method.fee | price }}</nz-tag>
                         <span>{{ method.description }}</span>
                       </label>
@@ -61,8 +73,11 @@
                   </nz-radio-group>
                 </nz-form-control>
               </nz-form-item>
-              <nz-alert nzType="info" nzShowIcon
-                        nzMessage="Phí giao hàng chính xác sẽ được cập nhật khi đơn hàng được xử lý">
+              <nz-alert
+                nzType="info"
+                nzShowIcon
+                nzMessage="Phí giao hàng chính xác sẽ được cập nhật khi đơn hàng được xử lý"
+              >
               </nz-alert>
             </nz-card>
           </div>
@@ -73,9 +88,13 @@
                 <nz-form-control>
                   <nz-radio-group formControlName="transactionMethodId">
                     <nz-collapse nzAccordion>
-                      <nz-collapse-panel *ngFor="let method of transactionMethods" [nzHeader]="method.description"
-                                         [nzActive]="method.id === orderForm.value.transactionMethodId"
-                                         [nzExtra]="radioBtn" (click)="changeTransactionMethod(method)">
+                      <nz-collapse-panel
+                        *ngFor="let method of transactionMethods"
+                        [nzHeader]="method.description"
+                        [nzActive]="method.id === orderForm.value.transactionMethodId"
+                        [nzExtra]="radioBtn"
+                        (click)="changeTransactionMethod(method)"
+                      >
                         <span class="transaction-method-info">{{ method?.info }}</span>
                         <ng-template #radioBtn><label nz-radio [nzValue]="method.id"></label></ng-template>
                       </nz-collapse-panel>
@@ -85,7 +104,6 @@
               </nz-form-item>
             </nz-card>
           </div>
-
         </form>
       </div>
     </div>
@@ -93,11 +111,16 @@
     <div nz-col nzXl="8" nzMd="12" nzXs="24">
       <div nz-row [nzGutter]="[0, 16]">
         <div nz-col nzSpan="24">
-          <nz-card [nzLoading]="isLoading" nzTitle="Địa chỉ giao hàng" [nzBordered]="false"
-                   [nzExtra]="updateShippingAddress">
+          <nz-card
+            [nzLoading]="isLoading"
+            nzTitle="Địa chỉ giao hàng"
+            [nzBordered]="false"
+            [nzExtra]="updateShippingAddress"
+          >
             <nz-descriptions [nzColumn]="1">
               <nz-descriptions-item nzTitle="Họ tên">{{ addressForm.value?.name }}</nz-descriptions-item>
-              <nz-descriptions-item nzTitle="Số điện thoại">{{ addressForm.value?.phoneNumber }}
+              <nz-descriptions-item nzTitle="Số điện thoại"
+                >{{ addressForm.value?.phoneNumber }}
               </nz-descriptions-item>
               <nz-descriptions-item nzTitle="Địa chỉ">{{ addressForm.value?.address }}</nz-descriptions-item>
             </nz-descriptions>
@@ -107,8 +130,13 @@
             <button nz-button nzType="link" (click)="showAddressModal()">
               <i nz-icon nzType="edit" nzTheme="outline"></i> Thay đổi
             </button>
-            <nz-modal nzTitle="Cập nhật địa chỉ giao hàng" [nzVisible]="isAddressModalVisible"
-                      (nzOnCancel)="hideAddressModal()" [nzContent]="modalContent" [nzFooter]="modalFooter">
+            <nz-modal
+              nzTitle="Cập nhật địa chỉ giao hàng"
+              [nzVisible]="isAddressModalVisible"
+              (nzOnCancel)="hideAddressModal()"
+              [nzContent]="modalContent"
+              [nzFooter]="modalFooter"
+            >
               <ng-template #modalContent>
                 <form nz-form [formGroup]="addressForm">
                   <nz-form-item>
@@ -119,7 +147,9 @@
                   </nz-form-item>
 
                   <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phone" nzRequired>Số điện thoại</nz-form-label>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phone" nzRequired
+                      >Số điện thoại</nz-form-label
+                    >
                     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập số điện thoại">
                       <input nz-input id="phone" formControlName="phoneNumber" type="tel" />
                     </nz-form-control>
@@ -136,36 +166,44 @@
 
               <ng-template #modalFooter>
                 <button nz-button nzType="default" (click)="hideAddressModal()">Hủy bỏ</button>
-                <button nz-button nzType="primary" (click)="updateAddress()" [nzLoading]="isUpdateLoading"
-                        [disabled]="addressForm.invalid || addressForm.pristine">Cập nhật</button>
+                <button
+                  nz-button
+                  nzType="primary"
+                  (click)="updateAddress()"
+                  [nzLoading]="isUpdateLoading"
+                  [disabled]="addressForm.invalid || addressForm.pristine"
+                >
+                  Cập nhật
+                </button>
               </ng-template>
             </nz-modal>
           </ng-template>
 
           <ng-template #editOrder>
             <button nz-button nzType="link" routerLink="/cart">
-              <i nz-icon nzType="edit" nzTheme="outline"></i> Thay đổi</button>
+              <i nz-icon nzType="edit" nzTheme="outline"></i> Thay đổi
+            </button>
           </ng-template>
         </div>
 
         <div nz-col nzSpan="24">
           <nz-card [nzLoading]="isLoading" nzTitle="Đơn hàng" [nzBordered]="false">
             <div nz-row nzJustify="space-between" class="summary-row">
-              <div nz-col> <span>Tạm tính</span> </div>
+              <div nz-col><span>Tạm tính</span></div>
               <div nz-col>
                 <span class="price">{{ cart?.orderValue - cart?.totalShippingFee | price }}</span>
               </div>
             </div>
 
             <div nz-row nzJustify="space-between" class="summary-row">
-              <div nz-col> <span>Giảm giá</span> </div>
+              <div nz-col><span>Giảm giá</span></div>
               <div nz-col>
                 <span class="price">{{ discountValue | price }}</span>
               </div>
             </div>
 
             <div nz-row nzJustify="space-between" class="summary-row">
-              <div nz-col> <span>Phí vận chuyển</span> </div>
+              <div nz-col><span>Phí vận chuyển</span></div>
               <div nz-col>
                 <span class="price">{{ cart?.totalShippingFee | price }}</span>
               </div>
@@ -174,13 +212,20 @@
             <nz-divider></nz-divider>
 
             <div nz-row nzJustify="space-between" class="summary-row">
-              <div nz-col> <span>Tổng cộng</span> </div>
+              <div nz-col><span>Tổng cộng</span></div>
               <div nz-col>
                 <span class="price">{{ cart?.orderValue | price }}</span>
               </div>
             </div>
-            <button nz-button nzType="primary" (click)="processOrder()" [nzLoading]="isProcessingOrder" nzBlock>
-              Đặt hàng</button>
+            <button
+              nz-button
+              nzType="primary"
+              (click)="processOrder()"
+              [nzLoading]="isProcessingOrder"
+              nzBlock
+            >
+              Đặt hàng
+            </button>
           </nz-card>
         </div>
       </div>

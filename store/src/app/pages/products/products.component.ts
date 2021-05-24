@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { forkJoin } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { CartItem } from '../../shared/Interfaces/cart.interface';
@@ -17,7 +18,8 @@ import { ProductsService } from './products.service';
 })
 export class ProductsComponent implements OnInit {
   product: Product;
-  relatedProducts: Product[];
+  inSameCategoryProducts: Product[];
+  inSameShopProducts: Product[];
 
   productId: number;
   isProductLoading = false;
@@ -43,16 +45,13 @@ export class ProductsComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(({ productId }) => {
       this.productId = Number(productId);
-      this.render();
+      this.resetStateForRouting();
+      this.renderProductPage();
     });
   }
 
-  render() {
-    if (this.product) {
-      this.product.images = null;
-      this.relatedProductStyle = null;
-      this.quantity = 1;
-    }
+  renderProductPage() {
+    this.relatedProductStyle = null;
     this.isProductLoading = true;
     this.productsService
       .getOneProduct(this.productId)
@@ -71,19 +70,26 @@ export class ProductsComponent implements OnInit {
           }
           this.isRelatedProductsLoading = true;
 
-          return this.productsService.getManyProducts({
-            filter: [
-              ...(this.product?.category?.id ? [`categoryId||$eq||${this.product?.category?.id}`] : []),
-              `id||$ne||${this.product.id}`,
-              'inStock||$eq||true'
-            ],
-            limit: String(this.maxRelatedProduct)
-          });
+          const relatedProductsFilter = [`id||$ne||${this.product.id}`, 'inStock||$eq||true'];
+
+          return forkJoin([
+            this.productsService.getManyProducts({
+              filter: [
+                ...(this.product?.category?.id ? [`categoryId||$eq||${this.product.category.id}`] : []),
+                ...relatedProductsFilter
+              ],
+              limit: String(this.maxRelatedProduct)
+            }),
+            this.productsService.getManyProducts({
+              filter: [`shopId||$eq||${this.product?.shop?.id}`, ...relatedProductsFilter],
+              limit: String(this.maxRelatedProduct)
+            })
+          ]);
         })
       )
       .subscribe(
         (response) => {
-          this.relatedProducts = response;
+          [this.inSameCategoryProducts, this.inSameShopProducts] = response;
           this.isRelatedProductsLoading = false;
           this.relatedProductStyle = { padding: '1px' };
         },
@@ -124,5 +130,12 @@ export class ProductsComponent implements OnInit {
         this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
       }
     );
+  }
+
+  resetStateForRouting() {
+    if (this.product) {
+      this.product.images = null;
+      this.quantity = 1;
+    }
   }
 }

@@ -17,11 +17,11 @@
 </nz-card>
 
 <nz-card class="container">
-  <div nz-row [nzGutter]="[48,32]">
+  <div nz-row [nzGutter]="[48, 32]">
     <div nz-col nzLg="12" nzXs="24">
       <nz-carousel [nzEnableSwipe]="true" [nzAutoPlay]="true">
         <div nz-carousel-content *ngFor="let image of product?.images">
-          <img 
+          <img
             nz-image
             class="product-image"
             [nzSrc]="image?.imgUrl"
@@ -47,13 +47,18 @@
           </div>
           <div nz-col nzSm="12" nzXs="24">
             <ng-container *ngFor="let author of product?.authors; let last = last">
-              {{ author.name }}{{ last ? '' : ', ' }} </ng-container>
+              {{ author.name }}{{ last ? '' : ', ' }}
+            </ng-container>
           </div>
         </div>
 
         <nz-divider></nz-divider>
 
-        <nz-alert nzType="info" nzMessage="Miễn phí giao hàng cho đơn hàng từ 500.000 ₫" nzShowIcon></nz-alert>
+        <nz-alert
+          nzShowIcon
+          nzType="info"
+          nzMessage="Miễn phí giao hàng cho đơn hàng từ 500.000 ₫"
+        ></nz-alert>
 
         <div class="price-wrapper">
           <span class="price">{{ product?.price | price }}</span>
@@ -70,26 +75,63 @@
               <h3>Số lượng</h3>
             </div>
             <div nz-col nzSpan="12">
-              <nz-input-number [(ngModel)]="quantity" [nzMin]="minQty" [nzMax]="maxQty" [nzStep]="1"></nz-input-number>
+              <nz-input-number
+                [(ngModel)]="quantity"
+                [nzMin]="minQty"
+                [nzMax]="maxQty"
+                [nzStep]="1"
+              ></nz-input-number>
             </div>
           </div>
 
-          <button nz-button nzType="dashed" nzBlock>
-            <a href="tel:0984803198"><i nz-icon nzType="phone"></i> 0984.803.198</a></button>
-          <button nz-button nzType="default" nzBlock [nzLoading]="isBtnLoading.addToCart"
-            (click)="addItemToCart('addToCart')" [disabled]="isBtnLoading.buyNow">Thêm Vào Giỏ Hàng</button>
-          <button nz-button nzType="primary" nzBlock [nzLoading]="isBtnLoading.buyNow" (click)="addItemToCart('buyNow')"
-            [disabled]="isBtnLoading.addToCart">Mua Ngay</button>
+          <!-- <button nz-button nzType="dashed" nzBlock>
+            <a href="tel:0984803198"><i nz-icon nzType="phone"></i> 0984.803.198</a>
+          </button> -->
+          <button
+            nz-button
+            nzBlock
+            nzType="default"
+            [nzLoading]="isBtnLoading.addToCart"
+            (click)="addItemToCart('addToCart')"
+            [disabled]="isBtnLoading.buyNow"
+          >
+            Thêm Vào Giỏ Hàng
+          </button>
+          <button
+            nz-button
+            nzBlock
+            nzType="primary"
+            [nzLoading]="isBtnLoading.buyNow"
+            (click)="addItemToCart('buyNow')"
+            [disabled]="isBtnLoading.addToCart"
+          >
+            Mua Ngay
+          </button>
         </ng-container>
         <ng-template #outOfStock>
           <button nz-button nzType="default" nzBlock disabled>Hết hàng</button>
           <button nz-button nzType="primary" nzBlock>
-            <a href="tel:0984803198"><i nz-icon nzType="phone"></i> 0984.803.198</a></button>
+            <a href="tel:0984803198"><i nz-icon nzType="phone"></i> 0984.803.198</a>
+          </button>
         </ng-template>
       </nz-skeleton>
     </div>
   </div>
 </nz-card>
+
+<nz-page-header class="container" [nzGhost]="false">
+  <nz-avatar nz-page-header-avatar nzSize="large" [nzSrc]="product?.shop?.coverImgUrl"> </nz-avatar>
+
+  <nz-page-header-title>{{ product?.shop?.name }}</nz-page-header-title>
+
+  <nz-page-header-subtitle>{{ product?.shop?.description }}</nz-page-header-subtitle>
+
+  <nz-page-header-extra>
+    <button class="shop-btn" nz-button [routerLink]="['/shops', product?.shop?.id]">
+      <i nz-icon nzType="shop" nzTheme="outline"></i>Xem cửa hàng
+    </button>
+  </nz-page-header-extra>
+</nz-page-header>
 
 <nz-card class="container" [nzLoading]="isProductLoading" nzTitle="Thông Tin Chi Tiết">
   <nz-descriptions nzBordered [nzColumn]="1" nzSize="middle">
@@ -105,10 +147,29 @@
   <div class="description" [innerHTML]="product?.description"></div>
 </nz-card>
 
-<nz-card class="container" nzTitle="Sản Phẩm Liên Quan" [nzBodyStyle]="relatedProductStyle"
-  [nzLoading]="isProductLoading || isRelatedProductsLoading" *ngIf="relatedProducts?.length">
+<nz-card
+  *ngIf="inSameCategoryProducts?.length"
+  class="container"
+  nzTitle="Sản Phẩm Tương Tự"
+  [nzBodyStyle]="relatedProductStyle"
+  [nzLoading]="isProductLoading || isRelatedProductsLoading"
+>
   <div nz-row>
-    <div nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let product of relatedProducts">
+    <div nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let product of inSameCategoryProducts">
+      <app-product [product]="product"></app-product>
+    </div>
+  </div>
+</nz-card>
+
+<nz-card
+  *ngIf="inSameShopProducts?.length"
+  class="container"
+  nzTitle="Sản Phẩm Khác Của Cửa Hàng"
+  [nzBodyStyle]="relatedProductStyle"
+  [nzLoading]="isProductLoading || isRelatedProductsLoading"
+>
+  <div nz-row>
+    <div nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let product of inSameShopProducts">
       <app-product [product]="product"></app-product>
     </div>
   </div>

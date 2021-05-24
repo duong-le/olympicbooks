@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -10,11 +11,12 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
-import { NzImageModule } from 'ng-zorro-antd/image';
 
 import { IconModule } from '../../shared/Modules/icon.module';
 import { SharedModule } from '../../shared/Modules/shared.module';
@@ -42,7 +44,9 @@ import { ProductsComponent } from './products.component';
     NzMessageModule,
     NzBreadCrumbModule,
     NzAlertModule,
-    NzImageModule
+    NzImageModule,
+    NzAvatarModule,
+    NzPageHeaderModule
   ]
 })
 export class ProductsModule {}

@@ -5,25 +5,40 @@
     <div nz-col nzXl="16" nzMd="12" nzXs="24">
       <div nz-row [nzGutter]="[0, 16]">
         <div nz-col nzSpan="24" *ngFor="let item of cart?.items | keyvalue">
-          <nz-card [nzTitle]="item?.value[0]?.product?.shop?.name" [nzLoading]="isLoading">
+          <nz-card [nzTitle]="shopName" [nzLoading]="isLoading">
+            <ng-template #shopName>
+              <a [routerLink]="['/shops', item?.value[0]?.product?.shop?.id]">
+                {{ item?.value[0]?.product?.shop?.name }}
+              </a>
+            </ng-template>
+
             <div *ngFor="let cartItem of item.value; let last = last">
-              <nz-card nzType="inner" [nzLoading]="isLoading" [style]="!last ? 'margin-bottom: 16px': '' ">
+              <nz-card nzType="inner" [nzLoading]="isLoading" [style]="!last ? 'margin-bottom: 16px' : ''">
                 <div nz-row nzJustify="space-between" nzAlign="middle" [nzGutter]="[0, 16]">
                   <div nz-col nzXl="4" nzXs="8">
                     <a [routerLink]="['/products', cartItem?.product.id]">
-                      <img [src]="cartItem?.product?.images[0]?.imgUrl" height="80" width="80"
-                           (load)="onLoadImage($event)">
+                      <img
+                        [src]="cartItem?.product?.images[0]?.imgUrl"
+                        height="80"
+                        width="80"
+                        (load)="onLoadImage($event)"
+                      />
                     </a>
                   </div>
                   <div nz-col nzXl="9" nzXs="16">
                     <a [routerLink]="['/products', cartItem?.product.id]">
-                      <h3 class="name">{{ cartItem?.product.title }}</h3>
+                      {{ cartItem?.product.title }}
                     </a>
                   </div>
                   <div nz-col nzXl="3">
-                    <nz-input-number [(ngModel)]="cartItem.quantity" [nzMin]="minQty" [nzMax]="maxQty" [nzStep]="1"
-                                     (ngModelChange)="changeQuantity(cartItem?.id, cartItem?.quantity)"
-                                     [nzDisabled]="isDisabled">
+                    <nz-input-number
+                      [(ngModel)]="cartItem.quantity"
+                      [nzMin]="minQty"
+                      [nzMax]="maxQty"
+                      [nzStep]="1"
+                      (ngModelChange)="changeQuantity(cartItem?.id, cartItem?.quantity)"
+                      [nzDisabled]="isDisabled"
+                    >
                     </nz-input-number>
                   </div>
                   <div nz-col nzXl="3">
@@ -32,7 +47,12 @@
                     </span>
                   </div>
                   <div nz-col>
-                    <button nz-button nzType="text" (click)="deleteCartItem(cartItem.id)" [disabled]="isDisabled">
+                    <button
+                      nz-button
+                      nzType="text"
+                      (click)="deleteCartItem(cartItem.id)"
+                      [disabled]="isDisabled"
+                    >
                       <i nz-icon nzType="delete" nzTheme="twotone"></i>
                     </button>
                   </div>
@@ -49,7 +69,7 @@
         <div nz-col nzSpan="24">
           <nz-card [nzLoading]="isLoading" nzTitle="Mã giảm giá" [nzBordered]="false">
             <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-              <input type="text" nz-input placeholder="Nhập mã giảm giá">
+              <input type="text" nz-input placeholder="Nhập mã giảm giá" />
             </nz-input-group>
             <ng-template #suffixIconButton>
               <button nz-button nzType="primary" nzSearch [disabled]="isDisabled">
