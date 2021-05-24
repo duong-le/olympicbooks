@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { CustomerService } from '../customer.service';
-import { Order } from 'src/app/shared/Interfaces/order.interface';
 import { DeliveryState } from 'src/app/shared/Enums/delivery-state.enum';
+import { Order } from 'src/app/shared/Interfaces/order.interface';
+
+import { CustomerService } from '../customer.service';
 
 @Component({
   selector: 'app-order-detail',
   templateUrl: './order-detail.component.html',
   styleUrls: ['./order-detail.component.scss', '../orders/orders.component.scss']
 })
-export class OrderDetailComponent implements OnInit {
+export class OrderDetailComponent implements OnInit, OnDestroy {
   subscription$$: Subscription;
   isLoading = false;
   order: Order;
@@ -25,8 +26,8 @@ export class OrderDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.subscription$$ = this.activatedRoute.params.subscribe((paramsId) => {
-      this.render(Number(paramsId.id));
+    this.subscription$$ = this.activatedRoute.params.subscribe(({ orderId }) => {
+      this.render(Number(orderId));
     });
   }
   render(orderId: number) {
