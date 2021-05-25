@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { DeliveryState } from 'src/app/shared/Enums/delivery-state.enum';
-import { Order } from 'src/app/shared/Interfaces/order.interface';
 
+import { DeliveryState } from '../../../shared/Enums/delivery-state.enum';
+import { Order } from '../../../shared/Interfaces/order.interface';
 import { CustomerService } from '../customer.service';
 
 @Component({
@@ -14,9 +14,11 @@ import { CustomerService } from '../customer.service';
 })
 export class OrderDetailComponent implements OnInit, OnDestroy {
   subscription$$: Subscription;
-  isLoading = false;
   order: Order;
   deliveryState = DeliveryState;
+
+  isLoading = false;
+  orderId: number;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -27,12 +29,14 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription$$ = this.activatedRoute.params.subscribe(({ orderId }) => {
-      this.render(Number(orderId));
+      this.orderId = orderId;
+      this.renderOrderDetailPage();
     });
   }
-  render(orderId: number) {
+
+  renderOrderDetailPage(): void {
     this.isLoading = true;
-    this.customerService.getOrderDetail(orderId).subscribe(
+    this.customerService.getOneOrder(this.orderId).subscribe(
       (response) => {
         this.order = response;
         this.titleService.setTitle(`Đơn hàng #${response.id} | OlympicBooks`);

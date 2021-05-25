@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Order } from 'src/app/shared/Interfaces/order.interface';
+
+import { Order } from '../../../shared/Interfaces/order.interface';
 import { CustomerService } from '../customer.service';
 
 @Component({
@@ -10,6 +11,7 @@ import { CustomerService } from '../customer.service';
 })
 export class OrdersComponent implements OnInit {
   orders: Order[];
+
   isLoading = false;
 
   constructor(private titleService: Title, private customerService: CustomerService) {
@@ -17,8 +19,12 @@ export class OrdersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.renderOrdersPage();
+  }
+
+  renderOrdersPage(): void {
     this.isLoading = true;
-    this.customerService.getOrders({ sort: 'id,ASC' }).subscribe((response) => {
+    this.customerService.getManyOrders({ sort: 'id,DESC' }).subscribe((response) => {
       this.orders = response;
       this.isLoading = false;
     });

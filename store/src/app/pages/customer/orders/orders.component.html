@@ -1,5 +1,11 @@
-<nz-table #table [nzData]="orders" [nzScroll]="{ x: '576px' }" [nzLoading]="isLoading"
-  [nzLoadingIndicator]="indicatorTemplate" [nzHideOnSinglePage]="true">
+<nz-table
+  #table
+  [nzData]="orders"
+  [nzScroll]="{ x: '576px' }"
+  [nzLoading]="isLoading"
+  [nzLoadingIndicator]="indicatorTemplate"
+  [nzHideOnSinglePage]="true"
+>
   <thead>
     <tr>
       <th>Ngày mua</th>
@@ -12,7 +18,9 @@
   <tbody>
     <tr *ngFor="let data of table.data">
       <td>{{ data?.createdAt | date: 'dd-MM-yyyy' }}</td>
-      <td><button nz-button nzType="link" [routerLink]="[data?.id]">{{ data?.id }}</button></td>
+      <td>
+        <button nz-button nzType="link" [routerLink]="[data?.id]">{{ data?.id }}</button>
+      </td>
       <td id="title">
         <ng-container *ngFor="let item of data?.orderItems">
           {{ item?.product?.title || item?.productTitle }} <br />
@@ -20,10 +28,12 @@
       </td>
       <td>{{ data?.transaction?.value | price }}</td>
       <td class="tag">
-        <nz-tag nzColor="{{ data?.shipping?.state | orderState:true }}">{{ data?.shipping?.state | orderState }}
+        <nz-tag nzColor="{{ data?.shipping?.state | orderState: true }}">
+          {{ data?.shipping?.state | orderState }}
         </nz-tag>
       </td>
     </tr>
   </tbody>
 </nz-table>
+
 <ng-template #indicatorTemplate><i nz-icon nzType="loading" class="loading"></i></ng-template>

@@ -20,11 +20,11 @@ export class CustomerService {
     return this.http.patch<UpdateCustomer>(`${environment.apiUrl}/customers/me`, data);
   }
 
-  getOrders(params: { [key: string]: string | string[] }): Observable<Order[]> {
+  getManyOrders(params: { [key: string]: string | string[] }): Observable<Order[]> {
     return this.http.get<Order[]>(`${environment.apiUrl}/customers/me/orders`, { params });
   }
 
-  getOrderDetail(orderId): Observable<Order> {
+  getOneOrder(orderId: number): Observable<Order> {
     return this.http.get<Order>(`${environment.apiUrl}/customers/me/orders/${orderId}`);
   }
 }

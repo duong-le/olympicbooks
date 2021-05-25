@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { finalize } from 'rxjs/operators';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { constant } from 'src/app/shared/constant';
+import { finalize } from 'rxjs/operators';
+
+import { constant } from '../../../shared/constant';
 import { CustomerService } from '../customer.service';
 
 @Component({
@@ -116,7 +117,8 @@ export class ProfileComponent implements OnInit {
 
   confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
     if (!control.value) return { required: true };
-    else if (control.value !== this.passwordForm.controls.password.value) return { confirm: true, error: true };
+    else if (control.value !== this.passwordForm.controls.password.value)
+      return { confirm: true, error: true };
     return {};
   };
 }
