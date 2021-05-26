@@ -18,3 +18,7 @@
 .anticon-shopping-cart {
   font-size: 20px;
 }
+
+::ng-deep .cdk-overlay-pane {
+  width: auto !important;
+}
