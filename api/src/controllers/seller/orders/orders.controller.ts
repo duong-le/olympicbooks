@@ -1,10 +1,10 @@
-import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Patch, UseGuards } from '@nestjs/common';
+import { Controller, NotFoundException, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Crud, CrudAuth, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
 import { Repository } from 'typeorm';
 
-import { UserInfo } from '../../../core/Decorators/user-info.decorator';
 import { Order } from '../../../entities/orders.entity';
 import { Seller } from '../../../entities/sellers.entity';
 import { OrdersService } from '../../../services/orders.service';
@@ -15,40 +15,51 @@ import { UpdateOrderDto } from './orders.dto';
 @ApiBearerAuth()
 @Controller('sellers/me/shops/:shopId/orders')
 @UseGuards(AuthGuard())
-export class ShopOrdersController {
+@Crud({
+  model: { type: Order },
+  routes: {
+    only: ['getManyBase', 'getOneBase', 'updateOneBase']
+  },
+  params: {
+    shopId: {
+      field: 'shopId',
+      type: 'number'
+    }
+  },
+  query: {
+    join: {
+      orderItems: { eager: true, exclude: ['orderId', 'productId'] },
+      'orderItems.product': { eager: true },
+      transaction: { eager: true, exclude: ['transactionMethodId'] },
+      'transaction.transactionMethod': { eager: true },
+      shipping: { eager: true, exclude: ['shippingMethodId'] },
+      'shipping.shippingMethod': { eager: true },
+      discount: { eager: true },
+      shop: { eager: true, select: false },
+      'shop.sellers': { eager: true, alias: 'seller', select: false }
+    },
+    exclude: ['transactionId', 'shippingId', 'discountId']
+  },
+  dto: { update: UpdateOrderDto }
+})
+@CrudAuth({
+  property: 'user',
+  filter: (seller: Seller) => ({
+    'seller.id': {
+      $eq: seller.id
+    }
+  })
+})
+export class ShopOrdersController implements CrudController<Order> {
   constructor(
     public service: OrdersService,
     @InjectRepository(Order) private orderRepository: Repository<Order>
   ) {}
 
-  @ApiOperation({ summary: 'Retrieve many Order' })
-  @Get()
-  async getMany(@Param('shopId', ParseIntPipe) shopId: number, @UserInfo() seller: Seller): Promise<Order[]> {
-    return await this.service.getManyOrdersByShopAndSeller(shopId, seller.id);
-  }
-
-  @ApiOperation({ summary: 'Retrieve a single Product' })
-  @Get(':orderId')
-  async getOne(
-    @Param('shopId', ParseIntPipe) shopId: number,
-    @Param('orderId', ParseIntPipe) orderId: number,
-    @UserInfo() seller: Seller
-  ): Promise<Order> {
-    const order = await this.service.getOneOrderByShopAndSeller(orderId, shopId, seller.id);
-    if (!order) throw new NotFoundException(`Order ${orderId} not found`);
-    return order;
-  }
-
-  @ApiOperation({ summary: 'Update a single Product' })
-  @Patch(':orderId')
-  async updateOne(
-    @Param('shopId', ParseIntPipe) shopId: number,
-    @Param('orderId', ParseIntPipe) orderId: number,
-    @UserInfo() seller: Seller,
-    @Body() dto: UpdateOrderDto
-  ): Promise<Order> {
-    const order = await this.service.getOneOrderByShopAndSeller(orderId, shopId, seller.id);
-    if (!order) throw new NotFoundException(`Order ${orderId} not found`);
+  @Override()
+  async updateOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: UpdateOrderDto): Promise<Order> {
+    const order = await this.service.getOne(req);
+    if (!order) throw new NotFoundException('Order not found');
 
     if (dto?.transaction?.state) order.transaction.state = dto.transaction.state;
 

@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 import { Order } from '../../shared/Interfaces/order.interface';
 import { OrdersService } from './orders.service';
@@ -15,9 +16,15 @@ export class OrdersComponent implements OnInit {
   orders: Order[];
 
   isLoading = false;
-  total: number;
-  pageIndex = 1;
   pageSize = 10;
+  pageIndex = 1;
+  total: number;
+
+  queryParams = {
+    sort: 'id,DESC',
+    page: '1',
+    limit: String(this.pageSize)
+  };
 
   columns = [
     { title: '', width: '35px' },
@@ -47,9 +54,10 @@ export class OrdersComponent implements OnInit {
 
   renderOrdersTable() {
     this.isLoading = true;
-    this.ordersService.getMany(this.shopId).subscribe((response) => {
-      this.orders = response.map((order) => ({ ...order, expand: false }));
-      this.total = response.length;
+    this.ordersService.getMany(this.shopId, this.queryParams).subscribe((response) => {
+      this.orders = response['data'].map((order) => ({ ...order, expand: false }));
+      this.total = response['total'];
+      this.pageIndex = response['page'];
       this.isLoading = false;
     });
   }
@@ -64,5 +72,11 @@ export class OrdersComponent implements OnInit {
       nzFooter: null,
       nzComponentParams: item
     });
+  }
+
+  changeQueryParams(params: NzTableQueryParams): void {
+    this.queryParams.page = String(params.pageIndex);
+    this.queryParams.limit = String(params.pageSize);
+    this.renderOrdersTable();
   }
 }

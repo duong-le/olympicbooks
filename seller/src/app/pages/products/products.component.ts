@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 import { Product } from '../../shared/Interfaces/product.interface';
 import { ProductsService } from './products.service';
@@ -16,9 +17,15 @@ export class ProductsComponent implements OnInit {
   products: Product[];
 
   isLoading = false;
-  total: number;
-  pageIndex = 1;
   pageSize = 10;
+  pageIndex = 1;
+  total: number;
+
+  queryParams = {
+    sort: 'id,ASC',
+    page: '1',
+    limit: String(this.pageSize)
+  };
 
   columns = [
     { title: 'Actions' },
@@ -48,9 +55,10 @@ export class ProductsComponent implements OnInit {
 
   renderProductsTable() {
     this.isLoading = true;
-    this.productsService.getMany(this.shopId).subscribe((response) => {
-      this.products = response;
-      this.total = response.length;
+    this.productsService.getMany(this.shopId, this.queryParams).subscribe((response) => {
+      this.products = response['data'];
+      this.total = response['total'];
+      this.pageIndex = response['page'];
       this.isLoading = false;
     });
   }
@@ -87,5 +95,11 @@ export class ProductsComponent implements OnInit {
         this.messageService.error(error?.error?.message);
       }
     );
+  }
+
+  changeQueryParams(params: NzTableQueryParams): void {
+    this.queryParams.page = String(params.pageIndex);
+    this.queryParams.limit = String(params.pageSize);
+    this.renderProductsTable();
   }
 }

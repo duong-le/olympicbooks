@@ -24,20 +24,6 @@ export class ProductsService extends TypeOrmCrudService<Product> {
     super(productRepository);
   }
 
-  async getManyProductsByShopAndSeller(shopId: number, sellerId: number): Promise<Product[]> {
-    return await this.productRepository
-      .createQueryBuilder('product')
-      .leftJoinAndSelect('product.images', 'image')
-      .leftJoinAndSelect('product.category', 'category')
-      .leftJoinAndSelect('product.publisher', 'publisher')
-      .leftJoinAndSelect('product.authors', 'author')
-      .leftJoin('product.shop', 'shop')
-      .leftJoin('shop.sellers', 'seller')
-      .where('shop.id = :shopId', { shopId })
-      .andWhere('seller.id = :sellerId', { sellerId })
-      .getMany();
-  }
-
   async getTopSellingProducts(limit: number): Promise<Product[]> {
     const products = await this.orderItemRepository
       .createQueryBuilder('orderItem')
@@ -57,21 +43,6 @@ export class ProductsService extends TypeOrmCrudService<Product> {
     if (!product) throw new NotFoundException(`Product ${id} not found`);
     if (product?.category?.id) product.category = await this.categoriesService.getOne(product?.category?.id);
     return product;
-  }
-
-  async getOneProductByShopAndSeller(productId: number, shopId: number, sellerId: number): Promise<Product> {
-    return await this.productRepository
-      .createQueryBuilder('product')
-      .leftJoinAndSelect('product.images', 'image')
-      .leftJoinAndSelect('product.category', 'category')
-      .leftJoinAndSelect('product.publisher', 'publisher')
-      .leftJoinAndSelect('product.authors', 'authors')
-      .leftJoin('product.shop', 'shop')
-      .leftJoin('shop.sellers', 'seller')
-      .where('product.id = :productId', { productId })
-      .andWhere('shop.id = :shopId', { shopId })
-      .andWhere('seller.id = :sellerId', { sellerId })
-      .getOne();
   }
 
   async removeProduct(product: Product): Promise<void> {

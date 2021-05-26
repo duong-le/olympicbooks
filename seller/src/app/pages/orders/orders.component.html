@@ -2,13 +2,15 @@
   #table
   nzOuterBordered
   nzShowSizeChanger
+  [nzFrontPagination]="false"
   [nzLoading]="isLoading"
   [nzLoadingIndicator]="loadingIndicator"
+  [nzScroll]="{ x: '1150px' }"
   [nzData]="orders"
   [nzTotal]="total"
   [nzPageSize]="pageSize"
   [nzPageIndex]="pageIndex"
-  [nzScroll]="{ x: '1150px' }"
+  (nzQueryParams)="changeQueryParams($event)"
 >
   <thead>
     <tr>

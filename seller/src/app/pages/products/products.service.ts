@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
+import { Pagination } from '../../shared/Interfaces/pagination.interface';
 import { Product } from '../../shared/Interfaces/product.interface';
 
 @Injectable({
@@ -13,8 +14,8 @@ export class ProductsService {
 
   constructor(protected http: HttpClient) {}
 
-  getMany(shopId: number): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.baseUrl}/${shopId}/products`);
+  getMany(shopId: number, params: { [key: string]: string | string[] }): Observable<Pagination<Product[]>> {
+    return this.http.get<Pagination<Product[]>>(`${this.baseUrl}/${shopId}/products`, { params });
   }
 
   getOne(shopId: number, productId: number): Observable<Product> {
