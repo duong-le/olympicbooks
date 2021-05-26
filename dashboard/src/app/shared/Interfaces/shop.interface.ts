@@ -4,6 +4,7 @@ import { Seller } from './seller.interface';
 
 export interface Shop {
   id: number;
+  name: string;
   description: string;
   coverImgName: string;
   coverImgUrl: string;

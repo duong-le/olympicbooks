@@ -15,8 +15,9 @@ export class ShopsComponent extends BaseComponent<Shop> {
   columns = [
     { title: 'Actions' },
     { title: 'ID', key: 'id', sort: true },
-    { title: 'Tên', key: 'name', sort: true },
-    { title: 'Mô tả', key: 'description', sort: true }
+    { title: 'Tên', key: 'name', sort: true, width: '30%' },
+    { title: 'Mô tả', key: 'description', sort: true, width: '30%' },
+    { title: 'Nhà bán (SL)', width: '20%' }
   ];
 
   constructor(

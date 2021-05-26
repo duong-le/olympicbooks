@@ -14,6 +14,11 @@ import { ShopsService } from '../../../services/shops.service';
   model: { type: Shop },
   routes: {
     only: ['getManyBase', 'getOneBase']
+  },
+  query: {
+    join: {
+      sellers: { eager: true }
+    }
   }
 })
 export class AdminShopsController implements CrudController<Shop> {

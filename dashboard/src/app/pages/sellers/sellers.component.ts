@@ -15,8 +15,9 @@ export class SellersComponent extends BaseComponent<Seller> {
   columns = [
     { title: 'Actions' },
     { title: 'ID', key: 'id', sort: true },
-    { title: 'Họ tên', key: 'name', sort: true },
-    { title: 'Email' }
+    { title: 'Họ tên', key: 'name', sort: true, width: '30%' },
+    { title: 'Email', width: '30%' },
+    { title: 'Cửa hàng (SL)', width: '20%' }
   ];
 
   constructor(

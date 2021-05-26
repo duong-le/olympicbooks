@@ -13,7 +13,8 @@ export class AuthenticationService {
   public user$: Observable<Authentication>;
 
   constructor(private http: HttpClient) {
-    this.userSubject = new BehaviorSubject<Authentication>(JSON.parse(localStorage.getItem('user')));
+    const user = JSON.parse(localStorage.getItem('user'));
+    this.userSubject = new BehaviorSubject<Authentication>(user);
     this.user$ = this.userSubject.asObservable();
   }
 
@@ -31,10 +32,6 @@ export class AuthenticationService {
         return user;
       })
     );
-  }
-
-  signUp(data: Authentication): Observable<Authentication> {
-    return this.http.post<Authentication>(`${environment.apiUrl}/auth/signup`, data);
   }
 
   signOut() {

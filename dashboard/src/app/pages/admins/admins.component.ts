@@ -15,8 +15,8 @@ export class AdminsComponent extends BaseComponent<Admin> {
   columns = [
     { title: 'Actions' },
     { title: 'ID', key: 'id', sort: true },
-    { title: 'Họ tên', key: 'name', sort: true },
-    { title: 'Email' }
+    { title: 'Họ tên', key: 'name', sort: true, width: '40%' },
+    { title: 'Email', width: '40%' }
   ];
 
   constructor(
