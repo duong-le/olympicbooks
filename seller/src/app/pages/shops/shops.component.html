@@ -1,3 +1,13 @@
+<nz-alert
+  *ngIf="isBannerShowing"
+  nzBanner
+  nzCloseable
+  [nzShowIcon]="false"
+  [nzType]="bannerType"
+  [nzMessage]="bannerMessage"
+>
+</nz-alert>
+
 <nz-layout class="app-layout">
   <nz-sider
     class="menu-sidebar"
@@ -39,10 +49,12 @@
   </nz-sider>
   <nz-layout>
     <nz-header>
-      <div class="app-header">
-        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-          <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
-        </span>
+      <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+        <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+      </span>
+
+      <div>
+        <button nz-button nzType="default">{{ shop?.name }}</button>
       </div>
     </nz-header>
     <nz-content>

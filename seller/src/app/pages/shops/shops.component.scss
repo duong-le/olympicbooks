@@ -1,8 +1,5 @@
-:host {
-  display: flex;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:host ::ng-deep .ant-alert-content {
+  text-align: center;
 }
 
 .app-layout {
@@ -14,18 +11,6 @@
   z-index: 10;
   min-height: 100vh;
   box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
-}
-
-.header-trigger {
-  height: 64px;
-  padding: 20px 24px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.3s, padding 0s;
-}
-
-.trigger:hover {
-  color: #1890ff;
 }
 
 .sidebar-logo {
@@ -46,17 +31,20 @@
 }
 
 nz-header {
-  padding: 0;
-  width: 100%;
-  z-index: 2;
-}
-
-.app-header {
-  position: relative;
-  height: 64px;
-  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 32px 0 24px;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+}
+
+.header-trigger {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.trigger:hover {
+  color: #1890ff;
 }
 
 nz-content {
