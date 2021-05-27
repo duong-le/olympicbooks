@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { OrderStatePipe } from './orders.pipe';
-import { PricePipe } from './price.pipe';
+import { PricePipe } from './prices.pipe';
 
 @NgModule({
   declarations: [PricePipe, OrderStatePipe],

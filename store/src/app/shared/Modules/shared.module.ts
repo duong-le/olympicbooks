@@ -31,7 +31,7 @@ import { OrderSuccessComponent } from '../Components/result/success/order-succes
 import { SearchComponent } from '../Components/search/search.component';
 import { ShopComponent } from '../Components/shop/shop.component';
 import { OrderStatePipe } from '../Pipes/orders.pipe';
-import { PricePipe } from '../Pipes/price.pipe';
+import { PricePipe } from '../Pipes/prices.pipe';
 import { IconModule } from './icon.module';
 
 @NgModule({
