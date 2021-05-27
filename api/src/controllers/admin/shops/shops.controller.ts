@@ -5,6 +5,7 @@ import { Crud, CrudController } from '@nestjsx/crud';
 
 import { Shop } from '../../../entities/shops.entity';
 import { ShopsService } from '../../../services/shops.service';
+import { AdminUpdateShopDto } from './shops.dto';
 
 @ApiTags('Admin Shops')
 @ApiBearerAuth()
@@ -13,13 +14,14 @@ import { ShopsService } from '../../../services/shops.service';
 @Crud({
   model: { type: Shop },
   routes: {
-    only: ['getManyBase', 'getOneBase']
+    only: ['getManyBase', 'getOneBase', 'updateOneBase']
   },
   query: {
     join: {
       sellers: { eager: true }
     }
-  }
+  },
+  dto: { update: AdminUpdateShopDto }
 })
 export class AdminShopsController implements CrudController<Shop> {
   constructor(public service: ShopsService) {}
