@@ -1,10 +1,12 @@
-import { Controller, Query } from '@nestjs/common';
+import { Controller, NotFoundException, Query } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController, CrudRequest, GetManyDefaultResponse, Override, ParsedRequest } from '@nestjsx/crud';
 
 import { Product } from '../../../entities/products.entity';
+import { CategoriesService } from '../../../services/categories.service';
 import { ProductsService } from '../../../services/products.service';
-import { ProductCollectionType } from '../../../shared/Enums/products.enum';
+import { ProductCollectionType, ProductStatus } from '../../../shared/Enums/products.enum';
+import { ShopStatus } from '../../../shared/Enums/shops.enum';
 
 @ApiTags('Products')
 @Controller('products')
@@ -21,11 +23,23 @@ import { ProductCollectionType } from '../../../shared/Enums/products.enum';
       authors: { eager: true },
       shop: { eager: true }
     },
+    filter: [
+      {
+        field: 'status',
+        operator: '$in',
+        value: [ProductStatus.ACTIVE, ProductStatus.SOLD_OUT]
+      },
+      {
+        field: 'shop.status',
+        operator: '$eq',
+        value: ShopStatus.ACTIVE
+      }
+    ],
     exclude: ['categoryId', 'publisherId', 'shopId']
   }
 })
 export class ProductsController implements CrudController<Product> {
-  constructor(public service: ProductsService) {}
+  constructor(public service: ProductsService, public categoriesService: CategoriesService) {}
 
   @Override()
   @ApiQuery({ name: 'type', required: false })
@@ -39,7 +53,13 @@ export class ProductsController implements CrudController<Product> {
   }
 
   @Override()
-  getOne(@ParsedRequest() req: CrudRequest): Promise<Product> {
-    return this.service.getProduct(req.parsed.paramsFilter[0].value);
+  async getOne(@ParsedRequest() req: CrudRequest): Promise<Product> {
+    const product = await this.service.getOne(req);
+    if (!product) throw new NotFoundException('Product not found');
+
+    if (product?.category?.id) {
+      product.category = await this.categoriesService.getOne(product?.category?.id);
+    }
+    return product;
   }
 }

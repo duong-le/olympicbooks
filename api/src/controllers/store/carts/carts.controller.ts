@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   ConflictException,
   Controller,
@@ -15,10 +16,11 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ProductStatus } from 'src/shared/Enums/products.enum';
 import { Repository } from 'typeorm';
 
 import { UserInfo } from '../../../core/Decorators/user-info.decorator';
-import { CartItem } from '../../../entities/carts.entity';
+import { Cart, CartItem } from '../../../entities/carts.entity';
 import { Customer } from '../../../entities/customers.entity';
 import { Product } from '../../../entities/products.entity';
 import { ShippingMethod } from '../../../entities/shipping-methods.entity';
@@ -43,12 +45,7 @@ export class CartsController {
   async getCart(
     @Query('shippingMethodId') shippingMethodId: string,
     @UserInfo() customer: Customer
-  ): Promise<{
-    orderValue: number;
-    totalShippingFee: number;
-    totalQuantity: number;
-    items: { [key: string]: CartItem[] };
-  }> {
+  ): Promise<Cart> {
     let shippingFee = 0;
     if (shippingMethodId) {
       const shippingMethod = await this.shippingMethodRepository.findOne(Number(shippingMethodId));
@@ -71,8 +68,11 @@ export class CartsController {
   @ApiOperation({ summary: 'Create a single CartItem' })
   @Post()
   async createOne(@Body() dto: CreateCartItemDto, @UserInfo() customer: Customer): Promise<CartItem> {
-    const product = this.productRepository.findOne(dto.productId);
+    const product = await this.productRepository.findOne(dto.productId);
     if (!product) throw new NotFoundException(`Product ${dto.productId} not found`);
+
+    if (product.status !== ProductStatus.ACTIVE)
+      throw new BadRequestException(`Product ${product.id} is not active`);
 
     const cartItem = await this.cartRepository.findOne({
       where: { productId: dto.productId, customerId: customer.id }
@@ -90,6 +90,10 @@ export class CartsController {
   @Patch(':id')
   async updateOne(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateCartItemDto): Promise<CartItem> {
     const cartItem = await this.cartRepository.findOne(id);
+
+    if (cartItem.product.status !== ProductStatus.ACTIVE)
+      throw new BadRequestException(`Product ${cartItem.product.id} is not active`);
+
     cartItem.quantity = dto.quantity;
     return await this.cartRepository.save(cartItem);
   }

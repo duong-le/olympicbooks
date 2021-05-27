@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Repository } from 'typeorm';
@@ -7,8 +7,9 @@ import { CartItem } from '../entities/carts.entity';
 import { OrderItem } from '../entities/orders-item.entity';
 import { ProductImage } from '../entities/product-images.entity';
 import { Product } from '../entities/products.entity';
+import { ProductStatus } from '../shared/Enums/products.enum';
+import { ShopStatus } from '../shared/Enums/shops.enum';
 import { File } from '../shared/Interfaces/file.interface';
-import { CategoriesService } from './categories.service';
 import { CloudStorageService } from './cloud-storage.service';
 
 @Injectable()
@@ -18,7 +19,6 @@ export class ProductsService extends TypeOrmCrudService<Product> {
     @InjectRepository(ProductImage) private productImageRepository: Repository<ProductImage>,
     @InjectRepository(OrderItem) private orderItemRepository: Repository<OrderItem>,
     @InjectRepository(CartItem) private cartItemRepository: Repository<CartItem>,
-    private categoriesService: CategoriesService,
     private cloudStorageService: CloudStorageService
   ) {
     super(productRepository);
@@ -31,18 +31,13 @@ export class ProductsService extends TypeOrmCrudService<Product> {
       .groupBy('orderItem.productId')
       .orderBy('SUM(orderItem.quantity)', 'DESC')
       .leftJoin('orderItem.product', 'product')
-      .where('product.inStock = :inStock', { inStock: true })
+      .leftJoin('product.shop', 'shop')
+      .andWhere('product.status = :productStatus', { productStatus: ProductStatus.ACTIVE })
+      .andWhere('shop.status = :shopStatus', { shopStatus: ShopStatus.ACTIVE })
       .limit(limit)
       .getRawMany();
     const productIds = products.map((product) => product.productId);
     return await this.productRepository.findByIds(productIds);
-  }
-
-  async getProduct(id: number): Promise<Product> {
-    const product = await this.productRepository.findOne(id);
-    if (!product) throw new NotFoundException(`Product ${id} not found`);
-    if (product?.category?.id) product.category = await this.categoriesService.getOne(product?.category?.id);
-    return product;
   }
 
   async removeProduct(product: Product): Promise<void> {

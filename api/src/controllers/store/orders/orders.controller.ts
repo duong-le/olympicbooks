@@ -1,10 +1,11 @@
-import { Controller, NotFoundException, UseGuards } from '@nestjs/common';
+import { BadRequestException, Controller, NotFoundException, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Crud, CrudAuth, CrudController, Override, ParsedBody } from '@nestjsx/crud';
 import { ShippingMethod } from 'src/entities/shipping-methods.entity';
 import { TransactionMethod } from 'src/entities/transaction-methods.entity';
+import { ProductStatus } from 'src/shared/Enums/products.enum';
 import { Repository } from 'typeorm';
 
 import { UserInfo } from '../../../core/Decorators/user-info.decorator';
@@ -61,11 +62,15 @@ export class OrdersController implements CrudController<Order> {
     if (!transactionMethod)
       throw new NotFoundException(`Transaction method ${dto.transactionMethodId} not found`);
 
-    // Split into multiple orders based on the product's shop
-    const orders: Order[] = [];
     const cartItems = await this.cartRepository.find({ customerId: customer.id });
-    const cart = await this.cartService.getCartOrderedByShop(cartItems);
+    for (const cartItem of cartItems) {
+      if (cartItem.product.status !== ProductStatus.ACTIVE)
+        throw new BadRequestException(`Product ${cartItem.product.id} is not active`);
+    }
 
+    // Split into multiple orders based on the product's shop
+    const cart = await this.cartService.getCartOrderedByShop(cartItems);
+    const orders: Order[] = [];
     for (const [shopId, cartItems] of Object.entries(cart)) {
       const orderItems: OrderItem[] = [];
 

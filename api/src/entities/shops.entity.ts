@@ -1,5 +1,6 @@
 import { Column, Entity, ManyToMany, OneToMany } from 'typeorm';
 
+import { SellerShopStatus, ShopStatus } from '../shared/Enums/shops.enum';
 import { BaseEntity } from './base.entity';
 import { Order } from './orders.entity';
 import { Product } from './products.entity';
@@ -19,8 +20,8 @@ export class Shop extends BaseEntity {
   @Column({ default: null })
   coverImgUrl: string;
 
-  @Column({ default: false })
-  isApproved: boolean;
+  @Column({ enum: ShopStatus, default: ShopStatus.UNAPPROVED })
+  status: SellerShopStatus | ShopStatus;
 
   @ManyToMany(() => Seller, (seller) => seller.shops)
   sellers: Seller[];

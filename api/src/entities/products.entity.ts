@@ -1,5 +1,6 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 
+import { ProductStatus, SellerProductStatus } from '../shared/Enums/products.enum';
 import { Author } from './authors.entity';
 import { BaseEntity } from './base.entity';
 import { Category } from './categories.entity';
@@ -31,8 +32,8 @@ export class Product extends BaseEntity {
   @Column()
   description: string;
 
-  @Column({ default: true })
-  inStock: boolean;
+  @Column({ enum: ProductStatus, default: ProductStatus.ACTIVE })
+  status: SellerProductStatus | ProductStatus;
 
   @OneToMany(() => ProductImage, (productImage) => productImage.product, { eager: true, cascade: true })
   images: ProductImage[];

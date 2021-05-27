@@ -15,7 +15,6 @@ export class CartsService {
       if (!(shopId in cart)) cart[shopId] = [];
       cart[shopId].push(cartItem);
     }
-
     return cart;
   }
 
