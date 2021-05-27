@@ -9,8 +9,10 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 
+import { PipesModule } from '../../shared/Pipes/pipes.module';
 import { SellersRoutingModule } from './sellers-routing.module';
 import { SellersComponent } from './sellers.component';
 
@@ -21,6 +23,7 @@ import { SellersComponent } from './sellers.component';
     FormsModule,
     ReactiveFormsModule,
     SellersRoutingModule,
+    PipesModule,
     NzLayoutModule,
     NzCardModule,
     NzImageModule,
@@ -29,7 +32,8 @@ import { SellersComponent } from './sellers.component';
     NzButtonModule,
     NzInputModule,
     NzUploadModule,
-    NzMessageModule
+    NzMessageModule,
+    NzTagModule
   ]
 })
 export class SellersModule {}
