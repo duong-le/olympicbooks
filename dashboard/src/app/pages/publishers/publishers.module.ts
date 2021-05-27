@@ -8,6 +8,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -36,7 +37,8 @@ import { PublishersComponent } from './publishers.component';
     NzSpaceModule,
     NzFormModule,
     NzMessageModule,
-    NzModalModule
+    NzModalModule,
+    NzPageHeaderModule
   ]
 })
 export class PublishersModule {}

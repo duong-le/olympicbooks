@@ -1,6 +1,7 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 import { Author } from '../../../shared/Interfaces/author.interface';
@@ -14,6 +15,8 @@ import { AuthorsService } from '../authors.service';
 export class AuthorsDetailComponent implements OnInit {
   authorForm: FormGroup;
   author: Author;
+
+  authorId: number;
   isNew = true;
   isLoading = true;
   isBtnLoading = false;
@@ -23,28 +26,27 @@ export class AuthorsDetailComponent implements OnInit {
     private fb: FormBuilder,
     private authorsService: AuthorsService,
     private messageService: NzMessageService,
-    private router: Router
+    private location: Location
   ) {}
 
   ngOnInit(): void {
     this.authorForm = this.fb.group({
-      id: { value: '', disabled: true },
       name: ['', [Validators.required]]
     });
 
     this.activatedRoute.params.subscribe(({ authorId }) => {
+      this.authorId = authorId;
       this.isNew = authorId === 'new';
       if (this.isNew) this.isLoading = false;
-      else this.render(authorId);
+      else this.renderAuthorDetailPage();
     });
   }
 
-  render(id: number) {
-    this.authorsService.getOne(id).subscribe(
+  renderAuthorDetailPage() {
+    this.authorsService.getOne(this.authorId).subscribe(
       (response) => {
         this.author = response;
         this.authorForm.setValue({
-          id: this.author.id,
           name: this.author.name
         });
         this.isLoading = false;
@@ -58,11 +60,11 @@ export class AuthorsDetailComponent implements OnInit {
 
   update() {
     this.isBtnLoading = true;
-    this.authorsService.updateOne(this.authorForm.controls['id'].value, this.authorForm.value).subscribe(
+    this.authorsService.updateOne(this.authorId, this.authorForm.value).subscribe(
       (response) => {
         this.isBtnLoading = false;
         this.messageService.success('Cập nhật thành công!');
-        this.router.navigate(['/', 'authors']);
+        this.goBack();
       },
       (error) => {
         this.isBtnLoading = false;
@@ -77,12 +79,16 @@ export class AuthorsDetailComponent implements OnInit {
       (response) => {
         this.isBtnLoading = false;
         this.messageService.success('Thêm mới thành công!');
-        this.router.navigate(['/', 'authors']);
+        this.goBack();
       },
       (error) => {
         this.isBtnLoading = false;
         this.messageService.error(error?.error?.message);
       }
     );
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
