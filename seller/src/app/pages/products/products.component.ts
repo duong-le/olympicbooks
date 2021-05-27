@@ -34,7 +34,7 @@ export class ProductsComponent implements OnInit {
     { title: 'Danh mục', key: 'category.id', sort: true },
     { title: 'Nhà xuất bản', key: 'publisher.id', sort: true },
     { title: 'Tác giả' },
-    { title: 'Có hàng', key: 'inStock', sort: true },
+    { title: 'Trạng thái', key: 'status', sort: true },
     { title: 'Giá bán', key: 'price', sort: true },
     { title: 'Giá gốc', key: 'originalPrice', sort: true }
   ];

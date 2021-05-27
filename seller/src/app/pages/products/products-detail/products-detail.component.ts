@@ -7,6 +7,7 @@ import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { forkJoin } from 'rxjs';
 
+import { ProductStatus, SellerProductStatus } from '../../../shared/Enums/products.enum';
 import { Author } from '../../../shared/Interfaces/author.interface';
 import { Product } from '../../../shared/Interfaces/product.interface';
 import { Publisher } from '../../../shared/Interfaces/publisher.interface';
@@ -27,10 +28,11 @@ export class ProductsDetailComponent implements OnInit {
   publishers: Publisher[];
   authors: Author[];
   fileList: NzUploadFile[] = [];
+  productStatus = SellerProductStatus;
+
   removedFileList: number[] = [];
   shopId: number;
   productId: number;
-
   isNew = true;
   isLoading = false;
   isBtnLoading = false;
@@ -58,7 +60,7 @@ export class ProductsDetailComponent implements OnInit {
       price: ['', [Validators.required]],
       originalPrice: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      inStock: [true, [Validators.required]],
+      status: [''],
       categoryId: ['', [Validators.required]],
       publisherId: ['', [Validators.required]],
       authorIds: [[], [Validators.required]]
@@ -89,17 +91,23 @@ export class ProductsDetailComponent implements OnInit {
           price: this.product.price,
           originalPrice: this.product.originalPrice,
           description: this.product.description,
-          inStock: this.product.inStock,
+          status: this.product.status,
           categoryId: this.product?.category?.id || '',
           publisherId: this.product?.publisher?.id || '',
           authorIds: this.product.authors.map((author) => author.id)
         });
+        if (this.product.status === ProductStatus.BANNED) {
+          this.productForm.controls['status'].disable();
+          this.productStatus = ProductStatus as any;
+        }
+
         this.fileList = this.product.images.map((image) => ({
           uid: String(image.id),
           status: 'done',
           name: image.imgName,
           url: image.imgUrl
         }));
+
         this.isLoading = false;
       },
       (error) => {

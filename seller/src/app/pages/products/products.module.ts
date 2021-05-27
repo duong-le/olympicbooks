@@ -15,8 +15,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
@@ -48,13 +48,13 @@ import { ProductsComponent } from './products.component';
     NzGridModule,
     NzInputModule,
     NzSelectModule,
-    NzSwitchModule,
     NzTreeModule,
     NzTreeSelectModule,
     NzUploadModule,
     NzAnchorModule,
     NzAffixModule,
-    NzPageHeaderModule
+    NzPageHeaderModule,
+    NzTagModule
   ]
 })
 export class ProductsModule {}
