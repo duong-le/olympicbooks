@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { DeliveryState } from '../../../shared/Enums/delivery-state.enum';
+import { ShippingState } from '../../../shared/Enums/shippings.enum';
 import { Order } from '../../../shared/Interfaces/order.interface';
 import { CustomerService } from '../customer.service';
 
@@ -15,7 +15,7 @@ import { CustomerService } from '../customer.service';
 export class OrderDetailComponent implements OnInit, OnDestroy {
   subscription$$: Subscription;
   order: Order;
-  deliveryState = DeliveryState;
+  deliveryState = ShippingState;
 
   isLoading = false;
   orderId: number;

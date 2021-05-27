@@ -30,7 +30,7 @@ import { OrderErrorComponent } from '../Components/result/error/order-error.comp
 import { OrderSuccessComponent } from '../Components/result/success/order-success.component';
 import { SearchComponent } from '../Components/search/search.component';
 import { ShopComponent } from '../Components/shop/shop.component';
-import { OrderStatePipe } from '../Pipes/order-state.pipe';
+import { OrderStatePipe } from '../Pipes/orders.pipe';
 import { PricePipe } from '../Pipes/price.pipe';
 import { IconModule } from './icon.module';
 

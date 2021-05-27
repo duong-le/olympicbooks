@@ -4,7 +4,7 @@ import { ShippingState } from '../Enums/shippings.enum';
 import { TransactionState } from '../Enums/transactions.enum';
 
 @Pipe({
-  name: 'orderState'
+  name: 'orderstate'
 })
 export class OrderStatePipe implements PipeTransform {
   transform(value: string, color = false): string {

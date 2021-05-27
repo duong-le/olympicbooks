@@ -22,8 +22,8 @@
       <nz-card [nzLoading]="isLoading" nzTitle="Giao Hàng" [nzBordered]="false">
         <div class="display-between">
           <h4>Tình trạng</h4>
-          <nz-tag nzColor="{{ order?.shipping?.state | orderState: true }}">
-            {{ order?.shipping?.state | orderState }}
+          <nz-tag nzColor="{{ order?.shipping?.state | orderstate: true }}">
+            {{ order?.shipping?.state | orderstate }}
           </nz-tag>
         </div>
 
@@ -53,8 +53,8 @@
       <nz-card [nzLoading]="isLoading" nzTitle="Thanh Toán" [nzBordered]="false">
         <div class="display-between">
           <h4>Tình trạng</h4>
-          <nz-tag nzColor="{{ order?.transaction?.state | orderState: true }}">
-            {{ order?.transaction?.state | orderState }}
+          <nz-tag nzColor="{{ order?.transaction?.state | orderstate: true }}">
+            {{ order?.transaction?.state | orderstate }}
           </nz-tag>
         </div>
 

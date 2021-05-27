@@ -107,7 +107,7 @@
             <nz-select formControlName="state">
               <nz-option
                 *ngFor="let state of shippingState | keyvalue"
-                [nzLabel]="state.value"
+                [nzLabel]="state.value | orderstate"
                 [nzValue]="state.value"
               >
               </nz-option>
@@ -177,7 +177,7 @@
             <nz-select formControlName="state">
               <nz-option
                 *ngFor="let state of transactionState | keyvalue"
-                [nzLabel]="state.value"
+                [nzLabel]="state.value | orderstate"
                 [nzValue]="state.value"
               >
               </nz-option>

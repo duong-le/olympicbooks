@@ -1,20 +1,20 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { DeliveryState } from 'src/app/shared/Enums/delivery-state.enum';
-import { TransactionState } from 'src/app/shared/Enums/transaction-state.enum';
+import { ShippingState } from 'src/app/shared/Enums/shippings.enum';
+import { TransactionState } from 'src/app/shared/Enums/transactions.enum';
 
 @Pipe({
-  name: 'orderState'
+  name: 'orderstate'
 })
 export class OrderStatePipe implements PipeTransform {
   transform(value: string, color = false): string {
     switch (value) {
-      case DeliveryState.PROCESSING:
+      case ShippingState.PROCESSING:
         return color ? 'processing' : 'Đang xử lý';
-      case DeliveryState.SHIPPING:
+      case ShippingState.SHIPPING:
         return color ? 'warning' : 'Đang giao hàng';
-      case DeliveryState.DELIVERED:
+      case ShippingState.DELIVERED:
         return color ? 'success' : 'Đã giao hàng';
-      case DeliveryState.CANCELLED || TransactionState.CANCELLED:
+      case ShippingState.CANCELLED || TransactionState.CANCELLED:
         return color ? 'error' : 'Đã huỷ';
       case TransactionState.PENDING:
         return color ? 'processing' : 'Đang chờ';

@@ -55,8 +55,8 @@
       <td>{{ item?.createdAt | date: 'dd-MM-yyyy' }}</td>
       <td>
         <nz-space>
-          <nz-tag nzColor="{{ item?.shipping?.state | orderState: true }}">
-            {{ item?.shipping?.state | orderState }}
+          <nz-tag nzColor="{{ item?.shipping?.state | orderstate: true }}">
+            {{ item?.shipping?.state | orderstate }}
           </nz-tag>
           <nz-tag nzColor="default">
             {{ item?.shipping?.shippingMethod?.name }}
@@ -65,8 +65,8 @@
       </td>
       <td>
         <nz-space>
-          <nz-tag nzColor="{{ item?.transaction?.state | orderState: true }}">
-            {{ item?.transaction?.state | orderState }}
+          <nz-tag nzColor="{{ item?.transaction?.state | orderstate: true }}">
+            {{ item?.transaction?.state | orderstate }}
           </nz-tag>
           <nz-tag nzColor="default">
             {{ item?.transaction?.transactionMethod?.name }}

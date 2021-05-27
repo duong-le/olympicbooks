@@ -1,6 +1,6 @@
 export enum ShippingState {
-  PROCESSING = 'PROCESSING',
-  SHIPPING = 'SHIPPING',
-  DELIVERED = 'DELIVERED',
-  CANCELLED = 'CANCELLED'
+  PROCESSING = 'processing',
+  SHIPPING = 'shipping',
+  DELIVERED = 'delivered',
+  CANCELLED = 'cancelled'
 }
