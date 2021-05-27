@@ -23,12 +23,9 @@ nz-sider {
 }
 
 nz-header {
-  position: fixed;
-  z-index: 2;
-}
-
-nz-content {
-  margin-top: 64px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 64px 0 24px;
 }
 
 .inner-content {

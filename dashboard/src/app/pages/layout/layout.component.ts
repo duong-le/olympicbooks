@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../../pages/authentication/authentication.service';
@@ -12,7 +12,6 @@ import { ThemeService } from '../../shared/Providers/theme.service';
 })
 export class LayoutComponent implements OnInit {
   user: Authentication;
-  headerWidth = 'calc(100% - 300px)';
 
   constructor(
     private router: Router,
@@ -22,10 +21,6 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.authenticationService.user$.subscribe((user) => (this.user = user));
-  }
-
-  collapse(event: EventEmitter<any>): void {
-    this.headerWidth = `calc(100% - ${event ? '80' : '300'}px)`;
   }
 
   toggleTheme(): void {

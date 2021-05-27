@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
@@ -11,14 +10,6 @@ import { LayoutComponent } from './layout.component';
 
 @NgModule({
   declarations: [LayoutComponent],
-  imports: [
-    CommonModule,
-    IconsModule,
-    LayoutRoutingModule,
-    NzLayoutModule,
-    NzMenuModule,
-    NzGridModule,
-    NzSwitchModule
-  ]
+  imports: [CommonModule, IconsModule, LayoutRoutingModule, NzLayoutModule, NzMenuModule, NzSwitchModule]
 })
 export class LayoutModule {}

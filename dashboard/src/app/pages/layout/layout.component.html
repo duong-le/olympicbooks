@@ -1,8 +1,9 @@
 <nz-layout class="app-layout">
-  <nz-sider nzCollapsible nzWidth="300px" nzBreakpoint="lg" (nzCollapsedChange)="collapse($event)">
+  <nz-sider nzCollapsible nzWidth="256px" nzBreakpoint="lg">
     <div class="logo">
       <h2>Olympicbooks</h2>
     </div>
+
     <ul nz-menu nzMode="inline">
       <li nz-submenu nzTitle="Thống kê" nzIcon="dashboard" nzOpen></li>
       <li nz-submenu nzTitle="Sản phẩm" nzIcon="book" nzOpen>
@@ -37,23 +38,20 @@
       </li>
     </ul>
   </nz-sider>
+
   <nz-layout>
-    <nz-header [style.width]="headerWidth">
-      <div nz-row nzJustify="space-between">
-        <div nz-col>
-          <nz-switch class="theme-switch" (click)="toggleTheme()" nzCheckedChildren="🌙" nzUnCheckedChildren="🔆">
-          </nz-switch>
-        </div>
-        <div nz-col>
-          <ul nz-menu nzMode="horizontal">
-            <li nz-submenu [nzTitle]="user?.name">
-              <ul>
-                <li nz-menu-item (click)="signOut()"><i nz-icon nzType="logout" nzTheme="outline"></i>Đăng xuất</li>
-              </ul>
+    <nz-header>
+      <nz-switch class="theme-switch" (click)="toggleTheme()" nzCheckedChildren="🌙" nzUnCheckedChildren="🔆">
+      </nz-switch>
+      <ul nz-menu nzMode="horizontal">
+        <li nz-submenu [nzTitle]="user?.name">
+          <ul>
+            <li nz-menu-item (click)="signOut()">
+              <i nz-icon nzType="logout" nzTheme="outline"></i>Đăng xuất
             </li>
           </ul>
-        </div>
-      </div>
+        </li>
+      </ul>
     </nz-header>
 
     <nz-content>
