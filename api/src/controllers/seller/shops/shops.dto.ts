@@ -1,5 +1,7 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
-import { IsDefined, IsOptional, IsString } from 'class-validator';
+import { IsDefined, IsEnum, IsOptional, IsString } from 'class-validator';
+
+import { SellerShopStatus } from '../../../shared/Enums/shops.enum';
 
 export class CreateShopDto {
   @ApiProperty()
@@ -17,4 +19,9 @@ export class CreateShopDto {
   attachment: any;
 }
 
-export class UpdateShopDto extends PartialType(CreateShopDto) {}
+export class UpdateShopDto extends PartialType(CreateShopDto) {
+  @ApiPropertyOptional({ enum: SellerShopStatus })
+  @IsOptional()
+  @IsEnum(SellerShopStatus)
+  status: SellerShopStatus;
+}

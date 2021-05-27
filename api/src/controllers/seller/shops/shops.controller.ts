@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -22,6 +23,7 @@ import { Seller } from '../../../entities/sellers.entity';
 import { Shop } from '../../../entities/shops.entity';
 import { UploadOptions } from '../../../services/cloud-storage.service';
 import { ShopsService } from '../../../services/shops.service';
+import { ShopStatus } from '../../../shared/Enums/shops.enum';
 import { File } from '../../../shared/Interfaces/file.interface';
 import { CreateShopDto, UpdateShopDto } from './shops.dto';
 
@@ -83,6 +85,11 @@ export class SellerShopsController {
     const shop = await this.service.getOneShopBySeller(id, seller.id);
     if (!shop) throw new NotFoundException(`Shop ${id} not found`);
 
+    if (dto?.status) {
+      if (shop.status === ShopStatus.UNAPPROVED || shop.status === ShopStatus.BANNED)
+        throw new BadRequestException('Seller can not update either unapproved or banned shop');
+      else shop.status = dto.status;
+    }
     if (dto?.name) shop.name = dto.name;
     if (dto?.description) shop.description = dto.description;
 

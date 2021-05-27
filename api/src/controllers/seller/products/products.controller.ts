@@ -1,4 +1,11 @@
-import { Controller, NotFoundException, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  NotFoundException,
+  UploadedFiles,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
@@ -16,8 +23,9 @@ import { Seller } from '../../../entities/sellers.entity';
 import { UploadOptions } from '../../../services/cloud-storage.service';
 import { ProductsService } from '../../../services/products.service';
 import { ShopsService } from '../../../services/shops.service';
+import { ProductStatus } from '../../../shared/Enums/products.enum';
 import { File } from '../../../shared/Interfaces/file.interface';
-import { CreateProductDto, UpdateProductDto } from '../../admin/products/products.dto';
+import { CreateProductDto, UpdateProductDto } from './products.dto';
 
 @ApiTags('Seller Shop Products')
 @ApiBearerAuth()
@@ -101,17 +109,24 @@ export class ShopProductsController implements CrudController<Product> {
     const product = await this.service.getOne(req);
     if (!product) throw new NotFoundException('Product not found');
 
-    const { authorIds, removedImageIds, ...others } = dto;
-    if (dto?.categoryId && product?.category?.id !== dto.categoryId) {
-      product.category = await this.categoryRepository.findOne(dto.categoryId);
+    const { status, categoryId, publisherId, authorIds, removedImageIds, ...others } = dto;
+
+    if (status) {
+      if (product.status === ProductStatus.BANNED)
+        throw new BadRequestException('Seller cannot update status of banned product');
+      else product.status = status;
+    }
+
+    if (categoryId && product?.category?.id !== categoryId) {
+      product.category = await this.categoryRepository.findOne(categoryId);
     }
 
     if (authorIds?.length) {
       product.authors = await this.authorRepository.findByIds(authorIds);
     }
 
-    if (dto?.publisherId && product?.publisher?.id !== dto.publisherId) {
-      product.publisher = await this.publisherRepository.findOne(dto.publisherId);
+    if (publisherId && product?.publisher?.id !== publisherId) {
+      product.publisher = await this.publisherRepository.findOne(publisherId);
     }
 
     if (uploadedFiles?.length) {
