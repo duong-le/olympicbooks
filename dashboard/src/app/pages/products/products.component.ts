@@ -19,7 +19,7 @@ export class ProductsComponent extends BaseComponent<Product> {
     { title: 'Danh mục', key: 'category.id', sort: true },
     { title: 'Nhà xuất bản', key: 'publisher.id', sort: true },
     { title: 'Tác giả (SL)' },
-    { title: 'Có hàng', key: 'inStock', sort: true },
+    { title: 'Trạng thái', key: 'status', sort: true },
     { title: 'Cửa hàng', key: 'shop.name', sort: true },
     { title: 'Giá bán', key: 'price', sort: true },
     { title: 'Giá gốc', key: 'originalPrice', sort: true }

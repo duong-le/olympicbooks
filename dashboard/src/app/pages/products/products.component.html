@@ -71,6 +71,16 @@
             nz-button
             nzType="text"
             nz-tooltip
+            nzTooltipTitle="Edit"
+            [routerLink]="item?.id"
+          >
+            <i nz-icon nzType="edit" theme="twotone"></i>
+          </button>
+          <button
+            *nzSpaceItem
+            nz-button
+            nzType="text"
+            nz-tooltip
             nzTooltipTitle="Xoá sản phẩm"
             nzDanger
             (click)="showDeleteConfirmModal(item?.id)"
@@ -85,15 +95,9 @@
       <td>{{ item?.publisher?.name }}</td>
       <td>{{ item?.authors?.length }}</td>
       <td>
-        <i nz-icon *ngIf="item?.inStock" nzType="check-circle" nzTheme="twotone" class="in-stock-icon"></i>
-        <i
-          nz-icon
-          *ngIf="!item?.inStock"
-          nzType="close-circle"
-          nzTheme="twotone"
-          nzTwotoneColor="#ff4d4f"
-          class="in-stock-icon"
-        ></i>
+        <nz-tag nzColor="{{ item?.status | productstatus: true }}">
+          {{ item?.status | productstatus }}
+        </nz-tag>
       </td>
       <td>{{ item?.shop?.name }}</td>
       <td>{{ item?.price | price }}</td>
@@ -138,18 +142,7 @@
     <nz-descriptions-item nzTitle="Năm xuất bản">{{ product?.publicationYear }}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Giá bán">{{ product?.price | price }}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Giá gốc">{{ product?.originalPrice | price }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Có hàng">
-      <i nz-icon *ngIf="product?.inStock" nzType="check-circle" nzTheme="twotone" class="in-stock-icon"></i>
-      <i
-        nz-icon
-        *ngIf="!product?.inStock"
-        nzType="close-circle"
-        nzTheme="twotone"
-        nzTwotoneColor="#ff4d4f"
-        class="in-stock-icon"
-      >
-      </i>
-    </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Trạng thái">{{ product?.status | productstatus }} </nz-descriptions-item>
     <nz-descriptions-item nzTitle="Cửa hàng">{{ product?.shop?.name }}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Danh mục">{{ product?.category?.title }}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Nhà xuất bản">{{ product?.publisher?.name }}</nz-descriptions-item>
