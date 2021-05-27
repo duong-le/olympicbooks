@@ -25,7 +25,7 @@ export class ShopsService {
     return this.http.post<Shop>(this.baseUrl, data);
   }
 
-  updateOne(id: number, data: Shop): Observable<Shop> {
+  updateOne(id: number, data: FormData): Observable<Shop> {
     return this.http.patch<Shop>(`${this.baseUrl}/${id}`, data);
   }
 }

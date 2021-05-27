@@ -89,7 +89,6 @@ export class SellersComponent implements OnInit {
 
   beforeUpload = (file: NzUploadFile): boolean => {
     this.fileList = this.fileList.concat(file);
-    // this.shopForm.markAsDirty();
     return false;
   };
 }

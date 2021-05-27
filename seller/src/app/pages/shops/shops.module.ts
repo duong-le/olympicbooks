@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 import { IconsModule } from '../../shared/icons.module';
 import { ShopsRoutingModule } from './shops-routing.module';
@@ -13,12 +16,16 @@ import { ShopsComponent } from './shops.component';
   declarations: [ShopsComponent],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     ShopsRoutingModule,
     IconsModule,
-    NzLayoutModule,
-    NzMenuModule,
-    NzAlertModule,
-    NzButtonModule
+    NzFormModule,
+    NzInputModule,
+    NzCardModule,
+    NzButtonModule,
+    NzMessageModule,
+    NzUploadModule
   ]
 })
 export class ShopsModule {}

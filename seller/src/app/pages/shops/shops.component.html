@@ -1,0 +1,47 @@
+<nz-card nzTitle="Hồ sơ">
+  <form nz-form [formGroup]="shopForm">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>Tên cửa hàng</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập tên cửa hàng">
+        <input nz-input id="name" formControlName="name" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="description" nzRequired>Mô tả</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập mô tả">
+        <input nz-input id="description" formControlName="description" type="tel" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control [nzSm]="{ span: 14, offset: 6 }" [nzXs]="24">
+        <nz-upload
+          [(nzFileList)]="fileList"
+          nzListType="picture"
+          [nzAccept]="fileTypeLimit"
+          [nzFileType]="fileTypeLimit"
+          [nzSize]="fileSizeLimit"
+          [nzDisabled]="fileList.length >= 1"
+          [nzBeforeUpload]="beforeUpload"
+        >
+          <button nz-button><i nz-icon nzType="upload"></i>Tải ảnh lên</button>
+        </nz-upload>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control [nzSm]="{ span: 14, offset: 6 }" [nzXs]="24">
+        <button
+          nz-button
+          nzType="primary"
+          [nzLoading]="isUpdateShopLoading"
+          [disabled]="shopForm.invalid || shopForm.pristine"
+          (click)="updateShop()"
+        >
+          Cập nhật
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-card>
