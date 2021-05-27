@@ -13,6 +13,14 @@ export class ShopsService extends BaseService<Shop> {
     return this.http.get<Pagination<Shop[]> | Shop[]>(`${this.baseUrl}/shops`, { params });
   }
 
+  getOne(id: number): Observable<Shop> {
+    return this.http.get<Shop>(`${this.baseUrl}/shops/${id}`);
+  }
+
+  updateOne(id: number, data: FormData): Observable<Shop> {
+    return this.http.patch<Shop>(`${this.baseUrl}/shops/${id}`, data);
+  }
+
   deleteOne(id: number): Observable<void> {
     return;
   }

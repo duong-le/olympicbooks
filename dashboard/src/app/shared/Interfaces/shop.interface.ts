@@ -1,3 +1,4 @@
+import { ShopStatus } from '../Enums/shops.enum';
 import { Order } from './order.interface';
 import { Product } from './product.interface';
 import { Seller } from './seller.interface';
@@ -8,7 +9,7 @@ export interface Shop {
   description: string;
   coverImgName: string;
   coverImgUrl: string;
-  isApproved: boolean;
+  status: ShopStatus;
   sellers: Seller[];
   products: Product[];
   orders: Order[];
