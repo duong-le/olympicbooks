@@ -32,6 +32,7 @@ import { SearchComponent } from '../Components/search/search.component';
 import { ShopComponent } from '../Components/shop/shop.component';
 import { OrderStatePipe } from '../Pipes/orders.pipe';
 import { PricePipe } from '../Pipes/prices.pipe';
+import { ProductStatusPipe } from '../Pipes/products.pipe';
 import { IconModule } from './icon.module';
 
 @NgModule({
@@ -51,7 +52,8 @@ import { IconModule } from './icon.module';
     PricePipe,
     OrderStatePipe,
     CollectionComponent,
-    ShopComponent
+    ShopComponent,
+    ProductStatusPipe
   ],
   imports: [
     CommonModule,
@@ -90,7 +92,8 @@ import { IconModule } from './icon.module';
     PricePipe,
     OrderStatePipe,
     CollectionComponent,
-    ShopComponent
+    ShopComponent,
+    ProductStatusPipe
   ]
 })
 export class SharedModule {}

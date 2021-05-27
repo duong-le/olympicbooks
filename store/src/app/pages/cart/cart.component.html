@@ -16,20 +16,43 @@
               <nz-card nzType="inner" [nzLoading]="isLoading" [style]="!last ? 'margin-bottom: 16px' : ''">
                 <div nz-row nzJustify="space-between" nzAlign="middle" [nzGutter]="[0, 16]">
                   <div nz-col nzXl="4" nzXs="8">
-                    <a [routerLink]="['/products', cartItem?.product.id]">
+                    <a
+                      [routerLink]="['/products', cartItem?.product?.id]"
+                      [style.pointer-events]="
+                        ['active', 'soldOut'].includes(cartItem?.product?.status) ? 'auto' : 'none'
+                      "
+                    >
                       <img
-                        [src]="cartItem?.product?.images[0]?.imgUrl"
+                        nz-image
+                        [nzSrc]="cartItem?.product?.images[0]?.imgUrl"
                         height="80"
                         width="80"
+                        nzPlaceholder="assets/images/placeholder.png"
+                        nzFallback="assets/images/placeholder.png"
                         (load)="onLoadImage($event)"
                       />
                     </a>
                   </div>
+
                   <div nz-col nzXl="9" nzXs="16">
-                    <a [routerLink]="['/products', cartItem?.product.id]">
-                      {{ cartItem?.product.title }}
-                    </a>
+                    <nz-space nzDirection="vertical">
+                      <a
+                        *nzSpaceItem
+                        [routerLink]="['/products', cartItem?.product?.id]"
+                        [style.pointer-events]="
+                          ['active', 'soldOut'].includes(cartItem?.product?.status) ? 'auto' : 'none'
+                        "
+                      >
+                        <span>{{ cartItem?.product?.title }}</span>
+                      </a>
+                      <ng-container *ngIf="cartItem?.product?.status !== 'active'">
+                        <nz-tag *nzSpaceItem nzColor="{{ cartItem?.product?.status | productstatus: true }}">
+                          {{ cartItem?.product?.status | productstatus }}
+                        </nz-tag>
+                      </ng-container>
+                    </nz-space>
                   </div>
+
                   <div nz-col nzXl="3">
                     <nz-input-number
                       [(ngModel)]="cartItem.quantity"
@@ -41,11 +64,13 @@
                     >
                     </nz-input-number>
                   </div>
+
                   <div nz-col nzXl="3">
                     <span class="price">
-                      {{ cartItem?.quantity * cartItem?.product.price | price }}
+                      {{ cartItem?.quantity * cartItem?.product?.price | price }}
                     </span>
                   </div>
+
                   <div nz-col>
                     <button
                       nz-button

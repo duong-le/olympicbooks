@@ -40,10 +40,6 @@ form {
   width: 100%;
 }
 
-.buyer-note-btn {
-  padding: 0 !important;
-}
-
 .transaction-method-info {
   white-space: pre-wrap;
 }
@@ -51,4 +47,12 @@ form {
 .price {
   color: #337ab7;
   font-size: 18px;
+}
+
+a {
+  color: inherit;
+
+  &:hover {
+    color: #1890ff;
+  }
 }

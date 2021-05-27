@@ -1,5 +1,9 @@
-h3 {
-  margin-bottom: 0;
+a {
+  color: inherit;
+
+  &:hover {
+    color: #1890ff;
+  }
 }
 
 nz-input-number {

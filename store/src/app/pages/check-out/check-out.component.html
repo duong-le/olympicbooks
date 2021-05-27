@@ -23,17 +23,44 @@
                   </ng-template>
 
                   <div class="cartItem-wrapper" *ngFor="let cartItem of item?.value">
-                    <a class="cartItem" [routerLink]="['/products', cartItem?.product.id]">
-                      <img [src]="cartItem?.product?.images[0]?.imgUrl" width="30" height="30" />
+                    <a
+                      class="cartItem"
+                      [routerLink]="['/products', cartItem?.product.id]"
+                      [style.pointer-events]="
+                        ['active', 'soldOut'].includes(cartItem?.product?.status) ? 'auto' : 'none'
+                      "
+                    >
+                      <img
+                        nz-image
+                        [src]="cartItem?.product?.images[0]?.imgUrl"
+                        width="30"
+                        height="30"
+                        nzPlaceholder="assets/images/placeholder.png"
+                        nzFallback="assets/images/placeholder.png"
+                      />
                     </a>
+
                     <div class="cartItem-title">
-                      <a [routerLink]="['/products', cartItem?.product.id]">
+                      <a
+                        [routerLink]="['/products', cartItem?.product.id]"
+                        [style.pointer-events]="
+                          ['active', 'soldOut'].includes(cartItem?.product?.status) ? 'auto' : 'none'
+                        "
+                      >
                         {{ cartItem?.product.title }}
                       </a>
+                      <nz-tag
+                        *ngIf="cartItem?.product?.status !== 'active'"
+                        nzColor="{{ cartItem?.product?.status | productstatus: true }}"
+                      >
+                        {{ cartItem?.product?.status | productstatus }}
+                      </nz-tag>
                     </div>
+
                     <div class="cartItem">
                       <span>SL: {{ cartItem?.quantity }}</span>
                     </div>
+
                     <div class="cartItem-price price">
                       {{ cartItem?.quantity * cartItem?.product.price | price }}
                     </div>
@@ -45,6 +72,7 @@
                     <div class="cartItem">
                       <span>Phí vận chuyển</span>
                     </div>
+
                     <div class="cartItem-price price">
                       {{ shippingFee | price }}
                     </div>
