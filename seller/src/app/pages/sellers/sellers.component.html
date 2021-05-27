@@ -5,7 +5,7 @@
     <nz-card nzTitle="Cửa hàng" [nzExtra]="createShopTemplate" [nzBordered]="false">
       <div class="list-shop">
         <div class="list-item" *ngFor="let shop of seller?.shops">
-          <a [routerLink]="['/shops', shop?.id]">
+          <a [routerLink]="['/shops', shop?.id, 'products']">
             <nz-card nzHoverable [nzCover]="coverTemplate" [nzBodyStyle]="{ padding: 0 }">
               <nz-card-meta [nzTitle]="shop?.name" [nzDescription]="shop?.description"></nz-card-meta>
               <nz-tag nzColor="{{ shop?.status | shopstatus: true }}">

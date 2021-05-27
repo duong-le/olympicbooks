@@ -1,0 +1,52 @@
+:host ::ng-deep .ant-alert-content {
+  text-align: center;
+}
+
+.app-layout {
+  min-height: 100vh;
+}
+
+.menu-sidebar {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
+}
+
+.sidebar-logo {
+  height: 64px;
+  padding-left: 24px;
+  overflow: hidden;
+  line-height: 64px;
+  background: #001529;
+
+  h2 {
+    margin: 0 0 0 20px;
+    color: #fff;
+  }
+}
+
+:host ::ng-deep .ant-menu-dark .ant-menu-inline.ant-menu-sub {
+  background: #001529;
+}
+
+nz-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 32px 0 24px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+}
+
+.header-trigger {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
+nz-content {
+  margin: 24px;
+}

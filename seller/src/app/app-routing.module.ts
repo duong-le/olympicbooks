@@ -19,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'shops',
-    loadChildren: () => import('./pages/shops/shops.module').then((m) => m.ShopsModule),
+    loadChildren: () => import('./pages/dashboard/dashboard.module').then((m) => m.DashboardModule),
     canActivate: [AuthGuard]
   }
 ];

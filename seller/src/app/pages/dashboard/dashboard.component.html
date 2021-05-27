@@ -1,0 +1,68 @@
+<nz-alert
+  *ngIf="isBannerShowing"
+  nzBanner
+  nzCloseable
+  [nzShowIcon]="false"
+  [nzType]="bannerType"
+  [nzMessage]="bannerMessage"
+>
+</nz-alert>
+
+<nz-layout class="app-layout">
+  <nz-sider
+    class="menu-sidebar"
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+  >
+    <div class="sidebar-logo">
+      <a [routerLink]="['/me']">
+        <h2>Kênh bán hàng</h2>
+      </a>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu nzOpen nzTitle="Thống kê" nzIcon="dashboard"></li>
+      <li nz-submenu nzOpen nzTitle="Sản phẩm" nzIcon="appstore">
+        <ul>
+          <li nz-menu-item nzMatchRouter nzMatchRouterExact>
+            <a [routerLink]="['products']">Tất cả sản phẩm</a>
+          </li>
+        </ul>
+        <ul>
+          <li nz-menu-item nzMatchRouter nzMatchRouterExact>
+            <a [routerLink]="['products', 'new']">Thêm mới sản phẩm</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Đơn hàng" nzIcon="unordered-list">
+        <ul>
+          <li nz-menu-item nzMatchRouter nzMatchRouterExact>
+            <a [routerLink]="['orders']">Đơn hàng</a>
+          </li>
+          <li nz-menu-item nzDisabled>Khuyến mãi</li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Cửa hàng" nzIcon="shop">
+        <ul>
+          <li nz-menu-item nzMatchRouter nzMatchRouterExact><a [routerLink]="['./']">Hồ sơ</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+        <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+      </span>
+
+      <div>
+        <button nz-button nzType="default" [routerLink]="['./']">{{ shop?.name }}</button>
+      </div>
+    </nz-header>
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
