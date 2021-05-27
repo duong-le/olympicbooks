@@ -69,7 +69,7 @@
 
         <nz-divider></nz-divider>
 
-        <ng-container *ngIf="product?.inStock; else outOfStock">
+        <ng-container *ngIf="product?.status !== 'soldOut'; else outOfStock">
           <div nz-row>
             <div nz-col nzSpan="12">
               <h3>Số lượng</h3>

@@ -4,6 +4,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { forkJoin } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
+import { ProductStatus } from '../../shared/Enums/products.enum';
 import { CartItem } from '../../shared/Interfaces/cart.interface';
 import { Product } from '../../shared/Interfaces/product.interface';
 import { TitleMetaService } from '../../shared/Providers/title-meta.service';
@@ -70,7 +71,10 @@ export class ProductsComponent implements OnInit {
           }
           this.isRelatedProductsLoading = true;
 
-          const relatedProductsFilter = [`id||$ne||${this.product.id}`, 'inStock||$eq||true'];
+          const relatedProductsFilter = [
+            `id||$ne||${this.product.id}`,
+            `status||$eq||${ProductStatus.ACTIVE}`
+          ];
 
           return forkJoin([
             this.productsService.getManyProducts({

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { combineLatest } from 'rxjs';
 
+import { ProductStatus } from '../../shared/Enums/products.enum';
 import { Category } from '../../shared/Interfaces/category.interface';
 import { Product } from '../../shared/Interfaces/product.interface';
 import { Shop } from '../../shared/Interfaces/shop.interface';
@@ -45,7 +46,7 @@ export class HomeComponent implements OnInit {
       this.productsService.getManyProducts({
         limit: String(this.maxProductPerRow),
         sort: 'updatedAt,DESC',
-        filter: 'inStock||$eq||true'
+        filter: `status||$eq||${ProductStatus.ACTIVE}`
       }),
       this.productsService.getManyProducts({ limit: String(this.maxProductPerRow), type: 'topSelling' })
     ]).subscribe(
