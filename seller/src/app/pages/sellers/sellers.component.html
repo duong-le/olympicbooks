@@ -55,19 +55,23 @@
                 <input nz-input id="description" formControlName="description" type="tel" />
               </nz-form-control>
             </nz-form-item>
-          </form>
 
-          <nz-upload
-            [(nzFileList)]="fileList"
-            nzListType="picture"
-            [nzAccept]="fileTypeLimit"
-            [nzFileType]="fileTypeLimit"
-            [nzSize]="fileSizeLimit"
-            [nzDisabled]="fileList.length >= 1"
-            [nzBeforeUpload]="beforeUpload"
-          >
-            <button nz-button><i nz-icon nzType="upload"></i>Tải ảnh lên</button>
-          </nz-upload>
+            <nz-form-item>
+              <nz-form-control [nzSm]="{ span: 14, offset: 6 }" [nzXs]="24">
+                <nz-upload
+                  [(nzFileList)]="fileList"
+                  nzListType="picture"
+                  [nzAccept]="fileTypeLimit"
+                  [nzFileType]="fileTypeLimit"
+                  [nzSize]="fileSizeLimit"
+                  [nzDisabled]="fileList.length >= 1"
+                  [nzBeforeUpload]="beforeUpload"
+                >
+                  <button nz-button><i nz-icon nzType="upload"></i>Tải ảnh lên</button>
+                </nz-upload>
+              </nz-form-control>
+            </nz-form-item>
+          </form>
         </ng-template>
 
         <ng-template #modalFooter>
