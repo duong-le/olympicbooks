@@ -118,6 +118,8 @@ export class CheckOutComponent implements OnInit, OnDestroy {
   }
 
   changeTransactionMethod(method: TransactionMethod): void {
+    if (method.disabled) return;
+
     this.orderForm.setValue({
       ...this.orderForm.value,
       transactionMethodId: method.id

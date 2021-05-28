@@ -119,12 +119,15 @@
                       <nz-collapse-panel
                         *ngFor="let method of transactionMethods"
                         [nzHeader]="method.description"
+                        [nzDisabled]="method.disabled"
                         [nzActive]="method.id === orderForm.value.transactionMethodId"
                         [nzExtra]="radioBtn"
                         (click)="changeTransactionMethod(method)"
                       >
                         <span class="transaction-method-info">{{ method?.info }}</span>
-                        <ng-template #radioBtn><label nz-radio [nzValue]="method.id"></label></ng-template>
+                        <ng-template #radioBtn>
+                          <label nz-radio [nzDisabled]="method.disabled" [nzValue]="method.id"> </label>
+                        </ng-template>
                       </nz-collapse-panel>
                     </nz-collapse>
                   </nz-radio-group>

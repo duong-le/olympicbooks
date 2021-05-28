@@ -57,10 +57,12 @@ export class OrdersController implements CrudController<Order> {
   async createOne(@ParsedBody() dto: CreateOrderDto, @UserInfo() customer: Customer): Promise<Order[]> {
     const shippingMethod = await this.shippingMethodRepository.findOne(dto.shippingMethodId);
     if (!shippingMethod) throw new NotFoundException(`Shipping method ${dto.shippingMethodId} not found`);
+    if (shippingMethod.disabled) throw new BadRequestException('Shipping method is disabled');
 
     const transactionMethod = await this.transactionMethodRepository.findOne(dto.transactionMethodId);
     if (!transactionMethod)
       throw new NotFoundException(`Transaction method ${dto.transactionMethodId} not found`);
+    if (transactionMethod.disabled) throw new BadRequestException('Transaction method is disabled');
 
     const cartItems = await this.cartRepository.find({ customerId: customer.id });
     for (const cartItem of cartItems) {
