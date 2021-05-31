@@ -58,7 +58,7 @@ export class ProductsController implements CrudController<Product> {
     if (!product) throw new NotFoundException('Product not found');
 
     if (product?.category?.id) {
-      product.category = await this.categoriesService.getOne(product?.category?.id);
+      product.category = await this.categoriesService.getCategoryAncestorAndDescendants(product.category);
     }
     return product;
   }

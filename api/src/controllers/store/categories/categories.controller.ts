@@ -1,5 +1,7 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, ParseIntPipe } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { InjectRepository } from '@nestjs/typeorm';
+import { TreeRepository } from 'typeorm';
 
 import { Category } from '../../../entities/categories.entity';
 import { CategoriesService } from '../../../services/categories.service';
@@ -7,29 +9,24 @@ import { CategoriesService } from '../../../services/categories.service';
 @ApiTags('Categories')
 @Controller('categories')
 export class CategoriesController {
-  constructor(public service: CategoriesService) {}
+  constructor(
+    public service: CategoriesService,
+    @InjectRepository(Category) public categoryRepository: TreeRepository<Category>
+  ) {}
 
   @ApiOperation({ summary: 'Retrieve many Category' })
   @Get()
-  getMany(): Promise<Category[]> {
-    return this.service.getMany();
+  async getMany(): Promise<Category[]> {
+    const categories = await this.categoryRepository.findTrees();
+    return this.service.setLeaf(categories);
   }
 
   @ApiOperation({ summary: 'Retrieve one Category' })
   @Get(':id')
-  getOne(@Param('id', ParseIntPipe) id: number): Promise<Category> {
-    return this.service.getOne(id);
-  }
+  async getOne(@Param('id', ParseIntPipe) id: number): Promise<Category> {
+    const category = await this.categoryRepository.findOne(id);
+    if (!category) throw new NotFoundException(`Category ${id} not found`);
 
-  @ApiOperation({ summary: 'Retrieve many Publisher by Category' })
-  @Get(':id/publishers')
-  getPublishersByCategory(@Param('id', ParseIntPipe) id: number): Promise<Category[]> {
-    return this.service.getPublishersByCategory(id);
-  }
-
-  @ApiOperation({ summary: 'Retrieve many Author by Category' })
-  @Get(':id/authors')
-  getAuthorsByCategory(@Param('id', ParseIntPipe) id: number): Promise<Category[]> {
-    return this.service.getAuthorsByCategory(id);
+    return this.service.getCategoryAncestorAndDescendants(category);
   }
 }
