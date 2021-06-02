@@ -6,6 +6,7 @@ import { NzAnchorModule } from 'ng-zorro-antd/anchor';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzImageModule } from 'ng-zorro-antd/image';
@@ -54,7 +55,8 @@ import { ProductsComponent } from './products.component';
     NzAnchorModule,
     NzAffixModule,
     NzPageHeaderModule,
-    NzTagModule
+    NzTagModule,
+    NzDividerModule
   ]
 })
 export class ProductsModule {}

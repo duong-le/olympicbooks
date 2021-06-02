@@ -57,7 +57,11 @@
             </nz-form-item>
 
             <nz-form-item>
-              <nz-form-control [nzSm]="{ span: 14, offset: 6 }" [nzXs]="24">
+              <nz-form-control
+                [nzSm]="{ span: 14, offset: 6 }"
+                [nzXs]="24"
+                nzExtra="Dung lượng tối đa của hình ảnh là 500KB"
+              >
                 <nz-upload
                   [(nzFileList)]="fileList"
                   nzListType="picture"
