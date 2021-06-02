@@ -6,6 +6,8 @@ import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 import { CategoriesService } from '../../../pages/categories/categories.service';
+import { AttributeInputMode } from '../../../shared/Enums/attributes.enum';
+import { Attribute } from '../../../shared/Interfaces/attribute.interface';
 import { Category } from '../../../shared/Interfaces/category.interface';
 
 @Component({
@@ -14,17 +16,20 @@ import { Category } from '../../../shared/Interfaces/category.interface';
   styleUrls: ['./categories-detail.component.scss']
 })
 export class CategoriesDetailComponent implements OnInit, OnChanges {
-  @Input() id: number;
+  @Input() categoryId: number;
   @Input() isNew: boolean;
   @Input() categoryData: NzTreeNodeOptions[];
   @Output() notifyRender: EventEmitter<any> = new EventEmitter();
   @Output() notifyDelete: EventEmitter<any> = new EventEmitter();
 
   categoryForm: FormGroup;
+  attributeForm: FormGroup;
   category: Category;
   categoryTree: NzTreeNodeOptions[] = [];
   fileList: NzUploadFile[] = [];
+  attributeInputMode = AttributeInputMode;
 
+  attributeFormGroups: string[] = [];
   isLoading = false;
   isBtnLoading = false;
   fileSizeLimit = 500;
@@ -39,39 +44,38 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.categoryForm = this.fb.group({
-      id: { value: '', disabled: true },
       title: ['', [Validators.required]],
       parentId: ['']
     });
 
-    if (!this.isNew) this.render();
-    if (this.categoryData) this.categoryTree = this.categoryData;
+    this.attributeForm = this.fb.group({});
   }
 
   ngOnChanges() {
-    if (this.isNew && this.categoryForm) {
-      this.category = null;
-      this.categoryForm.reset();
-      this.categoryForm.updateValueAndValidity();
-    } else if (this.id) this.render();
-    if (this.categoryData) this.categoryTree = this.categoryData;
-    if (this.categoryForm) this.categoryForm.controls['parentId'][this.isNew ? 'enable' : 'disable']();
     this.fileList = [];
+    this.attributeFormGroups = [];
+    this.attributeForm = this.fb.group({});
+    if (this.isNew && this.categoryForm) {
+      this.categoryForm.reset();
+    } else if (!this.isNew && this.categoryId && this.categoryData) this.renderCategoryDetailPage();
+
+    if (this.categoryForm) this.categoryForm.controls['parentId'][this.isNew ? 'enable' : 'disable']();
+    if (this.categoryData) this.categoryTree = this.categoryData;
   }
 
-  render() {
+  renderCategoryDetailPage() {
     this.isLoading = true;
-    this.categoriesService.getOne(this.id).subscribe(
+    this.categoriesService.getOne(this.categoryId).subscribe(
       (response) => {
         this.category = response;
         this.categoryForm.setValue({
-          id: this.category.id,
           title: this.category.title,
           parentId:
             this.category?.parent?.length > 1
               ? this.category.parent[this.category.parent.length - 2].id
               : null
         });
+
         if (this.category.imgName && this.category.imgUrl) {
           this.fileList = [
             {
@@ -83,6 +87,16 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
             }
           ];
         }
+
+        for (const attribute of this.category.attributes) {
+          this.addNewFormGroupToAttributeForm(
+            attribute.id,
+            attribute.name,
+            attribute.inputMode,
+            attribute.isRequired
+          );
+        }
+
         this.categoryForm.markAsPristine();
         this.isLoading = false;
       },
@@ -93,13 +107,9 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
     );
   }
 
-  update() {
+  updateCategory() {
     this.isBtnLoading = true;
-    const formData = new FormData();
-    formData.append('title', this.categoryForm.controls['title'].value);
-    if (this.fileList.length) formData.append('attachment', this.fileList[0] as any);
-
-    this.categoriesService.updateOne(this.category.id, formData).subscribe(
+    this.categoriesService.updateOne(this.categoryId, this.prepareFormData()).subscribe(
       (response) => {
         this.isBtnLoading = false;
         this.messageService.success('Cập nhật thành công!');
@@ -112,17 +122,12 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
     );
   }
 
-  create() {
+  createCategory() {
     this.isBtnLoading = true;
-    const formData = new FormData();
-    formData.append('title', this.categoryForm.controls['title'].value);
-    formData.append('parentId', this.categoryForm.controls['parentId'].value || 0);
-    if (this.fileList.length) formData.append('attachment', this.fileList[0] as any);
-
-    this.categoriesService.createOne(formData).subscribe(
+    this.categoriesService.createOne(this.prepareFormData()).subscribe(
       (response) => {
         this.isBtnLoading = false;
-        this.messageService.success('Thêm mới thành công!');
+        this.messageService.success('Thêm mới danh mục thành công!');
         this.notifyRender.emit();
       },
       (error) => {
@@ -135,13 +140,13 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
   showDeleteConfirmModal() {
     this.modal.confirm({
       nzTitle: 'Bạn có chắc chắn muốn xóa không?',
-      nzOnOk: () => this.delete()
+      nzOnOk: () => this.deleteCategory()
     });
   }
 
-  delete() {
+  deleteCategory() {
     this.isLoading = true;
-    this.categoriesService.deleteOne(this.categoryForm.controls['id'].value).subscribe(
+    this.categoriesService.deleteOne(this.categoryId).subscribe(
       (response) => {
         this.isLoading = false;
         this.messageService.success('Xoá thành công!');
@@ -159,4 +164,71 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
     this.categoryForm.markAsDirty();
     return false;
   };
+
+  prepareFormData() {
+    const formData = new FormData();
+
+    for (const formControl in this.categoryForm.value) {
+      formData.append(formControl, this.categoryForm.value[formControl]);
+    }
+
+    if (this.fileList.length) formData.append('attachment', this.fileList[0] as any);
+
+    return formData;
+  }
+
+  addNewFormGroupToAttributeForm(id = null, name = null, inputMode = '', isRequired = true): void {
+    const formGroupName = `attribute${this.attributeFormGroups.length}`;
+    this.attributeFormGroups.push(formGroupName);
+    this.attributeForm.addControl(
+      formGroupName,
+      this.fb.group({
+        id: { value: id, disabled: true },
+        name: [name, [Validators.required]],
+        inputMode: [inputMode, [Validators.required]],
+        isRequired: [isRequired, [Validators.required]]
+      })
+    );
+  }
+
+  removeFormGroupFromAttributeForm(formGroupName: string): void {
+    const index = this.attributeFormGroups.indexOf(formGroupName);
+    if (!index) return;
+
+    this.attributeFormGroups.splice(index, 1);
+    const attributeId = (this.attributeForm.get(formGroupName) as FormGroup).controls['id'].value;
+    if (attributeId) this.removeAttribute(attributeId);
+    this.attributeForm.removeControl(formGroupName);
+  }
+
+  saveAttribute(formGroupName: string): void {
+    const formGroup = this.attributeForm.get(formGroupName) as FormGroup;
+    const attributeId = formGroup.controls['id'].value;
+
+    attributeId ? this.updateAttribute(attributeId, formGroup.value) : this.createAttribute(formGroup);
+  }
+
+  createAttribute(formGroup: FormGroup) {
+    this.categoriesService.createOneAttribute(this.categoryId, formGroup.value).subscribe(
+      (response) => {
+        this.messageService.success('Thêm mới thuộc tính thành công!');
+        formGroup.patchValue({ id: response.id });
+      },
+      (error) => this.messageService.error(error?.error?.message)
+    );
+  }
+
+  updateAttribute(attributeId: number, data: Attribute) {
+    this.categoriesService.updateOneAttribute(this.categoryId, attributeId, data).subscribe(
+      (response) => this.messageService.success('Cập nhật thuộc tính thành công!'),
+      (error) => this.messageService.error(error?.error?.message)
+    );
+  }
+
+  removeAttribute(attributeId: number) {
+    this.categoriesService.deleteOneAttribute(this.categoryId, attributeId).subscribe(
+      (response) => this.messageService.success('Xoá thuộc tính thành công!'),
+      (error) => this.messageService.error(error?.error?.message)
+    );
+  }
 }

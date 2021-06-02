@@ -6,6 +6,10 @@ import { CategoriesComponent } from './categories.component';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'new'
+  },
+  {
+    path: ':categoryId',
     component: CategoriesComponent
   }
 ];

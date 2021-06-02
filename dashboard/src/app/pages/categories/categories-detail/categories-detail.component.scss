@@ -1,23 +1,9 @@
-nz-tree-select {
-  width: 100%;
+nz-card {
+  margin-bottom: 16px;
 }
 
-.upload-form-item {
-  .extra {
-    float: right;
-    i {
-      padding-left: 4px;
-    }
-  }
-
-  nz-upload {
-    display: block !important;
-    padding-top: 8px;
-  }
-
-  img {
-    width: 100%;
-    max-width: 500px;
-    margin-top: 8px;
-  }
+.switch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

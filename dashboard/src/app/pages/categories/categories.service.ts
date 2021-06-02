@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
+import { Attribute } from '../../shared/Interfaces/attribute.interface';
 import { Category } from '../../shared/Interfaces/category.interface';
 
 @Injectable({
@@ -31,5 +32,20 @@ export class CategoriesService {
 
   deleteOne(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/categories/${id}`);
+  }
+
+  createOneAttribute(categoryId: number, data: Attribute): Observable<Attribute> {
+    return this.http.post<Attribute>(`${this.baseUrl}/categories/${categoryId}/attributes`, data);
+  }
+
+  updateOneAttribute(categoryId: number, attributeId: number, data: Attribute): Observable<Attribute> {
+    return this.http.patch<Attribute>(
+      `${this.baseUrl}/categories/${categoryId}/attributes/${attributeId}`,
+      data
+    );
+  }
+
+  deleteOneAttribute(categoryId: number, attributeId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/categories/${categoryId}/attributes/${attributeId}`);
   }
 }

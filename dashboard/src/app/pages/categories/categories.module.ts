@@ -9,13 +9,16 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 import { IconsModule } from '../../shared/icons.module';
+import { PipesModule } from '../../shared/Pipes/pipes.module';
 import { CategoriesDetailComponent } from './categories-detail/categories-detail.component';
 import { CategoriesRoutingModule } from './categories-routing.module';
 import { CategoriesComponent } from './categories.component';
@@ -28,6 +31,7 @@ import { CategoriesComponent } from './categories.component';
     FormsModule,
     ReactiveFormsModule,
     IconsModule,
+    PipesModule,
     NzCardModule,
     NzInputModule,
     NzSelectModule,
@@ -39,8 +43,10 @@ import { CategoriesComponent } from './categories.component';
     NzTreeModule,
     NzTreeSelectModule,
     NzEmptyModule,
-    NzSpaceModule,
-    NzUploadModule
+    NzUploadModule,
+    NzPageHeaderModule,
+    NzToolTipModule,
+    NzSwitchModule
   ]
 })
 export class CategoriesModule {}

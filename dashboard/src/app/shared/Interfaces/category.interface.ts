@@ -1,3 +1,5 @@
+import { Attribute } from './attribute.interface';
+
 export interface Category {
   id: number;
   title: string;
@@ -7,4 +9,5 @@ export interface Category {
   parent?: Category[];
   children?: Category[];
   isLeaf: boolean;
+  attributes: Attribute[];
 }

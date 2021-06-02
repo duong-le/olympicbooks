@@ -1,46 +1,146 @@
-<nz-card [nzLoading]="isLoading" nzTitle="{{ isNew ? 'Thêm mới Danh Mục' : 'Chi tiết Danh Mục' }}"
-         [nzExtra]="buttonGroup">
-  <form nz-form nzLayout="vertical" [formGroup]="categoryForm">
-    <nz-form-item *ngIf="!isNew">
-      <nz-form-label nzFor="id">ID</nz-form-label>
-      <nz-form-control>
-        <input nz-input formControlName="id" type="text">
+<nz-page-header [nzGhost]="false">
+  <nz-page-header-title *ngIf="isNew">Thêm mới danh mục</nz-page-header-title>
+  <nz-page-header-title *ngIf="!isNew">Danh mục #{{ categoryId }}</nz-page-header-title>
+  <nz-page-header-extra>
+    <ng-container *ngIf="!isNew && category?.isLeaf">
+      <button nz-button nzType="primary" nzDanger (click)="showDeleteConfirmModal()">Xoá</button>
+    </ng-container>
+  </nz-page-header-extra>
+</nz-page-header>
+
+<nz-card [nzLoading]="isLoading" nzTitle="Thông tin cơ bản" [nzExtra]="saveBtnTemplate">
+  <form nz-form [formGroup]="categoryForm">
+    <nz-form-item>
+      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="title" nzRequired>Tên danh mục</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
+        <input nz-input formControlName="title" type="text" />
       </nz-form-control>
     </nz-form-item>
+
     <nz-form-item>
-      <nz-form-label nzFor="title" nzRequired>Tên danh mục</nz-form-label>
-      <nz-form-control nzErrorTip="Please input this field!">
-        <input nz-input formControlName="title" type="text">
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzFor="parentId">Danh mục cha</nz-form-label>
-      <nz-form-control>
-        <nz-tree-select [nzNodes]="categoryTree" nzShowSearch [nzHideUnMatched]="true" [nzDefaultExpandAll]="true"
-                        [nzDropdownStyle]="{ 'max-height': '300px' }" formControlName="parentId">
+      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="parentId">Danh mục cha</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-tree-select
+          [nzNodes]="categoryTree"
+          nzShowSearch
+          [nzHideUnMatched]="true"
+          [nzDefaultExpandAll]="true"
+          [nzDropdownStyle]="{ 'max-height': '300px' }"
+          formControlName="parentId"
+        >
         </nz-tree-select>
       </nz-form-control>
     </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24">Hình ảnh</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzExtra="Dung lượng tối đa của hình ảnh là 500KB">
+        <nz-upload
+          [(nzFileList)]="fileList"
+          nzListType="picture"
+          [nzAccept]="fileTypeLimit"
+          [nzFileType]="fileTypeLimit"
+          [nzSize]="fileSizeLimit"
+          [nzDisabled]="fileList.length >= 1"
+          [nzBeforeUpload]="beforeUpload"
+        >
+          <button nz-button><i nz-icon nzType="upload"></i>Tải ảnh lên</button>
+        </nz-upload>
+      </nz-form-control>
+    </nz-form-item>
   </form>
-  <div class="upload-form-item">
-    <label>Hình ảnh</label>
-    <span class="extra">
-      Dung lượng tối đa của hình ảnh là 500KB
-      <i nz-icon nzType="info-circle" nzTheme="outline"></i>
-    </span>
-    <nz-upload [(nzFileList)]="fileList" nzListType="picture" [nzAccept]="fileTypeLimit" [nzFileType]="fileTypeLimit"
-               [nzSize]="fileSizeLimit" [nzDisabled]="fileList.length >= 1" [nzBeforeUpload]="beforeUpload">
-      <button nz-button><i nz-icon nzType="upload"></i>Tải ảnh lên</button>
-    </nz-upload>
-  </div>
 </nz-card>
 
-<ng-template #buttonGroup>
-  <nz-space>
-    <ng-container *ngIf="!isNew && category?.isLeaf">
-      <button *nzSpaceItem nz-button nzType="primary" nzDanger (click)="showDeleteConfirmModal()">Delete</button>
-    </ng-container>
-    <button *nzSpaceItem nz-button nzType="primary" [nzLoading]="isBtnLoading" (click)="isNew ? create() : update()"
-            [disabled]="categoryForm.invalid || categoryForm.pristine">Lưu</button>
-  </nz-space>
+<ng-template #saveBtnTemplate>
+  <button
+    nz-button
+    nzType="primary"
+    [nzLoading]="isBtnLoading"
+    (click)="isNew ? createCategory() : updateCategory()"
+    [disabled]="categoryForm.invalid || categoryForm.pristine"
+  >
+    Lưu
+  </button>
+</ng-template>
+
+<nz-card [nzLoading]="isLoading" nzTitle="Thuộc tính" *ngIf="!isNew" [nzExtra]="addAttributeBtnTemplate">
+  <form nz-form [formGroup]="attributeForm">
+    <div
+      *ngFor="let formGroup of attributeFormGroups; let index = index"
+      [formGroupName]="formGroup"
+      nzLayout="inline"
+    >
+      <nz-form-item>
+        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="name" nzRequired>
+          Thuộc tính {{ index }}
+        </nz-form-label>
+
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
+          <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="12">
+              <input nz-input nz-tooltip nzTooltipTitle="Tên thuộc tính" formControlName="name" />
+            </div>
+
+            <div nz-col [nzSpan]="8">
+              <nz-select
+                nzShowSearch
+                nzAllowClear
+                nz-tooltip
+                nzTooltipTitle="Chế độ nhập"
+                formControlName="inputMode"
+              >
+                <nz-option
+                  *ngFor="let inputMode of attributeInputMode | keyvalue"
+                  [nzLabel]="inputMode?.value | attributeinputmode"
+                  [nzValue]="inputMode?.value"
+                >
+                </nz-option>
+              </nz-select>
+            </div>
+
+            <div nz-col [nzSpan]="2" class="switch">
+              <nz-switch
+                nzSize="small"
+                nz-tooltip
+                nzTooltipTitle="Bắt buộc"
+                formControlName="isRequired"
+              ></nz-switch>
+            </div>
+
+            <div nz-col [nzSpan]="1">
+              <button
+                nz-button
+                nzType="link"
+                nz-tooltip
+                nzTooltipTitle="Lưu"
+                [disabled]="attributeForm.get(formGroup).invalid || attributeForm.get(formGroup).pristine"
+                (click)="saveAttribute(formGroup)"
+              >
+                <i nz-icon nzType="save" nzTheme="outline"></i>
+              </button>
+            </div>
+
+            <div nz-col [nzSpan]="1">
+              <button
+                nz-button
+                nzDanger
+                nzType="text"
+                nz-tooltip
+                nzTooltipTitle="Xoá"
+                (click)="removeFormGroupFromAttributeForm(formGroup)"
+              >
+                <i nz-icon nzType="minus-circle" nzTheme="outline"></i>
+              </button>
+            </div>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </form>
+</nz-card>
+
+<ng-template #addAttributeBtnTemplate>
+  <button nz-button nzType="default" class="add-button" (click)="addNewFormGroupToAttributeForm()">
+    <i nz-icon nzType="plus"></i>Thêm thuộc tính
+  </button>
 </ng-template>
