@@ -1,6 +1,8 @@
 import { ApiProperty, ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsDefined, IsInt, IsOptional, IsString, Min } from 'class-validator';
+import { IsBoolean, IsDefined, IsEnum, IsInt, IsOptional, IsString, Min } from 'class-validator';
+
+import { AttributeInputMode } from '../../../shared/Enums/attributes.enum';
 
 export class CreateCategoryDto {
   @ApiProperty()
@@ -21,3 +23,22 @@ export class CreateCategoryDto {
 }
 
 export class UpdateCategoryDto extends PartialType(OmitType(CreateCategoryDto, ['parentId'] as const)) {}
+
+export class CreateAttributeDto {
+  @ApiProperty()
+  @IsDefined()
+  @IsString()
+  name: string;
+
+  @ApiProperty()
+  @IsDefined()
+  @IsBoolean()
+  isRequired: boolean;
+
+  @ApiProperty({ enum: AttributeInputMode, default: AttributeInputMode.DEFAULT })
+  @IsDefined()
+  @IsEnum(AttributeInputMode)
+  inputMode: AttributeInputMode;
+}
+
+export class UpdateAttributeDto extends PartialType(CreateAttributeDto) {}

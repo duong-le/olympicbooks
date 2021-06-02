@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TreeRepository } from 'typeorm';
+import { Repository, TreeRepository } from 'typeorm';
 
-import { CreateCategoryDto, UpdateCategoryDto } from '../controllers/admin/categories/categories.dto';
+import { AttributeValue } from '../entities/attribute-value.entity';
 import { Category } from '../entities/categories.entity';
 import { File } from '../shared/Interfaces/file.interface';
 import { CloudStorageService } from './cloud-storage.service';
@@ -11,6 +11,7 @@ import { CloudStorageService } from './cloud-storage.service';
 export class CategoriesService {
   constructor(
     @InjectRepository(Category) private categoryRepository: TreeRepository<Category>,
+    @InjectRepository(AttributeValue) private attributeValueRepository: Repository<AttributeValue>,
     private cloudStorageService: CloudStorageService
   ) {}
 
@@ -40,5 +41,19 @@ export class CategoriesService {
 
   async removeFile(fileName: string): Promise<void> {
     await this.cloudStorageService.removeFile(fileName);
+  }
+
+  async getOneAttributeValueByCategory(
+    categoryId: number,
+    attributeId: number,
+    attributeValueId: number
+  ): Promise<AttributeValue> {
+    return await this.attributeValueRepository
+      .createQueryBuilder('attributeValue')
+      .leftJoin('attributeValue.attribute', 'attribute')
+      .where('attributeValue.id = :attributeValueId', { attributeValueId })
+      .andWhere('attributeValue.attributeId = :attributeId', { attributeId })
+      .andWhere('attribute.categoryId = :categoryId', { categoryId })
+      .getOne();
   }
 }

@@ -28,6 +28,7 @@ import { TransactionsModule } from './controllers/store/transactions/transaction
 import { ShopsModule } from './controllers/store/shops/shops.module';
 
 import { SellersModule } from './controllers/seller/sellers/sellers.module';
+import { SellerCategoriesModule } from './controllers/seller/categories/categories.module';
 import { SellerShopsModule } from './controllers/seller/shops/shops.module';
 import { ShopProductsModule } from './controllers/seller/products/products.module';
 import { ShopOrdersModule } from './controllers/seller/orders/orders.module';
@@ -65,6 +66,7 @@ import { Exist } from './core/Validators/exist/exist.service';
     AdminShopsModule,
     AdminSellersModule,
     SellersModule,
+    SellerCategoriesModule,
     SellerShopsModule,
     ShopProductsModule,
     ShopOrdersModule
