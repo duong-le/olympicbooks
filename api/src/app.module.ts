@@ -5,24 +5,20 @@ import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AdminsModule } from './controllers/admin/admins/admins.module';
-import { AdminAuthorsModule } from './controllers/admin/authors/authors.module';
 import { AdminCategoriesModule } from './controllers/admin/categories/categories.module';
 import { AdminCustomersModule } from './controllers/admin/customers/customers.module';
 import { AdminOrdersModule } from './controllers/admin/orders/orders.module';
 import { AdminProductsModule } from './controllers/admin/products/products.module';
-import { AdminPublishersModule } from './controllers/admin/publishers/publishers.module';
 import { AdminSellersModule } from './controllers/admin/sellers/sellers.module';
 import { AdminShopsModule } from './controllers/admin/shops/shops.module';
 
 import { AuthModule } from './controllers/auth/auth.module';
-import { AuthorsModule } from './controllers/store/authors/authors.module';
 import { CartsModule } from './controllers/store/carts/carts.module';
 import { CategoriesModule } from './controllers/store/categories/categories.module';
 import { CustomersModule } from './controllers/store/customers/customers.module';
 import { DiscountsModule } from './controllers/store/discounts/discounts.module';
 import { OrdersModule } from './controllers/store/orders/orders.module';
 import { ProductsModule } from './controllers/store/products/products.module';
-import { PublishersModule } from './controllers/store/publishers/publishers.module';
 import { ShippingsModule } from './controllers/store/shippings/shippings.module';
 import { TransactionsModule } from './controllers/store/transactions/transactions.module';
 import { ShopsModule } from './controllers/store/shops/shops.module';
@@ -47,8 +43,6 @@ import { Exist } from './core/Validators/exist/exist.service';
     AuthModule,
     ProductsModule,
     CategoriesModule,
-    PublishersModule,
-    AuthorsModule,
     CustomersModule,
     CartsModule,
     OrdersModule,
@@ -58,8 +52,6 @@ import { Exist } from './core/Validators/exist/exist.service';
     ShopsModule,
     AdminsModule,
     AdminOrdersModule,
-    AdminAuthorsModule,
-    AdminPublishersModule,
     AdminCategoriesModule,
     AdminProductsModule,
     AdminCustomersModule,

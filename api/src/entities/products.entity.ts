@@ -2,12 +2,10 @@ import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typ
 
 import { ProductStatus, SellerProductStatus } from '../shared/Enums/products.enum';
 import { AttributeValue } from './attribute-value.entity';
-import { Author } from './authors.entity';
 import { BaseEntity } from './base.entity';
 import { Category } from './categories.entity';
 import { OrderItem } from './orders-item.entity';
 import { ProductImage } from './product-images.entity';
-import { Publisher } from './publishers.entity';
 import { Shop } from './shops.entity';
 
 @Entity()
@@ -17,15 +15,6 @@ export class Product extends BaseEntity {
 
   @Column()
   description: string;
-
-  @Column()
-  publicationYear: number;
-
-  @Column()
-  pages: number;
-
-  @Column()
-  weight: number;
 
   @Column()
   price: number;
@@ -44,16 +33,6 @@ export class Product extends BaseEntity {
 
   @Column()
   categoryId: number;
-
-  @ManyToOne(() => Publisher, (publisher) => publisher.products, { eager: true })
-  publisher: Publisher;
-
-  @Column()
-  publisherId: number;
-
-  @ManyToMany(() => Author, (author) => author.products, { eager: true })
-  @JoinTable({ name: 'products_authors' })
-  authors: Author[];
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
   orderItems: OrderItem[];

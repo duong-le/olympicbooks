@@ -24,11 +24,9 @@ import { AttributeValue } from 'src/entities/attribute-value.entity';
 import { Repository } from 'typeorm';
 
 import { UserInfo } from '../../../core/Decorators/user-info.decorator';
-import { Author } from '../../../entities/authors.entity';
 import { Category } from '../../../entities/categories.entity';
 import { ProductImage } from '../../../entities/product-images.entity';
 import { Product } from '../../../entities/products.entity';
-import { Publisher } from '../../../entities/publishers.entity';
 import { Seller } from '../../../entities/sellers.entity';
 import { UploadOptions } from '../../../services/cloud-storage.service';
 import { ProductsService } from '../../../services/products.service';
@@ -56,12 +54,10 @@ import { CreateProductDto, UpdateProductDto } from './products.dto';
     join: {
       images: { eager: true },
       category: { eager: true },
-      publisher: { eager: true },
-      authors: { eager: true },
       shop: { eager: true },
       'shop.sellers': { eager: true, alias: 'seller', select: false }
     },
-    exclude: ['categoryId', 'publisherId', 'shopId']
+    exclude: ['categoryId', 'shopId']
   },
   dto: { create: CreateProductDto, update: UpdateProductDto }
 })
@@ -80,9 +76,7 @@ export class ShopProductsController implements CrudController<Product> {
     @InjectRepository(Product) private productRepository: Repository<Product>,
     @InjectRepository(ProductImage) private productImageRepository: Repository<ProductImage>,
     @InjectRepository(Category) private categoryRepository: Repository<Category>,
-    @InjectRepository(AttributeValue) private attributeValueRepository: Repository<AttributeValue>,
-    @InjectRepository(Author) private authorRepository: Repository<Author>,
-    @InjectRepository(Publisher) private publisherRepository: Repository<Publisher>
+    @InjectRepository(AttributeValue) private attributeValueRepository: Repository<AttributeValue>
   ) {}
 
   @Override()
@@ -114,10 +108,9 @@ export class ShopProductsController implements CrudController<Product> {
     const shop = await this.shopService.getOneShopBySeller(shopId, seller.id);
     if (!shop) throw new NotFoundException(`Shop ${shopId} not found`);
 
-    const { authorIds, attributeValueIds, ...others } = dto;
+    const { attributeValueIds, ...others } = dto;
 
     const product = this.productRepository.create({ ...others, shopId });
-    product.authors = await this.authorRepository.findByIds(authorIds);
     product.attributeValues = await this.attributeValueRepository.findByIds(attributeValueIds);
 
     if (uploadedFiles?.length) {
@@ -137,7 +130,7 @@ export class ShopProductsController implements CrudController<Product> {
     const product = await this.service.getOne(req);
     if (!product) throw new NotFoundException('Product not found');
 
-    const { status, categoryId, attributeValueIds, publisherId, authorIds, removedImageIds, ...others } = dto;
+    const { status, categoryId, attributeValueIds, removedImageIds, ...others } = dto;
 
     if (status) {
       if (product.status === ProductStatus.BANNED)
@@ -147,14 +140,6 @@ export class ShopProductsController implements CrudController<Product> {
 
     if (categoryId && product?.category?.id !== categoryId) {
       product.category = await this.categoryRepository.findOne(categoryId);
-    }
-
-    if (authorIds?.length) {
-      product.authors = await this.authorRepository.findByIds(authorIds);
-    }
-
-    if (publisherId && product?.publisher?.id !== publisherId) {
-      product.publisher = await this.publisherRepository.findOne(publisherId);
     }
 
     if (attributeValueIds?.length) {

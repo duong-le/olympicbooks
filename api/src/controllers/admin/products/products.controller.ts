@@ -20,11 +20,9 @@ import { AdminUpdateProductDto } from './products.dto';
     join: {
       images: { eager: true },
       category: { eager: true },
-      publisher: { eager: true },
-      authors: { eager: true },
       shop: { eager: true }
     },
-    exclude: ['categoryId', 'publisherId', 'shopId']
+    exclude: ['categoryId', 'shopId']
   },
   dto: { update: AdminUpdateProductDto }
 })

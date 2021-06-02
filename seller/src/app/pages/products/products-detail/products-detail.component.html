@@ -1,9 +1,8 @@
 <nz-affix class="affix" [nzOffsetTop]="96">
   <nz-anchor [nzAffix]="false" nzShowInkInFixed>
     <nz-link nzTitle="TT cơ bản" nzHref="#basic-info"></nz-link>
-    <nz-link nzTitle="TT chi tiết" nzHref="#detail-info"></nz-link>
     <nz-link nzTitle="TT bán hàng" nzHref="#sale-info"></nz-link>
-    <nz-link nzTitle="Thuộc tính" nzHref="#attribute-info"></nz-link>
+    <nz-link *ngIf="attributes.length" nzTitle="TT chi tiết" nzHref="#attribute-info"></nz-link>
     <nz-link nzTitle="Hình ảnh" nzHref="#images"></nz-link>
   </nz-anchor>
 </nz-affix>
@@ -68,60 +67,7 @@
       </nz-form-item>
     </nz-card>
 
-    <nz-card [nzLoading]="isLoading" nzTitle="Thông tin chi tiết" id="detail-info">
-      <nz-form-item>
-        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="pages" nzRequired> Số trang </nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
-          <input nz-input formControlName="pages" type="number" />
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="weight" nzRequired>
-          Cân nặng (grams)
-        </nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
-          <input nz-input formControlName="weight" type="number" />
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="publicationYear" nzRequired>
-          Năm xuất bản
-        </nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
-          <input nz-input formControlName="publicationYear" type="number" />
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="publisherId" nzRequired>
-          Nhà xuất bản
-        </nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
-          <nz-select nzShowSearch nzAllowClear formControlName="publisherId">
-            <nz-option
-              *ngFor="let publisher of publishers"
-              [nzLabel]="publisher?.name"
-              [nzValue]="publisher?.id"
-            >
-            </nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="authorId" nzRequired> Tác giả </nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
-          <nz-select nzShowSearch nzAllowClear nzMode="multiple" formControlName="authorIds">
-            <nz-option *ngFor="let author of authors" [nzLabel]="author?.name" [nzValue]="author?.id">
-            </nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-    </nz-card>
-
-    <nz-card [nzLoading]="isLoading" nzTitle="Thông tin bán hàng" id="sale-info">
+    <nz-card [nzLoading]="isLoading" nzTitle="TT bán hàng" id="sale-info">
       <nz-form-item>
         <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="price" nzRequired>Giá bán</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
@@ -153,7 +99,12 @@
   </form>
 
   <form nz-form [formGroup]="attributeForm">
-    <nz-card [nzLoading]="isLoading" nzTitle="Thuộc tính" id="attribute-info" *ngIf="attributes.length">
+    <nz-card
+      [nzLoading]="isLoading"
+      nzTitle="Thông tin chi tiết"
+      id="attribute-info"
+      *ngIf="attributes.length"
+    >
       <nz-form-item *ngFor="let attribute of attributes">
         <nz-form-label
           [nzMd]="6"

@@ -41,24 +41,7 @@
           <span class="title">{{ product?.title }}</span>
         </div>
 
-        <div nz-row>
-          <div nz-col nzSm="12" nzXs="24">
-            <h3>Tác giả</h3>
-          </div>
-          <div nz-col nzSm="12" nzXs="24">
-            <ng-container *ngFor="let author of product?.authors; let last = last">
-              {{ author.name }}{{ last ? '' : ', ' }}
-            </ng-container>
-          </div>
-        </div>
-
         <nz-divider></nz-divider>
-
-        <nz-alert
-          nzShowIcon
-          nzType="info"
-          nzMessage="Miễn phí giao hàng cho đơn hàng từ 500.000 ₫"
-        ></nz-alert>
 
         <div class="price-wrapper">
           <span class="price">{{ product?.price | price }}</span>
@@ -84,9 +67,6 @@
             </div>
           </div>
 
-          <!-- <button nz-button nzType="dashed" nzBlock>
-            <a href="tel:0984803198"><i nz-icon nzType="phone"></i> 0984.803.198</a>
-          </button> -->
           <button
             nz-button
             nzBlock
@@ -133,13 +113,13 @@
   </nz-page-header-extra>
 </nz-page-header>
 
-<nz-card class="container" [nzLoading]="isProductLoading" nzTitle="Thông Tin Chi Tiết">
+<nz-card
+  class="container"
+  [nzLoading]="isProductLoading"
+  nzTitle="Thông Tin Chi Tiết"
+  *ngIf="product?.attributes?.length"
+>
   <nz-descriptions nzBordered [nzColumn]="1" nzSize="middle">
-    <nz-descriptions-item nzTitle="Nhà xuất bản">{{ product?.publisher?.name }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Năm xuất bản">{{ product?.publicationYear }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Số trang">{{ product?.pages | number }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Cân nặng">{{ product?.weight | number }} grams</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Thể loại">{{ product?.category?.title }}</nz-descriptions-item>
     <nz-descriptions-item *ngFor="let attribute of product?.attributes" [nzTitle]="attribute?.name">
       <ng-container *ngFor="let attributeValue of attribute?.attributeValues">
         {{ attributeValue?.value }} <br />

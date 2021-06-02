@@ -74,8 +74,6 @@
       <td>{{ item?.id }}</td>
       <td>{{ item?.title }}</td>
       <td>{{ item?.category?.title }}</td>
-      <td>{{ item?.publisher?.name }}</td>
-      <td>{{ item?.authors?.length }}</td>
       <td>
         <nz-tag [nzColor]="item?.status | productstatus: true">
           {{ item?.status | productstatus }}
@@ -92,9 +90,6 @@
 <ng-template #productModal let-product>
   <nz-descriptions nzBordered [nzColumn]="1">
     <nz-descriptions-item nzTitle="Tên Sách">{{ product?.title }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Số trang">{{ product?.pages }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Cân nặng (grams)">{{ product?.weight }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Năm xuất bản">{{ product?.publicationYear }}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Giá bán">{{ product?.price | price }}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Giá gốc">{{ product?.originalPrice | price }}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Trạng thái">
@@ -103,10 +98,6 @@
       </nz-tag>
     </nz-descriptions-item>
     <nz-descriptions-item nzTitle="Danh mục">{{ product?.category?.title }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Nhà xuất bản">{{ product?.publisher?.name }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Tác giả">
-      <ng-container *ngFor="let author of product?.authors">{{ author.name }} <br /></ng-container>
-    </nz-descriptions-item>
     <nz-descriptions-item *ngFor="let attribute of product?.attributes" [nzTitle]="attribute?.name">
       <ng-container *ngFor="let attributeValue of attribute?.attributeValues">
         {{ attributeValue?.value }} <br />

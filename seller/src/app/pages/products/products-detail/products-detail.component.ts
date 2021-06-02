@@ -5,19 +5,15 @@ import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
-import { forkJoin, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
 import { AttributeInputMode } from '../../../shared/Enums/attributes.enum';
 import { ProductStatus, SellerProductStatus } from '../../../shared/Enums/products.enum';
 import { Attribute } from '../../../shared/Interfaces/attribute.interface';
-import { Author } from '../../../shared/Interfaces/author.interface';
 import { Product } from '../../../shared/Interfaces/product.interface';
-import { Publisher } from '../../../shared/Interfaces/publisher.interface';
-import { AuthorsService } from '../authors.service';
 import { CategoriesService } from '../categories.service';
 import { ProductsService } from '../products.service';
-import { PublishersService } from '../publishers.service';
 
 @Component({
   selector: 'app-products-detail',
@@ -29,8 +25,6 @@ export class ProductsDetailComponent implements OnInit {
   attributeForm: FormGroup;
   product: Product;
   categoryTree: NzTreeNodeOptions[] = [];
-  publishers: Publisher[];
-  authors: Author[];
   fileList: NzUploadFile[] = [];
   productStatus = SellerProductStatus;
   attributes: Attribute[] = [];
@@ -49,8 +43,6 @@ export class ProductsDetailComponent implements OnInit {
     private fb: FormBuilder,
     private productsService: ProductsService,
     private categoriesService: CategoriesService,
-    private authorsService: AuthorsService,
-    private publishersService: PublishersService,
     private messageService: NzMessageService,
     private location: Location
   ) {}
@@ -58,16 +50,11 @@ export class ProductsDetailComponent implements OnInit {
   ngOnInit(): void {
     this.productForm = this.fb.group({
       title: ['', [Validators.required]],
-      pages: ['', [Validators.required]],
-      weight: ['', [Validators.required]],
-      publicationYear: ['', [Validators.required]],
+      description: ['', [Validators.required]],
       price: ['', [Validators.required]],
       originalPrice: ['', [Validators.required]],
-      description: ['', [Validators.required]],
       status: [''],
-      categoryId: ['', [Validators.required]],
-      publisherId: ['', [Validators.required]],
-      authorIds: [[], [Validators.required]]
+      categoryId: ['', [Validators.required]]
     });
 
     this.attributeForm = this.fb.group({});
@@ -96,16 +83,11 @@ export class ProductsDetailComponent implements OnInit {
         this.product = response;
         this.productForm.setValue({
           title: this.product.title,
-          pages: this.product.pages,
-          weight: this.product.weight,
-          publicationYear: this.product.publicationYear,
+          description: this.product.description,
           price: this.product.price,
           originalPrice: this.product.originalPrice,
-          description: this.product.description,
           status: this.product.status,
-          categoryId: this.product?.category?.id || '',
-          publisherId: this.product?.publisher?.id || '',
-          authorIds: this.product.authors.map((author) => author.id)
+          categoryId: this.product?.category?.id || ''
         });
 
         if (this.product.status === ProductStatus.BANNED) {
@@ -133,13 +115,9 @@ export class ProductsDetailComponent implements OnInit {
 
   renderDependencies() {
     this.isLoading = true;
-    forkJoin([
-      this.categoriesService.getMany(),
-      this.publishersService.getMany(),
-      this.authorsService.getMany()
-    ]).subscribe(
+    this.categoriesService.getMany().subscribe(
       (response) => {
-        [this.categoryTree, this.publishers, this.authors] = response;
+        this.categoryTree = response;
         this.isLoading = false;
       },
       (error) => {

@@ -1,7 +1,7 @@
 import { ProductStatus } from '../Enums/products.enum';
-import { Author } from './author.interface';
+import { Attribute } from './attribute.interface';
 import { Category } from './category.interface';
-import { Publisher } from './publisher.interface';
+import { Shop } from './shop.interface';
 
 export interface Product {
   id: number;
@@ -15,8 +15,8 @@ export interface Product {
   status: ProductStatus;
   images: ProductImage[];
   category: Category;
-  publisher: Publisher;
-  authors: Author[];
+  shop: Shop;
+  attributes: Attribute[];
 }
 
 export interface ProductImage {

@@ -19,8 +19,6 @@ import { ShopStatus } from '../../../shared/Enums/shops.enum';
     join: {
       images: { eager: true },
       category: { eager: true },
-      publisher: { eager: true },
-      authors: { eager: true },
       shop: { eager: true }
     },
     filter: [
@@ -35,7 +33,7 @@ import { ShopStatus } from '../../../shared/Enums/shops.enum';
         value: ShopStatus.ACTIVE
       }
     ],
-    exclude: ['categoryId', 'publisherId', 'shopId']
+    exclude: ['categoryId', 'shopId']
   }
 })
 export class ProductsController implements CrudController<Product> {

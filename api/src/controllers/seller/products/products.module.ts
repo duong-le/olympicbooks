@@ -1,11 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AttributeValue } from 'src/entities/attribute-value.entity';
-import { Category } from 'src/entities/categories.entity';
-import { Publisher } from 'src/entities/publishers.entity';
 
-import { Author } from '../../../entities/authors.entity';
+import { AttributeValue } from '../../../entities/attribute-value.entity';
 import { CartItem } from '../../../entities/carts.entity';
+import { Category } from '../../../entities/categories.entity';
 import { ProductImage } from '../../../entities/product-images.entity';
 import { Product } from '../../../entities/products.entity';
 import { ProductsModule } from '../../store/products/products.module';
@@ -15,7 +13,7 @@ import { ShopProductsController } from './products.controller';
 @Module({
   controllers: [ShopProductsController],
   imports: [
-    TypeOrmModule.forFeature([Product, ProductImage, Category, Author, Publisher, CartItem, AttributeValue]),
+    TypeOrmModule.forFeature([Product, ProductImage, Category, CartItem, AttributeValue]),
     ProductsModule,
     ShopsModule
   ]
