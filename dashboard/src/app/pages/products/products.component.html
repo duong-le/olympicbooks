@@ -149,6 +149,11 @@
     <nz-descriptions-item nzTitle="Tác giả">
       <ng-container *ngFor="let author of product?.authors">{{ author.name }} <br /></ng-container>
     </nz-descriptions-item>
+    <nz-descriptions-item *ngFor="let attribute of product?.attributes" [nzTitle]="attribute?.name">
+      <ng-container *ngFor="let attributeValue of attribute?.attributeValues">
+        {{ attributeValue?.value }} <br />
+      </ng-container>
+    </nz-descriptions-item>
   </nz-descriptions>
 
   <nz-card nzType="inner" nzTitle="Mô tả sản phẩm">

@@ -140,6 +140,11 @@
     <nz-descriptions-item nzTitle="Số trang">{{ product?.pages | number }}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Cân nặng">{{ product?.weight | number }} grams</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Thể loại">{{ product?.category?.title }}</nz-descriptions-item>
+    <nz-descriptions-item *ngFor="let attribute of product?.attributes" [nzTitle]="attribute?.name">
+      <ng-container *ngFor="let attributeValue of attribute?.attributeValues">
+        {{ attributeValue?.value }} <br />
+      </ng-container>
+    </nz-descriptions-item>
   </nz-descriptions>
 </nz-card>
 
