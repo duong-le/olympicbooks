@@ -10,7 +10,17 @@ import { AuthGuard } from '@nestjs/passport';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Crud, CrudAuth, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
+import {
+  Crud,
+  CrudAuth,
+  CrudController,
+  CrudRequest,
+  GetManyDefaultResponse,
+  Override,
+  ParsedBody,
+  ParsedRequest,
+} from '@nestjsx/crud';
+import { AttributeValue } from 'src/entities/attribute-value.entity';
 import { Repository } from 'typeorm';
 
 import { UserInfo } from '../../../core/Decorators/user-info.decorator';
@@ -70,9 +80,26 @@ export class ShopProductsController implements CrudController<Product> {
     @InjectRepository(Product) private productRepository: Repository<Product>,
     @InjectRepository(ProductImage) private productImageRepository: Repository<ProductImage>,
     @InjectRepository(Category) private categoryRepository: Repository<Category>,
+    @InjectRepository(AttributeValue) private attributeValueRepository: Repository<AttributeValue>,
     @InjectRepository(Author) private authorRepository: Repository<Author>,
     @InjectRepository(Publisher) private publisherRepository: Repository<Publisher>
   ) {}
+
+  @Override()
+  async getMany(@ParsedRequest() req: CrudRequest): Promise<GetManyDefaultResponse<Product> | Product[]> {
+    const products = await this.service.getMany(req);
+    for (const product of Array.isArray(products) ? products : products.data) {
+      product['attributes'] = await this.service.getProductAttributes(product.id, product.category.id);
+    }
+    return products;
+  }
+
+  @Override()
+  async getOne(@ParsedRequest() req: CrudRequest): Promise<Product> {
+    const product = await this.service.getOne(req);
+    product['attributes'] = await this.service.getProductAttributes(product.id, product.category.id);
+    return product;
+  }
 
   @Override()
   @ApiConsumes('multipart/form-data')
@@ -87,10 +114,11 @@ export class ShopProductsController implements CrudController<Product> {
     const shop = await this.shopService.getOneShopBySeller(shopId, seller.id);
     if (!shop) throw new NotFoundException(`Shop ${shopId} not found`);
 
-    const { authorIds, ...others } = dto;
+    const { authorIds, attributeValueIds, ...others } = dto;
 
     const product = this.productRepository.create({ ...others, shopId });
     product.authors = await this.authorRepository.findByIds(authorIds);
+    product.attributeValues = await this.attributeValueRepository.findByIds(attributeValueIds);
 
     if (uploadedFiles?.length) {
       product.images = await this.service.createProductImages(uploadedFiles);
@@ -109,7 +137,7 @@ export class ShopProductsController implements CrudController<Product> {
     const product = await this.service.getOne(req);
     if (!product) throw new NotFoundException('Product not found');
 
-    const { status, categoryId, publisherId, authorIds, removedImageIds, ...others } = dto;
+    const { status, categoryId, attributeValueIds, publisherId, authorIds, removedImageIds, ...others } = dto;
 
     if (status) {
       if (product.status === ProductStatus.BANNED)
@@ -127,6 +155,10 @@ export class ShopProductsController implements CrudController<Product> {
 
     if (publisherId && product?.publisher?.id !== publisherId) {
       product.publisher = await this.publisherRepository.findOne(publisherId);
+    }
+
+    if (attributeValueIds?.length) {
+      product.attributeValues = await this.attributeValueRepository.findByIds(attributeValueIds);
     }
 
     if (uploadedFiles?.length) {

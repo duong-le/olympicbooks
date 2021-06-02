@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Attribute } from 'src/entities/attribute.entity';
 import { CartItem } from 'src/entities/carts.entity';
 
 import { OrderItem } from '../../../entities/orders-item.entity';
@@ -12,7 +13,10 @@ import { ProductsController } from './products.controller';
 
 @Module({
   controllers: [ProductsController],
-  imports: [TypeOrmModule.forFeature([Product, ProductImage, OrderItem, CartItem]), CategoriesModule],
+  imports: [
+    TypeOrmModule.forFeature([Product, ProductImage, OrderItem, CartItem, Attribute]),
+    CategoriesModule
+  ],
   providers: [ProductsService, CloudStorageService],
   exports: [ProductsService]
 })

@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AttributeValue } from 'src/entities/attribute-value.entity';
 import { Category } from 'src/entities/categories.entity';
 import { Publisher } from 'src/entities/publishers.entity';
 
@@ -14,7 +15,7 @@ import { ShopProductsController } from './products.controller';
 @Module({
   controllers: [ShopProductsController],
   imports: [
-    TypeOrmModule.forFeature([Product, ProductImage, Category, Author, Publisher, CartItem]),
+    TypeOrmModule.forFeature([Product, ProductImage, Category, Author, Publisher, CartItem, AttributeValue]),
     ProductsModule,
     ShopsModule
   ]

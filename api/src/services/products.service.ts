@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
+import { Attribute } from 'src/entities/attribute.entity';
 import { Repository } from 'typeorm';
 
 import { CartItem } from '../entities/carts.entity';
@@ -19,6 +20,7 @@ export class ProductsService extends TypeOrmCrudService<Product> {
     @InjectRepository(ProductImage) private productImageRepository: Repository<ProductImage>,
     @InjectRepository(OrderItem) private orderItemRepository: Repository<OrderItem>,
     @InjectRepository(CartItem) private cartItemRepository: Repository<CartItem>,
+    @InjectRepository(Attribute) private attribute: Repository<Attribute>,
     private cloudStorageService: CloudStorageService
   ) {
     super(productRepository);
@@ -71,5 +73,15 @@ export class ProductsService extends TypeOrmCrudService<Product> {
     for (const image of images) {
       await this.cloudStorageService.removeFile(image.imgName);
     }
+  }
+
+  async getProductAttributes(productId: number, categoryId: number): Promise<Attribute[]> {
+    return await this.attribute
+      .createQueryBuilder('attribute')
+      .leftJoinAndSelect('attribute.attributeValues', 'attributeValue')
+      .leftJoin('attributeValue.products', 'product')
+      .where('attribute.categoryId = :categoryId', { categoryId })
+      .andWhere('product.id = :productId', { productId })
+      .getMany();
   }
 }

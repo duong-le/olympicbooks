@@ -1,6 +1,7 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import { IsDefined, IsEnum, IsNumber, IsOptional, IsString, Validate } from 'class-validator';
+import { AttributeValue } from 'src/entities/attribute-value.entity';
 
 import { ArrayExist } from '../../../core/Validators/array-exist/array-exist.service';
 import { Exist } from '../../../core/Validators/exist/exist.service';
@@ -15,6 +16,20 @@ export class CreateProductDto {
   @IsDefined()
   @IsString()
   title: string;
+
+  @ApiProperty()
+  @IsDefined()
+  @IsString()
+  description: string;
+
+  @ApiProperty({ type: [Number] })
+  @IsDefined()
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.split(',').map((id: string) => Number(id)) : value
+  )
+  @IsNumber({}, { each: true })
+  @Validate(ArrayExist, [AttributeValue, 'id'])
+  attributeValueIds: number[];
 
   @ApiProperty()
   @IsDefined()
@@ -46,12 +61,7 @@ export class CreateProductDto {
   @IsNumber()
   originalPrice: number;
 
-  @ApiProperty()
-  @IsDefined()
-  @IsString()
-  description: string;
-
-  @ApiProperty({ enum: SellerProductStatus })
+  @ApiProperty({ enum: SellerProductStatus, default: SellerProductStatus.ACTIVE })
   @IsDefined()
   @IsEnum(SellerProductStatus)
   status: SellerProductStatus;
@@ -70,7 +80,7 @@ export class CreateProductDto {
   @Validate(Exist, [Publisher, 'id'])
   publisherId: number;
 
-  @ApiProperty()
+  @ApiProperty({ type: [Number] })
   @IsDefined()
   @Transform(({ value }) => (typeof value === 'string' ? value.split(',').map((id) => Number(id)) : value))
   @IsNumber({}, { each: true })

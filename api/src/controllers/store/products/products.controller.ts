@@ -43,13 +43,19 @@ export class ProductsController implements CrudController<Product> {
 
   @Override()
   @ApiQuery({ name: 'type', required: false })
-  getMany(
+  async getMany(
     @ParsedRequest() req: CrudRequest,
     @Query('type') type: string
   ): Promise<GetManyDefaultResponse<Product> | Product[]> {
-    if (type === ProductCollectionType.TOP_SELLING)
-      return this.service.getTopSellingProducts(req.parsed.limit);
-    return this.service.getMany(req);
+    const products =
+      type === ProductCollectionType.TOP_SELLING
+        ? await this.service.getTopSellingProducts(req.parsed.limit)
+        : await this.service.getMany(req);
+
+    for (const product of Array.isArray(products) ? products : products.data) {
+      product['attributes'] = await this.service.getProductAttributes(product.id, product.category.id);
+    }
+    return products;
   }
 
   @Override()
@@ -60,6 +66,9 @@ export class ProductsController implements CrudController<Product> {
     if (product?.category?.id) {
       product.category = await this.categoriesService.getCategoryAncestorAndDescendants(product.category);
     }
+
+    product['attributes'] = await this.service.getProductAttributes(product.id, product.category.id);
+
     return product;
   }
 }
