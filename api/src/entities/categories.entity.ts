@@ -1,5 +1,6 @@
 import { AfterLoad, Column, Entity, OneToMany, Tree, TreeChildren, TreeParent } from 'typeorm';
 
+import { Attribute } from './attribute.entity';
 import { BaseEntity } from './base.entity';
 import { Product } from './products.entity';
 
@@ -23,6 +24,9 @@ export class Category extends BaseEntity {
 
   @OneToMany(() => Product, (product) => product.category)
   products: Product[];
+
+  @OneToMany(() => Attribute, (attribute) => attribute.category, { eager: true })
+  attributes: Attribute[];
 
   key: number;
 

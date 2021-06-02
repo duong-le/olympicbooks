@@ -1,6 +1,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 
 import { ProductStatus, SellerProductStatus } from '../shared/Enums/products.enum';
+import { AttributeValue } from './attribute-value.entity';
 import { Author } from './authors.entity';
 import { BaseEntity } from './base.entity';
 import { Category } from './categories.entity';
@@ -15,12 +16,15 @@ export class Product extends BaseEntity {
   title: string;
 
   @Column()
+  description: string;
+
+  @Column()
   publicationYear: number;
 
   @Column()
   pages: number;
 
-  @Column({ default: null })
+  @Column()
   weight: number;
 
   @Column()
@@ -28,9 +32,6 @@ export class Product extends BaseEntity {
 
   @Column()
   originalPrice: number;
-
-  @Column()
-  description: string;
 
   @Column({ enum: ProductStatus, default: ProductStatus.ACTIVE })
   status: SellerProductStatus | ProductStatus;
@@ -62,4 +63,8 @@ export class Product extends BaseEntity {
 
   @Column()
   shopId: number;
+
+  @ManyToMany(() => AttributeValue, (attributeValue) => attributeValue.products)
+  @JoinTable({ name: 'product_attribute' })
+  attributeValues: AttributeValue[];
 }
