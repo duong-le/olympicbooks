@@ -20,5 +20,7 @@
 }
 
 ::ng-deep .cdk-overlay-pane {
-  width: auto !important;
+  .ant-menu-submenu-popup {
+    width: fit-content !important;
+  }
 }
