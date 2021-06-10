@@ -18,7 +18,7 @@ COPY ./nginx.conf /etc/nginx/nginx.conf
 
 RUN rm -rf /usr/share/nginx/html/*
 
-COPY --from=development /usr/src/app/dist/dashboard /usr/share/nginx/html
+COPY --from=development /usr/src/app/dist/admin /usr/share/nginx/html
 
 EXPOSE 8080
 

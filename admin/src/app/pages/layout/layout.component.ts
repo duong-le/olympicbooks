@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthenticationService } from '../../pages/authentication/authentication.service';
+import { AuthenticationService } from '../authentication/authentication.service';
 import { Authentication } from '../../shared/Interfaces/authentication.interface';
 import { ThemeService } from '../../shared/Providers/theme.service';
 
