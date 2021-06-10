@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-import { Pagination } from '../../shared/Interfaces/pagination.interface';
+import { Pagination } from '../Interfaces/pagination.interface';
 
 @Injectable({
   providedIn: 'root'

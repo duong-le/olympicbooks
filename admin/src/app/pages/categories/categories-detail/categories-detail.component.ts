@@ -5,7 +5,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 
-import { CategoriesService } from '../../../pages/categories/categories.service';
+import { CategoriesService } from '../categories.service';
 import { AttributeInputMode } from '../../../shared/Enums/attributes.enum';
 import { Attribute } from '../../../shared/Interfaces/attribute.interface';
 import { Category } from '../../../shared/Interfaces/category.interface';
