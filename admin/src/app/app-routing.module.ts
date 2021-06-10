@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    loadChildren: () => import('./pages/layout/layout.module').then((m) => m.LayoutModule),
+    loadChildren: () => import('./pages/dashboard/dashboard.module').then((m) => m.DashboardModule),
     canActivate: [AuthGuard]
   }
 ];

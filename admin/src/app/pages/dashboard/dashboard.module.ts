@@ -5,11 +5,11 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 import { IconsModule } from '../../shared/icons.module';
-import { LayoutRoutingModule } from './layout-routing.module';
-import { LayoutComponent } from './layout.component';
+import { DashboardRoutingModule } from './dashboard-routing.module';
+import { DashboardComponent } from './dashboard.component';
 
 @NgModule({
-  declarations: [LayoutComponent],
-  imports: [CommonModule, IconsModule, LayoutRoutingModule, NzLayoutModule, NzMenuModule, NzSwitchModule]
+  declarations: [DashboardComponent],
+  imports: [CommonModule, IconsModule, DashboardRoutingModule, NzLayoutModule, NzMenuModule, NzSwitchModule]
 })
-export class LayoutModule {}
+export class DashboardModule {}

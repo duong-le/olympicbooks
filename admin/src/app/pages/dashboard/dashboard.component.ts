@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthenticationService } from '../authentication/authentication.service';
 import { Authentication } from '../../shared/Interfaces/authentication.interface';
 import { ThemeService } from '../../shared/Providers/theme.service';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
-export class LayoutComponent implements OnInit {
+export class DashboardComponent implements OnInit {
   user: Authentication;
 
   constructor(
