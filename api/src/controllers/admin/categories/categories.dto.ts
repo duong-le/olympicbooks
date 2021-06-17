@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsBoolean, IsDefined, IsEnum, IsInt, IsOptional, IsString, Min } from 'class-validator';
+import { IsBoolean, IsDefined, IsEnum, IsInt, IsOptional, IsString, Min, ValidateIf } from 'class-validator';
 
 import { AttributeInputMode } from '../../../shared/Enums/attributes.enum';
 
@@ -12,6 +12,7 @@ export class CreateCategoryDto {
 
   @ApiPropertyOptional()
   @IsOptional()
+  @ValidateIf((dto: CreateCategoryDto) => Boolean(dto.parentId))
   @Type(() => Number)
   @IsInt()
   @Min(0)

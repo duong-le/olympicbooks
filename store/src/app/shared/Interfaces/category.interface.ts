@@ -4,7 +4,7 @@ export interface Category {
   imgUrl: string;
   imgName: string;
   key: string;
-  parent?: Category[];
+  parents?: Category[];
   children?: Category[];
   isLeaf: boolean;
 }

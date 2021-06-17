@@ -5,10 +5,10 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 
-import { CategoriesService } from '../categories.service';
 import { AttributeInputMode } from '../../../shared/Enums/attributes.enum';
 import { Attribute } from '../../../shared/Interfaces/attribute.interface';
 import { Category } from '../../../shared/Interfaces/category.interface';
+import { CategoriesService } from '../categories.service';
 
 @Component({
   selector: 'app-categories-detail',
@@ -70,9 +70,10 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
         this.category = response;
         this.categoryForm.setValue({
           title: this.category.title,
+          // If category has parent(s), the closest parent is second from the right
           parentId:
-            this.category?.parent?.length > 1
-              ? this.category.parent[this.category.parent.length - 2].id
+            this.category?.parents?.length > 1
+              ? this.category.parents[this.category.parents.length - 2].id
               : null
         });
 

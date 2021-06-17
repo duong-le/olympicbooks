@@ -28,6 +28,8 @@ export class Category extends BaseEntity {
   @OneToMany(() => Attribute, (attribute) => attribute.category, { eager: true })
   attributes: Attribute[];
 
+  parents: Category[];
+
   key: number;
 
   isLeaf = false;

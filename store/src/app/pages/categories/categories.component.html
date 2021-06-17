@@ -4,7 +4,7 @@
       <a routerLink="/"><i nz-icon nzType="home"></i></a>
     </nz-breadcrumb-item>
 
-    <ng-container *ngFor="let item of category?.parent">
+    <ng-container *ngFor="let item of category?.parents">
       <nz-breadcrumb-item>
         <a [routerLink]="['/', 'categories', item?.id]">{{ item?.title }}</a>
       </nz-breadcrumb-item>

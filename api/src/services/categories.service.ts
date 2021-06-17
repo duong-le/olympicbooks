@@ -17,10 +17,10 @@ export class CategoriesService {
 
   async getCategoryAncestorAndDescendants(category: Category): Promise<Category> {
     await this.categoryRepository.findDescendantsTree(category);
-    category.parent = (await this.categoryRepository
+    category.parents = await this.categoryRepository
       .createAncestorsQueryBuilder('category', 'categoryClosure', category)
       .orderBy('category.id', 'ASC')
-      .getMany()) as any;
+      .getMany();
     if (!category.children.length) category.isLeaf = true;
     return category;
   }
