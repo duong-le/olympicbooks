@@ -79,6 +79,7 @@ export class ProductsComponent implements OnInit {
           return forkJoin([
             this.productsService.getManyProducts({
               filter: [
+                `shopId||$ne||${this.product?.shop?.id}`,
                 ...(this.product?.category?.id ? [`categoryId||$eq||${this.product.category.id}`] : []),
                 ...relatedProductsFilter
               ],
