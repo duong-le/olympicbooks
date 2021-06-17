@@ -23,9 +23,10 @@ import { OrdersService } from '../../../services/orders.service';
       'transaction.transactionMethod': { eager: true },
       shipping: { eager: true, exclude: ['shippingMethodId'] },
       'shipping.shippingMethod': { eager: true },
-      discount: { eager: true }
+      discount: { eager: true },
+      shop: { eager: true }
     },
-    exclude: ['transactionId', 'shippingId', 'discountId']
+    exclude: ['transactionId', 'shippingId', 'discountId', 'shopId']
   }
 })
 export class AdminOrdersController implements CrudController<Order> {

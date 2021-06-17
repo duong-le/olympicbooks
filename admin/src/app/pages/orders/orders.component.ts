@@ -16,6 +16,7 @@ export class OrdersComponent extends BaseComponent<Order> {
     { title: 'Actions' },
     { title: 'ID', key: 'id', sort: true },
     // { title: 'Mã vận chuyển', key: 'shipping.code', sort: true },
+    { title: 'Cửa hàng', key: 'shop.id', sort: true },
     { title: 'Ngày mua', key: 'createdAt', sort: true },
     { title: 'Giao hàng', key: 'shipping.state', sort: true },
     { title: 'Thanh Toán', key: 'transaction.state', sort: true },
