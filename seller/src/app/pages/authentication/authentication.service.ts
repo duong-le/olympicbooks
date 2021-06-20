@@ -24,7 +24,7 @@ export class AuthenticationService {
   }
 
   signIn(data: Authentication): Observable<Authentication> {
-    return this.http.post<Authentication>(`${environment.apiUrl}/sellers/auth`, data).pipe(
+    return this.http.post<Authentication>(`${environment.apiUrl}/auth`, data).pipe(
       map(({ accessToken }) => {
         const payload = this.decodeToken(accessToken as string);
         const user = { ...payload, accessToken };

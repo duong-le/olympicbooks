@@ -10,7 +10,7 @@ import { Pagination } from '../../shared/Interfaces/pagination.interface';
   providedIn: 'root'
 })
 export class OrdersService {
-  baseUrl = `${environment.apiUrl}/sellers/me/shops`;
+  baseUrl = `${environment.apiUrl}/me/shops`;
 
   constructor(protected http: HttpClient) {}
 

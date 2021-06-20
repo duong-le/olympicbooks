@@ -9,7 +9,7 @@ import { Seller } from '../../shared/Interfaces/seller.interface';
   providedIn: 'root'
 })
 export class SellersService {
-  baseUrl = `${environment.apiUrl}/sellers`;
+  baseUrl = `${environment.apiUrl}`;
 
   constructor(protected http: HttpClient) {}
 

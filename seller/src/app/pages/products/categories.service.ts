@@ -10,26 +10,24 @@ import { Category } from '../../shared/Interfaces/category.interface';
   providedIn: 'root'
 })
 export class CategoriesService {
-  baseUrl = environment.apiUrl;
+  baseUrl = `${environment.apiUrl}/categories`;
 
   constructor(protected http: HttpClient) {}
 
   getMany(): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.baseUrl}/sellers/categories`);
+    return this.http.get<Category[]>(`${this.baseUrl}`);
   }
 
-  getOne(id: number): Observable<Category> {
-    return this.http.get<Category>(`${this.baseUrl}/sellers/categories/${id}`);
+  getOne(categoryId: number): Observable<Category> {
+    return this.http.get<Category>(`${this.baseUrl}/${categoryId}`);
   }
 
   getManyAttributes(categoryId: number): Observable<Attribute[]> {
-    return this.http.get<Attribute[]>(`${this.baseUrl}/sellers/categories/${categoryId}/attributes`);
+    return this.http.get<Attribute[]>(`${this.baseUrl}/${categoryId}/attributes`);
   }
 
   getOneAttribute(categoryId: number, attributeId: number): Observable<Attribute> {
-    return this.http.get<Attribute>(
-      `${this.baseUrl}/sellers/categories/${categoryId}/attributes/${attributeId}`
-    );
+    return this.http.get<Attribute>(`${this.baseUrl}/${categoryId}/attributes/${attributeId}`);
   }
 
   createAttributeValue(
@@ -38,7 +36,7 @@ export class CategoriesService {
     data: AttributeValue
   ): Observable<AttributeValue> {
     return this.http.post<AttributeValue>(
-      `${this.baseUrl}/sellers/categories/${categoryId}/attributes/${attributeId}/attribute-values`,
+      `${this.baseUrl}/${categoryId}/attributes/${attributeId}/attribute-values`,
       data
     );
   }

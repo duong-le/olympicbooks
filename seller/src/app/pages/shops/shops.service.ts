@@ -9,7 +9,7 @@ import { Shop } from '../../shared/Interfaces/shop.interface';
   providedIn: 'root'
 })
 export class ShopsService {
-  baseUrl = `${environment.apiUrl}/sellers/me/shops`;
+  baseUrl = `${environment.apiUrl}/me/shops`;
 
   constructor(protected http: HttpClient) {}
 
@@ -17,15 +17,15 @@ export class ShopsService {
     return this.http.get<Shop[]>(this.baseUrl);
   }
 
-  getOne(id: number): Observable<Shop> {
-    return this.http.get<Shop>(`${this.baseUrl}/${id}`);
+  getOne(shopId: number): Observable<Shop> {
+    return this.http.get<Shop>(`${this.baseUrl}/${shopId}`);
   }
 
   createOne(data: FormData): Observable<Shop> {
     return this.http.post<Shop>(this.baseUrl, data);
   }
 
-  updateOne(id: number, data: FormData): Observable<Shop> {
-    return this.http.patch<Shop>(`${this.baseUrl}/${id}`, data);
+  updateOne(shopId: number, data: FormData): Observable<Shop> {
+    return this.http.patch<Shop>(`${this.baseUrl}/${shopId}`, data);
   }
 }
