@@ -10,10 +10,11 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 
 import { IconsModule } from '../../shared/icons.module';
 import { AuthenticationRoutingModule } from './authentication-routing.module';
-import { AuthenticationComponent } from './authentication.component';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 @NgModule({
-  declarations: [AuthenticationComponent],
+  declarations: [SignInComponent, SignUpComponent],
   imports: [
     CommonModule,
     FormsModule,

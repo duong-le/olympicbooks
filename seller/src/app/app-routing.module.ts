@@ -5,9 +5,9 @@ import { AuthGuard } from './shared/Guards/auth.guard';
 import { UnAuthGuard } from './shared/Guards/unauth.guard';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: '/auth' },
+  { path: '', pathMatch: 'full', redirectTo: '/signin' },
   {
-    path: 'auth',
+    path: '',
     loadChildren: () =>
       import('./pages/authentication/authentication.module').then((m) => m.AuthenticationModule),
     canActivate: [UnAuthGuard]

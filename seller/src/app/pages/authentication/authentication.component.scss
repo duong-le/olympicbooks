@@ -17,3 +17,9 @@ nz-card {
 i {
   cursor: pointer;
 }
+
+.authentication-form-button-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
