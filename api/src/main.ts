@@ -21,7 +21,6 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.use(helmet());
   app.set('trust proxy', 1);
-  app.use(rateLimit({ windowMs: 60 * 60 * 1000, max: 500 }));
   app.setGlobalPrefix('/v1');
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
 
@@ -32,6 +31,7 @@ async function bootstrap() {
     app.enableCors({ origin: true });
   } else {
     app.enableCors({ origin: [/.olympicbooks.com/] });
+    app.use(rateLimit({ windowMs: 60 * 60 * 1000, max: 500 }));
   }
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
