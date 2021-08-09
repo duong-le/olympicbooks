@@ -14,7 +14,6 @@ import { AuthModule } from './controllers/auth/auth.module';
 import { CartsModule } from './controllers/store/carts/carts.module';
 import { CategoriesModule } from './controllers/store/categories/categories.module';
 import { CustomersModule } from './controllers/store/customers/customers.module';
-import { DiscountsModule } from './controllers/store/discounts/discounts.module';
 import { OrdersModule } from './controllers/store/orders/orders.module';
 import { ProductsModule } from './controllers/store/products/products.module';
 import { ShippingsModule } from './controllers/store/shippings/shippings.module';
@@ -37,7 +36,6 @@ import { Exist } from './core/Validators/exist/exist.service';
     CustomersModule,
     CartsModule,
     OrdersModule,
-    DiscountsModule,
     TransactionsModule,
     ShippingsModule,
     AdminsModule,

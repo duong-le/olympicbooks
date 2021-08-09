@@ -19,7 +19,6 @@ export class CartComponent implements OnInit, OnDestroy {
   isDisabled = false;
   minQty = 1;
   maxQty = 99;
-  discountValue = 0;
 
   constructor(
     private titleService: Title,

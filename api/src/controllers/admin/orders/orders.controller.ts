@@ -26,10 +26,9 @@ import { UpdateOrderDto } from './orders.dto';
       transaction: { eager: true, exclude: ['transactionMethodId'] },
       'transaction.transactionMethod': { eager: true },
       shipping: { eager: true, exclude: ['shippingMethodId'] },
-      'shipping.shippingMethod': { eager: true },
-      discount: { eager: true }
+      'shipping.shippingMethod': { eager: true }
     },
-    exclude: ['transactionId', 'shippingId', 'discountId']
+    exclude: ['transactionId', 'shippingId']
   }
 })
 export class AdminOrdersController implements CrudController<Order> {

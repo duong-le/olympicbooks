@@ -21,7 +21,6 @@ export class OrdersComponent extends BaseComponent<Order> {
     { title: 'Thanh Toán', key: 'transaction.state', sort: true },
     { title: 'Phí vận chuyển', key: 'shipping.fee', sort: true },
     { title: 'Tổng tiền', key: 'transaction.value', sort: true }
-    // { title: 'Giảm giá' }
   ];
 
   constructor(

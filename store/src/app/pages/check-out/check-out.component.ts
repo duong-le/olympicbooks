@@ -32,7 +32,6 @@ export class CheckOutComponent implements OnInit, OnDestroy {
   success = false;
   error = false;
   shippingFee = 0;
-  discountValue = 0;
 
   constructor(
     private titleService: Title,
