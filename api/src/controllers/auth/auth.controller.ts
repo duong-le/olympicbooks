@@ -6,7 +6,6 @@ import { Repository } from 'typeorm';
 
 import { Admin } from '../../entities/admins.entity';
 import { Customer } from '../../entities/customers.entity';
-import { Seller } from '../../entities/sellers.entity';
 import { AuthService } from '../../services/auth.service';
 import { AuthDto } from './auth.dto';
 
@@ -16,8 +15,7 @@ export class AuthController {
   constructor(
     private authService: AuthService,
     @InjectRepository(Customer) private customerRepository: Repository<Customer>,
-    @InjectRepository(Admin) private adminRepository: Repository<Admin>,
-    @InjectRepository(Seller) private sellerRepository: Repository<Seller>
+    @InjectRepository(Admin) private adminRepository: Repository<Admin>
   ) {}
 
   @Post('auth')
@@ -46,20 +44,7 @@ export class AuthController {
     return { accessToken };
   }
 
-  @Post('sellers/auth')
-  async authenticationSeller(@Body() { email, password }: AuthDto): Promise<{ accessToken: string }> {
-    const seller = await this.sellerRepository.findOne({ email });
-    this.validateUser(seller, password);
-
-    const accessToken = this.authService.createAccessToken({
-      name: seller.name,
-      email,
-      type: UserType.SELLER
-    });
-    return { accessToken };
-  }
-
-  validateUser(user: Customer | Admin | Seller, password: string) {
+  validateUser(user: Customer | Admin, password: string) {
     if (!user) throw new UnauthorizedException('Invalid Credentials');
     if (user?.isBlock) throw new ForbiddenException('User has been banned!');
 

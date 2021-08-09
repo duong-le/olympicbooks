@@ -1,12 +1,11 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 
-import { ProductStatus, SellerProductStatus } from '../shared/Enums/products.enum';
+import { ProductStatus } from '../shared/Enums/products.enum';
 import { AttributeValue } from './attribute-value.entity';
 import { BaseEntity } from './base.entity';
 import { Category } from './categories.entity';
 import { OrderItem } from './orders-item.entity';
 import { ProductImage } from './product-images.entity';
-import { Shop } from './shops.entity';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -23,7 +22,7 @@ export class Product extends BaseEntity {
   originalPrice: number;
 
   @Column({ enum: ProductStatus, default: ProductStatus.ACTIVE })
-  status: SellerProductStatus | ProductStatus;
+  status: ProductStatus;
 
   @OneToMany(() => ProductImage, (productImage) => productImage.product, { eager: true, cascade: true })
   images: ProductImage[];
@@ -36,12 +35,6 @@ export class Product extends BaseEntity {
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
   orderItems: OrderItem[];
-
-  @ManyToOne(() => Shop, (shop) => shop.products, { eager: true })
-  shop: Shop;
-
-  @Column()
-  shopId: number;
 
   @ManyToMany(() => AttributeValue, (attributeValue) => attributeValue.products)
   @JoinTable({ name: 'product_attribute' })

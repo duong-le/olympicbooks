@@ -43,3 +43,12 @@ export class CreateAttributeDto {
 }
 
 export class UpdateAttributeDto extends PartialType(CreateAttributeDto) {}
+
+export class CreateAttributeValueDto {
+  @ApiProperty()
+  @IsDefined()
+  @IsString()
+  value: string;
+}
+
+export class UpdateAttributeValueDto extends PartialType(CreateAttributeValueDto) {}

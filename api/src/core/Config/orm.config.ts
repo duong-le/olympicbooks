@@ -16,7 +16,7 @@ export default {
   entities: [join(__dirname, '../../entities/**.entity{.ts,.js}')],
   migrations: [join(__dirname + '../../../migrations/*{.ts,.js}')],
   cli: { migrationsDir: 'src/migrations' },
-  synchronize: false,
+  synchronize: true,
   migrationsRun: false,
   logger: new SqlLogger(['schema', 'error', 'warn', 'info', 'log', 'migration'])
 } as ConnectionOptions;

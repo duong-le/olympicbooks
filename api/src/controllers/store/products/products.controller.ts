@@ -6,7 +6,6 @@ import { Product } from '../../../entities/products.entity';
 import { CategoriesService } from '../../../services/categories.service';
 import { ProductsService } from '../../../services/products.service';
 import { ProductCollectionType, ProductStatus } from '../../../shared/Enums/products.enum';
-import { ShopStatus } from '../../../shared/Enums/shops.enum';
 
 @ApiTags('Products')
 @Controller('products')
@@ -18,22 +17,16 @@ import { ShopStatus } from '../../../shared/Enums/shops.enum';
   query: {
     join: {
       images: { eager: true },
-      category: { eager: true },
-      shop: { eager: true }
+      category: { eager: true }
     },
     filter: [
       {
         field: 'status',
         operator: '$in',
         value: [ProductStatus.ACTIVE, ProductStatus.SOLD_OUT]
-      },
-      {
-        field: 'shop.status',
-        operator: '$eq',
-        value: ShopStatus.ACTIVE
       }
     ],
-    exclude: ['categoryId', 'shopId']
+    exclude: ['categoryId']
   }
 })
 export class ProductsController implements CrudController<Product> {

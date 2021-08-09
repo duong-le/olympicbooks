@@ -9,7 +9,6 @@ import { OrderItem } from '../entities/orders-item.entity';
 import { ProductImage } from '../entities/product-images.entity';
 import { Product } from '../entities/products.entity';
 import { ProductStatus } from '../shared/Enums/products.enum';
-import { ShopStatus } from '../shared/Enums/shops.enum';
 import { File } from '../shared/Interfaces/file.interface';
 import { CloudStorageService } from './cloud-storage.service';
 
@@ -33,9 +32,7 @@ export class ProductsService extends TypeOrmCrudService<Product> {
       .groupBy('orderItem.productId')
       .orderBy('SUM(orderItem.quantity)', 'DESC')
       .leftJoin('orderItem.product', 'product')
-      .leftJoin('product.shop', 'shop')
       .andWhere('product.status = :productStatus', { productStatus: ProductStatus.ACTIVE })
-      .andWhere('shop.status = :shopStatus', { shopStatus: ShopStatus.ACTIVE })
       .limit(limit)
       .getRawMany();
     const productIds = products.map((product) => product.productId);

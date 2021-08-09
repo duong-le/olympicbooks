@@ -5,7 +5,6 @@ import { Customer } from './customers.entity';
 import { Discount } from './discounts.entity';
 import { OrderItem } from './orders-item.entity';
 import { Shipping } from './shippings.entity';
-import { Shop } from './shops.entity';
 import { Transaction } from './transactions.entity';
 
 @Entity()
@@ -47,10 +46,4 @@ export class Order extends BaseEntity {
     cascade: ['insert', 'recover', 'remove', 'soft-remove']
   })
   orderItems: OrderItem[];
-
-  @ManyToOne(() => Shop, (shop) => shop.orders)
-  shop: Shop;
-
-  @Column()
-  shopId: number;
 }
