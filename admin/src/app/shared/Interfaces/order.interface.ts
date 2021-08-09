@@ -1,6 +1,5 @@
 import { Product } from './product.interface';
 import { Shipping } from './shipping.interface';
-import { Shop } from './shop.interface';
 import { Transaction } from './transaction.interface';
 
 export interface Order {
@@ -10,7 +9,6 @@ export interface Order {
   transaction?: Transaction;
   shipping?: Shipping;
   orderItems?: OrderItem[];
-  shop: Shop;
   discount?: any;
   userId?: number;
   createdAt?: Date;

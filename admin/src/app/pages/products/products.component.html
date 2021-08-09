@@ -97,7 +97,6 @@
           {{ item?.status | productstatus }}
         </nz-tag>
       </td>
-      <td>{{ item?.shop?.name }}</td>
       <td>{{ item?.price | price }}</td>
       <td>{{ item?.originalPrice | price }}</td>
     </tr>
@@ -138,7 +137,6 @@
     <nz-descriptions-item nzTitle="Giá bán">{{ product?.price | price }}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Giá gốc">{{ product?.originalPrice | price }}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Trạng thái">{{ product?.status | productstatus }} </nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Cửa hàng">{{ product?.shop?.name }}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Danh mục">{{ product?.category?.title }}</nz-descriptions-item>
     <nz-descriptions-item *ngFor="let attribute of product?.attributes" [nzTitle]="attribute?.name">
       <ng-container *ngFor="let attributeValue of attribute?.attributeValues">

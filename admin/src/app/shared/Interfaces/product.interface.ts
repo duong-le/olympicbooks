@@ -1,7 +1,6 @@
 import { ProductStatus } from '../Enums/products.enum';
 import { Attribute } from './attribute.interface';
 import { Category } from './category.interface';
-import { Shop } from './shop.interface';
 
 export interface Product {
   id: number;
@@ -15,7 +14,6 @@ export interface Product {
   status: ProductStatus;
   images: ProductImage[];
   category: Category;
-  shop: Shop;
   attributes: Attribute[];
 }
 
