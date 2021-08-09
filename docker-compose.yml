@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   olympicbooks-store:
@@ -6,7 +6,7 @@ services:
     working_dir: /usr/src/app
     build:
       context: ./store
-      target: development
+      dockerfile: Dockerfile.local
     volumes:
       - ./store:/usr/src/app
       - /usr/src/app/node_modules
@@ -21,7 +21,7 @@ services:
     working_dir: /usr/src/app
     build:
       context: ./admin
-      target: development
+      dockerfile: Dockerfile.local
     volumes:
       - ./admin:/usr/src/app
       - /usr/src/app/node_modules
@@ -31,26 +31,11 @@ services:
     networks:
       - olympicbooks-network
 
-  olympicbooks-seller:
-    container_name: olympicbooks-seller
-    working_dir: /usr/src/app
-    build:
-      context: ./seller
-      target: development
-    volumes:
-      - ./seller:/usr/src/app
-      - /usr/src/app/node_modules
-    ports:
-      - 4300:4300
-    command: yarn start:dev
-    networks:
-      - olympicbooks-network
-
   olympicbooks-api:
     container_name: olympicbooks-api
     build:
       context: ./api
-      target: development
+      dockerfile: Dockerfile.local
     volumes:
       - ./api:/usr/src/app
       - /usr/src/app/node_modules
