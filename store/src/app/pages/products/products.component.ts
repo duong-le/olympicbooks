@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { forkJoin } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { ProductStatus } from '../../shared/Enums/products.enum';
-import { CartItem } from '../../shared/Interfaces/cart.interface';
 import { Product } from '../../shared/Interfaces/product.interface';
 import { TitleMetaService } from '../../shared/Providers/title-meta.service';
 import { AuthenticationService } from '../authentication/authentication.service';
@@ -19,8 +17,7 @@ import { ProductsService } from './products.service';
 })
 export class ProductsComponent implements OnInit {
   product: Product;
-  inSameCategoryProducts: Product[];
-  inSameShopProducts: Product[];
+  sameCategoryProducts: Product[];
 
   productId: number;
   isProductLoading = false;
@@ -69,32 +66,21 @@ export class ProductsComponent implements OnInit {
             this.isProductLoading = false;
             this.product.images.push(this.placeHolderImage);
           }
+
           this.isRelatedProductsLoading = true;
-
-          const relatedProductsFilter = [
-            `id||$ne||${this.product.id}`,
-            `status||$eq||${ProductStatus.ACTIVE}`
-          ];
-
-          return forkJoin([
-            this.productsService.getManyProducts({
-              filter: [
-                `shopId||$ne||${this.product?.shop?.id}`,
-                ...(this.product?.category?.id ? [`categoryId||$eq||${this.product.category.id}`] : []),
-                ...relatedProductsFilter
-              ],
-              limit: String(this.maxRelatedProduct)
-            }),
-            this.productsService.getManyProducts({
-              filter: [`shopId||$eq||${this.product?.shop?.id}`, ...relatedProductsFilter],
-              limit: String(this.maxRelatedProduct)
-            })
-          ]);
+          return this.productsService.getManyProducts({
+            filter: [
+              ...(this.product?.category?.id ? [`categoryId||$eq||${this.product.category.id}`] : []),
+              `id||$ne||${this.product.id}`,
+              `status||$eq||${ProductStatus.ACTIVE}`
+            ],
+            limit: String(this.maxRelatedProduct)
+          });
         })
       )
       .subscribe(
         (response) => {
-          [this.inSameCategoryProducts, this.inSameShopProducts] = response;
+          this.sameCategoryProducts = response;
           this.isRelatedProductsLoading = false;
           this.relatedProductStyle = { padding: '1px' };
         },
@@ -112,12 +98,7 @@ export class ProductsComponent implements OnInit {
       return;
     }
 
-    let existedProduct: CartItem;
-    if (this.product.shop.id in this.cartService.cart.items) {
-      existedProduct = this.cartService.cart.items[this.product.shop.id].find(
-        (item: CartItem) => item.product.id === this.product.id
-      );
-    }
+    const existedProduct = this.cartService.cart.items.find((el) => el.product.id === this.product.id);
 
     this.isBtnLoading[btnName] = true;
     this.cartService[existedProduct ? 'updateCartItem' : 'createCartItem'](

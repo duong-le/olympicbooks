@@ -16,14 +16,6 @@
   </div>
 </nz-card>
 
-<nz-card class="container" nzTitle="Cửa hàng" [nzBodyStyle]="cardStyle" [nzLoading]="isLoading">
-  <div nz-row>
-    <div nz-card-grid nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let item of shops">
-      <app-shop [shop]="item"></app-shop>
-    </div>
-  </div>
-</nz-card>
-
 <nz-card class="container" nzTitle="Sản phẩm mới" [nzBodyStyle]="cardStyle" [nzLoading]="isLoading">
   <div nz-row>
     <div nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let item of newProducts">

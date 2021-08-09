@@ -14,7 +14,6 @@ import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzMessageModule } from 'ng-zorro-antd/message';
-import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 
 import { IconModule } from '../../shared/Modules/icon.module';
@@ -43,8 +42,7 @@ import { ProductsComponent } from './products.component';
     NzMessageModule,
     NzBreadCrumbModule,
     NzImageModule,
-    NzAvatarModule,
-    NzPageHeaderModule
+    NzAvatarModule
   ]
 })
 export class ProductsModule {}

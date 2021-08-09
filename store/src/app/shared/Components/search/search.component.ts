@@ -62,6 +62,5 @@ export class SearchComponent implements OnInit {
 
   clearInput() {
     this.query = null;
-    if (this.router.url.startsWith('/shops')) this.emitSearchValue();
   }
 }

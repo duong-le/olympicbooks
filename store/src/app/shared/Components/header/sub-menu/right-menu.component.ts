@@ -10,9 +10,7 @@ import { Authentication } from 'src/app/shared/Interfaces/authentication.interfa
     <ul nz-menu [nzMode]="mode" [nzSelectable]="false" (nzClick)="onMenuTitleClick()">
       <ng-container *ngIf="(mode === 'horizontal' && mobile) || (mode === 'horizontal' && !mobile)">
         <li nz-menu-item nzMatchRouter>
-          <a routerLink="/cart">
-            <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>({{ totalQuantity }})
-          </a>
+          <a routerLink="/cart"> <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>({{ quantity }}) </a>
         </li>
       </ng-container>
 
@@ -59,7 +57,7 @@ export class RightMenuComponent implements OnInit {
   @Input() mobile: boolean;
   @Output() onNavigate: EventEmitter<any> = new EventEmitter();
   user: Authentication;
-  totalQuantity: number;
+  quantity: number;
 
   constructor(
     private router: Router,
@@ -69,7 +67,7 @@ export class RightMenuComponent implements OnInit {
 
   ngOnInit() {
     this.authenticationService.user$.subscribe((user) => (this.user = user));
-    this.cartService.cart$.subscribe((response) => (this.totalQuantity = response.totalQuantity));
+    this.cartService.cart$.subscribe((response) => (this.quantity = response.quantity));
   }
 
   onMenuTitleClick() {

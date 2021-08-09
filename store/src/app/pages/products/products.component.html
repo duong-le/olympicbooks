@@ -99,20 +99,6 @@
   </div>
 </nz-card>
 
-<nz-page-header class="container" [nzGhost]="false">
-  <nz-avatar nz-page-header-avatar nzSize="large" [nzSrc]="product?.shop?.coverImgUrl"> </nz-avatar>
-
-  <nz-page-header-title>{{ product?.shop?.name }}</nz-page-header-title>
-
-  <nz-page-header-subtitle>{{ product?.shop?.description }}</nz-page-header-subtitle>
-
-  <nz-page-header-extra>
-    <button class="shop-btn" nz-button [routerLink]="['/shops', product?.shop?.id]">
-      <i nz-icon nzType="shop" nzTheme="outline"></i>Xem cửa hàng
-    </button>
-  </nz-page-header-extra>
-</nz-page-header>
-
 <nz-card
   class="container"
   [nzLoading]="isProductLoading"
@@ -133,28 +119,14 @@
 </nz-card>
 
 <nz-card
-  *ngIf="inSameCategoryProducts?.length"
+  *ngIf="sameCategoryProducts?.length"
   class="container"
   nzTitle="Sản Phẩm Tương Tự"
   [nzBodyStyle]="relatedProductStyle"
   [nzLoading]="isProductLoading || isRelatedProductsLoading"
 >
   <div nz-row>
-    <div nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let product of inSameCategoryProducts">
-      <app-product [product]="product"></app-product>
-    </div>
-  </div>
-</nz-card>
-
-<nz-card
-  *ngIf="inSameShopProducts?.length"
-  class="container"
-  nzTitle="Sản Phẩm Khác Của Cửa Hàng"
-  [nzBodyStyle]="relatedProductStyle"
-  [nzLoading]="isProductLoading || isRelatedProductsLoading"
->
-  <div nz-row>
-    <div nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let product of inSameShopProducts">
+    <div nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let product of sameCategoryProducts">
       <app-product [product]="product"></app-product>
     </div>
   </div>

@@ -1,83 +1,56 @@
-<app-cart-empty *ngIf="!cart?.totalQuantity && !success && !error && !isLoading"></app-cart-empty>
+<app-cart-empty *ngIf="!cart?.quantity && !success && !error && !isLoading"></app-cart-empty>
 <app-order-success *ngIf="success"></app-order-success>
 <app-order-error *ngIf="error"></app-order-error>
 
-<div class="container" *ngIf="cart?.totalQuantity && !success && !error">
+<div class="container" *ngIf="cart?.quantity && !success && !error">
   <div nz-row [nzGutter]="[16, 16]">
     <div nz-col nzXl="16" nzMd="12" nzXs="24">
       <div nz-row [nzGutter]="[0, 16]">
         <form nz-form [formGroup]="orderForm">
           <div nz-col nzSpan="24">
-            <nz-card [nzLoading]="isLoading" nzTitle="Sản phẩm" [nzBordered]="false" [nzExtra]="editOrder">
-              <div *ngFor="let item of cart?.items | keyvalue; let last = last">
-                <nz-card
-                  nzType="inner"
-                  [nzLoading]="isLoading"
-                  [nzTitle]="shopName"
-                  [style]="!last ? 'margin-bottom: 16px' : ''"
+            <nz-card [nzLoading]="isLoading" nzTitle="Sản phẩm" [nzBordered]="false" [nzExtra]="editCart">
+              <div class="cartItem-wrapper" *ngFor="let cartItem of cart?.items">
+                <a
+                  class="cartItem"
+                  [routerLink]="['/products', cartItem?.product.id]"
+                  [style.pointer-events]="
+                    ['active', 'soldOut'].includes(cartItem?.product?.status) ? 'auto' : 'none'
+                  "
                 >
-                  <ng-template #shopName>
-                    <a [routerLink]="['/shops', item?.value[0]?.product?.shop?.id]">
-                      {{ item?.value[0]?.product?.shop?.name }}
-                    </a>
-                  </ng-template>
+                  <img
+                    nz-image
+                    [nzSrc]="cartItem?.product?.images[0]?.imgUrl"
+                    width="30"
+                    height="30"
+                    nzPlaceholder="assets/images/placeholder.png"
+                    nzFallback="assets/images/placeholder.png"
+                  />
+                </a>
 
-                  <div class="cartItem-wrapper" *ngFor="let cartItem of item?.value">
-                    <a
-                      class="cartItem"
-                      [routerLink]="['/products', cartItem?.product.id]"
-                      [style.pointer-events]="
-                        ['active', 'soldOut'].includes(cartItem?.product?.status) ? 'auto' : 'none'
-                      "
-                    >
-                      <img
-                        nz-image
-                        [nzSrc]="cartItem?.product?.images[0]?.imgUrl"
-                        width="30"
-                        height="30"
-                        nzPlaceholder="assets/images/placeholder.png"
-                        nzFallback="assets/images/placeholder.png"
-                      />
-                    </a>
+                <div class="cartItem-title">
+                  <a
+                    [routerLink]="['/products', cartItem?.product.id]"
+                    [style.pointer-events]="
+                      ['active', 'soldOut'].includes(cartItem?.product?.status) ? 'auto' : 'none'
+                    "
+                  >
+                    {{ cartItem?.product.title }}
+                  </a>
+                  <nz-tag
+                    *ngIf="cartItem?.product?.status !== 'active'"
+                    nzColor="{{ cartItem?.product?.status | productstatus: true }}"
+                  >
+                    {{ cartItem?.product?.status | productstatus }}
+                  </nz-tag>
+                </div>
 
-                    <div class="cartItem-title">
-                      <a
-                        [routerLink]="['/products', cartItem?.product.id]"
-                        [style.pointer-events]="
-                          ['active', 'soldOut'].includes(cartItem?.product?.status) ? 'auto' : 'none'
-                        "
-                      >
-                        {{ cartItem?.product.title }}
-                      </a>
-                      <nz-tag
-                        *ngIf="cartItem?.product?.status !== 'active'"
-                        nzColor="{{ cartItem?.product?.status | productstatus: true }}"
-                      >
-                        {{ cartItem?.product?.status | productstatus }}
-                      </nz-tag>
-                    </div>
+                <div class="cartItem">
+                  <span>SL: {{ cartItem?.quantity }}</span>
+                </div>
 
-                    <div class="cartItem">
-                      <span>SL: {{ cartItem?.quantity }}</span>
-                    </div>
-
-                    <div class="cartItem-price price">
-                      {{ cartItem?.quantity * cartItem?.product.price | price }}
-                    </div>
-                  </div>
-
-                  <nz-divider style="margin: 12px"></nz-divider>
-
-                  <div class="cartItem-wrapper">
-                    <div class="cartItem">
-                      <span>Phí vận chuyển</span>
-                    </div>
-
-                    <div class="cartItem-price price">
-                      {{ shippingFee | price }}
-                    </div>
-                  </div>
-                </nz-card>
+                <div class="cartItem-price price">
+                  {{ cartItem?.quantity * cartItem?.product.price | price }}
+                </div>
               </div>
             </nz-card>
           </div>
@@ -210,7 +183,7 @@
             </nz-modal>
           </ng-template>
 
-          <ng-template #editOrder>
+          <ng-template #editCart>
             <button nz-button nzType="link" routerLink="/cart">
               <i nz-icon nzType="edit" nzTheme="outline"></i> Thay đổi
             </button>
@@ -222,7 +195,7 @@
             <div nz-row nzJustify="space-between" class="summary-row">
               <div nz-col><span>Tạm tính</span></div>
               <div nz-col>
-                <span class="price">{{ cart?.orderValue - cart?.totalShippingFee | price }}</span>
+                <span class="price">{{ cart?.orderValue - cart?.shippingFee | price }}</span>
               </div>
             </div>
 
@@ -236,7 +209,7 @@
             <div nz-row nzJustify="space-between" class="summary-row">
               <div nz-col><span>Phí vận chuyển</span></div>
               <div nz-col>
-                <span class="price">{{ cart?.totalShippingFee | price }}</span>
+                <span class="price">{{ cart?.shippingFee | price }}</span>
               </div>
             </div>
 
