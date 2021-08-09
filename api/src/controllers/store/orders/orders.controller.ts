@@ -54,7 +54,7 @@ export class OrdersController implements CrudController<Order> {
   ) {}
 
   @Override()
-  async createOne(@ParsedBody() dto: CreateOrderDto, @UserInfo() customer: Customer): Promise<Order[]> {
+  async createOne(@ParsedBody() dto: CreateOrderDto, @UserInfo() customer: Customer): Promise<Order> {
     const shippingMethod = await this.shippingMethodRepository.findOne(dto.shippingMethodId);
     if (!shippingMethod) throw new NotFoundException(`Shipping method ${dto.shippingMethodId} not found`);
     if (shippingMethod.disabled) throw new BadRequestException('Shipping method is disabled');
@@ -70,45 +70,37 @@ export class OrdersController implements CrudController<Order> {
         throw new BadRequestException(`Product ${cartItem.product.id} is not active`);
     }
 
-    // Split into multiple orders based on the product's shop
-    const cart = await this.cartService.getCartOrderedByShop(cartItems);
-    const orders: Order[] = [];
-    for (const [shopId, cartItems] of Object.entries(cart)) {
-      const orderItems: OrderItem[] = [];
+    const orderItems: OrderItem[] = [];
 
-      for (const cartItem of cartItems) {
-        const orderItem = this.orderItemRepository.create({
-          quantity: cartItem.quantity,
-          totalValue: cartItem.quantity * cartItem.product.price,
-          productTitle: cartItem.product.title,
-          productId: cartItem.product.id
-        });
-        orderItems.push(orderItem);
-      }
-
-      const order = await this.orderRepository.save({
-        customerId: customer.id,
-        transaction: {
-          transactionMethodId: dto.transactionMethodId,
-          value: this.service.calculateOrderValue(orderItems, shippingMethod.fee)
-        },
-        shipping: {
-          name: customer.name,
-          address: customer.address,
-          phoneNumber: customer.phoneNumber,
-          shippingMethodId: shippingMethod.id,
-          fee: shippingMethod.fee
-        },
-        orderItems,
-        shopId: Number(shopId),
-        buyerNote: dto.buyerNote
+    for (const cartItem of cartItems) {
+      const orderItem = this.orderItemRepository.create({
+        quantity: cartItem.quantity,
+        totalValue: cartItem.quantity * cartItem.product.price,
+        productTitle: cartItem.product.title,
+        productId: cartItem.product.id
       });
-
-      orders.push(order);
+      orderItems.push(orderItem);
     }
+
+    const order = await this.orderRepository.save({
+      customerId: customer.id,
+      transaction: {
+        transactionMethodId: dto.transactionMethodId,
+        value: this.service.calculateOrderValue(orderItems, shippingMethod.fee)
+      },
+      shipping: {
+        name: customer.name,
+        address: customer.address,
+        phoneNumber: customer.phoneNumber,
+        shippingMethodId: shippingMethod.id,
+        fee: shippingMethod.fee
+      },
+      orderItems,
+      buyerNote: dto.buyerNote
+    });
 
     await this.cartRepository.delete({ customerId: customer.id });
 
-    return orders;
+    return order;
   }
 }

@@ -51,18 +51,14 @@ export class CartsController {
       const shippingMethod = await this.shippingMethodRepository.findOne(Number(shippingMethodId));
       if (shippingMethod) shippingFee = shippingMethod.fee;
     }
-
     const cartItems = await this.cartRepository.find({ customerId: customer.id });
-    const items = await this.service.getCartOrderedByShop(cartItems);
 
-    const cart = { orderValue: 0, totalShippingFee: 0, totalQuantity: 0, items };
-    for (const [shopId, cartItems] of Object.entries(items)) {
-      cart.orderValue += this.service.calculateTotalValue(cartItems) + shippingFee;
-      cart.totalShippingFee += shippingFee;
-      cart.totalQuantity += this.service.calculateTotalQty(cartItems);
-    }
-
-    return cart;
+    return {
+      orderValue: this.service.calculateOrderValue(cartItems) + shippingFee,
+      shippingFee,
+      quantity: this.service.calculateCartQuantity(cartItems),
+      items: cartItems
+    };
   }
 
   @ApiOperation({ summary: 'Create a single CartItem' })

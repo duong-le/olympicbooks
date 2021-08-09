@@ -6,9 +6,9 @@ import { Product } from './products.entity';
 
 export class Cart {
   orderValue: number;
-  totalShippingFee: number;
-  totalQuantity: number;
-  items: { [key: string]: CartItem[] };
+  shippingFee: number;
+  quantity: number;
+  items: CartItem[];
 }
 
 @Entity()
