@@ -59,7 +59,6 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
       this.categoryForm.reset();
     } else if (!this.isNew && this.categoryId && this.categoryData) this.renderCategoryDetailPage();
 
-    if (this.categoryForm) this.categoryForm.controls['parentId'][this.isNew ? 'enable' : 'disable']();
     if (this.categoryData) this.categoryTree = this.categoryData;
   }
 
@@ -141,6 +140,10 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
   showDeleteConfirmModal() {
     this.modal.confirm({
       nzTitle: 'Bạn có chắc chắn muốn xóa không?',
+      nzContent: `<b>${
+        this.category.isLeaf ? '' : 'Xoá danh mục này đồng nghĩa với việc tất cả danh mục con sẽ bị xoá theo'
+      }</b>`,
+      nzOkDanger: true,
       nzOnOk: () => this.deleteCategory()
     });
   }

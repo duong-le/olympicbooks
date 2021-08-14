@@ -2,7 +2,7 @@
   <nz-page-header-title *ngIf="isNew">Thêm mới danh mục</nz-page-header-title>
   <nz-page-header-title *ngIf="!isNew">Danh mục #{{ categoryId }}</nz-page-header-title>
   <nz-page-header-extra>
-    <ng-container *ngIf="!isNew && category?.isLeaf">
+    <ng-container *ngIf="!isNew">
       <button nz-button nzType="primary" nzDanger (click)="showDeleteConfirmModal()">Xoá</button>
     </ng-container>
   </nz-page-header-extra>
@@ -19,7 +19,7 @@
 
     <nz-form-item>
       <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="parentId">Danh mục cha</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzExtra="Để trống nếu là danh mục gốc">
         <nz-tree-select
           [nzNodes]="categoryTree"
           nzShowSearch

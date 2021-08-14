@@ -109,6 +109,7 @@ export abstract class BaseTableComponent<T> implements OnInit {
   showDeleteConfirmModal(id: number) {
     this.modalService.confirm({
       nzTitle: 'Bạn có chắc chắn muốn xóa không?',
+      nzOkDanger: true,
       nzOnOk: () => this.delete(id)
     });
   }
