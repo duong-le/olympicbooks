@@ -5,7 +5,10 @@ import { BaseEntity } from './base.entity';
 import { Product } from './products.entity';
 
 @Entity()
-@Tree('materialized-path')
+@Tree('closure-table', {
+  ancestorColumnName: (column) => 'ancestor_category_' + column.propertyName,
+  descendantColumnName: (column) => 'descendant_category_' + column.propertyName
+})
 export class Category extends BaseEntity {
   @Column()
   title: string;

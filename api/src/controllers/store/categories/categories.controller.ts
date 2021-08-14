@@ -27,6 +27,6 @@ export class CategoriesController {
     const category = await this.categoryRepository.findOne(id);
     if (!category) throw new NotFoundException(`Category ${id} not found`);
 
-    return this.service.getCategoryAncestorAndDescendants(category);
+    return this.service.getCategoryAncestorsAndDescendants(category);
   }
 }

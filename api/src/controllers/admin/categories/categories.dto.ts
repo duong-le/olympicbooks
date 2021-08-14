@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsBoolean, IsDefined, IsEnum, IsInt, IsOptional, IsString, Min, ValidateIf } from 'class-validator';
 
@@ -23,7 +23,7 @@ export class CreateCategoryDto {
   attachment: any;
 }
 
-export class UpdateCategoryDto extends PartialType(OmitType(CreateCategoryDto, ['parentId'] as const)) {}
+export class UpdateCategoryDto extends PartialType(CreateCategoryDto) {}
 
 export class CreateAttributeDto {
   @ApiProperty()

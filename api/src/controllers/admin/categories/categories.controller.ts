@@ -89,10 +89,12 @@ export class AdminCategoriesController extends CategoriesController {
       category.imgUrl = file.publicUrl;
       category.imgName = file.name;
     }
-    // if (dto?.parentId) {
-    //   const parent = await this.getOne(dto.parentId);
-    //   category.parent = parent;
-    // }
+
+    if (dto?.parentId) {
+      const parent = await this.getOne(dto.parentId);
+      category.parent = parent;
+    } else category.parent = null;
+
     return await this.categoryRepository.save(category);
   }
 

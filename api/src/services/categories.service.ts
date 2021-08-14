@@ -15,7 +15,7 @@ export class CategoriesService {
     private cloudStorageService: CloudStorageService
   ) {}
 
-  async getCategoryAncestorAndDescendants(category: Category): Promise<Category> {
+  async getCategoryAncestorsAndDescendants(category: Category): Promise<Category> {
     await this.categoryRepository.findDescendantsTree(category);
     category.parents = await this.categoryRepository
       .createAncestorsQueryBuilder('category', 'categoryClosure', category)
