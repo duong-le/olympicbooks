@@ -4,11 +4,11 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
-import { Pagination } from '../Interfaces/pagination.interface';
-import { BaseService } from './base.service';
+import { Pagination } from '../../Interfaces/pagination.interface';
+import { BaseTableService } from './base-table.service';
 
 @Directive()
-export abstract class BaseComponent<T> implements OnInit {
+export abstract class BaseTableComponent<T> implements OnInit {
   qb: RequestQueryBuilder;
   data: T[];
 
@@ -22,7 +22,7 @@ export abstract class BaseComponent<T> implements OnInit {
   searchInputByTitle: string;
 
   constructor(
-    private service: BaseService<T>,
+    private service: BaseTableService<T>,
     public messageService: NzMessageService,
     public modalService: NzModalService
   ) {

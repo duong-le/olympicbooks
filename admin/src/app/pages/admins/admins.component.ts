@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { BaseComponent } from '../../shared/Base/base.component';
+import { BaseTableComponent } from '../../shared/Components/base-table/base-table.component';
 import { Admin } from '../../shared/Interfaces/admin.interface';
 import { AdminsService } from './admins.service';
 
@@ -11,7 +11,7 @@ import { AdminsService } from './admins.service';
   templateUrl: './admins.component.html',
   styleUrls: ['./admins.component.scss']
 })
-export class AdminsComponent extends BaseComponent<Admin> {
+export class AdminsComponent extends BaseTableComponent<Admin> {
   columns = [
     { title: 'Actions' },
     { title: 'ID', key: 'id', sort: true },

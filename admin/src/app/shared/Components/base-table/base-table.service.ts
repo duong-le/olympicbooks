@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-import { Pagination } from '../Interfaces/pagination.interface';
+import { Pagination } from '../../Interfaces/pagination.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export abstract class BaseService<T> {
+export abstract class BaseTableService<T> {
   baseUrl = environment.apiUrl;
 
   constructor(protected http: HttpClient) {}

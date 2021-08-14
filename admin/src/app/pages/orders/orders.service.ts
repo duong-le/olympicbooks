@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { BaseService } from '../../shared/Base/base.service';
+import { BaseTableService } from '../../shared/Components/base-table/base-table.service';
 import { Order } from '../../shared/Interfaces/order.interface';
 import { Pagination } from '../../shared/Interfaces/pagination.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class OrdersService extends BaseService<Order> {
+export class OrdersService extends BaseTableService<Order> {
   getMany(params: { [key: string]: string | string[] }): Observable<Pagination<Order[]> | Order[]> {
     return this.http.get<Pagination<Order[]> | Order[]>(`${this.baseUrl}/orders`, { params });
   }

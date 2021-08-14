@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { BaseComponent } from '../../shared/Base/base.component';
+import { BaseTableComponent } from '../../shared/Components/base-table/base-table.component';
 import { Order } from '../../shared/Interfaces/order.interface';
 import { OrdersService } from './orders.service';
 
@@ -11,7 +11,7 @@ import { OrdersService } from './orders.service';
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss']
 })
-export class OrdersComponent extends BaseComponent<Order> {
+export class OrdersComponent extends BaseTableComponent<Order> {
   columns = [
     { title: 'Actions' },
     { title: 'ID', key: 'id', sort: true },
