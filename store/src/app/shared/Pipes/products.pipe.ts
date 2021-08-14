@@ -14,8 +14,6 @@ export class ProductStatusPipe implements PipeTransform {
         return color ? 'warning' : 'Hết hàng';
       case ProductStatus.UNLISTED:
         return color ? 'default' : 'Đã ẩn';
-      case ProductStatus.BANNED:
-        return color ? 'error' : 'Đã tạm khóa';
       default:
         return null;
     }
