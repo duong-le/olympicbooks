@@ -39,4 +39,6 @@ export class Order extends BaseEntity {
     cascade: ['insert', 'recover', 'remove', 'soft-remove']
   })
   orderItems: OrderItem[];
+
+  expanded = false;
 }

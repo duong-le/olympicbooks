@@ -12,6 +12,7 @@ export interface Order {
   userId?: number;
   createdAt?: Date;
   updatedAt?: Date;
+  expanded?: Boolean;
 }
 
 export interface OrderItem {

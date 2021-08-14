@@ -13,7 +13,8 @@ import { OrdersService } from './orders.service';
 })
 export class OrdersComponent extends BaseTableComponent<Order> {
   columns = [
-    { title: 'Actions' },
+    { title: '', width: '35px' },
+    { title: 'Actions', width: '90px' },
     { title: 'ID', key: 'id', sort: true },
     // { title: 'Mã vận chuyển', key: 'shipping.code', sort: true },
     { title: 'Ngày mua', key: 'createdAt', sort: true },
