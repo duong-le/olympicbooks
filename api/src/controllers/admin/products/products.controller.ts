@@ -77,7 +77,8 @@ export class AdminProductsController implements CrudController<Product> {
     const { attributeValueIds, ...others } = dto;
 
     const product = this.productRepository.create(others);
-    product.attributeValues = await this.attributeValueRepository.findByIds(attributeValueIds);
+    if (attributeValueIds?.length)
+      product.attributeValues = await this.attributeValueRepository.findByIds(attributeValueIds);
 
     if (uploadedFiles?.length) {
       product.images = await this.service.createProductImages(uploadedFiles);

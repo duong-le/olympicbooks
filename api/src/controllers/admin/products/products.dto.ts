@@ -21,7 +21,7 @@ export class CreateProductDto {
   description: string;
 
   @ApiProperty({ type: [Number] })
-  @IsDefined()
+  @IsOptional()
   @Transform(({ value }) =>
     typeof value === 'string' ? value.split(',').map((id: string) => Number(id)) : value
   )

@@ -1,27 +1,38 @@
-<div nz-row nzJustify="start" [nzGutter]="[16, 16]" class="p-b-16">
+<div nz-row nzJustify="space-between" [nzGutter]="[16, 16]" class="p-b-16">
   <div nz-col>
-    <nz-input-group [nzPrefix]="inputSearch" [nzSuffix]="inputClearById">
-      <input
-        #input
-        type="number"
-        nz-input
-        placeholder="Tìm kiếm theo ID"
-        [(ngModel)]="searchInputById"
-        (keyup.enter)="onSearchById()"
-      />
-    </nz-input-group>
+    <div nz-row nzJustify="space-between" [nzGutter]="[16, 16]">
+      <div nz-col>
+        <nz-input-group [nzPrefix]="inputSearch" [nzSuffix]="inputClearById">
+          <input
+            #input
+            type="number"
+            nz-input
+            placeholder="Tìm kiếm theo ID"
+            [(ngModel)]="searchInputById"
+            (keyup.enter)="onSearchById()"
+          />
+        </nz-input-group>
+      </div>
+
+      <div nz-col>
+        <nz-input-group [nzPrefix]="inputSearch" [nzSuffix]="inputClearByName">
+          <input
+            type="text"
+            nz-input
+            placeholder="Tìm kiếm theo Tên"
+            [(ngModel)]="searchInputByTitle"
+            (keyup.enter)="onSearchByTitle()"
+          />
+        </nz-input-group>
+      </div>
+    </div>
   </div>
 
   <div nz-col>
-    <nz-input-group [nzPrefix]="inputSearch" [nzSuffix]="inputClearByName">
-      <input
-        type="text"
-        nz-input
-        placeholder="Tìm kiếm theo Tên"
-        [(ngModel)]="searchInputByTitle"
-        (keyup.enter)="onSearchByTitle()"
-      />
-    </nz-input-group>
+    <button nz-button nzType="primary" routerLink="new">
+      <i nz-icon nzType="plus-circle" theme="outline"></i>
+      <span>Thêm mới</span>
+    </button>
   </div>
 </div>
 
@@ -35,6 +46,7 @@
   [nzFrontPagination]="false"
   [nzData]="data"
   [nzTotal]="total"
+  [nzPageSize]="pageSize"
   [nzPageIndex]="pageIndex"
   [nzPageSize]="pageSize"
   (nzQueryParams)="onTableQueryParamsChange($event)"
@@ -71,8 +83,8 @@
             nz-button
             nzType="text"
             nz-tooltip
-            nzTooltipTitle="Edit"
-            [routerLink]="item?.id"
+            nzTooltipTitle="Chỉnh sửa sản phẩm"
+            [routerLink]="[item?.id]"
           >
             <i nz-icon nzType="edit" theme="twotone"></i>
           </button>
@@ -93,7 +105,7 @@
       <td>{{ item?.title }}</td>
       <td>{{ item?.category?.title }}</td>
       <td>
-        <nz-tag nzColor="{{ item?.status | productstatus: true }}">
+        <nz-tag [nzColor]="item?.status | productstatus: true">
           {{ item?.status | productstatus }}
         </nz-tag>
       </td>
@@ -136,7 +148,11 @@
     <nz-descriptions-item nzTitle="Tên sản phẩm">{{ product?.title }}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Giá bán">{{ product?.price | price }}</nz-descriptions-item>
     <nz-descriptions-item nzTitle="Giá gốc">{{ product?.originalPrice | price }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Trạng thái">{{ product?.status | productstatus }} </nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Trạng thái">
+      <nz-tag [nzColor]="product?.status | productstatus: true">
+        {{ product?.status | productstatus }}
+      </nz-tag>
+    </nz-descriptions-item>
     <nz-descriptions-item nzTitle="Danh mục">{{ product?.category?.title }}</nz-descriptions-item>
     <nz-descriptions-item *ngFor="let attribute of product?.attributes" [nzTitle]="attribute?.name">
       <ng-container *ngFor="let attributeValue of attribute?.attributeValues">
