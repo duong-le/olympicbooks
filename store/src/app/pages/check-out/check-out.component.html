@@ -11,6 +11,8 @@
             <nz-card [nzLoading]="isLoading" nzTitle="Sản phẩm" [nzBordered]="false" [nzExtra]="editCart">
               <div class="cartItem-wrapper" *ngFor="let cartItem of cart?.items">
                 <a
+                  nz-button
+                  nzType="link"
                   class="cartItem"
                   [routerLink]="['/products', cartItem?.product.id]"
                   [style.pointer-events]="
@@ -29,6 +31,8 @@
 
                 <div class="cartItem-title">
                   <a
+                    nz-button
+                    nzType="link"
                     [routerLink]="['/products', cartItem?.product.id]"
                     [style.pointer-events]="
                       ['active', 'soldOut'].includes(cartItem?.product?.status) ? 'auto' : 'none'
@@ -77,7 +81,7 @@
               <nz-alert
                 nzType="info"
                 nzShowIcon
-                nzMessage="Phí giao hàng chính xác sẽ được cập nhật khi đơn hàng được xử lý"
+                nzMessage="Phí giao hàng sẽ được cập nhật chính xác khi đơn hàng được xử lý"
               >
               </nz-alert>
             </nz-card>

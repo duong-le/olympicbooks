@@ -42,7 +42,8 @@ import { CheckOutComponent } from './check-out.component';
     NzAlertModule,
     NzCollapseModule,
     NzImageModule,
-    NzTagModule
+    NzTagModule,
+    NzButtonModule
   ]
 })
 export class CheckOutModule {}

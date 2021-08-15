@@ -13,7 +13,7 @@ export class ProductStatusPipe implements PipeTransform {
       case ProductStatus.SOLD_OUT:
         return color ? 'warning' : 'Hết hàng';
       case ProductStatus.UNLISTED:
-        return color ? 'default' : 'Đã ẩn';
+        return color ? 'error' : 'Không hoạt động';
       default:
         return null;
     }
