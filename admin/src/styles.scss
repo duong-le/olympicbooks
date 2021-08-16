@@ -108,3 +108,13 @@ td {
     }
   }
 }
+
+.twotone-btn {
+  color: #40a9ff !important;
+  border-color: #40a9ff !important;
+
+  &:hover {
+    color: white !important;
+    background: #40a9ff !important;
+  }
+}

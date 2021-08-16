@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { environment } from 'src/environments/environment';
 
 import { BaseTableComponent } from '../../shared/Components/base-table/base-table.component';
 import { Product } from '../../shared/Interfaces/product.interface';
@@ -12,6 +13,8 @@ import { ProductsService } from './products.service';
   styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent extends BaseTableComponent<Product> {
+  storeUrl = environment.storeUrl;
+
   columns = [
     { title: 'Actions' },
     { title: 'ID', key: 'id', sort: true },

@@ -7,6 +7,7 @@ import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 import { AttributeInputMode } from '../../../shared/Enums/attributes.enum';
 import { ProductStatus } from '../../../shared/Enums/products.enum';
@@ -36,6 +37,7 @@ export class ProductsDetailComponent implements OnInit {
   isBtnLoading = false;
   fileSizeLimit = 500;
   fileTypeLimit = 'image/jpg,image/jpeg,image/png,image/gif';
+  storeUrl = environment.storeUrl;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -175,7 +177,6 @@ export class ProductsDetailComponent implements OnInit {
       (response) => {
         this.isBtnLoading = false;
         this.messageService.success('Cập nhật thành công!');
-        this.goBack();
       },
       (error) => {
         this.isBtnLoading = false;

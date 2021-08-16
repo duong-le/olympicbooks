@@ -3,6 +3,17 @@
   <nz-page-header-title *ngIf="!isNew">Danh mục #{{ categoryId }}</nz-page-header-title>
   <nz-page-header-extra>
     <ng-container *ngIf="!isNew">
+      <a
+        *ngIf="!isNew"
+        nz-button
+        nzType="link"
+        class="twotone-btn"
+        [href]="storeUrl + '/danh-muc/' + category?.slug"
+        target="_blank"
+      >
+        Mở trong cửa hàng
+      </a>
+
       <button nz-button nzType="primary" nzDanger (click)="showDeleteConfirmModal()">Xoá</button>
     </ng-container>
   </nz-page-header-extra>

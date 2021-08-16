@@ -12,6 +12,17 @@
     <nz-page-header-title *ngIf="isNew">Thêm mới sản phẩm</nz-page-header-title>
     <nz-page-header-title *ngIf="!isNew">Sản phẩm #{{ product?.id }}</nz-page-header-title>
     <nz-page-header-extra>
+      <a
+        *ngIf="!isNew"
+        nz-button
+        nzType="link"
+        class="twotone-btn"
+        [href]="storeUrl + '/san-pham/' + product?.slug"
+        target="_blank"
+      >
+        Mở trong cửa hàng
+      </a>
+
       <button
         nz-button
         nzType="primary"

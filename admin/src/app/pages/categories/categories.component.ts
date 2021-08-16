@@ -30,8 +30,8 @@ export class CategoriesComponent implements OnInit {
       (response) => {
         this.categoryTree = response;
         this.activatedRoute.params.subscribe(({ categoryId }) => {
-          if (Number(categoryId)) {
-            this.categoryId = Number(categoryId);
+          this.categoryId = Number(categoryId);
+          if (this.categoryId) {
             this.isNew = false;
             this.defaultSelectedKeys = [this.categoryId];
           } else {

@@ -78,6 +78,17 @@
           >
             <i nz-icon nzType="eye" theme="twotone"></i>
           </button>
+          <a
+            *nzSpaceItem
+            nz-button
+            nzType="link"
+            nz-tooltip
+            nzTooltipTitle="Mở trong cửa hàng"
+            [href]="storeUrl + '/san-pham/' + item?.slug"
+            target="_blank"
+          >
+            <i nz-icon nzType="link" theme="outline"></i>
+          </a>
           <button
             *nzSpaceItem
             nz-button

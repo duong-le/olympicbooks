@@ -4,6 +4,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { environment } from 'src/environments/environment';
 
 import { AttributeInputMode } from '../../../shared/Enums/attributes.enum';
 import { Attribute } from '../../../shared/Interfaces/attribute.interface';
@@ -34,6 +35,7 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
   isBtnLoading = false;
   fileSizeLimit = 500;
   fileTypeLimit = 'image/jpg,image/jpeg,image/png,image/gif';
+  storeUrl = environment.storeUrl;
 
   constructor(
     private fb: FormBuilder,
