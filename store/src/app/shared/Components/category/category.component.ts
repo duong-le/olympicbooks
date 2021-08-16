@@ -4,7 +4,7 @@ import { Category } from 'src/app/shared/Interfaces/category.interface';
 @Component({
   selector: 'app-category',
   template: `
-    <a [routerLink]="['/categories', category?.id]">
+    <a [routerLink]="['/danh-muc', category?.slug]">
       <img
         nz-image
         [nzSrc]="category?.imgUrl"

@@ -9,12 +9,10 @@
         <form nz-form [formGroup]="orderForm">
           <div nz-col nzSpan="24">
             <nz-card [nzLoading]="isLoading" nzTitle="Sản phẩm" [nzBordered]="false" [nzExtra]="editCart">
-              <div class="cartItem-wrapper" *ngFor="let cartItem of cart?.items">
+              <div class="cart-item-wrapper" *ngFor="let cartItem of cart?.items">
                 <a
-                  nz-button
-                  nzType="link"
-                  class="cartItem"
-                  [routerLink]="['/products', cartItem?.product.id]"
+                  class="cart-item"
+                  [routerLink]="['/san-pham', cartItem?.product?.slug]"
                   [style.pointer-events]="
                     ['active', 'soldOut'].includes(cartItem?.product?.status) ? 'auto' : 'none'
                   "
@@ -29,11 +27,11 @@
                   />
                 </a>
 
-                <div class="cartItem-title">
+                <div class="cart-item-title">
                   <a
                     nz-button
                     nzType="link"
-                    [routerLink]="['/products', cartItem?.product.id]"
+                    [routerLink]="['/san-pham', cartItem?.product?.slug]"
                     [style.pointer-events]="
                       ['active', 'soldOut'].includes(cartItem?.product?.status) ? 'auto' : 'none'
                     "
@@ -48,11 +46,11 @@
                   </nz-tag>
                 </div>
 
-                <div class="cartItem">
+                <div class="cart-item">
                   <span>SL: {{ cartItem?.quantity }}</span>
                 </div>
 
-                <div class="cartItem-price price">
+                <div class="cart-item-price price">
                   {{ cartItem?.quantity * cartItem?.product.price | price }}
                 </div>
               </div>

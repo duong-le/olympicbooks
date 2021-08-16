@@ -32,10 +32,14 @@ export class CategoriesComponent extends CollectionBaseComponent implements OnIn
   }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(({ categoryId }) => {
-      this.categoryId = Number(categoryId);
-      this.resetStateForRouting(`categoryId||$eq||${categoryId}`);
+    this.activatedRoute.params.subscribe(({ categorySlug }) => {
+      this.categoryId = Number(categorySlug.split('-').pop());
+      if (!this.categoryId) {
+        this.router.navigate(['/not-found'], { skipLocationChange: true });
+        return;
+      }
 
+      this.resetStateForRouting(`categoryId||$eq||${this.categoryId}`);
       this.renderCategory();
       this.renderProducts();
     });
@@ -49,7 +53,7 @@ export class CategoriesComponent extends CollectionBaseComponent implements OnIn
         this.titleService.setTitle(`${this.category.title} | OlympicBooks`);
         this.categoriesStyle = { padding: '1px' };
       },
-      (error) => this.router.navigate(['/'])
+      (error) => this.router.navigate(['/not-found'], { skipLocationChange: true })
     );
   }
 

@@ -9,7 +9,7 @@
             <div nz-row nzJustify="space-between" nzAlign="middle" [nzGutter]="[0, 16]">
               <div nz-col nzXl="4" nzXs="8">
                 <a
-                  [routerLink]="['/products', cartItem?.product?.id]"
+                  [routerLink]="['/san-pham', cartItem?.product?.slug]"
                   [style.pointer-events]="
                     ['active', 'soldOut'].includes(cartItem?.product?.status) ? 'auto' : 'none'
                   "
@@ -30,7 +30,9 @@
                 <nz-space nzDirection="vertical">
                   <a
                     *nzSpaceItem
-                    [routerLink]="['/products', cartItem?.product?.id]"
+                    nz-button
+                    nzType="link"
+                    [routerLink]="['/san-pham', cartItem?.product?.slug]"
                     [style.pointer-events]="
                       ['active', 'soldOut'].includes(cartItem?.product?.status) ? 'auto' : 'none'
                     "

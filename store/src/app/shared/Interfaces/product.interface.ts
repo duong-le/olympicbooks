@@ -5,6 +5,7 @@ import { Category } from './category.interface';
 export interface Product {
   id: number;
   title: string;
+  slug: string;
   description: string;
   price: number;
   originalPrice: number;

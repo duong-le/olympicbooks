@@ -4,21 +4,21 @@ label {
   line-height: 30px;
 }
 
-.cartItem-wrapper {
+.cart-item-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.cartItem {
+.cart-item {
   flex: 1;
 }
 
-.cartItem-title {
+.cart-item-title {
   flex: 3;
 }
 
-.cartItem-price {
+.cart-item-price {
   flex: 1;
   display: flex;
   justify-content: flex-end;
@@ -48,11 +48,3 @@ form {
   color: #337ab7;
   font-size: 18px;
 }
-
-// a {
-//   color: inherit;
-
-//   &:hover {
-//     color: #1890ff;
-//   }
-// }

@@ -41,8 +41,13 @@ export class ProductsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(({ productId }) => {
-      this.productId = Number(productId);
+    this.activatedRoute.params.subscribe(({ productSlug }) => {
+      this.productId = Number(productSlug.split('-').pop());
+      if (!this.productId) {
+        this.router.navigate(['/not-found'], { skipLocationChange: true });
+        return;
+      }
+
       this.resetStateForRouting();
       this.renderProductPage();
     });
@@ -84,7 +89,7 @@ export class ProductsComponent implements OnInit {
           this.isRelatedProductsLoading = false;
           this.relatedProductStyle = { padding: '1px' };
         },
-        (error) => this.router.navigate(['/'])
+        (error) => this.router.navigate(['/not-found'], { skipLocationChange: true })
       );
   }
 

@@ -4,9 +4,9 @@ import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-not-exist',
   template: `
-    <nz-result nzStatus="404" nzTitle="404" nzSubTitle="Sorry, the page you visited does not exist.">
+    <nz-result nzStatus="404" nzTitle="404" nzSubTitle="Xin lỗi, trang bạn đang tìm kiếm không tồn tại">
       <div nz-result-extra>
-        <button nz-button nzType="primary" routerLink="/">Back Home</button>
+        <button nz-button nzType="primary" routerLink="/">Về trang chủ</button>
       </div>
     </nz-result>
   `
