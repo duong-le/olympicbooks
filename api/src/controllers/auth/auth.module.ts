@@ -23,6 +23,6 @@ import { JwtStrategy } from './jwt.strategy';
     TypeOrmModule.forFeature([Customer, Admin])
   ],
   providers: [AuthService, JwtStrategy],
-  exports: [JwtStrategy, PassportModule, AuthService]
+  exports: [AuthService, JwtStrategy, PassportModule]
 })
 export class AuthModule {}

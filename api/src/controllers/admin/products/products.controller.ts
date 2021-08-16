@@ -1,5 +1,4 @@
 import { Controller, NotFoundException, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -14,19 +13,24 @@ import {
 } from '@nestjsx/crud';
 import { Repository } from 'typeorm';
 
+import { Roles } from '../../../core/Decorators/roles.decorator';
+import { JwtAuthGuard } from '../../../core/Guards/jwt-auth.guard';
+import { RolesGuard } from '../../../core/Guards/roles.guard';
 import { AttributeValue } from '../../../entities/attribute-value.entity';
 import { Category } from '../../../entities/categories.entity';
 import { ProductImage } from '../../../entities/product-images.entity';
 import { Product } from '../../../entities/products.entity';
 import { UploadOptions } from '../../../services/cloud-storage.service';
 import { ProductsService } from '../../../services/products.service';
+import { UserType } from '../../../shared/Enums/users.enum';
 import { File } from '../../../shared/Interfaces/file.interface';
 import { CreateProductDto, UpdateProductDto } from './products.dto';
 
 @ApiTags('Admin Products')
 @ApiBearerAuth()
 @Controller('admin/products')
-@UseGuards(AuthGuard())
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserType.ADMIN)
 @Crud({
   model: { type: Product },
   routes: {

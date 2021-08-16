@@ -1,16 +1,20 @@
 import { Controller, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
 
+import { Roles } from '../../../core/Decorators/roles.decorator';
+import { JwtAuthGuard } from '../../../core/Guards/jwt-auth.guard';
+import { RolesGuard } from '../../../core/Guards/roles.guard';
 import { Customer } from '../../../entities/customers.entity';
 import { CustomersService } from '../../../services/customers.service';
+import { UserType } from '../../../shared/Enums/users.enum';
 import { AdminUpdateCustomerDto } from '../../store/customers/customers.dto';
 
 @ApiTags('Admin Customers')
 @ApiBearerAuth()
 @Controller('admin/customers')
-@UseGuards(AuthGuard())
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserType.ADMIN)
 @Crud({
   model: { type: Customer },
   routes: {

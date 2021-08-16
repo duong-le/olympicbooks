@@ -11,17 +11,20 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, TreeRepository } from 'typeorm';
 
+import { Roles } from '../../../core/Decorators/roles.decorator';
+import { JwtAuthGuard } from '../../../core/Guards/jwt-auth.guard';
+import { RolesGuard } from '../../../core/Guards/roles.guard';
 import { AttributeValue } from '../../../entities/attribute-value.entity';
 import { Attribute } from '../../../entities/attribute.entity';
 import { Category } from '../../../entities/categories.entity';
 import { CategoriesService } from '../../../services/categories.service';
 import { UploadOptions } from '../../../services/cloud-storage.service';
+import { UserType } from '../../../shared/Enums/users.enum';
 import { File } from '../../../shared/Interfaces/file.interface';
 import { CategoriesController } from '../../store/categories/categories.controller';
 import { CreateCategoryDto, UpdateCategoryDto } from './categories.dto';
@@ -29,7 +32,8 @@ import { CreateCategoryDto, UpdateCategoryDto } from './categories.dto';
 @ApiTags('Admin Categories')
 @ApiBearerAuth()
 @Controller('admin/categories')
-@UseGuards(AuthGuard())
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserType.ADMIN)
 export class AdminCategoriesController extends CategoriesController {
   constructor(
     public service: CategoriesService,

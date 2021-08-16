@@ -46,6 +46,7 @@ export class AuthController {
 
   validateUser(user: Customer | Admin, password: string) {
     if (!user) throw new UnauthorizedException('Invalid Credentials');
+
     if (user?.isBlock) throw new ForbiddenException('User has been banned!');
 
     if (!this.authService.comparePassword(password, user.hashedPassword)) {

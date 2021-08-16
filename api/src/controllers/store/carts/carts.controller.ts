@@ -13,24 +13,28 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductStatus } from 'src/shared/Enums/products.enum';
 import { Repository } from 'typeorm';
 
+import { Roles } from '../../../core/Decorators/roles.decorator';
 import { UserInfo } from '../../../core/Decorators/user-info.decorator';
+import { JwtAuthGuard } from '../../../core/Guards/jwt-auth.guard';
+import { RolesGuard } from '../../../core/Guards/roles.guard';
 import { Cart, CartItem } from '../../../entities/carts.entity';
 import { Customer } from '../../../entities/customers.entity';
 import { Product } from '../../../entities/products.entity';
 import { ShippingMethod } from '../../../entities/shipping-methods.entity';
 import { CartsService } from '../../../services/carts.service';
+import { UserType } from '../../../shared/Enums/users.enum';
 import { CreateCartItemDto, UpdateCartItemDto } from './carts.dto';
 
 @ApiTags('Carts')
 @ApiBearerAuth()
 @Controller('customers/me/carts')
-@UseGuards(AuthGuard())
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserType.CUSTOMER)
 export class CartsController {
   constructor(
     public service: CartsService,

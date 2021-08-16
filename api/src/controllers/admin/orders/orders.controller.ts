@@ -1,19 +1,23 @@
 import { Controller, NotFoundException, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
 import { Repository } from 'typeorm';
 
+import { Roles } from '../../../core/Decorators/roles.decorator';
+import { JwtAuthGuard } from '../../../core/Guards/jwt-auth.guard';
+import { RolesGuard } from '../../../core/Guards/roles.guard';
 import { Order } from '../../../entities/orders.entity';
 import { OrdersService } from '../../../services/orders.service';
 import { ShippingState } from '../../../shared/Enums/shippings.enum';
+import { UserType } from '../../../shared/Enums/users.enum';
 import { UpdateOrderDto } from './orders.dto';
 
 @ApiTags('Admin Orders')
 @ApiBearerAuth()
 @Controller('admin/orders')
-@UseGuards(AuthGuard())
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserType.ADMIN)
 @Crud({
   model: { type: Order },
   routes: {

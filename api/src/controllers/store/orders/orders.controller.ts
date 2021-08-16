@@ -1,5 +1,4 @@
 import { BadRequestException, Controller, NotFoundException, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Crud, CrudAuth, CrudController, Override, ParsedBody } from '@nestjsx/crud';
@@ -8,19 +7,24 @@ import { TransactionMethod } from 'src/entities/transaction-methods.entity';
 import { ProductStatus } from 'src/shared/Enums/products.enum';
 import { Repository } from 'typeorm';
 
+import { Roles } from '../../../core/Decorators/roles.decorator';
 import { UserInfo } from '../../../core/Decorators/user-info.decorator';
+import { JwtAuthGuard } from '../../../core/Guards/jwt-auth.guard';
+import { RolesGuard } from '../../../core/Guards/roles.guard';
 import { CartItem } from '../../../entities/carts.entity';
 import { Customer } from '../../../entities/customers.entity';
 import { OrderItem } from '../../../entities/orders-item.entity';
 import { Order } from '../../../entities/orders.entity';
 import { CartsService } from '../../../services/carts.service';
 import { OrdersService } from '../../../services/orders.service';
+import { UserType } from '../../../shared/Enums/users.enum';
 import { CreateOrderDto } from './orders.dto';
 
 @ApiTags('Orders')
 @ApiBearerAuth()
 @Controller('customers/me/orders')
-@UseGuards(AuthGuard())
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserType.CUSTOMER)
 @Crud({
   model: { type: Order },
   routes: { only: ['getOneBase', 'getManyBase', 'createOneBase'] },

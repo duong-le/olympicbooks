@@ -1,6 +1,6 @@
 import { ClassSerializerInterceptor, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -20,7 +20,6 @@ import { ShippingsModule } from './controllers/store/shippings/shippings.module'
 import { TransactionsModule } from './controllers/store/transactions/transactions.module';
 
 import OrmConfig from './core/Config/orm.config';
-import { RolesGuard } from './core/Guards/roles.guard';
 import { HttpRequestLogger } from './core/Loggers/http-request.logger';
 import { ArrayExist } from './core/Validators/array-exist/array-exist.service';
 import { Exist } from './core/Validators/exist/exist.service';
@@ -47,10 +46,6 @@ import { Exist } from './core/Validators/exist/exist.service';
   providers: [
     Exist,
     ArrayExist,
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard
-    },
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor

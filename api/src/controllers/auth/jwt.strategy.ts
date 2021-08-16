@@ -22,7 +22,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: JwtPayload): Promise<Customer | Admin> {
+  async validate(payload: JwtPayload): Promise<(Customer | Admin) & { type: UserType }> {
     let user: Customer | Admin;
 
     switch (payload.type) {
@@ -37,6 +37,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     if (!user || user?.isBlock) throw new UnauthorizedException();
-    return user;
+
+    return { ...user, type: payload.type };
   }
 }

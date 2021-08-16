@@ -11,20 +11,24 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { Roles } from '../../../core/Decorators/roles.decorator';
+import { JwtAuthGuard } from '../../../core/Guards/jwt-auth.guard';
+import { RolesGuard } from '../../../core/Guards/roles.guard';
 import { AttributeValue } from '../../../entities/attribute-value.entity';
 import { Attribute } from '../../../entities/attribute.entity';
 import { CategoriesService } from '../../../services/categories.service';
+import { UserType } from '../../../shared/Enums/users.enum';
 import { CreateAttributeDto, CreateAttributeValueDto, UpdateAttributeDto, UpdateAttributeValueDto } from './categories.dto';
 
 @ApiTags('Admin Attributes')
 @ApiBearerAuth()
 @Controller('admin/categories')
-@UseGuards(AuthGuard())
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserType.ADMIN)
 export class AdminAttributesController {
   constructor(
     public service: CategoriesService,
