@@ -13,8 +13,7 @@ import { OrdersService } from './orders.service';
 })
 export class OrdersComponent extends BaseTableComponent<Order> {
   columns = [
-    { title: '', width: '35px' },
-    { title: 'Actions', width: '90px' },
+    { title: 'Actions' },
     { title: 'ID', key: 'id', sort: true },
     // { title: 'Mã vận chuyển', key: 'shipping.code', sort: true },
     { title: 'Ngày mua', key: 'createdAt', sort: true },
@@ -30,5 +29,9 @@ export class OrdersComponent extends BaseTableComponent<Order> {
     public modalService: NzModalService
   ) {
     super(ordersService, messageService, modalService);
+  }
+
+  toggleExpand(order: Order) {
+    order.expanded = !order.expanded;
   }
 }
