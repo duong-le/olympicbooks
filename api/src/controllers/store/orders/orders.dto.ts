@@ -1,15 +1,17 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDefined, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsDefined, IsInt, IsOptional, IsPositive, IsString } from 'class-validator';
 
 export class CreateOrderDto {
   @ApiProperty()
   @IsDefined()
-  @IsNumber()
+  @IsInt()
+  @IsPositive()
   transactionMethodId: number;
 
   @ApiProperty()
   @IsDefined()
-  @IsNumber()
+  @IsInt()
+  @IsPositive()
   shippingMethodId: number;
 
   @ApiPropertyOptional()

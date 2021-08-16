@@ -1,6 +1,16 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsBoolean, IsDefined, IsEnum, IsInt, IsOptional, IsString, Min, ValidateIf } from 'class-validator';
+import {
+  IsBoolean,
+  IsDefined,
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsPositive,
+  IsString,
+  ValidateIf,
+} from 'class-validator';
 
 import { AttributeInputMode } from '../../../shared/Enums/attributes.enum';
 
@@ -8,6 +18,7 @@ export class CreateCategoryDto {
   @ApiProperty()
   @IsDefined()
   @IsString()
+  @IsNotEmpty()
   title: string;
 
   @ApiPropertyOptional()
@@ -15,7 +26,7 @@ export class CreateCategoryDto {
   @ValidateIf((dto: CreateCategoryDto) => Boolean(dto.parentId))
   @Type(() => Number)
   @IsInt()
-  @Min(0)
+  @IsPositive()
   parentId: number;
 
   @ApiPropertyOptional({ type: 'string', format: 'binary' })
@@ -29,6 +40,7 @@ export class CreateAttributeDto {
   @ApiProperty()
   @IsDefined()
   @IsString()
+  @IsNotEmpty()
   name: string;
 
   @ApiProperty()
@@ -48,6 +60,7 @@ export class CreateAttributeValueDto {
   @ApiProperty()
   @IsDefined()
   @IsString()
+  @IsNotEmpty()
   value: string;
 }
 

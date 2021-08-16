@@ -1,5 +1,5 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, IsPositive, IsString } from 'class-validator';
 
 import { ShippingState } from '../../../shared/Enums/shippings.enum';
 
@@ -16,6 +16,7 @@ export class UpdateShippingDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsNumber()
+  @IsInt()
+  @IsPositive()
   fee: number;
 }

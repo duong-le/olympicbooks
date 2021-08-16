@@ -1,16 +1,17 @@
 import { ApiProperty, PartialType, PickType } from '@nestjs/swagger';
-import { IsDefined, IsNumber, Min } from 'class-validator';
+import { IsDefined, IsInt, IsPositive, Min } from 'class-validator';
 
 export class CreateCartItemDto {
   @ApiProperty()
   @IsDefined()
-  @IsNumber()
+  @IsInt()
   @Min(1)
   quantity: number;
 
   @ApiProperty()
   @IsDefined()
-  @IsNumber()
+  @IsInt()
+  @IsPositive()
   productId: number;
 }
 

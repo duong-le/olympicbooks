@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
-import { IsDefined, IsEnum, IsNumber, IsOptional, IsString, Validate } from 'class-validator';
+import { IsDefined, IsEnum, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, Validate } from 'class-validator';
 import { AttributeValue } from 'src/entities/attribute-value.entity';
 
 import { ArrayExist } from '../../../core/Validators/array-exist/array-exist.service';
@@ -13,11 +13,13 @@ export class CreateProductDto {
   @ApiProperty()
   @IsDefined()
   @IsString()
+  @IsNotEmpty()
   title: string;
 
   @ApiProperty()
   @IsDefined()
   @IsString()
+  @IsNotEmpty()
   description: string;
 
   @ApiProperty({ type: [Number] })
@@ -25,20 +27,23 @@ export class CreateProductDto {
   @Transform(({ value }) =>
     typeof value === 'string' ? value.split(',').map((id: string) => Number(id)) : value
   )
-  @IsNumber({}, { each: true })
+  @IsInt({ each: true })
+  @IsPositive({ each: true })
   @Validate(ArrayExist, [AttributeValue, 'id'])
   attributeValueIds: number[];
 
   @ApiProperty()
   @IsDefined()
   @Type(() => Number)
-  @IsNumber()
+  @IsInt()
+  @IsPositive()
   price: number;
 
   @ApiProperty()
   @IsDefined()
   @Type(() => Number)
-  @IsNumber()
+  @IsInt()
+  @IsPositive()
   originalPrice: number;
 
   @ApiProperty({ enum: ProductStatus, default: ProductStatus.ACTIVE })
@@ -49,7 +54,8 @@ export class CreateProductDto {
   @ApiProperty()
   @IsDefined()
   @Type(() => Number)
-  @IsNumber()
+  @IsInt()
+  @IsPositive()
   @Validate(Exist, [Category, 'id'])
   categoryId: number;
 
@@ -62,7 +68,8 @@ export class UpdateProductDto extends PartialType(CreateProductDto) {
   @ApiPropertyOptional()
   @IsOptional()
   @Transform(({ value }) => (typeof value === 'string' ? value.split(',').map((id) => Number(id)) : value))
-  @IsNumber({}, { each: true })
+  @IsInt({ each: true })
+  @IsPositive({ each: true })
   @Validate(ArrayExist, [ProductImage, 'id'])
   removedImageIds: number[];
 }
