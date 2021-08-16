@@ -47,15 +47,17 @@ export class CartsController {
   @ApiQuery({ name: 'shippingMethodId', required: false })
   @Get()
   async getCart(
-    @Query('shippingMethodId') shippingMethodId: string,
+    @Query('shippingMethodId', ParseIntPipe) shippingMethodId: number,
     @UserInfo() customer: Customer
   ): Promise<Cart> {
     let shippingFee = 0;
     if (shippingMethodId) {
-      const shippingMethod = await this.shippingMethodRepository.findOne(Number(shippingMethodId));
+      const shippingMethod = await this.shippingMethodRepository.findOne(shippingMethodId);
       if (shippingMethod) shippingFee = shippingMethod.fee;
     }
-    const cartItems = await this.cartRepository.find({ customerId: customer.id });
+
+    let cartItems = await this.cartRepository.find({ customerId: customer.id });
+    cartItems = await this.service.filterInvalidCartItems(cartItems);
 
     return {
       orderValue: this.service.calculateOrderValue(cartItems) + shippingFee,
@@ -100,8 +102,8 @@ export class CartsController {
 
   @ApiOperation({ summary: 'Delete a single CartItem' })
   @Delete(':id')
-  async deleteOne(@Param('id', ParseIntPipe) id: number, @UserInfo() customer: Customer): Promise<void> {
-    const result = await this.cartRepository.delete({ id, customerId: customer.id });
+  async deleteOne(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    const result = await this.cartRepository.delete(id);
     if (result.affected === 0) throw new NotFoundException('CartItem not found');
   }
 

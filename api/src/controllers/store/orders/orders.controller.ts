@@ -69,8 +69,8 @@ export class OrdersController implements CrudController<Order> {
 
     const cartItems = await this.cartRepository.find({ customerId: customer.id });
     for (const cartItem of cartItems) {
-      if (cartItem.product.status !== ProductStatus.ACTIVE)
-        throw new BadRequestException(`Product ${cartItem.product.id} is not active`);
+      if (cartItem?.product?.status !== ProductStatus.ACTIVE)
+        throw new BadRequestException(`Product ${cartItem.productId} is not active`);
     }
 
     const orderItems: OrderItem[] = [];
