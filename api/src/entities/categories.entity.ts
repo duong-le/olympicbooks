@@ -13,6 +13,9 @@ export class Category extends BaseEntity {
   @Column()
   title: string;
 
+  @Column({ unique: true, default: null })
+  slug: string;
+
   @Column({ nullable: true })
   imgUrl: string;
 

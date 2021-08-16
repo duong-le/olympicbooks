@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, TreeRepository } from 'typeorm';
 
+import { CloudStorageService } from '../core/Utils/cloud-storage.service';
 import { AttributeValue } from '../entities/attribute-value.entity';
 import { Category } from '../entities/categories.entity';
 import { File } from '../shared/Interfaces/file.interface';
-import { CloudStorageService } from './cloud-storage.service';
 
 @Injectable()
 export class CategoriesService {

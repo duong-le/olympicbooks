@@ -16,11 +16,12 @@ import { Repository } from 'typeorm';
 import { Roles } from '../../../core/Decorators/roles.decorator';
 import { JwtAuthGuard } from '../../../core/Guards/jwt-auth.guard';
 import { RolesGuard } from '../../../core/Guards/roles.guard';
+import { UploadOptions } from '../../../core/Utils/cloud-storage.service';
+import { SlugService } from '../../../core/Utils/slug.service';
 import { AttributeValue } from '../../../entities/attribute-value.entity';
 import { Category } from '../../../entities/categories.entity';
 import { ProductImage } from '../../../entities/product-images.entity';
 import { Product } from '../../../entities/products.entity';
-import { UploadOptions } from '../../../services/cloud-storage.service';
 import { ProductsService } from '../../../services/products.service';
 import { UserType } from '../../../shared/Enums/users.enum';
 import { File } from '../../../shared/Interfaces/file.interface';
@@ -48,6 +49,7 @@ import { CreateProductDto, UpdateProductDto } from './products.dto';
 export class AdminProductsController implements CrudController<Product> {
   constructor(
     public service: ProductsService,
+    public slugService: SlugService,
     @InjectRepository(Product) private productRepository: Repository<Product>,
     @InjectRepository(ProductImage) private productImageRepository: Repository<ProductImage>,
     @InjectRepository(Category) private categoryRepository: Repository<Category>,
@@ -57,6 +59,8 @@ export class AdminProductsController implements CrudController<Product> {
   @Override()
   async getMany(@ParsedRequest() req: CrudRequest): Promise<GetManyDefaultResponse<Product> | Product[]> {
     const products = await this.service.getMany(req);
+
+    // In case pagination is enable, access the property `data` to achieve the data
     for (const product of Array.isArray(products) ? products : products.data) {
       product['attributes'] = await this.service.getProductAttributes(product.id, product.category.id);
     }
@@ -79,14 +83,19 @@ export class AdminProductsController implements CrudController<Product> {
     @UploadedFiles() uploadedFiles: File[]
   ): Promise<Product> {
     const { attributeValueIds, ...others } = dto;
+    let product = this.productRepository.create(others);
 
-    const product = this.productRepository.create(others);
     if (attributeValueIds?.length)
       product.attributeValues = await this.attributeValueRepository.findByIds(attributeValueIds);
 
     if (uploadedFiles?.length) {
       product.images = await this.service.createProductImages(uploadedFiles);
     }
+
+    product = await this.productRepository.save(product);
+
+    product.slug = this.slugService.createSlug(product.title, product.id);
+
     return await this.productRepository.save(product);
   }
 
@@ -101,10 +110,11 @@ export class AdminProductsController implements CrudController<Product> {
     const product = await this.service.getOne(req);
     if (!product) throw new NotFoundException('Product not found');
 
-    const { status, categoryId, attributeValueIds, removedImageIds, ...others } = dto;
+    const { title, categoryId, attributeValueIds, removedImageIds, ...others } = dto;
 
-    if (status) {
-      product.status = status;
+    if (title) {
+      product.title = title;
+      product.slug = this.slugService.createSlug(product.title, product.id);
     }
 
     if (categoryId && product?.category?.id !== categoryId) {

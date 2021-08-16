@@ -6,7 +6,6 @@ import { CartItem } from 'src/entities/carts.entity';
 import { OrderItem } from '../../../entities/orders-item.entity';
 import { ProductImage } from '../../../entities/product-images.entity';
 import { Product } from '../../../entities/products.entity';
-import { CloudStorageService } from '../../../services/cloud-storage.service';
 import { ProductsService } from '../../../services/products.service';
 import { CategoriesModule } from '../categories/categories.module';
 import { ProductsController } from './products.controller';
@@ -17,7 +16,7 @@ import { ProductsController } from './products.controller';
     TypeOrmModule.forFeature([Product, ProductImage, OrderItem, CartItem, Attribute]),
     CategoriesModule
   ],
-  providers: [ProductsService, CloudStorageService],
+  providers: [ProductsService],
   exports: [ProductsService]
 })
 export class ProductsModule {}

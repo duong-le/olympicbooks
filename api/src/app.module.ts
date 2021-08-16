@@ -19,6 +19,7 @@ import { ProductsModule } from './controllers/store/products/products.module';
 import { ShippingsModule } from './controllers/store/shippings/shippings.module';
 import { TransactionsModule } from './controllers/store/transactions/transactions.module';
 
+import { UtilsModule } from './core/Utils/utils.module';
 import OrmConfig from './core/Config/orm.config';
 import { HttpRequestLogger } from './core/Loggers/http-request.logger';
 import { ArrayExist } from './core/Validators/array-exist/array-exist.service';
@@ -42,6 +43,7 @@ import { Exist } from './core/Validators/exist/exist.service';
     AdminCategoriesModule,
     AdminProductsModule,
     AdminCustomersModule,
+    UtilsModule,
   ],
   providers: [
     Exist,

@@ -19,11 +19,12 @@ import { Repository, TreeRepository } from 'typeorm';
 import { Roles } from '../../../core/Decorators/roles.decorator';
 import { JwtAuthGuard } from '../../../core/Guards/jwt-auth.guard';
 import { RolesGuard } from '../../../core/Guards/roles.guard';
+import { UploadOptions } from '../../../core/Utils/cloud-storage.service';
+import { SlugService } from '../../../core/Utils/slug.service';
 import { AttributeValue } from '../../../entities/attribute-value.entity';
 import { Attribute } from '../../../entities/attribute.entity';
 import { Category } from '../../../entities/categories.entity';
 import { CategoriesService } from '../../../services/categories.service';
-import { UploadOptions } from '../../../services/cloud-storage.service';
 import { UserType } from '../../../shared/Enums/users.enum';
 import { File } from '../../../shared/Interfaces/file.interface';
 import { CategoriesController } from '../../store/categories/categories.controller';
@@ -37,11 +38,12 @@ import { CreateCategoryDto, UpdateCategoryDto } from './categories.dto';
 export class AdminCategoriesController extends CategoriesController {
   constructor(
     public service: CategoriesService,
+    public slugService: SlugService,
     @InjectRepository(Category) public categoryRepository: TreeRepository<Category>,
     @InjectRepository(Attribute) public attributeRepository: Repository<Attribute>,
     @InjectRepository(AttributeValue) public attributeValueRepository: Repository<AttributeValue>
   ) {
-    super(service, categoryRepository);
+    super(service, slugService, categoryRepository);
   }
 
   @ApiOperation({ summary: 'Create one Category' })
@@ -49,20 +51,25 @@ export class AdminCategoriesController extends CategoriesController {
   @Post()
   @UseInterceptors(FileInterceptor('attachment', UploadOptions))
   async createOne(@Body() dto: CreateCategoryDto, @UploadedFile() uploadedFile: File): Promise<Category> {
-    let parent: Category;
-    let category: Category;
     const { parentId, ...others } = dto;
+    let category = this.categoryRepository.create(others);
 
     if (uploadedFile) {
       const file = await this.service.uploadFile(uploadedFile);
-      category = this.categoryRepository.create({ ...others, imgUrl: file.publicUrl, imgName: file.name });
-    } else category = this.categoryRepository.create(others);
+      category.imgUrl = file.publicUrl;
+      category.imgName = file.name;
+    }
 
     if (parentId) {
-      parent = await this.categoryRepository.findOne(parentId);
+      const parent = await this.categoryRepository.findOne(parentId);
       if (!parent) throw new NotFoundException('Parent category not found!');
       category.parent = parent;
     }
+
+    category = await this.categoryRepository.save(category);
+
+    category.slug = this.slugService.createSlug(category.title, category.id);
+
     return await this.categoryRepository.save(category);
   }
 
@@ -76,7 +83,11 @@ export class AdminCategoriesController extends CategoriesController {
     @UploadedFile() uploadedFile: File
   ): Promise<Category> {
     const category = await this.getOne(id);
-    if (dto?.title) category.title = dto.title;
+
+    if (dto?.title) {
+      category.title = dto.title;
+      category.slug = this.slugService.createSlug(category.title, category.id);
+    }
 
     if (uploadedFile) {
       // if (category.imgName) await this.service.removeFile(category.imgName);

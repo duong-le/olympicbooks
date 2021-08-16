@@ -4,13 +4,13 @@ import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Attribute } from 'src/entities/attribute.entity';
 import { Repository } from 'typeorm';
 
+import { CloudStorageService } from '../core/Utils/cloud-storage.service';
 import { CartItem } from '../entities/carts.entity';
 import { OrderItem } from '../entities/orders-item.entity';
 import { ProductImage } from '../entities/product-images.entity';
 import { Product } from '../entities/products.entity';
 import { ProductStatus } from '../shared/Enums/products.enum';
 import { File } from '../shared/Interfaces/file.interface';
-import { CloudStorageService } from './cloud-storage.service';
 
 @Injectable()
 export class ProductsService extends TypeOrmCrudService<Product> {

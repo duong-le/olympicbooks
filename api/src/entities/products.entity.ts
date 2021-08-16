@@ -12,6 +12,9 @@ export class Product extends BaseEntity {
   @Column()
   title: string;
 
+  @Column({ unique: true, default: null })
+  slug: string;
+
   @Column()
   description: string;
 

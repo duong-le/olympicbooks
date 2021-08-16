@@ -3,6 +3,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TreeRepository } from 'typeorm';
 
+import { SlugService } from '../../../core/Utils/slug.service';
 import { Category } from '../../../entities/categories.entity';
 import { CategoriesService } from '../../../services/categories.service';
 
@@ -11,6 +12,7 @@ import { CategoriesService } from '../../../services/categories.service';
 export class CategoriesController {
   constructor(
     public service: CategoriesService,
+    public slugService: SlugService,
     @InjectRepository(Category) public categoryRepository: TreeRepository<Category>
   ) {}
 
