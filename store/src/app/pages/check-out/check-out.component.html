@@ -140,10 +140,10 @@
               nzTitle="Cập nhật địa chỉ giao hàng"
               [nzVisible]="isAddressModalVisible"
               (nzOnCancel)="hideAddressModal()"
-              [nzContent]="modalContent"
-              [nzFooter]="modalFooter"
+              [nzContent]="addressModalContent"
+              [nzFooter]="addressModalFooter"
             >
-              <ng-template #modalContent>
+              <ng-template #addressModalContent>
                 <form nz-form [formGroup]="addressForm">
                   <nz-form-item>
                     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>Họ tên</nz-form-label>
@@ -170,7 +170,7 @@
                 </form>
               </ng-template>
 
-              <ng-template #modalFooter>
+              <ng-template #addressModalFooter>
                 <button nz-button nzType="default" (click)="hideAddressModal()">Hủy bỏ</button>
                 <button
                   nz-button
