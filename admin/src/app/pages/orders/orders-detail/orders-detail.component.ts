@@ -101,7 +101,6 @@ export class OrdersDetailComponent implements OnInit {
       (response) => {
         this.isBtnLoading = false;
         this.messageService.success('Cập nhật thành công!');
-        this.goBack();
       },
       (error) => {
         this.isBtnLoading = false;
