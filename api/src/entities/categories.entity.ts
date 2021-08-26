@@ -1,4 +1,14 @@
-import { AfterLoad, Column, Entity, OneToMany, Tree, TreeChildren, TreeParent } from 'typeorm';
+import {
+  AfterLoad,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  Tree,
+  TreeChildren,
+  TreeParent
+} from 'typeorm';
 
 import { Attribute } from './attribute.entity';
 import { BaseEntity } from './base.entity';
@@ -31,7 +41,8 @@ export class Category extends BaseEntity {
   @OneToMany(() => Product, (product) => product.category)
   products: Product[];
 
-  @OneToMany(() => Attribute, (attribute) => attribute.category, { eager: true })
+  @ManyToMany(() => Attribute, (attribute) => attribute.categories, { eager: true })
+  @JoinTable({ name: 'category_attribute' })
   attributes: Attribute[];
 
   parents: Category[];

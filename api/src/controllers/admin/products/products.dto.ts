@@ -22,7 +22,7 @@ export class CreateProductDto {
   @IsNotEmpty()
   description: string;
 
-  @ApiProperty({ type: [Number] })
+  @ApiPropertyOptional({ type: [Number] })
   @IsOptional()
   @Transform(({ value }) =>
     typeof value === 'string' ? value.split(',').map((id: string) => Number(id)) : value

@@ -14,14 +14,13 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, TreeRepository } from 'typeorm';
+import { TreeRepository } from 'typeorm';
 
 import { Roles } from '../../../core/Decorators/roles.decorator';
 import { JwtAuthGuard } from '../../../core/Guards/jwt-auth.guard';
 import { RolesGuard } from '../../../core/Guards/roles.guard';
 import { UploadOptions } from '../../../core/Utils/cloud-storage.service';
 import { SlugService } from '../../../core/Utils/slug.service';
-import { AttributeValue } from '../../../entities/attribute-value.entity';
 import { Attribute } from '../../../entities/attribute.entity';
 import { Category } from '../../../entities/categories.entity';
 import { CategoriesService } from '../../../services/categories.service';
@@ -40,8 +39,7 @@ export class AdminCategoriesController extends CategoriesController {
     public service: CategoriesService,
     public slugService: SlugService,
     @InjectRepository(Category) public categoryRepository: TreeRepository<Category>,
-    @InjectRepository(Attribute) public attributeRepository: Repository<Attribute>,
-    @InjectRepository(AttributeValue) public attributeValueRepository: Repository<AttributeValue>
+    @InjectRepository(Attribute) public attributeRepository: TreeRepository<Attribute>
   ) {
     super(service, slugService, categoryRepository);
   }
@@ -51,7 +49,7 @@ export class AdminCategoriesController extends CategoriesController {
   @Post()
   @UseInterceptors(FileInterceptor('attachment', UploadOptions))
   async createOne(@Body() dto: CreateCategoryDto, @UploadedFile() uploadedFile: File): Promise<Category> {
-    const { parentId, ...others } = dto;
+    const { parentId, attributeIds, ...others } = dto;
     let category = this.categoryRepository.create(others);
 
     if (uploadedFile) {
@@ -64,6 +62,10 @@ export class AdminCategoriesController extends CategoriesController {
       const parent = await this.categoryRepository.findOne(parentId);
       if (!parent) throw new NotFoundException('Parent category not found!');
       category.parent = parent;
+    }
+
+    if (attributeIds?.length) {
+      category.attributes = await this.attributeRepository.findByIds(attributeIds);
     }
 
     category = await this.categoryRepository.save(category);
@@ -100,6 +102,10 @@ export class AdminCategoriesController extends CategoriesController {
       const parent = await this.getOne(dto.parentId);
       category.parent = parent;
     } else category.parent = null;
+
+    if (dto?.attributeIds?.length) {
+      category.attributes = await this.attributeRepository.findByIds(dto.attributeIds);
+    }
 
     return await this.categoryRepository.save(category);
   }

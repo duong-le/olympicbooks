@@ -76,8 +76,9 @@ export class ProductsService extends TypeOrmCrudService<Product> {
     return await this.attribute
       .createQueryBuilder('attribute')
       .leftJoinAndSelect('attribute.attributeValues', 'attributeValue')
+      .leftJoin('attribute.categories', 'category')
       .leftJoin('attributeValue.products', 'product')
-      .where('attribute.categoryId = :categoryId', { categoryId })
+      .where('category.id = :categoryId', { categoryId })
       .andWhere('product.id = :productId', { productId })
       .getMany();
   }

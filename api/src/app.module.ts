@@ -5,6 +5,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AdminsModule } from './controllers/admin/admins/admins.module';
+import { AdminAttributesModule } from './controllers/admin/attributes/attributes.module';
 import { AdminCategoriesModule } from './controllers/admin/categories/categories.module';
 import { AdminCustomersModule } from './controllers/admin/customers/customers.module';
 import { AdminOrdersModule } from './controllers/admin/orders/orders.module';
@@ -39,6 +40,7 @@ import { UtilsModule } from './core/Utils/utils.module';
     AdminsModule,
     AdminOrdersModule,
     AdminCategoriesModule,
+    AdminAttributesModule,
     AdminProductsModule,
     AdminCustomersModule,
     UtilsModule,

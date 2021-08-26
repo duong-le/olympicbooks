@@ -42,18 +42,4 @@ export class CategoriesService {
   async removeFile(fileName: string): Promise<void> {
     await this.cloudStorageService.removeFile(fileName);
   }
-
-  async getOneAttributeValueByCategory(
-    categoryId: number,
-    attributeId: number,
-    attributeValueId: number
-  ): Promise<AttributeValue> {
-    return await this.attributeValueRepository
-      .createQueryBuilder('attributeValue')
-      .leftJoin('attributeValue.attribute', 'attribute')
-      .where('attributeValue.id = :attributeValueId', { attributeValueId })
-      .andWhere('attributeValue.attributeId = :attributeId', { attributeId })
-      .andWhere('attribute.categoryId = :categoryId', { categoryId })
-      .getOne();
-  }
 }

@@ -5,10 +5,10 @@ import { BaseEntity } from './base.entity';
 import { Product } from './products.entity';
 
 @Entity()
-@Unique(['value', 'attributeId'])
+@Unique(['name', 'attributeId'])
 export class AttributeValue extends BaseEntity {
   @Column()
-  value: string;
+  name: string;
 
   @ManyToOne(() => Attribute, (attribute) => attribute.attributeValues)
   attribute: Attribute;
