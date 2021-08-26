@@ -1,10 +1,10 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import { IsDefined, IsEnum, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, Validate } from 'class-validator';
-import { AttributeValue } from 'src/entities/attribute-value.entity';
 
-import { ArrayExist } from '../../../core/Validators/array-exist/array-exist.service';
-import { Exist } from '../../../core/Validators/exist/exist.service';
+import { ArrayExistValidator } from '../../../core/Utils/array-exist.validator';
+import { ExistValidator } from '../../../core/Utils/exist.validator';
+import { AttributeValue } from '../../../entities/attribute-value.entity';
 import { Category } from '../../../entities/categories.entity';
 import { ProductImage } from '../../../entities/product-images.entity';
 import { ProductStatus } from '../../../shared/Enums/products.enum';
@@ -29,7 +29,7 @@ export class CreateProductDto {
   )
   @IsInt({ each: true })
   @IsPositive({ each: true })
-  @Validate(ArrayExist, [AttributeValue, 'id'])
+  @Validate(ArrayExistValidator, [AttributeValue, 'id'])
   attributeValueIds: number[];
 
   @ApiProperty()
@@ -56,7 +56,7 @@ export class CreateProductDto {
   @Type(() => Number)
   @IsInt()
   @IsPositive()
-  @Validate(Exist, [Category, 'id'])
+  @Validate(ExistValidator, [Category, 'id'])
   categoryId: number;
 
   @ApiPropertyOptional({ type: 'array', items: { type: 'string', format: 'binary' } })
@@ -70,6 +70,6 @@ export class UpdateProductDto extends PartialType(CreateProductDto) {
   @Transform(({ value }) => (typeof value === 'string' ? value.split(',').map((id) => Number(id)) : value))
   @IsInt({ each: true })
   @IsPositive({ each: true })
-  @Validate(ArrayExist, [ProductImage, 'id'])
+  @Validate(ArrayExistValidator, [ProductImage, 'id'])
   removedImageIds: number[];
 }

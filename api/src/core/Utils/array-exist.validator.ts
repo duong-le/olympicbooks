@@ -1,18 +1,26 @@
+import { Injectable } from '@nestjs/common';
 import { isObject } from '@nestjs/common/utils/shared.utils';
-import { ValidationArguments, ValidatorConstraintInterface } from 'class-validator';
+import { InjectConnection } from '@nestjs/typeorm';
+import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
 import { Connection, EntitySchema, FindConditions, In, ObjectType } from 'typeorm';
 
 export interface ExistArrayValidationArguments<E> extends ValidationArguments {
   constraints: [
     ObjectType<E> | EntitySchema<E> | string,
     ((validationArguments: ValidationArguments, value: any[]) => FindConditions<E>) | keyof E,
-    ((validationArguments: ValidationArguments, value: any[], entityCount: number) => boolean) | string | undefined,
+    (
+      | ((validationArguments: ValidationArguments, value: any[], entityCount: number) => boolean)
+      | string
+      | undefined
+    ),
     number | undefined
   ];
 }
 
-export abstract class ArrayExistValidator implements ValidatorConstraintInterface {
-  protected constructor(protected readonly connection: Connection) {}
+@ValidatorConstraint({ name: 'array-exist', async: true })
+@Injectable()
+export class ArrayExistValidator implements ValidatorConstraintInterface {
+  constructor(@InjectConnection() protected readonly connection: Connection) {}
 
   public async validate<E>(value: any[], args: ExistArrayValidationArguments<E>): Promise<boolean> {
     const [EntityClass, findCondition = args.property, validationCondition] = args.constraints;
@@ -31,10 +39,12 @@ export abstract class ArrayExistValidator implements ValidatorConstraintInterfac
             }
     });
     args.constraints[3] = entityCount;
-    return typeof validationCondition === 'function' ? validationCondition(args, value, entityCount) : value.length === entityCount;
+    return typeof validationCondition === 'function'
+      ? validationCondition(args, value, entityCount)
+      : value.length === entityCount;
   }
 
   public defaultMessage(args: ValidationArguments): string {
-    return `${args.property} not found`;
+    return `Invalid ${args.property}`;
   }
 }
