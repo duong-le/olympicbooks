@@ -122,7 +122,7 @@
           [nzSm]="8"
           [nzXs]="24"
           [nzFor]="attribute.name"
-          [nzRequired]="attribute.isRequired"
+          [nzRequired]="attribute.mandatory"
         >
           {{ attribute.name }}
         </nz-form-label>
@@ -137,7 +137,7 @@
           >
             <nz-option
               *ngFor="let attributeValue of attribute.attributeValues"
-              [nzLabel]="attributeValue?.value"
+              [nzLabel]="attributeValue?.name"
               [nzValue]="attributeValue?.id"
             >
             </nz-option>
@@ -146,13 +146,14 @@
           <ng-template #createAttributeValueTemplate>
             <nz-divider></nz-divider>
             <div class="input-container">
-              <input nz-input type="text" nzSize="small" #attributeValue />
+              <input nz-input type="text" nzSize="small" #attributeValueName />
               <a
                 nz-button
                 nzType="link"
-                class="add-item"
+                class="add-attribute-value-btn"
                 (click)="
-                  createNewAttributeValue(attributeValue.value, attribute.id); attributeValue.value = ''
+                  createNewAttributeValue(attributeValueName.value, attribute.id);
+                  attributeValueName.value = ''
                 "
               >
                 <i nz-icon nzType="plus"></i> Thêm giá trị

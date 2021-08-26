@@ -1,14 +1,17 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { forkJoin } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 import { AttributeInputMode } from '../../../shared/Enums/attributes.enum';
 import { Attribute } from '../../../shared/Interfaces/attribute.interface';
 import { Category } from '../../../shared/Interfaces/category.interface';
+import { AttributesService } from '../attributes.service';
 import { CategoriesService } from '../categories.service';
 
 @Component({
@@ -26,13 +29,15 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
   categoryForm: FormGroup;
   attributeForm: FormGroup;
   category: Category;
+  attributes: Attribute[];
   categoryTree: NzTreeNodeOptions[] = [];
   fileList: NzUploadFile[] = [];
   attributeInputMode = AttributeInputMode;
 
-  attributeFormGroups: string[] = [];
   isLoading = false;
   isBtnLoading = false;
+  isAttributeModalVisible = false;
+  isSaveAttributeBtnLoading = false;
   fileSizeLimit = 500;
   fileTypeLimit = 'image/jpg,image/jpeg,image/png,image/gif';
   storeUrl = environment.storeUrl;
@@ -40,6 +45,7 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
   constructor(
     private fb: FormBuilder,
     private categoriesService: CategoriesService,
+    private attributesService: AttributesService,
     private messageService: NzMessageService,
     private modal: NzModalService
   ) {}
@@ -47,21 +53,33 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.categoryForm = this.fb.group({
       title: ['', [Validators.required]],
-      parentId: ['']
+      parentId: [''],
+      attributes: this.fb.array([])
     });
 
-    this.attributeForm = this.fb.group({});
+    this.attributeForm = this.fb.group({
+      id: [''],
+      name: ['', [Validators.required]],
+      inputMode: ['', [Validators.required]],
+      mandatory: [false, [Validators.required]]
+    });
   }
 
   ngOnChanges() {
-    this.fileList = [];
-    this.attributeFormGroups = [];
-    this.attributeForm = this.fb.group({});
-    if (this.isNew && this.categoryForm) {
-      this.categoryForm.reset();
-    } else if (!this.isNew && this.categoryId && this.categoryData) this.renderCategoryDetailPage();
-
+    this.resetStateForRouting();
+    if (!this.isNew && this.categoryId && this.categoryData) {
+      this.renderCategoryDetailPage();
+    }
     if (this.categoryData) this.categoryTree = this.categoryData;
+    this.getAttributes();
+  }
+
+  get attributeFormArray() {
+    return this.categoryForm.get('attributes') as FormArray;
+  }
+
+  get attributeIdFormControl() {
+    return this.attributeForm.controls['id'];
   }
 
   renderCategoryDetailPage() {
@@ -69,9 +87,10 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
     this.categoriesService.getOne(this.categoryId).subscribe(
       (response) => {
         this.category = response;
-        this.categoryForm.setValue({
+
+        this.categoryForm.patchValue({
           title: this.category.title,
-          // If category has parent(s), the closest parent is second from the right
+          // If category has parent(s), the closest parent is the second from the right
           parentId:
             this.category?.parents?.length > 1
               ? this.category.parents[this.category.parents.length - 2].id
@@ -91,15 +110,9 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
         }
 
         for (const attribute of this.category.attributes) {
-          this.addNewFormGroupToAttributeForm(
-            attribute.id,
-            attribute.name,
-            attribute.inputMode,
-            attribute.isRequired
-          );
+          this.addAttributeToFormArray(attribute);
         }
 
-        this.categoryForm.markAsPristine();
         this.isLoading = false;
       },
       (error) => {
@@ -111,7 +124,7 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
 
   updateCategory() {
     this.isBtnLoading = true;
-    this.categoriesService.updateOne(this.categoryId, this.prepareFormData()).subscribe(
+    this.categoriesService.updateOne(this.categoryId, this.prepareCategoryFormDataForSaving()).subscribe(
       (response) => {
         this.isBtnLoading = false;
         this.messageService.success('Cập nhật thành công!');
@@ -126,7 +139,7 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
 
   createCategory() {
     this.isBtnLoading = true;
-    this.categoriesService.createOne(this.prepareFormData()).subscribe(
+    this.categoriesService.createOne(this.prepareCategoryFormDataForSaving()).subscribe(
       (response) => {
         this.isBtnLoading = false;
         this.messageService.success('Thêm mới danh mục thành công!');
@@ -171,70 +184,118 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
     return false;
   };
 
-  prepareFormData() {
+  prepareCategoryFormDataForSaving() {
     const formData = new FormData();
 
-    for (const formControl in this.categoryForm.value) {
-      formData.append(formControl, this.categoryForm.value[formControl]);
+    for (const formControlName in this.categoryForm.value) {
+      if (formControlName !== 'attributes')
+        formData.append(formControlName, this.categoryForm.value[formControlName]);
     }
+
+    if (this.attributeFormArray.value.length)
+      formData.append(
+        'attributeIds',
+        this.attributeFormArray.value.map((attribute: Attribute) => attribute.id)
+      );
 
     if (this.fileList.length) formData.append('attachment', this.fileList[0] as any);
 
     return formData;
   }
 
-  addNewFormGroupToAttributeForm(id = null, name = null, inputMode = '', isRequired = true): void {
-    const formGroupName = `attribute${this.attributeFormGroups.length}`;
-    this.attributeFormGroups.push(formGroupName);
-    this.attributeForm.addControl(
-      formGroupName,
-      this.fb.group({
-        id: { value: id, disabled: true },
-        name: [name, [Validators.required]],
-        inputMode: [inputMode, [Validators.required]],
-        isRequired: [isRequired, [Validators.required]]
-      })
+  compareAttributeFn(attribute1: Attribute, attribute2: Attribute): boolean {
+    return (
+      attribute1?.id === attribute2?.id &&
+      attribute1?.name === attribute2?.name &&
+      attribute1?.inputMode === attribute2?.inputMode &&
+      attribute1?.mandatory === attribute2?.mandatory
     );
   }
 
-  removeFormGroupFromAttributeForm(formGroupName: string): void {
-    const index = this.attributeFormGroups.indexOf(formGroupName);
-    if (!index) return;
-
-    this.attributeFormGroups.splice(index, 1);
-    const attributeId = (this.attributeForm.get(formGroupName) as FormGroup).controls['id'].value;
-    if (attributeId) this.removeAttribute(attributeId);
-    this.attributeForm.removeControl(formGroupName);
+  addAttributeToFormArray(attribute: Attribute = null): void {
+    this.attributeFormArray.push(this.fb.control(attribute, Validators.required));
   }
 
-  saveAttribute(formGroupName: string): void {
-    const formGroup = this.attributeForm.get(formGroupName) as FormGroup;
-    const attributeId = formGroup.controls['id'].value;
-
-    attributeId ? this.updateAttribute(attributeId, formGroup.value) : this.createAttribute(formGroup);
+  removeAttributeFromFormArray(index: number): void {
+    this.attributeFormArray.removeAt(index);
   }
 
-  createAttribute(formGroup: FormGroup) {
-    this.categoriesService.createOneAttribute(this.categoryId, formGroup.value).subscribe(
-      (response) => {
-        this.messageService.success('Thêm mới thuộc tính thành công!');
-        formGroup.patchValue({ id: response.id });
-      },
+  getAttributes(): void {
+    this.attributesService.getMany().subscribe(
+      (response) => (this.attributes = response),
       (error) => this.messageService.error(error?.error?.message)
     );
   }
 
-  updateAttribute(attributeId: number, data: Attribute) {
-    this.categoriesService.updateOneAttribute(this.categoryId, attributeId, data).subscribe(
-      (response) => this.messageService.success('Cập nhật thuộc tính thành công!'),
-      (error) => this.messageService.error(error?.error?.message)
-    );
+  saveAttribute(): void {
+    this.attributeIdFormControl.value ? this.updateAttribute() : this.createAttribute();
   }
 
-  removeAttribute(attributeId: number) {
-    this.categoriesService.deleteOneAttribute(this.categoryId, attributeId).subscribe(
-      (response) => this.messageService.success('Xoá thuộc tính thành công!'),
-      (error) => this.messageService.error(error?.error?.message)
-    );
+  createAttribute(): void {
+    this.isSaveAttributeBtnLoading = true;
+    this.attributesService
+      .createOne(this.attributeForm.value)
+      .pipe(switchMap((response) => this.attributesService.getMany()))
+      .subscribe(
+        (response) => {
+          this.attributes = response;
+          this.isSaveAttributeBtnLoading = false;
+          this.messageService.success('Thêm mới thuộc tính thành công!');
+          this.hideAttributeModal();
+        },
+        (error) => this.messageService.error(error?.error?.message)
+      );
+  }
+
+  updateAttribute(): void {
+    const { id, ...data } = this.attributeForm.value;
+    this.attributesService
+      .updateOne(id, data)
+      .pipe(
+        switchMap((response) =>
+          forkJoin([this.attributesService.getMany(), this.categoriesService.getOne(this.categoryId)])
+        )
+      )
+      .subscribe(
+        (response) => {
+          this.attributes = response[0];
+          this.category.attributes = response[1].attributes;
+
+          this.attributeFormArray.clear();
+          for (const attribute of this.category.attributes) {
+            this.addAttributeToFormArray(attribute);
+          }
+
+          this.messageService.success('Cập nhật thuộc tính thành công!');
+          this.hideAttributeModal();
+        },
+        (error) => this.messageService.error(error?.error?.message)
+      );
+  }
+
+  showAttributeModal(data: Attribute = null): void {
+    if (data) {
+      this.attributeForm.setValue({
+        id: data.id,
+        name: data.name,
+        inputMode: data.inputMode,
+        mandatory: data.mandatory
+      });
+    } else this.attributeIdFormControl.disable();
+
+    this.isAttributeModalVisible = true;
+  }
+
+  hideAttributeModal(): void {
+    this.isAttributeModalVisible = false;
+    this.attributeForm.reset({ mandatory: false });
+  }
+
+  resetStateForRouting(): void {
+    this.fileList = [];
+    if (this.categoryForm) {
+      this.attributeFormArray.clear();
+      this.categoryForm.reset();
+    }
   }
 }

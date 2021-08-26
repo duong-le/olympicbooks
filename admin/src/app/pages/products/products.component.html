@@ -167,7 +167,7 @@
     <nz-descriptions-item nzTitle="Danh mục">{{ product?.category?.title }}</nz-descriptions-item>
     <nz-descriptions-item *ngFor="let attribute of product?.attributes" [nzTitle]="attribute?.name">
       <ng-container *ngFor="let attributeValue of attribute?.attributeValues">
-        {{ attributeValue?.value }} <br />
+        {{ attributeValue?.name }} <br />
       </ng-container>
     </nz-descriptions-item>
   </nz-descriptions>

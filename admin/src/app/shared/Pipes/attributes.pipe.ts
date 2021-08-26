@@ -17,3 +17,19 @@ export class AttributeInputModePipe implements PipeTransform {
     }
   }
 }
+
+@Pipe({
+  name: 'attributemandatory'
+})
+export class AttributeMandatoryPipe implements PipeTransform {
+  transform(value: boolean): string {
+    switch (value) {
+      case true:
+        return 'Bắt buộc';
+      case false:
+        return 'Không bắt buộc';
+      default:
+        return null;
+    }
+  }
+}

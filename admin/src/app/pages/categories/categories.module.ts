@@ -12,7 +12,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
@@ -45,8 +45,8 @@ import { CategoriesComponent } from './categories.component';
     NzEmptyModule,
     NzUploadModule,
     NzPageHeaderModule,
-    NzToolTipModule,
-    NzSwitchModule
+    NzSwitchModule,
+    NzTagModule
   ]
 })
 export class CategoriesModule {}

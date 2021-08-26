@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
@@ -13,6 +13,7 @@ import { AttributeInputMode } from '../../../shared/Enums/attributes.enum';
 import { ProductStatus } from '../../../shared/Enums/products.enum';
 import { Attribute } from '../../../shared/Interfaces/attribute.interface';
 import { Product } from '../../../shared/Interfaces/product.interface';
+import { AttributesService } from '../../categories/attributes.service';
 import { CategoriesService } from '../../categories/categories.service';
 import { ProductsService } from '../products.service';
 
@@ -43,6 +44,7 @@ export class ProductsDetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     private productsService: ProductsService,
+    private attributesService: AttributesService,
     private categoriesService: CategoriesService,
     private messageService: NzMessageService,
     private location: Location
@@ -123,7 +125,7 @@ export class ProductsDetailComponent implements OnInit {
   }
 
   changeCategoryAttributes(categoryId: number) {
-    this.categoriesService.getManyAttributes(categoryId).subscribe((response) => {
+    this.attributesService.getMany(categoryId.toString()).subscribe((response) => {
       this.attributes = response;
       const withData = !this.isNew && this.product.category.id === categoryId;
       this.renderAttributeForm(withData);
@@ -138,28 +140,30 @@ export class ProductsDetailComponent implements OnInit {
       let formControlValue: any = defaultInputMode ? '' : [];
 
       if (withData) {
-        const productAttribute = this.product.attributes.find((attr) => attr.id === attribute.id);
-        if (productAttribute) {
-          if (defaultInputMode) formControlValue = productAttribute.attributeValues[0].id;
-          else formControlValue = productAttribute.attributeValues.map((attributeValue) => attributeValue.id);
+        const attributeValues = this.product.attributes.find(
+          (attr) => attr.id === attribute.id
+        )?.attributeValues;
+
+        if (attributeValues) {
+          if (defaultInputMode) formControlValue = attributeValues[0].id;
+          else formControlValue = attributeValues.map((attributeValue) => attributeValue.id);
         }
       }
 
-      controls[attribute.name] = new FormControl(
+      controls[attribute.name] = this.fb.control(
         formControlValue,
-        attribute.isRequired ? Validators.required : null
+        attribute.mandatory ? Validators.required : null
       );
     });
 
     this.attributeForm = this.fb.group(controls);
   }
 
-  createNewAttributeValue(attributeValue: string, attributeId: number) {
-    const categoryId = this.productForm.controls['categoryId'].value;
-    this.categoriesService
-      .createAttributeValue(categoryId, attributeId, { value: attributeValue })
+  createNewAttributeValue(attributeValueName: string, attributeId: number) {
+    this.attributesService
+      .createAttributeValue(attributeId, { name: attributeValueName })
       .pipe(
-        switchMap((response) => this.categoriesService.getOneAttribute(categoryId, attributeId)),
+        switchMap((response) => this.attributesService.getOne(attributeId)),
         catchError((error) => throwError(error))
       )
       .subscribe(

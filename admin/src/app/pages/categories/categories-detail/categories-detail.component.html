@@ -16,10 +16,20 @@
 
       <button nz-button nzType="primary" nzDanger (click)="showDeleteConfirmModal()">Xoá</button>
     </ng-container>
+
+    <button
+      nz-button
+      nzType="primary"
+      [nzLoading]="isBtnLoading"
+      (click)="isNew ? createCategory() : updateCategory()"
+      [disabled]="categoryForm.invalid || categoryForm.pristine"
+    >
+      Lưu
+    </button>
   </nz-page-header-extra>
 </nz-page-header>
 
-<nz-card [nzLoading]="isLoading" nzTitle="Thông tin cơ bản" [nzExtra]="saveBtnTemplate">
+<nz-card [nzLoading]="isLoading" nzTitle="Thông tin cơ bản">
   <form nz-form [formGroup]="categoryForm">
     <nz-form-item>
       <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="title" nzRequired>Tên danh mục</nz-form-label>
@@ -62,96 +72,134 @@
   </form>
 </nz-card>
 
-<ng-template #saveBtnTemplate>
-  <button
-    nz-button
-    nzType="primary"
-    [nzLoading]="isBtnLoading"
-    (click)="isNew ? createCategory() : updateCategory()"
-    [disabled]="categoryForm.invalid || categoryForm.pristine"
-  >
-    Lưu
-  </button>
-</ng-template>
+<nz-card [nzLoading]="isLoading" nzTitle="Thuộc tính" [nzExtra]="addAttributeBtnTemplate">
+  <form nz-form [formGroup]="categoryForm" class="attribute-form">
+    <div formArrayName="attributes">
+      <div *ngFor="let attributeFormControl of attributeFormArray.controls; let index = index">
+        <nz-form-item>
+          <nz-form-label [nzMd]="6" [nzXs]="24" [nzFor]="index" nzRequired>
+            Thuộc tính {{ index }}
+          </nz-form-label>
 
-<nz-card [nzLoading]="isLoading" nzTitle="Thuộc tính" *ngIf="!isNew" [nzExtra]="addAttributeBtnTemplate">
-  <form nz-form [formGroup]="attributeForm">
-    <div
-      *ngFor="let formGroup of attributeFormGroups; let index = index"
-      [formGroupName]="formGroup"
-      nzLayout="inline"
-    >
-      <nz-form-item>
-        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="name" nzRequired>
-          Thuộc tính {{ index }}
-        </nz-form-label>
-
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
-          <div nz-row [nzGutter]="8">
-            <div nz-col [nzSpan]="12">
-              <input nz-input nz-tooltip nzTooltipTitle="Tên thuộc tính" formControlName="name" />
-            </div>
-
-            <div nz-col [nzSpan]="8">
-              <nz-select
-                nzShowSearch
-                nzAllowClear
-                nz-tooltip
-                nzTooltipTitle="Chế độ nhập"
-                formControlName="inputMode"
+          <nz-form-control [nzMd]="8" [nzXs]="24" nzErrorTip="Please input this field!">
+            <nz-select nzShowSearch nzAllowClear [formControlName]="index" [compareWith]="compareAttributeFn">
+              <nz-option
+                *ngFor="let attribute of attributes"
+                [nzLabel]="attribute?.name"
+                [nzValue]="attribute"
               >
-                <nz-option
-                  *ngFor="let inputMode of attributeInputMode | keyvalue"
-                  [nzLabel]="inputMode?.value | attributeinputmode"
-                  [nzValue]="inputMode?.value"
-                >
-                </nz-option>
-              </nz-select>
-            </div>
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
 
-            <div nz-col [nzSpan]="2" class="switch">
-              <nz-switch
-                nzSize="small"
-                nz-tooltip
-                nzTooltipTitle="Bắt buộc"
-                formControlName="isRequired"
-              ></nz-switch>
-            </div>
-
-            <div nz-col [nzSpan]="1">
-              <button
-                nz-button
-                nzType="link"
-                nz-tooltip
-                nzTooltipTitle="Lưu"
-                [disabled]="attributeForm.get(formGroup).invalid || attributeForm.get(formGroup).pristine"
-                (click)="saveAttribute(formGroup)"
-              >
-                <i nz-icon nzType="save" nzTheme="outline"></i>
-              </button>
-            </div>
-
-            <div nz-col [nzSpan]="1">
-              <button
-                nz-button
-                nzDanger
-                nzType="text"
-                nz-tooltip
-                nzTooltipTitle="Xoá"
-                (click)="removeFormGroupFromAttributeForm(formGroup)"
-              >
-                <i nz-icon nzType="minus-circle" nzTheme="outline"></i>
-              </button>
-            </div>
+          <div nz-col [nzMd]="4" [nzXs]="12" class="text-align-center">
+            <nz-tag
+              [nzColor]="attributeFormControl?.value?.inputMode === 'default' ? 'processing' : 'success'"
+            >
+              {{ attributeFormControl?.value?.inputMode | attributeinputmode }}
+            </nz-tag>
           </div>
-        </nz-form-control>
-      </nz-form-item>
+
+          <div nz-col [nzMd]="4" [nzXs]="12" class="text-align-center">
+            <nz-tag [nzColor]="attributeFormControl?.value?.mandatory ? 'error' : 'default'">
+              {{ attributeFormControl?.value?.mandatory | attributemandatory }}
+            </nz-tag>
+          </div>
+
+          <button
+            nz-col
+            [nzMd]="1"
+            [nzXs]="12"
+            nz-button
+            nzType="text"
+            nz-tooltip
+            nzTooltipTitle="Sửa"
+            (click)="showAttributeModal(attributeFormControl?.value)"
+          >
+            <i nz-icon nzType="edit" nzTheme="twotone"></i>
+          </button>
+
+          <button
+            nz-col
+            [nzMd]="1"
+            [nzXs]="12"
+            nz-button
+            nzDanger
+            nzType="text"
+            nz-tooltip
+            nzTooltipTitle="Xoá"
+            (click)="removeAttributeFromFormArray(index)"
+          >
+            <i nz-icon nzType="minus-circle" nzTheme="outline"></i>
+          </button>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div class="load-more">
+      <button nz-button nzType="dashed" class="add-button" (click)="addAttributeToFormArray()">
+        <i nz-icon nzType="plus"></i>
+        Thêm thuộc tính
+      </button>
     </div>
   </form>
 </nz-card>
 
 <ng-template #addAttributeBtnTemplate>
-  <button nz-button nzType="default" class="add-button" (click)="addNewFormGroupToAttributeForm()">
-    <i nz-icon nzType="plus"></i>Thêm thuộc tính
+  <button nz-button nzType="default" class="twotone-btn" (click)="showAttributeModal()">
+    <i nz-icon nzType="plus"></i>Tạo mới thuộc tính
   </button>
 </ng-template>
+
+<nz-modal
+  [nzTitle]="attributeIdFormControl.value ? 'Chỉnh sửa thuộc tính' : 'Tạo mới thuộc tính'"
+  [nzVisible]="isAttributeModalVisible"
+  (nzOnCancel)="hideAttributeModal()"
+  [nzContent]="attributeModalContent"
+  [nzFooter]="attributeModalFooter"
+>
+  <ng-template #attributeModalContent>
+    <form nz-form [formGroup]="attributeForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>Tên thuộc tính</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập tên thuộc tính">
+          <input nz-input id="name" formControlName="name" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phone" nzRequired> Chế độ nhập </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng chọn chế độ nhập">
+          <nz-select nzShowSearch nzAllowClear formControlName="inputMode">
+            <nz-option
+              *ngFor="let inputMode of attributeInputMode | keyvalue"
+              [nzLabel]="inputMode?.value | attributeinputmode"
+              [nzValue]="inputMode?.value"
+            >
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="attribute" nzRequired>Bắt buộc</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-switch nzSize="default" formControlName="mandatory"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-template>
+
+  <ng-template #attributeModalFooter>
+    <button nz-button nzType="default" (click)="hideAttributeModal()">Hủy bỏ</button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="saveAttribute()"
+      [nzLoading]="isSaveAttributeBtnLoading"
+      [disabled]="attributeForm.invalid || attributeForm.pristine"
+    >
+      Lưu
+    </button>
+  </ng-template>
+</nz-modal>
