@@ -18,11 +18,7 @@
       nzType="primary"
       [nzLoading]="isBtnLoading"
       (click)="isNew ? createProduct() : updateProduct()"
-      [disabled]="
-        (productForm.pristine && attributeForm.pristine) ||
-        productForm.invalid ||
-        ((attributes.length ? true : false) && attributeForm.invalid)
-      "
+      [disabled]="productForm.pristine || productForm.invalid"
     >
       Lưu
     </button>
@@ -95,55 +91,50 @@
       </nz-form-control>
     </nz-form-item>
   </nz-card>
-</form>
 
-<form nz-form [formGroup]="attributeForm">
   <nz-card [nzLoading]="isLoading" nzTitle="Thông tin chi tiết" id="attribute-info" *ngIf="attributes.length">
-    <nz-form-item *ngFor="let attribute of attributes">
-      <nz-form-label
-        [nzMd]="6"
-        [nzSm]="8"
-        [nzXs]="24"
-        [nzFor]="attribute.name"
-        [nzRequired]="attribute.mandatory"
-      >
-        {{ attribute.name }}
-      </nz-form-label>
+    <div formArrayName="attributes">
+      <nz-form-item *ngFor="let attribute of attributes; let index = index">
+        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" [nzFor]="index" [nzRequired]="attribute.mandatory">
+          {{ attribute.name }}
+        </nz-form-label>
 
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
-        <nz-select
-          nzShowSearch
-          nzAllowClear
-          [nzMode]="attribute.inputMode"
-          [nzDropdownRender]="createAttributeValueTemplate"
-          [formControlName]="attribute.name"
-        >
-          <nz-option
-            *ngFor="let attributeValue of attribute.attributeValues"
-            [nzLabel]="attributeValue?.name"
-            [nzValue]="attributeValue?.id"
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            [nzMode]="attribute.inputMode"
+            [nzDropdownRender]="createAttributeValueTemplate"
+            [formControlName]="index"
           >
-          </nz-option>
-        </nz-select>
-
-        <ng-template #createAttributeValueTemplate>
-          <nz-divider></nz-divider>
-          <div class="input-container">
-            <input nz-input type="text" nzSize="small" #attributeValueName />
-            <a
-              nz-button
-              nzType="link"
-              class="add-attribute-value-btn"
-              (click)="
-                createNewAttributeValue(attributeValueName.value, attribute.id); attributeValueName.value = ''
-              "
+            <nz-option
+              *ngFor="let attributeValue of attribute.attributeValues"
+              [nzLabel]="attributeValue?.name"
+              [nzValue]="attributeValue?.id"
             >
-              <i nz-icon nzType="plus"></i> Thêm giá trị
-            </a>
-          </div>
-        </ng-template>
-      </nz-form-control>
-    </nz-form-item>
+            </nz-option>
+          </nz-select>
+
+          <ng-template #createAttributeValueTemplate>
+            <nz-divider></nz-divider>
+            <div class="input-container">
+              <input nz-input type="text" nzSize="small" #attributeValueName />
+              <a
+                nz-button
+                nzType="link"
+                class="add-attribute-value-btn"
+                (click)="
+                  createNewAttributeValue(attributeValueName.value, attribute.id);
+                  attributeValueName.value = ''
+                "
+              >
+                <i nz-icon nzType="plus"></i> Thêm giá trị
+              </a>
+            </div>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
   </nz-card>
 </form>
 

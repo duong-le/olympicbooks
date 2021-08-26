@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
@@ -24,7 +24,6 @@ import { ProductsService } from '../products.service';
 })
 export class ProductsDetailComponent implements OnInit {
   productForm: FormGroup;
-  attributeForm: FormGroup;
   product: Product;
   categoryTree: NzTreeNodeOptions[] = [];
   fileList: NzUploadFile[] = [];
@@ -57,12 +56,11 @@ export class ProductsDetailComponent implements OnInit {
       price: ['', [Validators.required]],
       originalPrice: ['', [Validators.required]],
       status: [''],
-      categoryId: ['', [Validators.required]]
+      categoryId: ['', [Validators.required]],
+      attributes: this.fb.array([])
     });
 
-    this.attributeForm = this.fb.group({});
-
-    this.renderCategoryTree();
+    this.getCategoryTree();
 
     this.activatedRoute.params.subscribe(({ productId }) => {
       this.productId = productId;
@@ -70,12 +68,16 @@ export class ProductsDetailComponent implements OnInit {
       this.isNew = productId === 'new';
       if (!this.isNew) this.renderProductDetailPage();
       else {
+        this.attributeFormArray.clear();
         this.productForm.reset();
         this.attributes = [];
-        this.attributeForm = this.fb.group({});
         this.fileList = [];
       }
     });
+  }
+
+  get attributeFormArray() {
+    return this.productForm.get('attributes') as FormArray;
   }
 
   renderProductDetailPage() {
@@ -83,7 +85,7 @@ export class ProductsDetailComponent implements OnInit {
     this.productsService.getOne(this.productId).subscribe(
       (response) => {
         this.product = response;
-        this.productForm.setValue({
+        this.productForm.patchValue({
           title: this.product.title,
           description: this.product.description,
           price: this.product.price,
@@ -110,7 +112,7 @@ export class ProductsDetailComponent implements OnInit {
     );
   }
 
-  renderCategoryTree() {
+  getCategoryTree() {
     this.isLoading = true;
     this.categoriesService.getMany().subscribe(
       (response) => {
@@ -125,6 +127,7 @@ export class ProductsDetailComponent implements OnInit {
   }
 
   changeCategoryAttributes(categoryId: number) {
+    this.attributeFormArray.clear();
     this.attributesService.getMany(categoryId.toString()).subscribe((response) => {
       this.attributes = response;
       const withData = !this.isNew && this.product.category.id === categoryId;
@@ -133,11 +136,9 @@ export class ProductsDetailComponent implements OnInit {
   }
 
   renderAttributeForm(withData = false) {
-    const controls: { [key: string]: any } = {};
-
     this.attributes.forEach((attribute) => {
       const defaultInputMode = attribute.inputMode === AttributeInputMode.DEFAULT;
-      let formControlValue: any = defaultInputMode ? '' : [];
+      let value: any = defaultInputMode ? '' : [];
 
       if (withData) {
         const attributeValues = this.product.attributes.find(
@@ -145,18 +146,13 @@ export class ProductsDetailComponent implements OnInit {
         )?.attributeValues;
 
         if (attributeValues) {
-          if (defaultInputMode) formControlValue = attributeValues[0].id;
-          else formControlValue = attributeValues.map((attributeValue) => attributeValue.id);
+          if (defaultInputMode) value = attributeValues[0].id;
+          else value = attributeValues.map((attributeValue) => attributeValue.id);
         }
       }
 
-      controls[attribute.name] = this.fb.control(
-        formControlValue,
-        attribute.mandatory ? Validators.required : null
-      );
+      this.attributeFormArray.push(this.fb.control(value, attribute.mandatory ? Validators.required : null));
     });
-
-    this.attributeForm = this.fb.group(controls);
   }
 
   createNewAttributeValue(attributeValueName: string, attributeId: number) {
@@ -177,7 +173,7 @@ export class ProductsDetailComponent implements OnInit {
 
   updateProduct() {
     this.isBtnLoading = true;
-    this.productsService.updateOne(this.product.id, this.createFormData()).subscribe(
+    this.productsService.updateOne(this.product.id, this.prepareFormDataForSaving()).subscribe(
       (response) => {
         this.isBtnLoading = false;
         this.messageService.success('Cập nhật thành công!');
@@ -191,7 +187,7 @@ export class ProductsDetailComponent implements OnInit {
 
   createProduct() {
     this.isBtnLoading = true;
-    this.productsService.createOne(this.createFormData()).subscribe(
+    this.productsService.createOne(this.prepareFormDataForSaving()).subscribe(
       (response) => {
         this.isBtnLoading = false;
         this.messageService.success('Thêm mới thành công!');
@@ -217,15 +213,17 @@ export class ProductsDetailComponent implements OnInit {
     }
   }
 
-  createFormData(): FormData {
+  prepareFormDataForSaving(): FormData {
     const formData = new FormData();
 
-    for (const formControl in this.productForm.value) {
-      if (this.productForm.value[formControl])
-        formData.append(formControl, this.productForm.value[formControl]);
+    for (const formControlName in this.productForm.value) {
+      if (this.productForm.value[formControlName] && formControlName !== 'attributes')
+        formData.append(formControlName, this.productForm.value[formControlName]);
     }
 
-    const attributeValueIds = Object.values(this.attributeForm.value).flat().filter(Boolean) as any;
+    // Flatten the value of the multiple-choice attribute
+    // and exclude the value of the non-required attribute
+    const attributeValueIds = this.attributeFormArray.value.flat().filter(Boolean) as any;
     if (attributeValueIds.length) formData.append('attributeValueIds', attributeValueIds);
 
     if (this.fileList.length)
