@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NzAffixModule } from 'ng-zorro-antd/affix';
-import { NzAnchorModule } from 'ng-zorro-antd/anchor';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
@@ -52,8 +50,6 @@ import { ProductsComponent } from './products.component';
     NzFormModule,
     NzPageHeaderModule,
     NzSelectModule,
-    NzAffixModule,
-    NzAnchorModule,
     NzTreeSelectModule,
     NzDividerModule,
     NzUploadModule

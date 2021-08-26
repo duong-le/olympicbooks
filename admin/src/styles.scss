@@ -58,57 +58,6 @@ td {
   padding: 0 !important;
 }
 
-.affix {
-  position: absolute;
-  right: 20px;
-
-  .ant-affix {
-    z-index: 9;
-    max-height: calc(100vh - 16px);
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-
-  .ant-anchor-wrapper {
-    background-color: transparent;
-  }
-
-  .ant-anchor {
-    .ant-anchor-ink::before {
-      width: 1px;
-      border-left: 1px solid #dbdbdb;
-    }
-
-    .ant-anchor-link-active {
-      border-left: 2px solid #1890ff;
-      margin-left: -2px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .ant-anchor-ink-ball.visible {
-      display: none;
-    }
-
-    .ant-anchor-link {
-      line-height: 2;
-
-      &.ant-anchor-link-active {
-        .ant-anchor-link-title {
-          color: #1890ff;
-        }
-      }
-
-      .ant-anchor-link-title {
-        color: fade(#000, 85%);
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        width: 110px;
-      }
-    }
-  }
-}
-
 .twotone-btn {
   color: #40a9ff !important;
   border-color: #40a9ff !important;
