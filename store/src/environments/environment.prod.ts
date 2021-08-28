@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.olympicbooks.com/v1',
-  domainUrl: 'https://olympicbooks.com'
+  apiUrl: 'https://api-3lg52fkejq-as.a.run.app/v1',
+  storeUrl: 'https://store-3lg52fkejq-as.a.run.app'
 };
