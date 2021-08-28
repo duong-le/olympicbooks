@@ -275,6 +275,7 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
 
   showAttributeModal(data: Attribute = null): void {
     if (data) {
+      this.attributeIdFormControl.enable();
       this.attributeForm.setValue({
         id: data.id,
         name: data.name,
