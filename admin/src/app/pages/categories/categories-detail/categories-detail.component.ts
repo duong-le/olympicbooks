@@ -40,6 +40,7 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
   fileSizeLimit = 500;
   fileTypeLimit = 'image/jpg,image/jpeg,image/png,image/gif';
   storeUrl = environment.storeUrl;
+  updatingAttributeFormControlIndex: number;
 
   constructor(
     private fb: FormBuilder,
@@ -89,6 +90,10 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
 
   addAttributeToFormArray(attribute: Attribute = null): void {
     this.attributeFormArray.push(this.fb.control(attribute, Validators.required));
+  }
+
+  updateAttributeOfFormArray(attribute: Attribute) {
+    this.attributeFormArray.at(this.updatingAttributeFormControlIndex).patchValue(attribute);
   }
 
   removeAttributeFromFormArray(index: number): void {
@@ -257,20 +262,14 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
     this.attributesService
       .updateOne(id, data)
       .pipe(
-        switchMap((response) =>
-          forkJoin([this.attributesService.getMany(), this.categoriesService.getOne(this.categoryId)])
-        )
+        switchMap((response) => {
+          this.updateAttributeOfFormArray(response);
+          return forkJoin([this.attributesService.getMany()]);
+        })
       )
       .subscribe(
         (response) => {
           this.attributes = response[0];
-          this.category.attributes = response[1].attributes;
-
-          this.attributeFormArray.clear();
-          for (const attribute of this.category.attributes) {
-            this.addAttributeToFormArray(attribute);
-          }
-
           this.messageService.success('Cập nhật thuộc tính thành công!');
           this.hideAttributeModal();
         },
@@ -278,8 +277,9 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
       );
   }
 
-  showAttributeModal(data: Attribute = null): void {
+  showAttributeModal(data: Attribute = null, attributeFormControlIndex: number = null): void {
     if (data) {
+      this.updatingAttributeFormControlIndex = attributeFormControlIndex;
       this.attributeIdFormControl.enable();
       this.attributeForm.setValue({
         id: data.id,
