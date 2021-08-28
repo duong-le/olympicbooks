@@ -40,7 +40,7 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
   fileSizeLimit = 500;
   fileTypeLimit = 'image/jpg,image/jpeg,image/png,image/gif';
   storeUrl = environment.storeUrl;
-  updatingAttributeFormControlIndex: number;
+  updatingAttributeControlIndex: number;
 
   constructor(
     private fb: FormBuilder,
@@ -68,12 +68,11 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
   ngOnChanges() {
     this.resetStateForRouting();
 
-    if (this.categoryData) {
+    if (this.categoryData.length) {
       this.categoryTree = this.categoryData;
       if (!this.isNew) this.renderCategoryDetailPage();
+      this.getAttributes();
     }
-
-    this.getAttributes();
   }
 
   get isNew() {
@@ -93,7 +92,7 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
   }
 
   updateAttributeOfFormArray(attribute: Attribute) {
-    this.attributeFormArray.at(this.updatingAttributeFormControlIndex).patchValue(attribute);
+    this.attributeFormArray.at(this.updatingAttributeControlIndex).patchValue(attribute);
   }
 
   removeAttributeFromFormArray(index: number): void {
@@ -279,7 +278,7 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
 
   showAttributeModal(data: Attribute = null, attributeFormControlIndex: number = null): void {
     if (data) {
-      this.updatingAttributeFormControlIndex = attributeFormControlIndex;
+      this.updatingAttributeControlIndex = attributeFormControlIndex;
       this.attributeIdFormControl.enable();
       this.attributeForm.setValue({
         id: data.id,

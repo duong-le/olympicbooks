@@ -29,16 +29,12 @@ export class CategoriesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categoriesService.getMany().subscribe(
-      (response) => {
-        this.categoryTree = response;
-        this.activatedRoute.params.subscribe(({ categoryId }) => {
-          this.categoryId = Number(categoryId);
-          if (!this.isNew) this.defaultSelectedKeys = [this.categoryId];
-        });
-      },
-      (error) => this.messageService.error(error?.error?.message)
-    );
+    this.activatedRoute.params.subscribe(({ categoryId }) => {
+      this.categoryId = Number(categoryId);
+      if (!this.isNew) this.defaultSelectedKeys = [this.categoryId];
+    });
+
+    this.renderCategoriesPage();
   }
 
   renderCategoriesPage() {
