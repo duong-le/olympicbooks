@@ -21,7 +21,6 @@ import { CategoriesService } from '../categories.service';
 })
 export class CategoriesDetailComponent implements OnInit, OnChanges {
   @Input() categoryId: number;
-  @Input() isNew: boolean;
   @Input() categoryData: NzTreeNodeOptions[];
   @Output() notifyRender: EventEmitter<any> = new EventEmitter();
   @Output() notifyDelete: EventEmitter<any> = new EventEmitter();
@@ -67,11 +66,17 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.resetStateForRouting();
-    if (!this.isNew && this.categoryId && this.categoryData) {
-      this.renderCategoryDetailPage();
+
+    if (this.categoryData) {
+      this.categoryTree = this.categoryData;
+      if (!this.isNew) this.renderCategoryDetailPage();
     }
-    if (this.categoryData) this.categoryTree = this.categoryData;
+
     this.getAttributes();
+  }
+
+  get isNew() {
+    return !Boolean(this.categoryId);
   }
 
   get attributeFormArray() {
@@ -80,6 +85,23 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
 
   get attributeIdFormControl() {
     return this.attributeForm.controls['id'];
+  }
+
+  addAttributeToFormArray(attribute: Attribute = null): void {
+    this.attributeFormArray.push(this.fb.control(attribute, Validators.required));
+  }
+
+  removeAttributeFromFormArray(index: number): void {
+    this.attributeFormArray.removeAt(index);
+  }
+
+  compareAttributeFn(attribute1: Attribute, attribute2: Attribute): boolean {
+    return (
+      attribute1?.id === attribute2?.id &&
+      attribute1?.name === attribute2?.name &&
+      attribute1?.inputMode === attribute2?.inputMode &&
+      attribute1?.mandatory === attribute2?.mandatory
+    );
   }
 
   renderCategoryDetailPage() {
@@ -201,23 +223,6 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
     if (this.fileList.length) formData.append('attachment', this.fileList[0] as any);
 
     return formData;
-  }
-
-  compareAttributeFn(attribute1: Attribute, attribute2: Attribute): boolean {
-    return (
-      attribute1?.id === attribute2?.id &&
-      attribute1?.name === attribute2?.name &&
-      attribute1?.inputMode === attribute2?.inputMode &&
-      attribute1?.mandatory === attribute2?.mandatory
-    );
-  }
-
-  addAttributeToFormArray(attribute: Attribute = null): void {
-    this.attributeFormArray.push(this.fb.control(attribute, Validators.required));
-  }
-
-  removeAttributeFromFormArray(index: number): void {
-    this.attributeFormArray.removeAt(index);
   }
 
   getAttributes(): void {

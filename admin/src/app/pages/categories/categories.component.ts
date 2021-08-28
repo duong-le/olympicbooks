@@ -15,7 +15,6 @@ export class CategoriesComponent implements OnInit {
   categoryTree: NzTreeNodeOptions[] = [];
   defaultSelectedKeys: NzTreeNodeKey[] = [];
 
-  isNew = true;
   categoryId: number;
 
   constructor(
@@ -25,18 +24,17 @@ export class CategoriesComponent implements OnInit {
     private router: Router
   ) {}
 
+  get isNew() {
+    return !Boolean(this.categoryId);
+  }
+
   ngOnInit(): void {
     this.categoriesService.getMany().subscribe(
       (response) => {
         this.categoryTree = response;
         this.activatedRoute.params.subscribe(({ categoryId }) => {
           this.categoryId = Number(categoryId);
-          if (this.categoryId) {
-            this.isNew = false;
-            this.defaultSelectedKeys = [this.categoryId];
-          } else {
-            this.isNew = true;
-          }
+          if (!this.isNew) this.defaultSelectedKeys = [this.categoryId];
         });
       },
       (error) => this.messageService.error(error?.error?.message)
@@ -45,7 +43,10 @@ export class CategoriesComponent implements OnInit {
 
   renderCategoriesPage() {
     this.categoriesService.getMany().subscribe(
-      (response) => (this.categoryTree = response),
+      (response) => {
+        this.categoryTree = response;
+        if (!this.isNew) this.defaultSelectedKeys = [this.categoryId];
+      },
       (error) => this.messageService.error(error?.error?.message)
     );
   }

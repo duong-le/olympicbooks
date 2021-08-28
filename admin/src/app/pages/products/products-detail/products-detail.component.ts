@@ -32,7 +32,6 @@ export class ProductsDetailComponent implements OnInit {
 
   removedFileList: number[] = [];
   productId: number;
-  isNew = true;
   isLoading = false;
   isBtnLoading = false;
   fileSizeLimit = 500;
@@ -63,9 +62,8 @@ export class ProductsDetailComponent implements OnInit {
     this.getCategoryTree();
 
     this.activatedRoute.params.subscribe(({ productId }) => {
-      this.productId = productId;
+      this.productId = Number(productId);
 
-      this.isNew = productId === 'new';
       if (!this.isNew) this.renderProductDetailPage();
       else {
         this.attributeFormArray.clear();
@@ -74,6 +72,10 @@ export class ProductsDetailComponent implements OnInit {
         this.fileList = [];
       }
     });
+  }
+
+  get isNew() {
+    return !Boolean(this.productId);
   }
 
   get attributeFormArray() {
