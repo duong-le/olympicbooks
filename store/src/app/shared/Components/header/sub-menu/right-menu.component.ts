@@ -10,7 +10,10 @@ import { Authentication } from 'src/app/shared/Interfaces/authentication.interfa
     <ul nz-menu [nzMode]="mode" [nzSelectable]="false" (nzClick)="onMenuTitleClick()">
       <ng-container *ngIf="(mode === 'horizontal' && mobile) || (mode === 'horizontal' && !mobile)">
         <li nz-menu-item nzMatchRouter>
-          <a routerLink="/cart"> <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>({{ quantity }}) </a>
+          <a routerLink="/cart">
+            <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>
+            <span>({{ quantity }})</span>
+          </a>
         </li>
       </ng-container>
 
@@ -20,16 +23,19 @@ import { Authentication } from 'src/app/shared/Interfaces/authentication.interfa
             <ul>
               <li nz-menu-item nzMatchRouter>
                 <a routerLink="/customer/profile">
-                  <i nz-icon nzType="profile" nzTheme="outline"></i>Tài khoản
+                  <i nz-icon nzType="profile" nzTheme="outline"></i>
+                  <span>Tài khoản</span>
                 </a>
               </li>
               <li nz-menu-item nzMatchRouter>
                 <a routerLink="/customer/orders">
-                  <i nz-icon nzType="carry-out" nzTheme="outline"></i>Đơn hàng
+                  <i nz-icon nzType="carry-out" nzTheme="outline"></i>
+                  <span>Đơn hàng</span>
                 </a>
               </li>
               <li nz-menu-item (click)="signOut()">
-                <i nz-icon nzType="logout" nzTheme="outline"></i>Đăng xuất
+                <i nz-icon nzType="logout" nzTheme="outline"></i>
+                <span>Đăng xuất</span>
               </li>
             </ul>
           </li>
@@ -39,10 +45,16 @@ import { Authentication } from 'src/app/shared/Interfaces/authentication.interfa
           <li nz-submenu nzTitle="Tài khoản" nzIcon="user">
             <ul>
               <li nz-menu-item nzMatchRouter>
-                <a routerLink="/signin"><i nz-icon nzType="login" nzTheme="outline"></i>Đăng nhập</a>
+                <a routerLink="/signin">
+                  <i nz-icon nzType="login" nzTheme="outline"></i>
+                  <span>Đăng nhập</span>
+                </a>
               </li>
               <li nz-menu-item nzMatchRouter>
-                <a routerLink="/signup"><i nz-icon nzType="user-add" nzTheme="outline"></i>Đăng ký</a>
+                <a routerLink="/signup">
+                  <i nz-icon nzType="user-add" nzTheme="outline"></i>
+                  <span>Đăng ký</span>
+                </a>
               </li>
             </ul>
           </li>

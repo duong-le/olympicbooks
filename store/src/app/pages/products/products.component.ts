@@ -54,7 +54,6 @@ export class ProductsComponent implements OnInit {
   }
 
   renderProductPage() {
-    this.relatedProductStyle = null;
     this.isProductLoading = true;
     this.productsService
       .getOneProduct(this.productId)
@@ -124,6 +123,7 @@ export class ProductsComponent implements OnInit {
   }
 
   resetStateForRouting() {
+    this.relatedProductStyle = null;
     if (this.product) {
       this.product.images = null;
       this.quantity = 1;

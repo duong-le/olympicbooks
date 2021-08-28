@@ -14,7 +14,8 @@ import { Category } from 'src/app/shared/Interfaces/category.interface';
 
       <li nz-menu-item>
         <a href="https://medium.com/olympicbooks" target="_blank">
-          <i nz-icon nzType="team" nzTheme="outline"></i>Cộng đồng
+          <i nz-icon nzType="team" nzTheme="outline"></i>
+          <span>Cộng đồng</span>
         </a>
       </li>
     </ul>
