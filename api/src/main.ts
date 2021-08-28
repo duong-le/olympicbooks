@@ -30,7 +30,7 @@ async function bootstrap() {
     SwaggerModule.setup('/', app, document, { swaggerOptions: { docExpansion: 'none' } });
     app.enableCors({ origin: true });
   } else {
-    app.enableCors({ origin: [/.olympicbooks.com/] });
+    app.enableCors({ origin: [/.run.app/, /.olympicbooks.com/] });
     app.use(rateLimit({ windowMs: 60 * 60 * 1000, max: 500 }));
   }
 
