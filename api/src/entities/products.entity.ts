@@ -36,9 +36,6 @@ export class Product extends BaseEntity {
   @Column()
   categoryId: number;
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
-  orderItems: OrderItem[];
-
   @ManyToMany(() => AttributeValue, (attributeValue) => attributeValue.products)
   @JoinTable({ name: 'product_attribute' })
   attributeValues: AttributeValue[];
