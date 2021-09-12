@@ -4,11 +4,13 @@ import { ProductStatus } from '../shared/Enums/products.enum';
 import { AttributeValue } from './attribute-value.entity';
 import { BaseEntity } from './base.entity';
 import { Category } from './categories.entity';
-import { OrderItem } from './orders-item.entity';
 import { ProductImage } from './product-images.entity';
 
 @Entity()
 export class Product extends BaseEntity {
+  @Column({ nullable: true })
+  oldId: number;
+
   @Column()
   title: string;
 
