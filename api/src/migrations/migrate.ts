@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { createConnections, getRepository, getTreeRepository, Repository, TreeRepository } from 'typeorm';
+import { Connection, createConnections, getRepository, getTreeRepository, Repository, TreeRepository } from 'typeorm';
 
 import { SlugService } from '../core/Utils/slug.service';
 import { Category } from '../entities/categories.entity';
@@ -16,32 +16,28 @@ let oldCategoryRepository: TreeRepository<OldCategory>;
 let newCategoryRepository: TreeRepository<Category>;
 
 async function connectToDatabases() {
-  try {
-    return await createConnections([
-      {
-        name: 'new',
-        type: 'postgres',
-        host: 'localhost',
-        port: 5432,
-        username: 'root',
-        password: '123456',
-        database: 'olympicbooks-2',
-        entities: [join(__dirname, '../entities/**.entity{.ts,.js}')]
-      },
-      {
-        name: 'old',
-        type: 'postgres',
-        host: 'localhost',
-        port: 5432,
-        username: 'root',
-        password: '123456',
-        database: 'olympicbooks-clone-prod',
-        entities: [join(__dirname, './old-entities/**.entity{.ts,.js}')]
-      }
-    ]);
-  } catch (error) {
-    console.log(error);
-  }
+  return await createConnections([
+    {
+      name: 'new',
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'root',
+      password: '123456',
+      database: 'olympicbooks-2',
+      entities: [join(__dirname, '../entities/**.entity{.ts,.js}')]
+    },
+    {
+      name: 'old',
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'root',
+      password: '123456',
+      database: 'olympicbooks-clone-prod',
+      entities: [join(__dirname, './old-entities/**.entity{.ts,.js}')]
+    }
+  ]);
 }
 
 function innitRepositories() {
@@ -89,33 +85,33 @@ async function migrateProducts() {
       ...others
     } = oldProduct;
 
-    try {
-      const newProduct = await newProductRepository.save({
-        ...others,
-        oldId: id,
-        status: inStock ? ProductStatus.ACTIVE : ProductStatus.SOLD_OUT,
-        category: await newCategoryRepository.findOne({ title: category.title })
-      });
+    const newProduct = await newProductRepository.save({
+      ...others,
+      oldId: id,
+      status: inStock ? ProductStatus.ACTIVE : ProductStatus.SOLD_OUT,
+      category: await newCategoryRepository.findOne({ title: category.title })
+    });
 
-      newProduct.slug = slugService.createSlug(newProduct.title, newProduct.id);
+    newProduct.slug = slugService.createSlug(newProduct.title, newProduct.id);
 
-      await newProductRepository.save(newProduct);
-    } catch (error) {
-      console.log(error);
-      break;
-    }
+    await newProductRepository.save(newProduct);
   }
 }
 
 async function run() {
-  const connections = await connectToDatabases();
-  innitRepositories();
+  let connections: Connection[] = [];
+  try {
+    connections = await connectToDatabases();
+    innitRepositories();
 
-  await migrateCategories();
-  await migrateProducts();
-
-  for (const connection of connections) {
-    await connection.close();
+    await migrateCategories();
+    await migrateProducts();
+  } catch (error) {
+    console.log(error);
+  } finally {
+    for (const connection of connections) {
+      await connection.close();
+    }
   }
 }
 
