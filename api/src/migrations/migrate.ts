@@ -2,11 +2,16 @@ import { join } from 'path';
 import { Connection, createConnections, getRepository, getTreeRepository, Repository, TreeRepository } from 'typeorm';
 
 import { SlugService } from '../core/Utils/slug.service';
+import { AttributeValue } from '../entities/attribute-value.entity';
+import { Attribute } from '../entities/attribute.entity';
 import { Category } from '../entities/categories.entity';
 import { Product } from '../entities/products.entity';
+import { AttributeInputMode } from '../shared/Enums/attributes.enum';
 import { ProductStatus } from '../shared/Enums/products.enum';
+import { Author } from './old-entities/authors.entity';
 import { Category as OldCategory } from './old-entities/categories.entity';
 import { Product as OldProduct } from './old-entities/products.entity';
+import { Publisher } from './old-entities/publishers.entity';
 
 const slugService = new SlugService();
 
@@ -14,6 +19,8 @@ let oldProductRepository: Repository<OldProduct>;
 let newProductRepository: Repository<Product>;
 let oldCategoryRepository: TreeRepository<OldCategory>;
 let newCategoryRepository: TreeRepository<Category>;
+let attributeRepository: Repository<Attribute>;
+let attributeValueRepository: Repository<AttributeValue>;
 
 async function connectToDatabases() {
   return await createConnections([
@@ -46,26 +53,89 @@ function innitRepositories() {
 
   oldCategoryRepository = getTreeRepository(OldCategory, 'old');
   newCategoryRepository = getTreeRepository(Category, 'new');
+
+  attributeRepository = getRepository(Attribute, 'new');
+  attributeValueRepository = getRepository(AttributeValue, 'new');
 }
 
-function createSlugForCategories(categories: Category[]): Category[] {
+async function migrateAttributes() {
+  return await attributeRepository.save([
+    { name: 'Năm xuất bản' },
+    { name: 'Số trang' },
+    { name: 'Cân nặng (grams)' },
+    { name: 'Nhà xuất bản' },
+    { name: 'Tác giả', inputMode: AttributeInputMode.MULTIPLE }
+  ]);
+}
+
+function createSlugAndAttributeForCategories(categories: Category[], attributes: Attribute[]): Category[] {
   for (const category of categories) {
     category.slug = slugService.createSlug(category.title, category.id);
-    category.children = createSlugForCategories(category.children);
+    category.attributes = attributes;
+    category.children = createSlugAndAttributeForCategories(category.children, attributes);
   }
   return categories;
 }
 
-async function migrateCategories() {
+async function migrateCategories(attributes: Attribute[]) {
   console.log('Migrating categories');
 
   const oldCategoryTree = await oldCategoryRepository.findTrees();
 
   const newCategoryTree = await newCategoryRepository.save(oldCategoryTree);
-  await newCategoryRepository.save(createSlugForCategories(newCategoryTree));
+  await newCategoryRepository.save(createSlugAndAttributeForCategories(newCategoryTree, attributes));
 }
 
-async function migrateProducts() {
+async function getProductAttributeValues(
+  attributes: Attribute[],
+  publicationYear: number,
+  pages: number,
+  weight: number,
+  publisher: Publisher,
+  authors: Author[]
+): Promise<AttributeValue[]> {
+  const productAttributeValues: AttributeValue[] = [];
+
+  for (const attribute of attributes) {
+    let attributeValueNames = [];
+    switch (attribute.name) {
+      case 'Năm xuất bản':
+        attributeValueNames = [String(publicationYear)];
+        break;
+      case 'Số trang':
+        attributeValueNames = [String(pages)];
+        break;
+      case 'Cân nặng (grams)':
+        attributeValueNames = [String(weight)];
+        break;
+      case 'Nhà xuất bản':
+        attributeValueNames = [publisher.name];
+        break;
+      case 'Tác giả':
+        attributeValueNames = authors.map((author) => author.name);
+        break;
+    }
+
+    for (const attributeValueName of attributeValueNames) {
+      const attributeValue = await attributeValueRepository.findOne({
+        name: attributeValueName,
+        attributeId: attribute.id
+      });
+
+      productAttributeValues.push(
+        attributeValue ||
+          (await attributeValueRepository.save({
+            name: attributeValueName,
+            attributeId: attribute.id
+          }))
+      );
+    }
+  }
+
+  return productAttributeValues;
+}
+
+async function migrateProducts(attributes: Attribute[]) {
   console.log('Migrating products');
 
   const oldProducts = await oldProductRepository.find({ order: { id: 'ASC' } });
@@ -93,7 +163,14 @@ async function migrateProducts() {
     });
 
     newProduct.slug = slugService.createSlug(newProduct.title, newProduct.id);
-
+    newProduct.attributeValues = await getProductAttributeValues(
+      attributes,
+      publicationYear,
+      pages,
+      weight,
+      publisher,
+      authors
+    );
     await newProductRepository.save(newProduct);
   }
 }
@@ -126,8 +203,9 @@ async function run() {
     innitRepositories();
     await validateProduct();
 
-    await migrateCategories();
-    await migrateProducts();
+    const attributes = await migrateAttributes();
+    await migrateCategories(attributes);
+    await migrateProducts(attributes);
   } catch (error) {
     console.log(error);
   } finally {
@@ -138,9 +216,3 @@ async function run() {
 }
 
 run();
-
-// TODO
-// Create attributes and add attributes to new categories
-// Create attribute values with value extracted from old product's properties
-// Add attribute values to new products
-// Migrate product with deleted category? -> Use query builder?
