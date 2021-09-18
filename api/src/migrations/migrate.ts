@@ -98,11 +98,33 @@ async function migrateProducts() {
   }
 }
 
+async function validateProduct() {
+  const oldProducts = await oldProductRepository.find({ order: { id: 'ASC' } });
+  const invalidProductURLs = [];
+  for (const oldProduct of oldProducts) {
+    if (
+      !oldProduct.publicationYear ||
+      !oldProduct.weight ||
+      !oldProduct.pages ||
+      !oldProduct.publisher ||
+      !oldProduct.authors.length ||
+      !oldProduct.category
+    )
+      invalidProductURLs.push(`https://dashboard.olympicbooks.com/products/${oldProduct.id}`);
+  }
+
+  if (invalidProductURLs.length) {
+    console.log(invalidProductURLs.join('\n'));
+    throw new Error('Product is invalid');
+  }
+}
+
 async function run() {
   let connections: Connection[] = [];
   try {
     connections = await connectToDatabases();
     innitRepositories();
+    await validateProduct();
 
     await migrateCategories();
     await migrateProducts();
