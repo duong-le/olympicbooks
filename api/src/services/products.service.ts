@@ -19,7 +19,7 @@ export class ProductsService extends TypeOrmCrudService<Product> {
     @InjectRepository(ProductImage) private productImageRepository: Repository<ProductImage>,
     @InjectRepository(OrderItem) private orderItemRepository: Repository<OrderItem>,
     @InjectRepository(CartItem) private cartItemRepository: Repository<CartItem>,
-    @InjectRepository(Attribute) private attribute: Repository<Attribute>,
+    @InjectRepository(Attribute) private attributeRepository: Repository<Attribute>,
     private cloudStorageService: CloudStorageService
   ) {
     super(productRepository);
@@ -73,7 +73,7 @@ export class ProductsService extends TypeOrmCrudService<Product> {
   }
 
   async getProductAttributes(productId: number, categoryId: number): Promise<Attribute[]> {
-    return await this.attribute
+    return await this.attributeRepository
       .createQueryBuilder('attribute')
       .leftJoinAndSelect('attribute.attributeValues', 'attributeValue')
       .leftJoin('attribute.categories', 'category')
