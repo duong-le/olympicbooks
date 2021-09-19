@@ -2,9 +2,11 @@ import { join } from 'path';
 import { Connection, createConnections, getRepository, getTreeRepository, Repository, TreeRepository } from 'typeorm';
 
 import { SlugService } from '../core/Utils/slug.service';
+import { Admin } from '../entities/admins.entity';
 import { AttributeValue } from '../entities/attribute-value.entity';
 import { Attribute } from '../entities/attribute.entity';
 import { Category } from '../entities/categories.entity';
+import { Customer } from '../entities/customers.entity';
 import { Product } from '../entities/products.entity';
 import { AttributeInputMode } from '../shared/Enums/attributes.enum';
 import { ProductStatus } from '../shared/Enums/products.enum';
@@ -12,6 +14,7 @@ import { Author } from './old-entities/authors.entity';
 import { Category as OldCategory } from './old-entities/categories.entity';
 import { Product as OldProduct } from './old-entities/products.entity';
 import { Publisher } from './old-entities/publishers.entity';
+import { Role, User } from './old-entities/users.entity';
 
 const slugService = new SlugService();
 
@@ -21,6 +24,9 @@ let oldCategoryRepository: TreeRepository<OldCategory>;
 let newCategoryRepository: TreeRepository<Category>;
 let attributeRepository: Repository<Attribute>;
 let attributeValueRepository: Repository<AttributeValue>;
+let userRepository: Repository<User>;
+let customerRepository: Repository<Customer>;
+let adminRepository: Repository<Admin>;
 
 async function connectToDatabases() {
   return await createConnections([
@@ -56,6 +62,10 @@ function innitRepositories() {
 
   attributeRepository = getRepository(Attribute, 'new');
   attributeValueRepository = getRepository(AttributeValue, 'new');
+
+  userRepository = getRepository(User, 'old');
+  customerRepository = getRepository(Customer, 'new');
+  adminRepository = getRepository(Admin, 'new');
 }
 
 async function migrateAttributes() {
@@ -175,6 +185,49 @@ async function migrateProducts(attributes: Attribute[]) {
   }
 }
 
+async function migrateUsers() {
+  console.log('Migrating users');
+
+  const users = await userRepository.find({ order: { id: 'ASC' } });
+  for (const user of users) {
+    const {
+      id,
+      name,
+      email,
+      hashedPassword,
+      isBlock,
+      address,
+      phoneNumber,
+      role,
+      createdAt,
+      updatedAt,
+      ...others
+    } = user;
+
+    if (role === Role.CUSTOMER) {
+      const customer = await customerRepository.save({
+        createdAt,
+        updatedAt,
+        name,
+        email,
+        hashedPassword,
+        isBlock,
+        address,
+        phoneNumber
+      });
+    } else if (role === Role.ADMIN) {
+      const admin = await adminRepository.save({
+        createdAt,
+        updatedAt,
+        name,
+        email,
+        hashedPassword,
+        isBlock
+      });
+    }
+  }
+}
+
 async function validateProduct() {
   const oldProducts = await oldProductRepository.find({ order: { id: 'ASC' } });
   const invalidProductURLs = [];
@@ -206,6 +259,7 @@ async function run() {
     const attributes = await migrateAttributes();
     await migrateCategories(attributes);
     await migrateProducts(attributes);
+    await migrateUsers();
   } catch (error) {
     console.log(error);
   } finally {
