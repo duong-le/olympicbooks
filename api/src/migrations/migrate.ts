@@ -29,6 +29,12 @@ let userRepository: Repository<User>;
 let customerRepository: Repository<Customer>;
 let adminRepository: Repository<Admin>;
 
+function logProgress(string: string) {
+  process.stdout.moveCursor(0, -1); // up one line
+  process.stdout.clearLine(1); // from cursor to end
+  console.log(string);
+}
+
 async function connectToDatabases() {
   return await createConnections([
     {
@@ -147,11 +153,10 @@ async function getProductAttributeValues(
 }
 
 async function migrateProducts(attributes: Attribute[]) {
-  console.log('Migrating products');
-
   const oldProducts = await oldProductRepository.find({ order: { id: 'ASC' } });
+  console.log(`Migrating ${oldProducts.length} products...\n`);
 
-  for (const oldProduct of oldProducts) {
+  for (let i = 0; i < oldProducts.length; i++) {
     const {
       id,
       publicationYear,
@@ -164,7 +169,7 @@ async function migrateProducts(attributes: Attribute[]) {
       publisher,
       authors,
       ...others
-    } = oldProduct;
+    } = oldProducts[i];
 
     const newProduct = await newProductRepository.save({
       ...others,
@@ -183,14 +188,19 @@ async function migrateProducts(attributes: Attribute[]) {
       authors
     );
     await newProductRepository.save(newProduct);
+
+    logProgress(`${i + 1}/${oldProducts.length}`);
   }
 }
 
 async function migrateUsers() {
-  console.log('Migrating users');
+  const users = await userRepository.find({
+    order: { id: 'ASC' },
+    relations: ['orders']
+  });
+  console.log(`Migrating ${users.length} users...\n`);
 
-  const users = await userRepository.find({ order: { id: 'ASC' } });
-  for (const user of users) {
+  for (let i = 0; i < users.length; i++) {
     const {
       id,
       name,
@@ -202,8 +212,12 @@ async function migrateUsers() {
       role,
       createdAt,
       updatedAt,
-      ...others
-    } = user;
+      deletedAt,
+      cartItems,
+      orders
+    } = users[i];
+
+    logProgress(`${i + 1}/${users.length}`);
 
     if (role === Role.CUSTOMER) {
       const customer = await customerRepository.save({
