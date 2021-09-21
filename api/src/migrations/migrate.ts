@@ -16,6 +16,7 @@ import { Product as OldProduct } from './old-entities/products.entity';
 import { Publisher } from './old-entities/publishers.entity';
 import { Role, User } from './old-entities/users.entity';
 
+let connections: Connection[] = [];
 const slugService = new SlugService();
 
 let oldProductRepository: Repository<OldProduct>;
@@ -250,23 +251,20 @@ async function validateProduct() {
 }
 
 async function run() {
-  let connections: Connection[] = [];
-  try {
-    connections = await connectToDatabases();
-    innitRepositories();
-    await validateProduct();
+  connections = await connectToDatabases();
+  innitRepositories();
+  await validateProduct();
 
-    const attributes = await migrateAttributes();
-    await migrateCategories(attributes);
-    await migrateProducts(attributes);
-    await migrateUsers();
-  } catch (error) {
-    console.log(error);
-  } finally {
+  const attributes = await migrateAttributes();
+  await migrateCategories(attributes);
+  await migrateProducts(attributes);
+  await migrateUsers();
+}
+
+run()
+  .catch((error) => console.log(error))
+  .finally(async () => {
     for (const connection of connections) {
       await connection.close();
     }
-  }
-}
-
-run();
+  });
