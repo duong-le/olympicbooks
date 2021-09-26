@@ -17,4 +17,7 @@ export class Customer extends User {
 
   @OneToMany(() => CartItem, (cartItem) => cartItem.customer, { cascade: true })
   cartItems: CartItem[];
+
+  @Column({ nullable: true })
+  oldId: number;
 }

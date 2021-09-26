@@ -5,12 +5,14 @@ import { SlugService } from '../core/Utils/slug.service';
 import { Admin } from '../entities/admins.entity';
 import { AttributeValue } from '../entities/attribute-value.entity';
 import { Attribute } from '../entities/attribute.entity';
+import { CartItem } from '../entities/carts.entity';
 import { Category } from '../entities/categories.entity';
 import { Customer } from '../entities/customers.entity';
 import { Product } from '../entities/products.entity';
 import { AttributeInputMode } from '../shared/Enums/attributes.enum';
 import { ProductStatus } from '../shared/Enums/products.enum';
 import { Author } from './old-entities/authors.entity';
+import { CartItem as OldCartItem } from './old-entities/carts.entity';
 import { Category as OldCategory } from './old-entities/categories.entity';
 import { Product as OldProduct } from './old-entities/products.entity';
 import { Publisher } from './old-entities/publishers.entity';
@@ -28,6 +30,8 @@ let attributeValueRepository: Repository<AttributeValue>;
 let userRepository: Repository<User>;
 let customerRepository: Repository<Customer>;
 let adminRepository: Repository<Admin>;
+let oldCartItemRepository: Repository<OldCartItem>;
+let newCartItemRepository: Repository<CartItem>;
 
 function logProgress(string: string) {
   process.stdout.moveCursor(0, -1); // up one line
@@ -73,6 +77,9 @@ function innitRepositories() {
   userRepository = getRepository(User, 'old');
   customerRepository = getRepository(Customer, 'new');
   adminRepository = getRepository(Admin, 'new');
+
+  oldCartItemRepository = getRepository(OldCartItem, 'old');
+  newCartItemRepository = getRepository(CartItem, 'new');
 }
 
 async function migrateAttributes() {
@@ -228,7 +235,9 @@ async function migrateUsers() {
         hashedPassword,
         isBlock,
         address,
-        phoneNumber
+        phoneNumber,
+        oldId: id,
+        cartItems: []
       });
     } else if (role === Role.ADMIN) {
       const admin = await adminRepository.save({
@@ -240,6 +249,25 @@ async function migrateUsers() {
         isBlock
       });
     }
+  }
+}
+
+async function migrateCartItems() {
+  const cartItems = await oldCartItemRepository.find({
+    order: { id: 'ASC' }
+  });
+  console.log(`Migrating ${cartItems.length} cart items...\n`);
+
+  for (let i = 0; i < cartItems.length; i++) {
+    await newCartItemRepository.save({
+      createdAt: cartItems[i].createdAt,
+      updatedAt: cartItems[i].updatedAt,
+      quantity: cartItems[i].quantity,
+      customer: await customerRepository.findOne({ oldId: cartItems[i].userId }),
+      product: await newProductRepository.findOne({ oldId: cartItems[i].productId })
+    });
+
+    logProgress(`${i + 1}/${cartItems.length}`);
   }
 }
 
@@ -273,6 +301,7 @@ async function run() {
   await migrateCategories(attributes);
   await migrateProducts(attributes);
   await migrateUsers();
+  await migrateCartItems();
 }
 
 run()
