@@ -8,12 +8,16 @@ import { Attribute } from '../entities/attribute.entity';
 import { CartItem } from '../entities/carts.entity';
 import { Category } from '../entities/categories.entity';
 import { Customer } from '../entities/customers.entity';
+import { OrderItem } from '../entities/orders-item.entity';
+import { Order } from '../entities/orders.entity';
 import { Product } from '../entities/products.entity';
 import { AttributeInputMode } from '../shared/Enums/attributes.enum';
 import { ProductStatus } from '../shared/Enums/products.enum';
 import { Author } from './old-entities/authors.entity';
 import { CartItem as OldCartItem } from './old-entities/carts.entity';
 import { Category as OldCategory } from './old-entities/categories.entity';
+import { OrderItem as OldOrderItem } from './old-entities/orders-item.entity';
+import { Order as OldOrder } from './old-entities/orders.entity';
 import { Product as OldProduct } from './old-entities/products.entity';
 import { Publisher } from './old-entities/publishers.entity';
 import { Role, User } from './old-entities/users.entity';
@@ -32,6 +36,10 @@ let customerRepository: Repository<Customer>;
 let adminRepository: Repository<Admin>;
 let oldCartItemRepository: Repository<OldCartItem>;
 let newCartItemRepository: Repository<CartItem>;
+let oldOrderRepository: Repository<OldOrder>;
+let newOrderRepository: Repository<Order>;
+let oldOrderItemRepository: Repository<OldOrderItem>;
+let newOrderItemRepository: Repository<OrderItem>;
 
 function logProgress(string: string) {
   process.stdout.moveCursor(0, -1); // up one line
@@ -80,6 +88,12 @@ function innitRepositories() {
 
   oldCartItemRepository = getRepository(OldCartItem, 'old');
   newCartItemRepository = getRepository(CartItem, 'new');
+
+  oldOrderRepository = getRepository(OldOrder, 'old');
+  newOrderRepository = getRepository(Order, 'new');
+
+  oldOrderItemRepository = getRepository(OldOrderItem, 'old');
+  newOrderItemRepository = getRepository(OrderItem, 'new');
 }
 
 async function migrateAttributes() {
@@ -271,6 +285,79 @@ async function migrateCartItems() {
   }
 }
 
+async function migrateOrders() {
+  const orders = await oldOrderRepository.find({
+    order: { id: 'ASC' }
+  });
+  console.log(`Migrating ${orders.length} orders...\n`);
+
+  for (let i = 0; i < orders.length; i++) {
+    const {
+      id,
+      createdAt,
+      updatedAt,
+      deletedAt,
+      buyerNote,
+      sellerNote,
+      userId,
+      discountId,
+      transactionId,
+      shippingId,
+      discount,
+      transaction,
+      shipping,
+      orderItems
+    } = orders[i];
+
+    const newOrderItems: OrderItem[] = [];
+
+    for (const oldOrderItem of orderItems) {
+      newOrderItems.push(
+        newOrderItemRepository.create({
+          createdAt: oldOrderItem.createdAt,
+          updatedAt: oldOrderItem.updatedAt,
+          quantity: oldOrderItem.quantity,
+          totalValue: oldOrderItem.totalValue,
+          productTitle: oldOrderItem.productTitle,
+          product: await newProductRepository.findOne({ oldId: oldOrderItem.productId })
+        })
+      );
+    }
+
+    const customer = await customerRepository.findOne({ oldId: userId });
+
+    logProgress(`${i + 1}/${orders.length}`);
+
+    await newOrderRepository.save({
+      createdAt,
+      updatedAt,
+      buyerNote,
+      sellerNote,
+      customerId: customer.id,
+      transaction: {
+        createdAt: transaction.createdAt,
+        updatedAt: transaction.updatedAt,
+        transactionMethodId: transaction.transactionMethodId,
+        state: transaction.state.toLowerCase() as any,
+        value: transaction.value
+      },
+      shipping: {
+        createdAt: shipping.createdAt,
+        updatedAt: shipping.updatedAt,
+        name: shipping.name,
+        address: shipping.address,
+        phoneNumber: shipping.phoneNumber,
+        state: shipping.state.toLowerCase() as any,
+        code: shipping.code,
+        fee: shipping.fee,
+        deliveryDate: shipping.deliveryDate,
+        shippingMethodId: shipping.shippingMethodId
+      },
+      orderItems: newOrderItems
+    });
+  }
+}
+
 async function validateProduct() {
   const oldProducts = await oldProductRepository.find({ order: { id: 'ASC' } });
   const invalidProductURLs = [];
@@ -302,6 +389,7 @@ async function run() {
   await migrateProducts(attributes);
   await migrateUsers();
   await migrateCartItems();
+  await migrateOrders();
 }
 
 run()
