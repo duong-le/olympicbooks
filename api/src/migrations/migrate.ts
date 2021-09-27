@@ -377,6 +377,27 @@ async function validateProduct() {
     console.log(invalidProductURLs.join('\n'));
     throw new Error('Product is invalid');
   }
+
+  const deletedProducts = [];
+  const oldCartItems = await oldCartItemRepository.find({ order: { id: 'ASC' } });
+  const oldOrderItems = await oldOrderItemRepository.find({ order: { id: 'ASC' } });
+
+  for (const oldOrderItem of oldOrderItems) {
+    if (!oldOrderItem.product) {
+      deletedProducts.push(oldOrderItem.productId);
+    }
+  }
+
+  for (const oldCartItem of oldCartItems) {
+    if (!oldCartItem.product) {
+      deletedProducts.push(oldCartItem.productId);
+    }
+  }
+
+  if (deletedProducts.length) {
+    console.log(deletedProducts.join('\n'));
+    throw new Error('Product is deleted');
+  }
 }
 
 async function run() {
