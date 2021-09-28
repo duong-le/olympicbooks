@@ -1,21 +1,18 @@
+import { ProductStatus } from '../Enums/products.enum';
+import { Attribute } from './attribute.interface';
 import { Category } from './category.interface';
-import { Publisher } from './publisher.interface';
-import { Author } from './author.interface';
 
 export interface Product {
   id: number;
   title: string;
-  publicationYear: number;
-  pages: number;
-  weight: number;
+  slug: string;
+  description: string;
   price: number;
   originalPrice: number;
+  status: ProductStatus;
   images: ProductImage[];
-  description: string;
   category: Category;
-  publisher: Publisher;
-  authors: Author[];
-  inStock: boolean;
+  attributes: Attribute[];
 }
 
 export interface ProductImage {

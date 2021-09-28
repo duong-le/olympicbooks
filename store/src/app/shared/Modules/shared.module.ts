@@ -1,17 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzResultModule } from 'ng-zorro-antd/result';
-import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
 
+import { CategoryBreadCrumbComponent } from '../Components/category/category-breadcrumb.component';
 import { CategoryMenuComponent } from '../Components/category/category-menu.component';
 import { CategoryComponent } from '../Components/category/category.component';
+import { CollectionComponent } from '../Components/collection/collection.component';
 import { FooterComponent } from '../Components/footer/footer.component';
 import { HeaderComponent } from '../Components/header/header.component';
 import { LeftMenuComponent } from '../Components/header/sub-menu/left-menu.component';
@@ -22,8 +31,9 @@ import { NotExistComponent } from '../Components/result/error/not-exist.componen
 import { OrderErrorComponent } from '../Components/result/error/order-error.component';
 import { OrderSuccessComponent } from '../Components/result/success/order-success.component';
 import { SearchComponent } from '../Components/search/search.component';
-import { OrderStatePipe } from '../Pipes/order-state.pipe';
-import { PricePipe } from '../Pipes/price.pipe';
+import { OrderStatePipe } from '../Pipes/orders.pipe';
+import { PricePipe } from '../Pipes/prices.pipe';
+import { ProductStatusPipe } from '../Pipes/products.pipe';
 import { IconModule } from './icon.module';
 
 @NgModule({
@@ -34,6 +44,7 @@ import { IconModule } from './icon.module';
     FooterComponent,
     SearchComponent,
     ProductComponent,
+    CategoryBreadCrumbComponent,
     CategoryComponent,
     CategoryMenuComponent,
     NotExistComponent,
@@ -41,11 +52,15 @@ import { IconModule } from './icon.module';
     OrderErrorComponent,
     CartEmptyComponent,
     PricePipe,
-    OrderStatePipe
+    OrderStatePipe,
+    CollectionComponent,
+    ProductStatusPipe
   ],
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
     IconModule,
     NzMenuModule,
     NzDrawerModule,
@@ -54,7 +69,14 @@ import { IconModule } from './icon.module';
     NzInputModule,
     NzCardModule,
     NzResultModule,
-    NzImageModule
+    NzImageModule,
+    NzDividerModule,
+    NzGridModule,
+    NzSelectModule,
+    NzPaginationModule,
+    NzEmptyModule,
+    NzSliderModule,
+    NzBreadCrumbModule
   ],
   exports: [
     HeaderComponent,
@@ -63,6 +85,7 @@ import { IconModule } from './icon.module';
     FooterComponent,
     SearchComponent,
     ProductComponent,
+    CategoryBreadCrumbComponent,
     CategoryComponent,
     CategoryMenuComponent,
     NotExistComponent,
@@ -70,7 +93,9 @@ import { IconModule } from './icon.module';
     OrderErrorComponent,
     CartEmptyComponent,
     PricePipe,
-    OrderStatePipe
+    OrderStatePipe,
+    CollectionComponent,
+    ProductStatusPipe
   ]
 })
 export class SharedModule {}

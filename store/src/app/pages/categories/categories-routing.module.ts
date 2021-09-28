@@ -6,7 +6,7 @@ import { CategoriesComponent } from './categories.component';
 
 const routes: Routes = [
   {
-    path: ':id',
+    path: ':categorySlug',
     component: CategoriesComponent
   },
   {

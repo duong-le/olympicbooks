@@ -1,4 +1,4 @@
-FROM node:12-alpine as development
+FROM node:14-alpine as development
 
 WORKDIR /usr/src/app
 
@@ -17,7 +17,7 @@ COPY . ./
 
 RUN yarn build
 
-FROM node:12-alpine as production
+FROM node:14-alpine as production
 
 WORKDIR /usr/src/app
 

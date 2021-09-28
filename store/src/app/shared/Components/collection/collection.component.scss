@@ -1,0 +1,24 @@
+.overflow-hidden {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+nz-select {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+nz-slider {
+  display: block;
+  margin-bottom: 32px;
+}
+
+.ant-pagination {
+  display: flex;
+  justify-content: flex-end;
+}
+
+:host ::ng-deep .ant-card-head-title {
+  font-weight: bold;
+  font-size: 22px;
+}

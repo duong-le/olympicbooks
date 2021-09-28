@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { TransactionMethod } from 'src/app/shared/Interfaces/transaction.interface';
-import { ShippingMethod } from 'src/app/shared/Interfaces/shipping.interface';
-import { Order } from 'src/app/shared/Interfaces/order.interface';
+
+import { Order } from '../../shared/Interfaces/order.interface';
+import { ShippingMethod } from '../../shared/Interfaces/shipping.interface';
+import { TransactionMethod } from '../../shared/Interfaces/transaction.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +17,11 @@ export class CheckOutService {
     return this.http.get<TransactionMethod[]>(`${environment.apiUrl}/transactions/methods`);
   }
 
-  getShippingMethods(transactionValue: number): Observable<ShippingMethod[]> {
-    return this.http.get<ShippingMethod[]>(
-      `${environment.apiUrl}/shippings/methods?transactionValue=${transactionValue}`
-    );
+  getShippingMethods(): Observable<ShippingMethod[]> {
+    return this.http.get<ShippingMethod[]>(`${environment.apiUrl}/shippings/methods`);
   }
 
   createOrder(data: Order): Observable<Order> {
-    return this.http.post<Order>(`${environment.apiUrl}/mine/orders`, data);
+    return this.http.post<Order>(`${environment.apiUrl}/customers/me/orders`, data);
   }
 }

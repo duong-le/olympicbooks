@@ -1,0 +1,203 @@
+<nz-page-header [nzGhost]="false" nzBackIcon (nzBack)="goBack()">
+  <nz-page-header-title>Đơn hàng #{{ order?.id }}</nz-page-header-title>
+  <nz-page-header-extra>
+    <button
+      nz-button
+      nzType="primary"
+      [nzLoading]="isBtnLoading"
+      (click)="update()"
+      [disabled]="orderForm.invalid || orderForm.pristine"
+    >
+      <i nz-icon nzType="save" nzTheme="outline"></i>Lưu
+    </button>
+  </nz-page-header-extra>
+</nz-page-header>
+
+<nz-table
+  #table
+  nzOuterBordered
+  [nzData]="order?.orderItems"
+  [nzShowPagination]="false"
+  [nzScroll]="{ x: '576px' }"
+  [nzLoading]="isLoading"
+  [nzLoadingIndicator]="loadingIndicator"
+  id="order-items"
+>
+  <thead>
+    <tr>
+      <th nzWidth="55%">Sản phẩm</th>
+      <th>Giá</th>
+      <th>Số lượng</th>
+      <th>Tạm tính</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of table.data">
+      <td id="title" *ngIf="data?.product; else deletedProduct">
+        <a target="_blank" [routerLink]="['/products', data?.product?.id]">
+          {{ data?.product?.title }}
+        </a>
+      </td>
+      <ng-template #deletedProduct>
+        <td id="title">{{ data?.productTitle }}</td>
+      </ng-template>
+      <td>{{ data?.totalValue / data?.quantity | price }}</td>
+      <td>{{ data?.quantity }}</td>
+      <td>{{ data?.totalValue | price }}</td>
+    </tr>
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <td colSpan="2"></td>
+      <td><b>Tạm tính</b></td>
+      <td>{{ order?.transaction?.value - order?.shipping?.fee | price }}</td>
+    </tr>
+    <tr>
+      <td colSpan="2"></td>
+      <td><b>Phí vận chuyển</b></td>
+      <td>{{ order?.shipping?.fee | price }}</td>
+    </tr>
+    <tr>
+      <td colSpan="2"></td>
+      <td><b>Tổng cộng</b></td>
+      <td>{{ order?.transaction?.value | price }}</td>
+    </tr>
+  </tfoot>
+</nz-table>
+
+<form nz-form [formGroup]="orderForm">
+  <nz-card [nzLoading]="isLoading" nzTitle="Lời nhắn" id="note">
+    <nz-form-item>
+      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="buyerNote">
+        Lời nhắn của người mua
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="buyerNote" type="text" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="sellerNote">
+        Lời nhắn của người bán
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="sellerNote" type="text" />
+      </nz-form-control>
+    </nz-form-item>
+  </nz-card>
+
+  <nz-card [nzLoading]="isLoading" nzTitle="Vận chuyển" id="shipping">
+    <div formGroupName="shipping">
+      <nz-form-item>
+        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="id">ID</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input formControlName="id" type="number" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="state">Tình trạng giao hàng</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-select formControlName="state">
+            <nz-option
+              *ngFor="let state of shippingState | keyvalue"
+              [nzLabel]="state.value | orderstate"
+              [nzValue]="state.value"
+            >
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="code">Mã vận chuyển</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input formControlName="code" type="text" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="fee">Phí vận chuyển</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input formControlName="fee" type="number" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="shippingMethod">
+          Phương thức giao hàng
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input formControlName="shippingMethod" type="text" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="deliveryDate">
+          Thời gian giao hàng
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input formControlName="deliveryDate" type="text" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="name">Họ tên</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input formControlName="name" type="text" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="address">Địa chỉ</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input formControlName="address" type="text" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="phoneNumber">Số điện thoại</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input formControlName="phoneNumber" type="text" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </nz-card>
+
+  <nz-card [nzLoading]="isLoading" nzTitle="Thanh toán" id="transaction">
+    <div formGroupName="transaction">
+      <nz-form-item>
+        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="id">ID</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input formControlName="id" type="number" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="state">Tình trạng thanh toán</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-select formControlName="state">
+            <nz-option
+              *ngFor="let state of transactionState | keyvalue"
+              [nzLabel]="state.value | orderstate"
+              [nzValue]="state.value"
+            >
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="transactionMethod">
+          Phương thức thanh toán
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input formControlName="transactionMethod" type="text" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="value">Giá trị đơn hàng</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input
+            nz-input
+            formControlName="value"
+            type="text"
+            [value]="orderForm.get('transaction').get('value').value | price"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </nz-card>
+</form>
+
+<ng-template #loadingIndicator><i nz-icon nzType="loading" class="loading"></i></ng-template>

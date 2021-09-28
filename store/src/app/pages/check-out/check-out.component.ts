@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { forkJoin } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { forkJoin, Subscription } from 'rxjs';
 
 import { Cart } from '../../shared/Interfaces/cart.interface';
 import { Customer } from '../../shared/Interfaces/customer.interface';
@@ -17,13 +16,14 @@ import { CheckOutService } from './check-out.service';
   templateUrl: './check-out.component.html',
   styleUrls: ['./check-out.component.scss']
 })
-export class CheckOutComponent implements OnInit {
+export class CheckOutComponent implements OnInit, OnDestroy {
   orderForm: FormGroup;
   addressForm: FormGroup;
   cart: Cart;
   customer: Customer;
   transactionMethods: TransactionMethod[];
   shippingMethods: ShippingMethod[];
+  cartSubscription: Subscription;
 
   isLoading = false;
   isUpdateLoading = false;
@@ -31,9 +31,7 @@ export class CheckOutComponent implements OnInit {
   isAddressModalVisible = false;
   success = false;
   error = false;
-  orderId: number;
-  shippingValue = 0;
-  discountValue = 0;
+  shippingFee = 0;
 
   constructor(
     private titleService: Title,
@@ -49,139 +47,105 @@ export class CheckOutComponent implements OnInit {
     this.isLoading = true;
     this.initForms();
 
-    this.cartService.cart$.subscribe((response) => {
-      this.cart = response;
+    forkJoin([
+      this.customerService.getMe(),
+      this.checkOutService.getTransactionMethods(),
+      this.checkOutService.getShippingMethods()
+    ]).subscribe((response) => {
+      [this.customer, this.transactionMethods, this.shippingMethods] = response;
+
+      this.orderForm.setValue({
+        shippingMethodId: this.shippingMethods[0]?.id,
+        transactionMethodId: this.transactionMethods[0]?.id
+      });
+      this.changeShippingValue(this.shippingMethods[0]);
+
+      this.setAddressForm();
       this.isLoading = false;
 
-      if (this.cart.cartItems.length) {
-        this.isLoading = true;
-        forkJoin([
-          this.customerService.getMe(),
-          this.checkOutService.getTransactionMethods(),
-          this.checkOutService.getShippingMethods(this.cart.totalValue)
-        ]).subscribe((response) => {
-          [this.customer, this.transactionMethods, this.shippingMethods] = response;
-          this.orderForm.setValue({
-            shipping: {
-              name: this.customer.name,
-              phoneNumber: this.customer.phoneNumber,
-              address: this.customer.address,
-              shippingMethodId: this.shippingMethods[0]?.id
-            },
-            transaction: { transactionMethodId: this.transactionMethods[0]?.id },
-            buyerNote: ''
-          });
-          this.changeShippingValue(this.shippingMethods[0]);
-          this.isLoading = false;
-
-          if (!this.orderForm.value.shipping.address || !this.orderForm.value.shipping.phoneNumber) this.showAddressModal();
-        });
-      }
+      if (!this.addressForm.value.address || !this.addressForm.value.phoneNumber) this.showAddressModal();
     });
+
+    this.cartSubscription = this.cartService.cart$.subscribe((response) => (this.cart = response));
   }
 
   initForms(): void {
     this.orderForm = this.fb.group({
-      shipping: this.fb.group({
-        name: [null, [Validators.required]],
-        phoneNumber: [null, [Validators.required]],
-        address: [null, [Validators.required]],
-        shippingMethodId: [null, [Validators.required]]
-      }),
-      transaction: this.fb.group({
-        transactionMethodId: [null, [Validators.required]]
-      }),
-      buyerNote: [null]
+      shippingMethodId: [null, [Validators.required]],
+      transactionMethodId: [null, [Validators.required]]
     });
 
     this.addressForm = this.fb.group({
       name: [null, [Validators.required]],
       phoneNumber: [null, [Validators.required]],
-      address: [null, [Validators.required]],
-      buyerNote: [null]
+      address: [null, [Validators.required]]
+    });
+  }
+
+  setAddressForm() {
+    this.addressForm.setValue({
+      name: this.customer.name,
+      phoneNumber: this.customer.phoneNumber,
+      address: this.customer.address
     });
   }
 
   showAddressModal(): void {
-    this.addressForm.setValue({
-      name: this.orderForm.value.shipping.name,
-      phoneNumber: this.orderForm.value.shipping.phoneNumber,
-      address: this.orderForm.value.shipping.address,
-      buyerNote: this.orderForm.value.buyerNote
-    });
     this.isAddressModalVisible = true;
   }
 
-  cancelAddressModal(): void {
+  hideAddressModal(): void {
     this.isAddressModalVisible = false;
   }
 
   updateAddress(): void {
     this.isUpdateLoading = true;
-    this.customerService
-      .updateMe({
-        address: this.addressForm.value.address,
-        phoneNumber: this.addressForm.value.phoneNumber
-      })
-      .subscribe((response) => {
-        this.customer = response;
-        this.orderForm.setValue({
-          ...this.orderForm.value,
-          shipping: {
-            ...this.orderForm.value.shipping,
-            name: this.addressForm.value.name,
-            phoneNumber: this.customer.phoneNumber,
-            address: this.customer.address
-          },
-          buyerNote: this.addressForm.value.buyerNote
-        });
+    this.customerService.updateMe(this.addressForm.value).subscribe((response) => {
+      this.customer = response;
+      this.setAddressForm();
 
-        this.isUpdateLoading = false;
-        this.isAddressModalVisible = false;
-        this.addressForm.markAsPristine();
-        this.addressForm.updateValueAndValidity();
-      });
+      this.isUpdateLoading = false;
+      this.isAddressModalVisible = false;
+      this.addressForm.markAsPristine();
+      this.addressForm.updateValueAndValidity();
+    });
   }
 
   changeShippingValue(method: ShippingMethod): void {
-    this.shippingValue = method.fee;
+    this.shippingFee = method.fee;
+    this.cartService.setCart(method.id);
   }
 
   changeTransactionMethod(method: TransactionMethod): void {
+    if (method.disabled) return;
+
     this.orderForm.setValue({
       ...this.orderForm.value,
-      transaction: {
-        transactionMethodId: method.id
-      }
+      transactionMethodId: method.id
     });
   }
 
   processOrder(): void {
-    if (!this.orderForm.value.shipping.address || !this.orderForm.value.shipping.phoneNumber) {
+    if (!this.addressForm.value.address || !this.addressForm.value.phoneNumber) {
       this.showAddressModal();
       return;
     }
 
     this.isProcessingOrder = true;
-    const orderItems = this.cart.cartItems.map((el) => ({ quantity: el.quantity, productId: el.product.id }));
-    this.checkOutService
-      .createOrder({ ...this.orderForm.value, orderItems })
-      .pipe(
-        switchMap((response) => {
-          this.orderId = response['id'];
-          return this.cartService.deleteCart();
-        })
-      )
-      .subscribe(
-        (response) => {
-          this.cartService.clearCart();
-          this.isProcessingOrder = false;
-          this.success = true;
-        },
-        (error) => {
-          this.isProcessingOrder = false;
-          this.error = true;
-        }
-      );
+    this.checkOutService.createOrder(this.orderForm.value).subscribe(
+      (response) => {
+        this.cartService.setCart();
+        this.isProcessingOrder = false;
+        this.success = true;
+      },
+      (error) => {
+        this.isProcessingOrder = false;
+        this.error = true;
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    this.cartSubscription.unsubscribe();
   }
 }

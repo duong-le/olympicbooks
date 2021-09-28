@@ -9,6 +9,7 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
@@ -39,7 +40,10 @@ import { CheckOutComponent } from './check-out.component';
     NzFormModule,
     NzInputModule,
     NzAlertModule,
-    NzCollapseModule
+    NzCollapseModule,
+    NzImageModule,
+    NzTagModule,
+    NzButtonModule
   ]
 })
 export class CheckOutModule {}

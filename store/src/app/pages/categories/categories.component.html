@@ -1,78 +1,27 @@
-<nz-card class="container">
-  <nz-breadcrumb nzSeparator=">">
-    <nz-breadcrumb-item>
-      <a routerLink="/"><i nz-icon nzType="home"></i></a>
-    </nz-breadcrumb-item>
-
-    <ng-container *ngFor="let item of category?.parent">
-      <nz-breadcrumb-item>
-        <a [routerLink]="['/', 'categories', item?.id]">{{ item?.title }}</a>
-      </nz-breadcrumb-item>
-    </ng-container>
-  </nz-breadcrumb>
+<nz-card class="container" [nzLoading]="isLoading">
+  <app-category-breadcrumb [categories]="category?.parents"></app-category-breadcrumb>
 </nz-card>
 
-<nz-card class="container" [nzBodyStyle]="categoriesStyle" *ngIf="category?.children?.length">
+<nz-card
+  class="container"
+  *ngIf="category?.children?.length"
+  [nzLoading]="isLoading"
+  [nzBodyStyle]="categoriesStyle"
+>
   <div nz-row>
-    <div nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let item of category?.children">
+    <div nz-card-grid nz-col nzXl="3" nzLg="4" nzMd="6" nzXs="12" *ngFor="let item of category?.children">
       <app-category [category]="item"></app-category>
     </div>
   </div>
 </nz-card>
 
-<div class="container categories" *ngIf="products?.length">
-  <div nz-row [nzGutter]="[16,16]">
-    <div nz-col [nzXl]="{span: 6, order: 1}" [nzMd]="{span: 8, order: 1}" [nzSm]="{span: 12, order: 1}" [nzXs]="{span: 24, order: 3}">
-      <nz-card nzTitle="Bộ lọc" [nzBodyStyle]="{ padding: '0 24px' }">
-        <div>
-          <nz-divider nzText="Sắp xếp theo" nzOrientation="left"></nz-divider>
-          <nz-select ngModel="" nzAllowClear nzPlaceHolder="Mặc định" (ngModelChange)="onSortingChange($event)">
-            <nz-option nzValue="ASC" nzLabel="Giá từ thấp đến cao"></nz-option>
-            <nz-option nzValue="DESC" nzLabel="Giá từ cao đến thấp"></nz-option>
-          </nz-select>
-        </div>
-
-        <div>
-          <nz-divider nzText="Khoảng giá" nzOrientation="left"></nz-divider>
-          <nz-slider nzRange [ngModel]="priceRange" [nzMax]="maxPrice" [nzTipFormatter]="formatter"
-            (nzOnAfterChange)="onPriceRangeChange($event)">
-          </nz-slider>
-        </div>
-
-        <div>
-          <nz-divider nzText="Nhà xuất bản" nzOrientation="left"></nz-divider>
-          <nz-list nzSize="small" [nzSplit]="false">
-            <nz-list-item *ngFor="let publisher of publishers">
-              {{publisher?.name}} ({{publisher?.count}})
-            </nz-list-item>
-          </nz-list>
-        </div>
-
-        <div>
-          <nz-divider nzText="Tác giả" nzOrientation="left"></nz-divider>
-          <nz-list nzSize="small" [nzSplit]="false">
-            <nz-list-item *ngFor="let author of authors">
-              {{author?.name}} ({{author?.count}})
-            </nz-list-item>
-          </nz-list>
-        </div>
-      </nz-card>
-    </div>
-
-    <div nz-col [nzXl]="{span: 18, order: 2}" [nzMd]="{span: 16, order: 2}" [nzSm]="{span: 12, order: 2}"
-      [nzXs]="{span: 24, order: 1}">
-      <nz-card [nzLoading]="isLoading" [nzBodyStyle]="productsStyle">
-        <div nz-row>
-          <div nz-col nzXl="6" nzLg="8" nzMd="12" nzSm="24" nzXs="12" *ngFor="let product of products">
-            <app-product [product]="product"></app-product>
-          </div>
-        </div>
-      </nz-card>
-    </div>
-
-    <div nz-col [nzSm]="{span: 24, order: 3}" [nzXs]="{span: 24, order: 2}">
-      <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="totalProduct" [nzPageSize]="productPerPage"
-        (nzPageIndexChange)="onPageChange($event)" [nzHideOnSinglePage]="true" [nzResponsive]="true"></nz-pagination>
-    </div>
-  </div>
-</div>
+<app-collection
+  [isLoading]="isLoading"
+  [products]="products"
+  [totalProducts]="totalProducts"
+  [pageIndex]="pageIndex"
+  [pageSize]="pageSize"
+  (onPageChange)="onPageChange($event)"
+  (onSortingChange)="onSortingChange($event)"
+  (onPriceRangeChange)="onPriceRangeChange($event)"
+></app-collection>

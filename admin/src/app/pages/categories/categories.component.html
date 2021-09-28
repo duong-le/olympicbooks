@@ -1,0 +1,31 @@
+<div nz-row [nzGutter]="[16, 24]">
+  <div nz-col nzXl="6" nzXs="24">
+    <nz-card nzTitle="Cây danh mục" [nzExtra]="createNewBtn">
+      <nz-tree
+        nzAsyncData
+        [nzData]="categoryTree"
+        [nzShowLine]="true"
+        [nzSelectedKeys]="defaultSelectedKeys"
+        (nzClick)="onSelectNode($event)"
+      >
+      </nz-tree>
+      <nz-empty *ngIf="!categoryTree?.length"></nz-empty>
+    </nz-card>
+
+    <ng-template #createNewBtn>
+      <button *ngIf="!isNew" nz-button nzType="primary" (click)="onClickCreateBtn()">
+        <i nz-icon nzType="plus" nzTheme="outline"></i>
+      </button>
+    </ng-template>
+  </div>
+
+  <div nz-col nzXl="18" nzXs="24">
+    <app-categories-detail
+      [categoryId]="categoryId"
+      [categoryData]="categoryTree"
+      (notifyRender)="renderCategoriesPage()"
+      (notifyDelete)="notifyDelete()"
+    >
+    </app-categories-detail>
+  </div>
+</div>

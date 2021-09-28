@@ -21,7 +21,7 @@ const routes: Routes = [
         component: ProfileComponent
       },
       {
-        path: 'orders/:id',
+        path: 'orders/:orderId',
         component: OrderDetailComponent
       },
       {

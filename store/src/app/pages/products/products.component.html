@@ -1,27 +1,14 @@
 <nz-card class="container">
-  <nz-breadcrumb nzSeparator=">">
-    <nz-breadcrumb-item>
-      <a routerLink="/"><i nz-icon nzType="home"></i></a>
-    </nz-breadcrumb-item>
-
-    <ng-container *ngFor="let item of product?.category?.parent">
-      <nz-breadcrumb-item>
-        <a [routerLink]="['/', 'categories', item?.id]">{{ item?.title }}</a>
-      </nz-breadcrumb-item>
-    </ng-container>
-
-    <nz-breadcrumb-item>
-      {{ product?.title }}
-    </nz-breadcrumb-item>
-  </nz-breadcrumb>
+  <app-category-breadcrumb [categories]="product?.category?.parents" [suffix]="product?.title">
+  </app-category-breadcrumb>
 </nz-card>
 
 <nz-card class="container">
-  <div nz-row [nzGutter]="[48,32]">
+  <div nz-row [nzGutter]="[48, 32]">
     <div nz-col nzLg="12" nzXs="24">
       <nz-carousel [nzEnableSwipe]="true" [nzAutoPlay]="true">
         <div nz-carousel-content *ngFor="let image of product?.images">
-          <img 
+          <img
             nz-image
             class="product-image"
             [nzSrc]="image?.imgUrl"
@@ -41,19 +28,7 @@
           <span class="title">{{ product?.title }}</span>
         </div>
 
-        <div nz-row>
-          <div nz-col nzSm="12" nzXs="24">
-            <h3>Tác giả</h3>
-          </div>
-          <div nz-col nzSm="12" nzXs="24">
-            <ng-container *ngFor="let author of product?.authors; let last = last">
-              {{ author.name }}{{ last ? '' : ', ' }} </ng-container>
-          </div>
-        </div>
-
         <nz-divider></nz-divider>
-
-        <nz-alert nzType="info" nzMessage="Miễn phí giao hàng cho đơn hàng từ 500.000 ₫" nzShowIcon></nz-alert>
 
         <div class="price-wrapper">
           <span class="price">{{ product?.price | price }}</span>
@@ -64,40 +39,65 @@
 
         <nz-divider></nz-divider>
 
-        <ng-container *ngIf="product?.inStock; else outOfStock">
+        <ng-container *ngIf="product?.status !== 'soldOut'; else outOfStock">
           <div nz-row>
             <div nz-col nzSpan="12">
               <h3>Số lượng</h3>
             </div>
             <div nz-col nzSpan="12">
-              <nz-input-number [(ngModel)]="quantity" [nzMin]="minQty" [nzMax]="maxQty" [nzStep]="1"></nz-input-number>
+              <nz-input-number
+                [(ngModel)]="quantity"
+                [nzMin]="minQty"
+                [nzMax]="maxQty"
+                [nzStep]="1"
+              ></nz-input-number>
             </div>
           </div>
 
-          <button nz-button nzType="dashed" nzBlock>
-            <a href="tel:0984803198"><i nz-icon nzType="phone"></i> 0984.803.198</a></button>
-          <button nz-button nzType="default" nzBlock [nzLoading]="isBtnLoading.addToCart"
-            (click)="addItemToCart('addToCart')" [disabled]="isBtnLoading.buyNow">Thêm Vào Giỏ Hàng</button>
-          <button nz-button nzType="primary" nzBlock [nzLoading]="isBtnLoading.buyNow" (click)="addItemToCart('buyNow')"
-            [disabled]="isBtnLoading.addToCart">Mua Ngay</button>
+          <button
+            nz-button
+            nzBlock
+            nzType="default"
+            [nzLoading]="isBtnLoading.addToCart"
+            (click)="addItemToCart('addToCart')"
+            [disabled]="isBtnLoading.buyNow"
+          >
+            Thêm Vào Giỏ Hàng
+          </button>
+          <button
+            nz-button
+            nzBlock
+            nzType="primary"
+            [nzLoading]="isBtnLoading.buyNow"
+            (click)="addItemToCart('buyNow')"
+            [disabled]="isBtnLoading.addToCart"
+          >
+            Mua Ngay
+          </button>
         </ng-container>
         <ng-template #outOfStock>
           <button nz-button nzType="default" nzBlock disabled>Hết hàng</button>
           <button nz-button nzType="primary" nzBlock>
-            <a href="tel:0984803198"><i nz-icon nzType="phone"></i> 0984.803.198</a></button>
+            <a href="tel:0984803198"><i nz-icon nzType="phone"></i> 0984.803.198</a>
+          </button>
         </ng-template>
       </nz-skeleton>
     </div>
   </div>
 </nz-card>
 
-<nz-card class="container" [nzLoading]="isProductLoading" nzTitle="Thông Tin Chi Tiết">
+<nz-card
+  class="container"
+  [nzLoading]="isProductLoading"
+  nzTitle="Thông Tin Chi Tiết"
+  *ngIf="product?.attributes?.length"
+>
   <nz-descriptions nzBordered [nzColumn]="1" nzSize="middle">
-    <nz-descriptions-item nzTitle="Nhà xuất bản">{{ product?.publisher?.name }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Năm xuất bản">{{ product?.publicationYear }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Số trang">{{ product?.pages | number }}</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Cân nặng">{{ product?.weight | number }} grams</nz-descriptions-item>
-    <nz-descriptions-item nzTitle="Thể loại">{{ product?.category?.title }}</nz-descriptions-item>
+    <nz-descriptions-item *ngFor="let attribute of product?.attributes" [nzTitle]="attribute?.name">
+      <ng-container *ngFor="let attributeValue of attribute?.attributeValues">
+        {{ attributeValue?.name }} <br />
+      </ng-container>
+    </nz-descriptions-item>
   </nz-descriptions>
 </nz-card>
 
@@ -105,10 +105,15 @@
   <div class="description" [innerHTML]="product?.description"></div>
 </nz-card>
 
-<nz-card class="container" nzTitle="Sản Phẩm Liên Quan" [nzBodyStyle]="relatedProductStyle"
-  [nzLoading]="isProductLoading || isRelatedProductsLoading" *ngIf="relatedProducts?.length">
+<nz-card
+  *ngIf="sameCategoryProducts?.length"
+  class="container"
+  nzTitle="Sản Phẩm Tương Tự"
+  [nzBodyStyle]="relatedProductStyle"
+  [nzLoading]="isProductLoading || isRelatedProductsLoading"
+>
   <div nz-row>
-    <div nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let product of relatedProducts">
+    <div nz-col nzXl="4" nzLg="6" nzMd="8" nzXs="12" *ngFor="let product of sameCategoryProducts">
       <app-product [product]="product"></app-product>
     </div>
   </div>

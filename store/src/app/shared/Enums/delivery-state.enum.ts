@@ -1,6 +1,0 @@
-export enum DeliveryState {
-  PROCESSING = 'PROCESSING',
-  SHIPPING = 'SHIPPING',
-  DELIVERED = 'DELIVERED',
-  CANCELLED = 'CANCELLED'
-}

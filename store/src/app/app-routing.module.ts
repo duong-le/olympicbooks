@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 import { NotExistComponent } from './shared/Components/result/error/not-exist.component';
 import { AuthGuard } from './shared/Guards/auth.guard';
@@ -13,16 +13,21 @@ const routes: Routes = [
   { path: 'home', pathMatch: 'full', redirectTo: '' },
   {
     path: '',
-    loadChildren: () => import('./pages/authentication/authentication.module').then((m) => m.AuthenticationModule),
+    loadChildren: () =>
+      import('./pages/authentication/authentication.module').then((m) => m.AuthenticationModule),
     canActivate: [UnAuthGuard]
   },
   {
-    path: 'categories',
+    path: 'danh-muc',
     loadChildren: () => import('./pages/categories/categories.module').then((m) => m.CategoriesModule)
   },
   {
-    path: 'products',
+    path: 'san-pham',
     loadChildren: () => import('./pages/products/products.module').then((m) => m.ProductsModule)
+  },
+  {
+    path: 'search',
+    loadChildren: () => import('./pages/search/search.module').then((m) => m.SearchModule)
   },
   {
     path: 'customer',
@@ -39,16 +44,16 @@ const routes: Routes = [
     loadChildren: () => import('./pages/check-out/check-out.module').then((m) => m.CheckOutModule),
     canActivate: [AuthGuard]
   },
+  { path: 'not-found', component: NotExistComponent },
   { path: '**', component: NotExistComponent }
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-    scrollPositionRestoration: 'enabled',
-    preloadingStrategy: PreloadAllModules,
-    relativeLinkResolution: 'legacy'
-})
+      scrollPositionRestoration: 'enabled',
+      preloadingStrategy: PreloadAllModules
+    })
   ],
   exports: [RouterModule]
 })

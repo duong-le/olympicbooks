@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { combineLatest } from 'rxjs';
 
+import { ProductStatus } from '../../shared/Enums/products.enum';
 import { Category } from '../../shared/Interfaces/category.interface';
 import { Product } from '../../shared/Interfaces/product.interface';
 import { CategoriesService } from '../categories/categories.service';
@@ -19,10 +20,14 @@ export class HomeComponent implements OnInit {
 
   isLoading = false;
   maxProductPerRow = 6;
-  banner = { left: 'assets/images/cover.png', right: 'assets/images/community.jpg' };
+  banner = { left: 'url(assets/images/cover.png)', right: 'url(assets/images/promotion.png)' };
   cardStyle = null;
 
-  constructor(private titleService: Title, private categoriesService: CategoriesService, private productsService: ProductsService) {
+  constructor(
+    private titleService: Title,
+    private categoriesService: CategoriesService,
+    private productsService: ProductsService
+  ) {
     this.titleService.setTitle('Trang chủ | OlympicBooks');
   }
 
@@ -30,8 +35,12 @@ export class HomeComponent implements OnInit {
     this.isLoading = true;
     combineLatest([
       this.categoriesService.categories$,
-      this.productsService.getManyProducts({ limit: this.maxProductPerRow, sort: 'updatedAt,DESC', filter: 'inStock||$eq||true' }),
-      this.productsService.getManyProducts({ limit: this.maxProductPerRow, type: 'topSelling' })
+      this.productsService.getManyProducts({
+        limit: String(this.maxProductPerRow),
+        sort: 'updatedAt,DESC',
+        filter: `status||$eq||${ProductStatus.ACTIVE}`
+      }),
+      this.productsService.getManyProducts({ limit: String(this.maxProductPerRow), type: 'topSelling' })
     ]).subscribe(
       (response) => {
         [this.categories, this.newProducts, this.topSellingProducts] = response;

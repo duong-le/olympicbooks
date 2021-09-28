@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { switchMap } from 'rxjs/operators';
 
+import { ProductStatus } from '../../shared/Enums/products.enum';
 import { Product } from '../../shared/Interfaces/product.interface';
 import { TitleMetaService } from '../../shared/Providers/title-meta.service';
 import { AuthenticationService } from '../authentication/authentication.service';
@@ -16,8 +17,9 @@ import { ProductsService } from './products.service';
 })
 export class ProductsComponent implements OnInit {
   product: Product;
-  relatedProducts: Product[];
+  sameCategoryProducts: Product[];
 
+  productId: number;
   isProductLoading = false;
   isRelatedProductsLoading = false;
   isBtnLoading = { addToCart: false, buyNow: false, comment: false };
@@ -39,48 +41,54 @@ export class ProductsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((paramsId) => {
-      this.render(Number(paramsId.id));
+    this.activatedRoute.params.subscribe(({ productSlug }) => {
+      this.productId = Number(productSlug.split('-').pop());
+      if (!this.productId) {
+        this.router.navigate(['/not-found'], { skipLocationChange: true });
+        return;
+      }
+
+      this.resetStateForRouting();
+      this.renderProductPage();
     });
   }
 
-  render(productId: number) {
-    if (this.product) {
-      this.product.images = null;
-      this.relatedProductStyle = null;
-      this.quantity = 1;
-    }
+  renderProductPage() {
     this.isProductLoading = true;
     this.productsService
-      .getOneProduct(productId)
+      .getOneProduct(this.productId)
       .pipe(
         switchMap((response) => {
           this.product = response;
-          this.titleMetaService.updateTitleAndMetaTags(this.product?.title, this.product?.description, this.product?.images[0]?.imgUrl);
+          this.titleMetaService.updateTitleAndMetaTags(
+            this.product?.title,
+            this.product?.description,
+            this.product?.images[0]?.imgUrl
+          );
 
           if (!this.product.images.length) {
             this.isProductLoading = false;
             this.product.images.push(this.placeHolderImage);
           }
-          this.isRelatedProductsLoading = true;
 
+          this.isRelatedProductsLoading = true;
           return this.productsService.getManyProducts({
             filter: [
-              ...(this.product?.category?.id ? [`categoryId||$eq||${this.product?.category?.id}`] : []),
+              ...(this.product?.category?.id ? [`categoryId||$eq||${this.product.category.id}`] : []),
               `id||$ne||${this.product.id}`,
-              'inStock||$eq||true'
+              `status||$eq||${ProductStatus.ACTIVE}`
             ],
-            limit: this.maxRelatedProduct
+            limit: String(this.maxRelatedProduct)
           });
         })
       )
       .subscribe(
         (response) => {
-          this.relatedProducts = response;
+          this.sameCategoryProducts = response;
           this.isRelatedProductsLoading = false;
           this.relatedProductStyle = { padding: '1px' };
         },
-        (error) => this.router.navigate(['/'])
+        (error) => this.router.navigate(['/not-found'], { skipLocationChange: true })
       );
   }
 
@@ -94,25 +102,31 @@ export class ProductsComponent implements OnInit {
       return;
     }
 
-    this.isBtnLoading[btnName] = true;
-    const existedProduct = this.cartService.cartValue.cartItems.find((el) => el.product.id === this.product.id);
+    const existedProduct = this.cartService.cart.items.find((el) => el.product.id === this.product.id);
 
+    this.isBtnLoading[btnName] = true;
     this.cartService[existedProduct ? 'updateCartItem' : 'createCartItem'](
       existedProduct ? existedProduct.id : this.product.id,
       existedProduct ? this.quantity + existedProduct.quantity : this.quantity
-    )
-      .pipe(switchMap((response) => this.cartService.getCart()))
-      .subscribe(
-        (response) => {
-          this.cartService.setCart(response);
-          this.isBtnLoading[btnName] = false;
-          this.messageService.success('Thêm vào giỏ hàng thành công!');
-          if (btnName === 'buyNow') this.router.navigate(['cart']);
-        },
-        (error) => {
-          this.isBtnLoading[btnName] = false;
-          this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
-        }
-      );
+    ).subscribe(
+      (response) => {
+        this.cartService.setCart();
+        this.isBtnLoading[btnName] = false;
+        this.messageService.success('Thêm vào giỏ hàng thành công!');
+        if (btnName === 'buyNow') this.router.navigate(['cart']);
+      },
+      (error) => {
+        this.isBtnLoading[btnName] = false;
+        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+      }
+    );
+  }
+
+  resetStateForRouting() {
+    this.relatedProductStyle = null;
+    if (this.product) {
+      this.product.images = null;
+      this.quantity = 1;
+    }
   }
 }

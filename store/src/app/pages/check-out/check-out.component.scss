@@ -4,33 +4,24 @@ label {
   line-height: 30px;
 }
 
-.item-wrapper {
+.cart-item-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
 }
 
-.item-head {
+.cart-item {
+  flex: 1;
+}
+
+.cart-item-title {
+  flex: 3;
+}
+
+.cart-item-price {
+  flex: 1;
   display: flex;
-}
-
-.item-img {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.item-main {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: 20px;
-}
-
-.price {
-  color: #337ab7;
-  font-size: 18px;
+  justify-content: flex-end;
 }
 
 .summary-row {
@@ -49,10 +40,11 @@ form {
   width: 100%;
 }
 
-.buyer-note-btn {
-  padding: 0 !important;
-}
-
 .transaction-method-info {
   white-space: pre-wrap;
+}
+
+.price {
+  color: #337ab7;
+  font-size: 18px;
 }

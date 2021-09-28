@@ -12,59 +12,51 @@ import { AuthenticationService } from '../authentication/authentication.service'
 export class CartService {
   private cartSubject: BehaviorSubject<Cart>;
   public cart$: Observable<Cart>;
-  emptyCart = { totalQty: 0, totalValue: 0, cartItems: [] };
+  emptyCart = { orderValue: 0, shippingFee: 0, quantity: 0, items: [] };
 
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) {
     this.cartSubject = new BehaviorSubject<Cart>(this.emptyCart);
     this.cart$ = this.cartSubject.asObservable();
 
     this.authenticationService.user$.subscribe((user) => {
-      if (user) this.getCart().subscribe((response) => this.setCart(response));
+      if (user) this.setCart();
       else this.clearCart();
     });
   }
 
-  public get cartValue() {
+  public get cart() {
     return this.cartSubject.value;
   }
 
-  setCart(cartItems: CartItem[]) {
-    if (cartItems.length) {
-      const totalQty = this.calculateTotalQty(cartItems);
-      const totalValue = this.calculateTotalValue(cartItems);
-      this.cartSubject.next({ ...this.cartValue, totalQty, totalValue, cartItems });
-    } else this.clearCart();
+  setCart(shippingMethodId: number = 0): void {
+    const params = {
+      shippingMethodId: String(shippingMethodId)
+    };
+
+    this.getCart(params).subscribe((response) => this.cartSubject.next(response));
   }
 
-  getCart(): Observable<CartItem[]> {
-    return this.http.get<CartItem[]>(`${environment.apiUrl}/mine/carts`);
+  getCart(params: { [key: string]: string | string[] }): Observable<Cart> {
+    return this.http.get<Cart>(`${environment.apiUrl}/customers/me/carts`, { params });
   }
 
   createCartItem(productId: number, quantity: number): Observable<CartItem> {
-    return this.http.post<CartItem>(`${environment.apiUrl}/mine/carts`, { productId, quantity });
+    return this.http.post<CartItem>(`${environment.apiUrl}/customers/me/carts`, { productId, quantity });
   }
 
   updateCartItem(id: number, quantity: number): Observable<CartItem> {
-    return this.http.patch<CartItem>(`${environment.apiUrl}/mine/carts/${id}`, { quantity });
+    return this.http.patch<CartItem>(`${environment.apiUrl}/customers/me/carts/${id}`, { quantity });
   }
 
   deleteCartItem(id: number): Observable<void> {
-    return this.http.delete<void>(`${environment.apiUrl}/mine/carts/${id}`);
+    return this.http.delete<void>(`${environment.apiUrl}/customers/me/carts/${id}`);
   }
 
   deleteCart(): Observable<void> {
-    return this.http.delete<void>(`${environment.apiUrl}/mine/carts`);
+    return this.http.delete<void>(`${environment.apiUrl}/customers/me/carts`);
   }
 
   clearCart() {
     this.cartSubject.next(this.emptyCart);
-  }
-
-  calculateTotalQty(cartItems: CartItem[]) {
-    return cartItems.reduce((total, current) => (total += current.quantity), 0);
-  }
-
-  calculateTotalValue(cartItems: CartItem[]) {
-    return cartItems.reduce((total, current) => (total += current.quantity * current.product.price), 0);
   }
 }

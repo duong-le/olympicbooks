@@ -1,7 +1,10 @@
-import { createParamDecorator, ExecutionContext } from "@nestjs/common";
-import { User } from '../../modules/users/users.entity';
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
-export const UserInfo = createParamDecorator((data, ctx: ExecutionContext): User => {
-  const req = ctx.switchToHttp().getRequest();
-  return req.user;
-});
+import { Customer } from '../../entities/customers.entity';
+
+export const UserInfo = createParamDecorator(
+  (data, ctx: ExecutionContext): Customer => {
+    const request = ctx.switchToHttp().getRequest();
+    return request.user;
+  }
+);

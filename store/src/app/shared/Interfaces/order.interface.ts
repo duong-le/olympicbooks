@@ -9,7 +9,6 @@ export interface Order {
   transaction?: Transaction;
   shipping?: Shipping;
   orderItems?: OrderItem[];
-  discount?: any;
   userId?: number;
   createdAt?: Date;
   updatedAt?: Date;

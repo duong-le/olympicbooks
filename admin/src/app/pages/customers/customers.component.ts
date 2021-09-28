@@ -1,0 +1,31 @@
+import { Component } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
+
+import { BaseTableComponent } from '../../shared/Components/base-table/base-table.component';
+import { Customer } from '../../shared/Interfaces/customer.interface';
+import { CustomersService } from './customers.service';
+
+@Component({
+  selector: 'app-customers',
+  templateUrl: './customers.component.html',
+  styleUrls: ['./customers.component.scss']
+})
+export class CustomersComponent extends BaseTableComponent<Customer> {
+  columns = [
+    { title: 'Actions' },
+    { title: 'ID', key: 'id', sort: true },
+    { title: 'Họ tên', key: 'name', sort: true },
+    { title: 'Email' },
+    { title: 'Địa chỉ' },
+    { title: 'Số điện thoại' }
+  ];
+
+  constructor(
+    private customersService: CustomersService,
+    public messageService: NzMessageService,
+    public modalService: NzModalService
+  ) {
+    super(customersService, messageService, modalService);
+  }
+}

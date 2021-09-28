@@ -1,0 +1,25 @@
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/olympicbooks-324304/admin', '.']
+    dir: 'admin'
+  # Push the image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/olympicbooks-324304/admin']
+  # Deploy image to Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'admin'
+      - '--image'
+      - 'gcr.io/olympicbooks-324304/admin'
+      - '--region'
+      - 'asia-southeast1'
+      - '--platform'
+      - 'managed'
+      - '--min-instances'
+      - '1'
+images:
+  - gcr.io/olympicbooks-324304/admin
+timeout: 1200s

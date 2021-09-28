@@ -1,0 +1,163 @@
+<nz-page-header [nzGhost]="false" nzBackIcon (nzBack)="goBack()">
+  <nz-page-header-title *ngIf="isNew">Thêm mới sản phẩm</nz-page-header-title>
+  <nz-page-header-title *ngIf="!isNew">Sản phẩm #{{ product?.id }}</nz-page-header-title>
+  <nz-page-header-extra>
+    <a
+      *ngIf="!isNew"
+      nz-button
+      nzType="link"
+      class="twotone-btn"
+      [href]="storeUrl + '/san-pham/' + product?.slug"
+      target="_blank"
+    >
+      Mở trong cửa hàng
+    </a>
+
+    <button
+      nz-button
+      nzType="primary"
+      [nzLoading]="isBtnLoading"
+      (click)="isNew ? createProduct() : updateProduct()"
+      [disabled]="productForm.pristine || productForm.invalid"
+    >
+      Lưu
+    </button>
+  </nz-page-header-extra>
+</nz-page-header>
+
+<form nz-form [formGroup]="productForm">
+  <nz-card [nzLoading]="isLoading" nzTitle="Thông tin cơ bản" id="basic-info">
+    <nz-form-item>
+      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="categoryId" nzRequired>
+        Danh mục
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-tree-select
+          [nzNodes]="categoryTree"
+          nzShowSearch
+          [nzHideUnMatched]="true"
+          [nzDefaultExpandAll]="true"
+          [nzDropdownStyle]="{ 'max-height': '500px' }"
+          formControlName="categoryId"
+          (nzTreeClick)="changeCategoryAttributes($event.node.origin['id'])"
+        >
+        </nz-tree-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="title" nzRequired> Tên sản phẩm </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
+        <input nz-input formControlName="title" type="text" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="description" nzRequired>
+        Mô tả sản phẩm
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
+        <textarea nz-input [nzAutosize]="{ minRows: 3 }" formControlName="description"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </nz-card>
+
+  <nz-card [nzLoading]="isLoading" nzTitle="Thông tin bán hàng" id="sale-info">
+    <nz-form-item>
+      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="price" nzRequired>Giá bán</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
+        <input nz-input formControlName="price" type="number" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="originalPrice" nzRequired>
+        Giá gốc
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
+        <input nz-input formControlName="originalPrice" type="number" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="status" nzRequired>Trạng thái</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
+        <nz-select nzShowSearch nzAllowClear formControlName="status">
+          <nz-option
+            *ngFor="let status of productStatus | keyvalue"
+            [nzLabel]="status.value | productstatus"
+            [nzValue]="status.value"
+          >
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </nz-card>
+
+  <nz-card [nzLoading]="isLoading" nzTitle="Thông tin chi tiết" id="attribute-info" *ngIf="attributes.length">
+    <div formArrayName="attributes">
+      <nz-form-item *ngFor="let attribute of attributes; let index = index">
+        <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" [nzFor]="index" [nzRequired]="attribute.mandatory">
+          {{ attribute.name }}
+        </nz-form-label>
+
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            [nzMode]="attribute.inputMode"
+            [nzDropdownRender]="createAttributeValueTemplate"
+            [formControlName]="index"
+          >
+            <nz-option
+              *ngFor="let attributeValue of attribute.attributeValues"
+              [nzLabel]="attributeValue?.name"
+              [nzValue]="attributeValue?.id"
+            >
+            </nz-option>
+          </nz-select>
+
+          <ng-template #createAttributeValueTemplate>
+            <nz-divider></nz-divider>
+            <div class="input-container">
+              <input nz-input type="text" nzSize="small" #attributeValueName />
+              <a
+                nz-button
+                nzType="link"
+                class="add-attribute-value-btn"
+                (click)="
+                  createNewAttributeValue(attributeValueName.value, attribute.id);
+                  attributeValueName.value = ''
+                "
+              >
+                <i nz-icon nzType="plus"></i> Thêm giá trị
+              </a>
+            </div>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </nz-card>
+</form>
+
+<nz-card [nzLoading]="isLoading" nzTitle="Hình ảnh" id="images">
+  <nz-form-item>
+    <nz-form-control
+      [nzMd]="{ span: 14, offset: 6 }"
+      [nzSm]="{ span: 14, offset: 8 }"
+      [nzXs]="24"
+      nzExtra="Dung lượng tối đa của hình ảnh là 500KB"
+    >
+      <nz-upload
+        [(nzFileList)]="fileList"
+        nzListType="picture"
+        [nzAccept]="fileTypeLimit"
+        [nzFileType]="fileTypeLimit"
+        [nzSize]="fileSizeLimit"
+        [nzMultiple]="true"
+        [nzBeforeUpload]="beforeUpload"
+        (nzChange)="handleUploadEventChange($event)"
+      >
+        <button nz-button><i nz-icon nzType="upload"></i>Tải ảnh lên</button>
+      </nz-upload>
+    </nz-form-control>
+  </nz-form-item>
+</nz-card>

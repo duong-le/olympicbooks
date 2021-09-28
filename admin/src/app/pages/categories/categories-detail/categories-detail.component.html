@@ -1,0 +1,205 @@
+<nz-page-header [nzGhost]="false">
+  <nz-page-header-title *ngIf="isNew">Thêm mới danh mục</nz-page-header-title>
+  <nz-page-header-title *ngIf="!isNew">Danh mục #{{ categoryId }}</nz-page-header-title>
+  <nz-page-header-extra>
+    <ng-container *ngIf="!isNew">
+      <a
+        *ngIf="!isNew"
+        nz-button
+        nzType="link"
+        class="twotone-btn"
+        [href]="storeUrl + '/danh-muc/' + category?.slug"
+        target="_blank"
+      >
+        Mở trong cửa hàng
+      </a>
+
+      <button nz-button nzType="primary" nzDanger (click)="showDeleteConfirmModal()">Xoá</button>
+    </ng-container>
+
+    <button
+      nz-button
+      nzType="primary"
+      [nzLoading]="isBtnLoading"
+      (click)="isNew ? createCategory() : updateCategory()"
+      [disabled]="categoryForm.invalid || categoryForm.pristine"
+    >
+      Lưu
+    </button>
+  </nz-page-header-extra>
+</nz-page-header>
+
+<nz-card [nzLoading]="isLoading" nzTitle="Thông tin cơ bản">
+  <form nz-form [formGroup]="categoryForm">
+    <nz-form-item>
+      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="title" nzRequired>Tên danh mục</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
+        <input nz-input formControlName="title" type="text" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="parentId">Danh mục cha</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzExtra="Để trống nếu là danh mục gốc">
+        <nz-tree-select
+          [nzNodes]="categoryTree"
+          nzShowSearch
+          [nzHideUnMatched]="true"
+          [nzDefaultExpandAll]="true"
+          [nzDropdownStyle]="{ 'max-height': '300px' }"
+          formControlName="parentId"
+        >
+        </nz-tree-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24">Hình ảnh</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzExtra="Dung lượng tối đa của hình ảnh là 500KB">
+        <nz-upload
+          [(nzFileList)]="fileList"
+          nzListType="picture"
+          [nzAccept]="fileTypeLimit"
+          [nzFileType]="fileTypeLimit"
+          [nzSize]="fileSizeLimit"
+          [nzDisabled]="fileList.length >= 1"
+          [nzBeforeUpload]="beforeUpload"
+        >
+          <button nz-button><i nz-icon nzType="upload"></i>Tải ảnh lên</button>
+        </nz-upload>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-card>
+
+<nz-card [nzLoading]="isLoading" nzTitle="Thuộc tính" [nzExtra]="addAttributeBtnTemplate">
+  <form nz-form [formGroup]="categoryForm" class="attribute-form">
+    <div formArrayName="attributes">
+      <div *ngFor="let attributeFormControl of attributeFormArray.controls; let index = index">
+        <nz-form-item>
+          <nz-form-label [nzMd]="6" [nzXs]="24" [nzFor]="index" nzRequired>
+            Thuộc tính {{ index }}
+          </nz-form-label>
+
+          <nz-form-control [nzMd]="8" [nzXs]="24" nzErrorTip="Please input this field!">
+            <nz-select nzShowSearch nzAllowClear [formControlName]="index" [compareWith]="compareAttributeFn">
+              <nz-option
+                *ngFor="let attribute of attributes"
+                [nzLabel]="attribute?.name"
+                [nzValue]="attribute"
+              >
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+
+          <div nz-col [nzMd]="4" [nzXs]="12" class="text-align-center">
+            <nz-tag
+              [nzColor]="attributeFormControl?.value?.inputMode === 'default' ? 'processing' : 'success'"
+            >
+              {{ attributeFormControl?.value?.inputMode | attributeinputmode }}
+            </nz-tag>
+          </div>
+
+          <div nz-col [nzMd]="4" [nzXs]="12" class="text-align-center">
+            <nz-tag [nzColor]="attributeFormControl?.value?.mandatory ? 'error' : 'default'">
+              {{ attributeFormControl?.value?.mandatory | attributemandatory }}
+            </nz-tag>
+          </div>
+
+          <button
+            nz-col
+            [nzMd]="1"
+            [nzXs]="12"
+            nz-button
+            nzType="text"
+            nz-tooltip
+            nzTooltipTitle="Sửa"
+            (click)="showAttributeModal(attributeFormControl?.value, index)"
+          >
+            <i nz-icon nzType="edit" nzTheme="twotone"></i>
+          </button>
+
+          <button
+            nz-col
+            [nzMd]="1"
+            [nzXs]="12"
+            nz-button
+            nzDanger
+            nzType="text"
+            nz-tooltip
+            nzTooltipTitle="Xoá"
+            (click)="removeAttributeFromFormArray(index)"
+          >
+            <i nz-icon nzType="minus-circle" nzTheme="outline"></i>
+          </button>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div class="load-more">
+      <button nz-button nzType="dashed" class="add-button" (click)="addAttributeToFormArray()">
+        <i nz-icon nzType="plus"></i>
+        Thêm thuộc tính
+      </button>
+    </div>
+  </form>
+</nz-card>
+
+<ng-template #addAttributeBtnTemplate>
+  <button nz-button nzType="default" class="twotone-btn" (click)="showAttributeModal()">
+    <i nz-icon nzType="plus"></i>Tạo mới thuộc tính
+  </button>
+</ng-template>
+
+<nz-modal
+  [nzTitle]="attributeIdFormControl.value ? 'Chỉnh sửa thuộc tính' : 'Tạo mới thuộc tính'"
+  [nzVisible]="isAttributeModalVisible"
+  (nzOnCancel)="hideAttributeModal()"
+  [nzContent]="attributeModalContent"
+  [nzFooter]="attributeModalFooter"
+>
+  <ng-template #attributeModalContent>
+    <form nz-form [formGroup]="attributeForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>Tên thuộc tính</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập tên thuộc tính">
+          <input nz-input id="name" formControlName="name" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phone" nzRequired> Chế độ nhập </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng chọn chế độ nhập">
+          <nz-select nzShowSearch nzAllowClear formControlName="inputMode">
+            <nz-option
+              *ngFor="let inputMode of attributeInputMode | keyvalue"
+              [nzLabel]="inputMode?.value | attributeinputmode"
+              [nzValue]="inputMode?.value"
+            >
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="attribute" nzRequired>Bắt buộc</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-switch nzSize="default" formControlName="mandatory"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-template>
+
+  <ng-template #attributeModalFooter>
+    <button nz-button nzType="default" (click)="hideAttributeModal()">Hủy bỏ</button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="saveAttribute()"
+      [nzLoading]="isSaveAttributeBtnLoading"
+      [disabled]="attributeForm.invalid || attributeForm.pristine"
+    >
+      Lưu
+    </button>
+  </ng-template>
+</nz-modal>

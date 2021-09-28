@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Customer, UpdateCustomer } from 'src/app/shared/Interfaces/customer.interface';
-import { Order } from 'src/app/shared/Interfaces/order.interface';
+
+import { Customer, UpdateCustomer } from '../../shared/Interfaces/customer.interface';
+import { Order } from '../../shared/Interfaces/order.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,18 +13,18 @@ export class CustomerService {
   constructor(private http: HttpClient) {}
 
   getMe(): Observable<Customer> {
-    return this.http.get<Customer>(`${environment.apiUrl}/users/me`);
+    return this.http.get<Customer>(`${environment.apiUrl}/customers/me`);
   }
 
   updateMe(data: UpdateCustomer): Observable<UpdateCustomer> {
-    return this.http.patch<UpdateCustomer>(`${environment.apiUrl}/users/me`, data);
+    return this.http.patch<UpdateCustomer>(`${environment.apiUrl}/customers/me`, data);
   }
 
-  getOrders(params): Observable<Order[]> {
-    return this.http.get<Order[]>(`${environment.apiUrl}/mine/orders`, { params });
+  getManyOrders(params: { [key: string]: string | string[] }): Observable<Order[]> {
+    return this.http.get<Order[]>(`${environment.apiUrl}/customers/me/orders`, { params });
   }
 
-  getOrderDetail(orderId): Observable<Order> {
-    return this.http.get<Order>(`${environment.apiUrl}/mine/orders/${orderId}`);
+  getOneOrder(orderId: number): Observable<Order> {
+    return this.http.get<Order>(`${environment.apiUrl}/customers/me/orders/${orderId}`);
   }
 }

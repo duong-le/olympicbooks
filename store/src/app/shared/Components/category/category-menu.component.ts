@@ -1,16 +1,22 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Category } from 'src/app/shared/Interfaces/category.interface';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { Category } from '../../Interfaces/category.interface';
 
 @Component({
   selector: '[app-category-menu]',
   template: `
     <ng-container *ngFor="let category of categories">
-      <li nz-menu-item nzMatchRouter *ngIf="category.isLeaf">
-        <a [routerLink]="['/categories', category.id]">{{ category.title }}</a>
-      </li>
-      <li nz-submenu [nzTitle]="category.title" *ngIf="!category.isLeaf">
-        <ul app-category-menu [categories]="category.children"></ul>
-      </li>
+      <a [routerLink]="['/danh-muc', category?.slug]">
+        <li nz-menu-item nzMatchRouter *ngIf="category.isLeaf">
+          {{ category.title }}
+        </li>
+      </a>
+
+      <a [routerLink]="['/danh-muc', category?.slug]" *ngIf="!category.isLeaf">
+        <li nz-submenu [nzTitle]="category.title">
+          <ul app-category-menu [categories]="category.children"></ul>
+        </li>
+      </a>
     </ng-container>
   `,
   styleUrls: ['../header/sub-menu/sub-menu.component.scss']

@@ -44,6 +44,10 @@
   }
 }
 
+.primary-color {
+  color: #337ab7;
+}
+
 .item-extra {
   position: absolute;
   top: 0;
@@ -74,4 +78,8 @@
 
 .ant-menu-submenu-title {
   padding: 0 15px;
+}
+
+.ant-page-header {
+  border-radius: 16px;
 }

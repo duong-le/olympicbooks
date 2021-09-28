@@ -1,0 +1,42 @@
+.layout {
+  min-height: 100vh;
+}
+
+.logo {
+  height: 64px;
+  line-height: 64px;
+  padding-left: 24px;
+}
+
+nz-sider {
+  height: 100vh;
+  position: sticky;
+  overflow: auto;
+  top: 0;
+  left: 0;
+}
+
+.ant-menu-inline,
+.ant-menu-vertical,
+.ant-menu-vertical-left {
+  border-right: none;
+}
+
+nz-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 64px 0 24px;
+}
+
+.inner-content {
+  padding: 24px;
+  height: 100%;
+}
+
+:host ::ng-deep .theme-switch > .ant-switch {
+  background-color: #f0f2f5;
+}
+
+:host ::ng-deep .theme-switch > .ant-switch-checked {
+  background-color: #177ddc;
+}
