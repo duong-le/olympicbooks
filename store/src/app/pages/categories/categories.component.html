@@ -1,15 +1,5 @@
 <nz-card class="container" [nzLoading]="isLoading">
-  <nz-breadcrumb nzSeparator=">">
-    <nz-breadcrumb-item>
-      <a routerLink="/"><i nz-icon nzType="home"></i></a>
-    </nz-breadcrumb-item>
-
-    <ng-container *ngFor="let item of category?.parents">
-      <nz-breadcrumb-item>
-        <a [routerLink]="['/', 'categories', item?.id]">{{ item?.title }}</a>
-      </nz-breadcrumb-item>
-    </ng-container>
-  </nz-breadcrumb>
+  <app-category-breadcrumb [categories]="category?.parents"></app-category-breadcrumb>
 </nz-card>
 
 <nz-card

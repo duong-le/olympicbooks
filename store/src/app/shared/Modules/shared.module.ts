@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -16,6 +17,7 @@ import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
 
+import { CategoryBreadCrumbComponent } from '../Components/category/category-breadcrumb.component';
 import { CategoryMenuComponent } from '../Components/category/category-menu.component';
 import { CategoryComponent } from '../Components/category/category.component';
 import { CollectionComponent } from '../Components/collection/collection.component';
@@ -42,6 +44,7 @@ import { IconModule } from './icon.module';
     FooterComponent,
     SearchComponent,
     ProductComponent,
+    CategoryBreadCrumbComponent,
     CategoryComponent,
     CategoryMenuComponent,
     NotExistComponent,
@@ -72,7 +75,8 @@ import { IconModule } from './icon.module';
     NzSelectModule,
     NzPaginationModule,
     NzEmptyModule,
-    NzSliderModule
+    NzSliderModule,
+    NzBreadCrumbModule
   ],
   exports: [
     HeaderComponent,
@@ -81,6 +85,7 @@ import { IconModule } from './icon.module';
     FooterComponent,
     SearchComponent,
     ProductComponent,
+    CategoryBreadCrumbComponent,
     CategoryComponent,
     CategoryMenuComponent,
     NotExistComponent,
