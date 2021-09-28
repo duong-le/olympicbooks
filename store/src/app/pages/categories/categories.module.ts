@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 
@@ -11,14 +10,6 @@ import { CategoriesComponent } from './categories.component';
 
 @NgModule({
   declarations: [CategoriesComponent],
-  imports: [
-    CommonModule,
-    SharedModule,
-    IconModule,
-    CategoriesRoutingModule,
-    NzGridModule,
-    NzCardModule,
-    NzBreadCrumbModule
-  ]
+  imports: [CommonModule, SharedModule, IconModule, CategoriesRoutingModule, NzGridModule, NzCardModule]
 })
 export class CategoriesModule {}

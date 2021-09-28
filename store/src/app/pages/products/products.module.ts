@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCarouselModule } from 'ng-zorro-antd/carousel';
@@ -40,7 +39,6 @@ import { ProductsComponent } from './products.component';
     NzFormModule,
     NzInputModule,
     NzMessageModule,
-    NzBreadCrumbModule,
     NzImageModule,
     NzAvatarModule
   ]
