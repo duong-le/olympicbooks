@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   olympicbooks-store:
@@ -49,7 +49,7 @@ services:
     image: postgres:12
     container_name: olympicbooks-db
     environment:
-      POSTGRES_DB: olympicbooks
+      POSTGRES_DB: development
       POSTGRES_USER: root
       POSTGRES_PASSWORD: 123456
     tty: true
