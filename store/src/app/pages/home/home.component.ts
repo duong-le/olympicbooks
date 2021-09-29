@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
 
   isLoading = false;
   maxProductPerRow = 6;
-  banner = { left: 'url(assets/images/cover.png)', right: 'url(assets/images/promotion.png)' };
+  banner = { left: 'url(assets/images/cover.png)', right: 'url(assets/images/community.jpeg)' };
   cardStyle = null;
 
   constructor(
