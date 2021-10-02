@@ -8,53 +8,77 @@
       <div nz-row [nzGutter]="[0, 16]">
         <form nz-form [formGroup]="orderForm">
           <div nz-col nzSpan="24">
-            <nz-card [nzLoading]="isLoading" nzTitle="Sản phẩm" [nzBordered]="false" [nzExtra]="editCart">
-              <div class="cart-item-wrapper" *ngFor="let cartItem of cart?.items">
-                <a
-                  class="cart-item"
-                  [routerLink]="['/san-pham', cartItem?.product?.slug]"
-                  [style.pointer-events]="
-                    ['active', 'soldOut'].includes(cartItem?.product?.status) ? 'auto' : 'none'
-                  "
-                >
-                  <img
-                    nz-image
-                    [nzSrc]="cartItem?.product?.images[0]?.imgUrl"
-                    width="30"
-                    height="30"
-                    nzPlaceholder="assets/images/placeholder.png"
-                    nzFallback="assets/images/placeholder.png"
-                  />
-                </a>
-
-                <div class="cart-item-title">
-                  <a
-                    nz-button
-                    nzType="link"
-                    [routerLink]="['/san-pham', cartItem?.product?.slug]"
-                    [style.pointer-events]="
-                      ['active', 'soldOut'].includes(cartItem?.product?.status) ? 'auto' : 'none'
-                    "
-                  >
-                    {{ cartItem?.product.title }}
-                  </a>
-                  <nz-tag
-                    *ngIf="cartItem?.product?.status !== 'active'"
-                    nzColor="{{ cartItem?.product?.status | productstatus: true }}"
-                  >
-                    {{ cartItem?.product?.status | productstatus }}
-                  </nz-tag>
-                </div>
-
-                <div class="cart-item">
-                  <span>SL: {{ cartItem?.quantity }}</span>
-                </div>
-
-                <div class="cart-item-price price">
-                  {{ cartItem?.quantity * cartItem?.product.price | price }}
-                </div>
-              </div>
+            <nz-card
+              [nzLoading]="isLoading"
+              nzTitle="Địa chỉ giao hàng"
+              [nzBordered]="false"
+              [nzExtra]="updateShippingAddress"
+            >
+              <nz-descriptions [nzColumn]="1">
+                <nz-descriptions-item nzTitle="Họ tên">
+                  {{ addressForm.value?.name }}
+                </nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Số điện thoại"
+                  >{{ addressForm.value?.phoneNumber }}
+                </nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Địa chỉ">
+                  {{ addressForm.value?.address }}
+                </nz-descriptions-item>
+              </nz-descriptions>
             </nz-card>
+
+            <ng-template #updateShippingAddress>
+              <button nz-button nzType="link" (click)="showAddressModal()">
+                <i nz-icon nzType="edit" nzTheme="outline"></i> Thay đổi
+              </button>
+              <nz-modal
+                nzTitle="Cập nhật địa chỉ giao hàng"
+                [nzVisible]="isAddressModalVisible"
+                (nzOnCancel)="hideAddressModal()"
+                [nzContent]="addressModalContent"
+                [nzFooter]="addressModalFooter"
+              >
+                <ng-template #addressModalContent>
+                  <form nz-form [formGroup]="addressForm">
+                    <nz-form-item>
+                      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>Họ tên</nz-form-label>
+                      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập họ tên">
+                        <input nz-input id="name" formControlName="name" />
+                      </nz-form-control>
+                    </nz-form-item>
+
+                    <nz-form-item>
+                      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phone" nzRequired
+                        >Số điện thoại</nz-form-label
+                      >
+                      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập số điện thoại">
+                        <input nz-input id="phone" formControlName="phoneNumber" type="tel" />
+                      </nz-form-control>
+                    </nz-form-item>
+
+                    <nz-form-item>
+                      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address" nzRequired>Địa chỉ</nz-form-label>
+                      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập địa chỉ">
+                        <input nz-input id="address" formControlName="address" />
+                      </nz-form-control>
+                    </nz-form-item>
+                  </form>
+                </ng-template>
+
+                <ng-template #addressModalFooter>
+                  <button nz-button nzType="default" (click)="hideAddressModal()">Hủy bỏ</button>
+                  <button
+                    nz-button
+                    nzType="primary"
+                    (click)="updateAddress()"
+                    [nzLoading]="isUpdateLoading"
+                    [disabled]="addressForm.invalid || addressForm.pristine"
+                  >
+                    Cập nhật
+                  </button>
+                </ng-template>
+              </nz-modal>
+            </ng-template>
           </div>
 
           <div nz-col nzSpan="24">
@@ -117,73 +141,45 @@
     <div nz-col nzXl="8" nzMd="12" nzXs="24">
       <div nz-row [nzGutter]="[0, 16]">
         <div nz-col nzSpan="24">
-          <nz-card
-            [nzLoading]="isLoading"
-            nzTitle="Địa chỉ giao hàng"
-            [nzBordered]="false"
-            [nzExtra]="updateShippingAddress"
-          >
-            <nz-descriptions [nzColumn]="1">
-              <nz-descriptions-item nzTitle="Họ tên">{{ addressForm.value?.name }}</nz-descriptions-item>
-              <nz-descriptions-item nzTitle="Số điện thoại"
-                >{{ addressForm.value?.phoneNumber }}
-              </nz-descriptions-item>
-              <nz-descriptions-item nzTitle="Địa chỉ">{{ addressForm.value?.address }}</nz-descriptions-item>
-            </nz-descriptions>
-          </nz-card>
+          <nz-card [nzLoading]="isLoading" nzTitle="Sản phẩm" [nzBordered]="false" [nzExtra]="editCart">
+            <div class="cart-item-wrapper" *ngFor="let cartItem of cart?.items">
+              <img
+                nz-image
+                [nzSrc]="cartItem?.product?.images[0]?.imgUrl"
+                width="30"
+                height="30"
+                nzPlaceholder="assets/images/placeholder.png"
+                nzFallback="assets/images/placeholder.png"
+              />
 
-          <ng-template #updateShippingAddress>
-            <button nz-button nzType="link" (click)="showAddressModal()">
-              <i nz-icon nzType="edit" nzTheme="outline"></i> Thay đổi
-            </button>
-            <nz-modal
-              nzTitle="Cập nhật địa chỉ giao hàng"
-              [nzVisible]="isAddressModalVisible"
-              (nzOnCancel)="hideAddressModal()"
-              [nzContent]="addressModalContent"
-              [nzFooter]="addressModalFooter"
-            >
-              <ng-template #addressModalContent>
-                <form nz-form [formGroup]="addressForm">
-                  <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>Họ tên</nz-form-label>
-                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập họ tên">
-                      <input nz-input id="name" formControlName="name" />
-                    </nz-form-control>
-                  </nz-form-item>
-
-                  <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phone" nzRequired
-                      >Số điện thoại</nz-form-label
-                    >
-                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập số điện thoại">
-                      <input nz-input id="phone" formControlName="phoneNumber" type="tel" />
-                    </nz-form-control>
-                  </nz-form-item>
-
-                  <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address" nzRequired>Địa chỉ</nz-form-label>
-                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập địa chỉ">
-                      <input nz-input id="address" formControlName="address" />
-                    </nz-form-control>
-                  </nz-form-item>
-                </form>
-              </ng-template>
-
-              <ng-template #addressModalFooter>
-                <button nz-button nzType="default" (click)="hideAddressModal()">Hủy bỏ</button>
-                <button
+              <div class="cart-item-title">
+                <a
                   nz-button
-                  nzType="primary"
-                  (click)="updateAddress()"
-                  [nzLoading]="isUpdateLoading"
-                  [disabled]="addressForm.invalid || addressForm.pristine"
+                  nzType="link"
+                  [routerLink]="['/san-pham', cartItem?.product?.slug]"
+                  [style.pointer-events]="
+                    ['active', 'soldOut'].includes(cartItem?.product?.status) ? 'auto' : 'none'
+                  "
                 >
-                  Cập nhật
-                </button>
-              </ng-template>
-            </nz-modal>
-          </ng-template>
+                  {{ cartItem?.product.title }}
+                </a>
+                <nz-tag
+                  *ngIf="cartItem?.product?.status !== 'active'"
+                  nzColor="{{ cartItem?.product?.status | productstatus: true }}"
+                >
+                  {{ cartItem?.product?.status | productstatus }}
+                </nz-tag>
+              </div>
+
+              <div class="cart-item">
+                <span>SL: {{ cartItem?.quantity }}</span>
+              </div>
+
+              <div class="cart-item-price price">
+                {{ cartItem?.quantity * cartItem?.product.price | price }}
+              </div>
+            </div>
+          </nz-card>
 
           <ng-template #editCart>
             <button nz-button nzType="link" routerLink="/cart">

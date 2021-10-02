@@ -8,25 +8,18 @@
           <nz-card [nzLoading]="isLoading">
             <div nz-row nzJustify="space-between" nzAlign="middle" [nzGutter]="[0, 16]">
               <div nz-col nzXl="4" nzXs="8">
-                <a
-                  [routerLink]="['/san-pham', cartItem?.product?.slug]"
-                  [style.pointer-events]="
-                    ['active', 'soldOut'].includes(cartItem?.product?.status) ? 'auto' : 'none'
-                  "
-                >
-                  <img
-                    nz-image
-                    [nzSrc]="cartItem?.product?.images[0]?.imgUrl"
-                    height="80"
-                    width="80"
-                    nzPlaceholder="assets/images/placeholder.png"
-                    nzFallback="assets/images/placeholder.png"
-                    (load)="onLoadImage($event)"
-                  />
-                </a>
+                <img
+                  nz-image
+                  [nzSrc]="cartItem?.product?.images[0]?.imgUrl"
+                  height="80"
+                  width="80"
+                  nzPlaceholder="assets/images/placeholder.png"
+                  nzFallback="assets/images/placeholder.png"
+                  (load)="onLoadImage($event)"
+                />
               </div>
 
-              <div nz-col nzXl="9" nzXs="16">
+              <div nz-col nzXl="9" nzXs="16" class="cart-item-title">
                 <nz-space nzDirection="vertical">
                   <a
                     *nzSpaceItem
