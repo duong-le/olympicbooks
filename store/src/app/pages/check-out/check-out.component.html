@@ -129,7 +129,7 @@
                         [nzExtra]="radioBtn"
                         (click)="changeTransactionMethod(method)"
                       >
-                        <span class="transaction-method-info">{{ method?.info }}</span>
+                        <b class="transaction-method-info">{{ method?.info }}</b>
                         <ng-template #radioBtn>
                           <label nz-radio [nzDisabled]="method.disabled" [nzValue]="method.id"> </label>
                         </ng-template>
@@ -209,6 +209,12 @@
                 <span class="price">{{ cart?.shippingFee | price }}</span>
               </div>
             </div>
+            <nz-alert
+              nzType="warning"
+              nzShowIcon
+              nzMessage="Miễn phí giao hàng cho đơn hàng từ {{ 500_000 | price }}"
+            >
+            </nz-alert>
 
             <nz-divider></nz-divider>
 

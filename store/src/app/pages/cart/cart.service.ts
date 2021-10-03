@@ -35,7 +35,7 @@ export class CartService {
     return this.cartSubject.value;
   }
 
-  setCart(shippingMethodId: number = 0): void {
+  setCart(shippingMethodId: number = 1): void {
     const params = {
       shippingMethodId: String(shippingMethodId)
     };

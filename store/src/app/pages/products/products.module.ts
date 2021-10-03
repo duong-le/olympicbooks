@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -40,7 +41,8 @@ import { ProductsComponent } from './products.component';
     NzInputModule,
     NzMessageModule,
     NzImageModule,
-    NzAvatarModule
+    NzAvatarModule,
+    NzAlertModule
   ]
 })
 export class ProductsModule {}

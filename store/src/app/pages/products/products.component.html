@@ -30,6 +30,13 @@
 
         <nz-divider></nz-divider>
 
+        <nz-alert
+          nzType="info"
+          nzShowIcon
+          nzMessage="Miễn phí giao hàng cho đơn hàng từ {{ 500_000 | price }}"
+        >
+        </nz-alert>
+
         <div class="price-wrapper">
           <span class="price">{{ product?.price | price }}</span>
           <h3 *ngIf="product?.price !== product?.originalPrice">

@@ -30,7 +30,6 @@ export class CheckOutComponent implements OnInit, OnDestroy {
   isAddressModalVisible = false;
   success = false;
   error = false;
-  shippingFee = 0;
 
   constructor(
     private titleService: Title,
@@ -54,7 +53,6 @@ export class CheckOutComponent implements OnInit, OnDestroy {
         transactionMethodId: this.cart.transactionMethods[0]?.id,
         buyerNote: ''
       });
-      this.changeShippingValue(this.shippingMethods[0]);
 
       this.isLoading = false;
 
@@ -107,7 +105,8 @@ export class CheckOutComponent implements OnInit, OnDestroy {
   }
 
   changeShippingValue(method: ShippingMethod): void {
-    this.shippingFee = method.fee;
+    if (method.disabled) return;
+
     this.cartService.setCart(method.id);
   }
 
