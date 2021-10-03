@@ -12,7 +12,14 @@ import { AuthenticationService } from '../authentication/authentication.service'
 export class CartService {
   private cartSubject: BehaviorSubject<Cart>;
   public cart$: Observable<Cart>;
-  emptyCart = { orderValue: 0, shippingFee: 0, quantity: 0, items: [] };
+  emptyCart = {
+    orderValue: 0,
+    shippingFee: 0,
+    quantity: 0,
+    items: [],
+    transactionMethods: [],
+    shippingMethods: []
+  };
 
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) {
     this.cartSubject = new BehaviorSubject<Cart>(this.emptyCart);

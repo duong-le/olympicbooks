@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { forkJoin, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { Cart } from '../../shared/Interfaces/cart.interface';
 import { Customer } from '../../shared/Interfaces/customer.interface';
@@ -21,8 +22,6 @@ export class CheckOutComponent implements OnInit, OnDestroy {
   addressForm: FormGroup;
   cart: Cart;
   customer: Customer;
-  transactionMethods: TransactionMethod[];
-  shippingMethods: ShippingMethod[];
   cartSubscription: Subscription;
 
   isLoading = false;
@@ -47,16 +46,12 @@ export class CheckOutComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.initForms();
 
-    forkJoin([
-      this.customerService.getMe(),
-      this.checkOutService.getTransactionMethods(),
-      this.checkOutService.getShippingMethods()
-    ]).subscribe((response) => {
-      [this.customer, this.transactionMethods, this.shippingMethods] = response;
+    forkJoin([this.cartService.cart$.pipe(take(1)), this.customerService.getMe()]).subscribe((response) => {
+      [this.cart, this.customer] = response;
 
       this.orderForm.setValue({
-        shippingMethodId: this.shippingMethods[0]?.id,
-        transactionMethodId: this.transactionMethods[0]?.id,
+        shippingMethodId: this.cart.shippingMethods[0]?.id,
+        transactionMethodId: this.cart.transactionMethods[0]?.id,
         buyerNote: ''
       });
       this.changeShippingValue(this.shippingMethods[0]);

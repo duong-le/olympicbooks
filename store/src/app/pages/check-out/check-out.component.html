@@ -92,7 +92,7 @@
               <nz-form-item>
                 <nz-form-control>
                   <nz-radio-group formControlName="shippingMethodId">
-                    <ng-container *ngFor="let method of shippingMethods">
+                    <ng-container *ngFor="let method of cart.shippingMethods">
                       <label
                         nz-radio
                         [nzValue]="method.id"
@@ -122,7 +122,7 @@
                   <nz-radio-group formControlName="transactionMethodId">
                     <nz-collapse nzAccordion>
                       <nz-collapse-panel
-                        *ngFor="let method of transactionMethods"
+                        *ngFor="let method of cart.transactionMethods"
                         [nzHeader]="method.description"
                         [nzDisabled]="method.disabled"
                         [nzActive]="method.id === orderForm.value.transactionMethodId"
