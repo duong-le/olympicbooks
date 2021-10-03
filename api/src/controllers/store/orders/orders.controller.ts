@@ -58,6 +58,9 @@ export class OrdersController implements CrudController<Order> {
 
   @Override()
   async createOne(@ParsedBody() dto: CreateOrderDto, @UserInfo() customer: Customer): Promise<Order> {
+    if (!customer.address || !customer.phoneNumber)
+      throw new BadRequestException('Missing address or phone number');
+
     const shippingMethod = await this.shippingMethodRepository.findOne(dto.shippingMethodId);
     if (!shippingMethod) throw new NotFoundException(`Shipping method ${dto.shippingMethodId} not found`);
     if (shippingMethod.disabled) throw new BadRequestException('Shipping method is disabled');
