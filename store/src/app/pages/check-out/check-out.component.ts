@@ -56,14 +56,14 @@ export class CheckOutComponent implements OnInit, OnDestroy {
 
       this.orderForm.setValue({
         shippingMethodId: this.shippingMethods[0]?.id,
-        transactionMethodId: this.transactionMethods[0]?.id
+        transactionMethodId: this.transactionMethods[0]?.id,
+        buyerNote: ''
       });
       this.changeShippingValue(this.shippingMethods[0]);
 
-      this.setAddressForm();
       this.isLoading = false;
 
-      if (!this.addressForm.value.address || !this.addressForm.value.phoneNumber) this.showAddressModal();
+      if (!this.customer.address || !this.customer.phoneNumber) this.showAddressModal();
     });
 
     this.cartSubscription = this.cartService.cart$.subscribe((response) => (this.cart = response));
@@ -72,7 +72,8 @@ export class CheckOutComponent implements OnInit, OnDestroy {
   initForms(): void {
     this.orderForm = this.fb.group({
       shippingMethodId: [null, [Validators.required]],
-      transactionMethodId: [null, [Validators.required]]
+      transactionMethodId: [null, [Validators.required]],
+      buyerNote: [null]
     });
 
     this.addressForm = this.fb.group({
@@ -91,6 +92,7 @@ export class CheckOutComponent implements OnInit, OnDestroy {
   }
 
   showAddressModal(): void {
+    this.setAddressForm();
     this.isAddressModalVisible = true;
   }
 
@@ -102,8 +104,6 @@ export class CheckOutComponent implements OnInit, OnDestroy {
     this.isUpdateLoading = true;
     this.customerService.updateMe(this.addressForm.value).subscribe((response) => {
       this.customer = response;
-      this.setAddressForm();
-
       this.isUpdateLoading = false;
       this.isAddressModalVisible = false;
       this.addressForm.markAsPristine();
@@ -126,7 +126,7 @@ export class CheckOutComponent implements OnInit, OnDestroy {
   }
 
   processOrder(): void {
-    if (!this.addressForm.value.address || !this.addressForm.value.phoneNumber) {
+    if (!this.customer.address || !this.customer.phoneNumber) {
       this.showAddressModal();
       return;
     }

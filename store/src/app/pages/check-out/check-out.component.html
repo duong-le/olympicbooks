@@ -14,15 +14,21 @@
               [nzBordered]="false"
               [nzExtra]="updateShippingAddress"
             >
-              <nz-descriptions [nzColumn]="1">
-                <nz-descriptions-item nzTitle="Họ tên">
-                  {{ addressForm.value?.name }}
-                </nz-descriptions-item>
-                <nz-descriptions-item nzTitle="Số điện thoại"
-                  >{{ addressForm.value?.phoneNumber }}
-                </nz-descriptions-item>
-                <nz-descriptions-item nzTitle="Địa chỉ">
-                  {{ addressForm.value?.address }}
+              <nz-descriptions [nzColumn]="1" nzBordered>
+                <nz-descriptions-item nzTitle="Họ tên">{{ customer?.name }} </nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Số điện thoại">{{ customer?.phoneNumber }}</nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Địa chỉ">{{ customer?.address }} </nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Lời nhắn">
+                  <nz-form-item class="buyer-note">
+                    <nz-form-control>
+                      <input
+                        nz-input
+                        id="buyerNote"
+                        formControlName="buyerNote"
+                        placeholder="Lưu ý cho người bán"
+                      />
+                    </nz-form-control>
+                  </nz-form-item>
                 </nz-descriptions-item>
               </nz-descriptions>
             </nz-card>
