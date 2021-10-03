@@ -56,8 +56,7 @@ export class CartsController {
       if (shippingMethod) shippingFee = shippingMethod.fee;
     }
 
-    let cartItems = await this.cartRepository.find({ customerId: customer.id });
-    cartItems = await this.service.filterInvalidCartItems(cartItems);
+    const cartItems = await this.cartRepository.find({ customerId: customer.id });
 
     return {
       orderValue: this.service.calculateOrderValue(cartItems) + shippingFee,

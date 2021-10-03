@@ -137,4 +137,10 @@ export class AdminProductsController implements CrudController<Product> {
     }
     return await this.productRepository.save({ ...product, ...others });
   }
+
+  @Override()
+  async deleteOne(@ParsedRequest() req: CrudRequest): Promise<void> {
+    const product = await this.service.getOne(req);
+    await this.service.removeProduct(product);
+  }
 }
