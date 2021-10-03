@@ -12,9 +12,7 @@ export class OrdersService extends TypeOrmCrudService<Order> {
     super(orderRepository);
   }
 
-  calculateOrderValue(orderItems: OrderItem[], shippingFee: number): number {
-    return (
-      orderItems.reduce((total: number, current: OrderItem) => (total += current.totalValue), 0) + shippingFee
-    );
+  calculateOrderValue(orderItems: OrderItem[]): number {
+    return orderItems.reduce((total: number, current: OrderItem) => (total += current.totalValue), 0);
   }
 }

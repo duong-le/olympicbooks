@@ -17,6 +17,7 @@ import { CategoriesModule } from './controllers/store/categories/categories.modu
 import { CustomersModule } from './controllers/store/customers/customers.module';
 import { OrdersModule } from './controllers/store/orders/orders.module';
 import { ProductsModule } from './controllers/store/products/products.module';
+import { ShippingsModule } from './controllers/store/shippings/shippings.module';
 
 import OrmConfig from './core/Config/orm.config';
 import { HttpRequestLogger } from './core/Loggers/http-request.logger';
@@ -33,6 +34,7 @@ import { UtilsModule } from './core/Utils/utils.module';
     CustomersModule,
     CartsModule,
     OrdersModule,
+    ShippingsModule,
     AdminsModule,
     AdminOrdersModule,
     AdminCategoriesModule,

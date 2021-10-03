@@ -2,9 +2,6 @@ import { BadRequestException, Controller, NotFoundException, UseGuards } from '@
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Crud, CrudAuth, CrudController, Override, ParsedBody } from '@nestjsx/crud';
-import { ShippingMethod } from 'src/entities/shipping-methods.entity';
-import { TransactionMethod } from 'src/entities/transaction-methods.entity';
-import { ProductStatus } from 'src/shared/Enums/products.enum';
 import { Repository } from 'typeorm';
 
 import { Roles } from '../../../core/Decorators/roles.decorator';
@@ -15,8 +12,11 @@ import { CartItem } from '../../../entities/carts.entity';
 import { Customer } from '../../../entities/customers.entity';
 import { OrderItem } from '../../../entities/orders-item.entity';
 import { Order } from '../../../entities/orders.entity';
-import { CartsService } from '../../../services/carts.service';
+import { ShippingMethod } from '../../../entities/shipping-methods.entity';
+import { TransactionMethod } from '../../../entities/transaction-methods.entity';
 import { OrdersService } from '../../../services/orders.service';
+import { ShippingsService } from '../../../services/shippings.service';
+import { ProductStatus } from '../../../shared/Enums/products.enum';
 import { UserType } from '../../../shared/Enums/users.enum';
 import { CreateOrderDto } from './orders.dto';
 
@@ -48,7 +48,7 @@ import { CreateOrderDto } from './orders.dto';
 export class OrdersController implements CrudController<Order> {
   constructor(
     public service: OrdersService,
-    public cartService: CartsService,
+    public shippingsService: ShippingsService,
     @InjectRepository(Order) private orderRepository: Repository<Order>,
     @InjectRepository(OrderItem) private orderItemRepository: Repository<OrderItem>,
     @InjectRepository(ShippingMethod) private shippingMethodRepository: Repository<ShippingMethod>,
@@ -88,18 +88,21 @@ export class OrdersController implements CrudController<Order> {
       orderItems.push(orderItem);
     }
 
+    const orderValue = this.service.calculateOrderValue(orderItems);
+    const shippingFee = this.shippingsService.isEligibleForFreeShipping(orderValue) ? 0 : shippingMethod.fee;
+
     const order = await this.orderRepository.save({
       customerId: customer.id,
       transaction: {
         transactionMethodId: dto.transactionMethodId,
-        value: this.service.calculateOrderValue(orderItems, shippingMethod.fee)
+        value: orderValue + shippingFee
       },
       shipping: {
         name: customer.name,
         address: customer.address,
         phoneNumber: customer.phoneNumber,
         shippingMethodId: shippingMethod.id,
-        fee: shippingMethod.fee
+        fee: shippingFee
       },
       orderItems,
       buyerNote: dto.buyerNote

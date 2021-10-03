@@ -7,14 +7,14 @@ import { Order } from '../../../entities/orders.entity';
 import { ShippingMethod } from '../../../entities/shipping-methods.entity';
 import { TransactionMethod } from '../../../entities/transaction-methods.entity';
 import { OrdersService } from '../../../services/orders.service';
-import { CartsModule } from '../carts/carts.module';
+import { ShippingsModule } from '../shippings/shippings.module';
 import { OrdersController } from './orders.controller';
 
 @Module({
   controllers: [OrdersController, OrdersController],
   imports: [
     TypeOrmModule.forFeature([Order, OrderItem, ShippingMethod, TransactionMethod, CartItem]),
-    CartsModule
+    ShippingsModule
   ],
   providers: [OrdersService],
   exports: [OrdersService]

@@ -27,6 +27,7 @@ import { Product } from '../../../entities/products.entity';
 import { ShippingMethod } from '../../../entities/shipping-methods.entity';
 import { TransactionMethod } from '../../../entities/transaction-methods.entity';
 import { CartsService } from '../../../services/carts.service';
+import { ShippingsService } from '../../../services/shippings.service';
 import { ProductStatus } from '../../../shared/Enums/products.enum';
 import { UserType } from '../../../shared/Enums/users.enum';
 import { CreateCartItemDto, UpdateCartItemDto } from './carts.dto';
@@ -39,6 +40,7 @@ import { CreateCartItemDto, UpdateCartItemDto } from './carts.dto';
 export class CartsController {
   constructor(
     public service: CartsService,
+    public shippingsService: ShippingsService,
     @InjectRepository(CartItem) private cartRepository: Repository<CartItem>,
     @InjectRepository(Product) private productRepository: Repository<Product>,
     @InjectRepository(ShippingMethod) private shippingMethodRepository: Repository<ShippingMethod>,
@@ -55,14 +57,21 @@ export class CartsController {
     const cartItems = await this.cartRepository.find({ customerId: customer.id });
     const cartValue = this.service.calculateCartValue(cartItems);
     const transactionMethods = await this.transactionMethodRepository.find({ order: { id: 'ASC' } });
-    const shippingMethods = await this.shippingMethodRepository.find({ order: { id: 'ASC' } });
-
+    let shippingMethods = await this.shippingMethodRepository.find({ order: { id: 'ASC' } });
     let shippingFee = 0;
+
     if (shippingMethodId) {
       const shippingMethod = await this.shippingMethodRepository.findOne(shippingMethodId);
       if (shippingMethod) shippingFee = shippingMethod.fee;
     }
 
+    if (this.shippingsService.isEligibleForFreeShipping(cartValue)) {
+      shippingFee = 0;
+      shippingMethods = shippingMethods.map((method) => ({
+        ...method,
+        fee: 0
+      }));
+    }
 
     return {
       orderValue: cartValue + shippingFee,
