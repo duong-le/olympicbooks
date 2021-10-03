@@ -15,7 +15,6 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProductStatus } from 'src/shared/Enums/products.enum';
 import { Repository } from 'typeorm';
 
 import { Roles } from '../../../core/Decorators/roles.decorator';
@@ -26,7 +25,9 @@ import { Cart, CartItem } from '../../../entities/carts.entity';
 import { Customer } from '../../../entities/customers.entity';
 import { Product } from '../../../entities/products.entity';
 import { ShippingMethod } from '../../../entities/shipping-methods.entity';
+import { TransactionMethod } from '../../../entities/transaction-methods.entity';
 import { CartsService } from '../../../services/carts.service';
+import { ProductStatus } from '../../../shared/Enums/products.enum';
 import { UserType } from '../../../shared/Enums/users.enum';
 import { CreateCartItemDto, UpdateCartItemDto } from './carts.dto';
 
@@ -40,7 +41,8 @@ export class CartsController {
     public service: CartsService,
     @InjectRepository(CartItem) private cartRepository: Repository<CartItem>,
     @InjectRepository(Product) private productRepository: Repository<Product>,
-    @InjectRepository(ShippingMethod) private shippingMethodRepository: Repository<ShippingMethod>
+    @InjectRepository(ShippingMethod) private shippingMethodRepository: Repository<ShippingMethod>,
+    @InjectRepository(TransactionMethod) private transactionMethodRepository: Repository<TransactionMethod>
   ) {}
 
   @ApiOperation({ summary: 'Retrieve multiple CartItems' })
@@ -50,19 +52,25 @@ export class CartsController {
     @Query('shippingMethodId', ParseIntPipe) shippingMethodId: number,
     @UserInfo() customer: Customer
   ): Promise<Cart> {
+    const cartItems = await this.cartRepository.find({ customerId: customer.id });
+    const cartValue = this.service.calculateCartValue(cartItems);
+    const transactionMethods = await this.transactionMethodRepository.find({ order: { id: 'ASC' } });
+    const shippingMethods = await this.shippingMethodRepository.find({ order: { id: 'ASC' } });
+
     let shippingFee = 0;
     if (shippingMethodId) {
       const shippingMethod = await this.shippingMethodRepository.findOne(shippingMethodId);
       if (shippingMethod) shippingFee = shippingMethod.fee;
     }
 
-    const cartItems = await this.cartRepository.find({ customerId: customer.id });
 
     return {
-      orderValue: this.service.calculateOrderValue(cartItems) + shippingFee,
+      orderValue: cartValue + shippingFee,
       shippingFee,
       quantity: this.service.calculateCartQuantity(cartItems),
-      items: cartItems
+      items: cartItems,
+      transactionMethods,
+      shippingMethods
     };
   }
 

@@ -10,7 +10,7 @@ export class CartsService {
     return cartItems.reduce((total: number, current: CartItem) => (total += current.quantity), 0);
   }
 
-  calculateOrderValue(cartItems: CartItem[]) {
+  calculateCartValue(cartItems: CartItem[]) {
     return cartItems.reduce(
       (total: number, current: CartItem) => (total += current.quantity * current.product.price),
       0

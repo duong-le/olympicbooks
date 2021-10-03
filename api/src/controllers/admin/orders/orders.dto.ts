@@ -1,9 +1,34 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsDefined, IsEnum, IsInt, IsOptional, IsPositive, IsString, ValidateNested } from 'class-validator';
 
-import { UpdateShippingDto } from '../../store/shippings/shippings.dto';
-import { UpdateTransactionDto } from '../../store/transactions/transactions.dto';
+import { ShippingState } from '../../../shared/Enums/shippings.enum';
+import { TransactionState } from '../../../shared/Enums/transactions.enum';
+
+export class UpdateTransactionDto {
+  @ApiPropertyOptional({ enum: TransactionState })
+  @IsDefined()
+  @IsEnum(TransactionState)
+  state: TransactionState;
+}
+
+export class UpdateShippingDto {
+  @ApiPropertyOptional({ enum: ShippingState })
+  @IsOptional()
+  @IsEnum(ShippingState)
+  state: ShippingState;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  code: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsInt()
+  @IsPositive()
+  fee: number;
+}
 
 export class UpdateOrderDto {
   @ApiPropertyOptional({ type: UpdateTransactionDto })
