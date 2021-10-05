@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsDefined, IsEnum, IsInt, IsOptional, IsPositive, IsString, ValidateNested } from 'class-validator';
+import { IsDefined, IsEnum, IsInt, IsOptional, IsString, Min, ValidateNested } from 'class-validator';
 
 import { ShippingState } from '../../../shared/Enums/shippings.enum';
 import { TransactionState } from '../../../shared/Enums/transactions.enum';
@@ -26,7 +26,7 @@ export class UpdateShippingDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsInt()
-  @IsPositive()
+  @Min(0)
   fee: number;
 }
 

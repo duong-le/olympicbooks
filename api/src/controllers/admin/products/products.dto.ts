@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
-import { IsDefined, IsEnum, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, Validate } from 'class-validator';
+import { IsDefined, IsEnum, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, Min, Validate } from 'class-validator';
 
 import { ArrayExistValidator } from '../../../core/Utils/array-exist.validator';
 import { ExistValidator } from '../../../core/Utils/exist.validator';
@@ -36,14 +36,14 @@ export class CreateProductDto {
   @IsDefined()
   @Type(() => Number)
   @IsInt()
-  @IsPositive()
+  @Min(0)
   price: number;
 
   @ApiProperty()
   @IsDefined()
   @Type(() => Number)
   @IsInt()
-  @IsPositive()
+  @Min(0)
   originalPrice: number;
 
   @ApiProperty({ enum: ProductStatus, default: ProductStatus.ACTIVE })

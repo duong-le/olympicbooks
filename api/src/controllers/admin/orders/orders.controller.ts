@@ -61,7 +61,7 @@ export class AdminOrdersController implements CrudController<Order> {
       }
     }
 
-    if (dto?.shipping?.fee) {
+    if (dto?.shipping?.fee !== null && dto?.shipping?.fee !== undefined) {
       order.transaction.value += -order.shipping.fee + dto.shipping.fee;
       order.shipping.fee = dto.shipping.fee;
     }
