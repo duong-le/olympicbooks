@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { CategoriesService } from 'src/app/pages/categories/categories.service';
 import { Category } from 'src/app/shared/Interfaces/category.interface';
 
@@ -6,7 +7,7 @@ import { Category } from 'src/app/shared/Interfaces/category.interface';
   selector: 'app-left-menu',
   template: `
     <ul nz-menu [nzMode]="mode" [nzSelectable]="false" (nzClick)="onMenuTitleClick()">
-      <app-search *ngIf="mobile"></app-search>
+      <app-search *ngIf="mobile" placeHolder="Tìm sản phẩm" (onSearch)="emitSearchValue($event)"></app-search>
 
       <li nz-submenu nzTitle="Danh mục" nzIcon="appstore">
         <ul app-category-menu [categories]="categories"></ul>
@@ -26,9 +27,10 @@ export class LeftMenuComponent implements OnInit {
   @Input() mode: string;
   @Input() mobile: boolean;
   @Output() onNavigate: EventEmitter<any> = new EventEmitter();
+  @Output() onSearch: EventEmitter<any> = new EventEmitter();
   categories: Category[];
 
-  constructor(private CategoriesService: CategoriesService) {}
+  constructor(private CategoriesService: CategoriesService, private router: Router) {}
 
   ngOnInit() {
     this.CategoriesService.categories$.subscribe(
@@ -38,6 +40,11 @@ export class LeftMenuComponent implements OnInit {
   }
 
   onMenuTitleClick() {
+    this.onNavigate.emit();
+  }
+
+  emitSearchValue(value: string) {
+    this.onSearch.emit(value);
     this.onNavigate.emit();
   }
 }

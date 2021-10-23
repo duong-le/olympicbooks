@@ -35,7 +35,12 @@
             (nzOnClose)="close()"
           >
             <ng-container *nzDrawerContent>
-              <app-left-menu [mode]="verticalMode" [mobile]="true" (onNavigate)="close()"></app-left-menu>
+              <app-left-menu
+                [mode]="verticalMode"
+                [mobile]="true"
+                (onNavigate)="close()"
+                (onSearch)="onSearch($event)"
+              ></app-left-menu>
               <app-right-menu [mode]="verticalMode" (onNavigate)="close()"></app-right-menu>
             </ng-container>
           </nz-drawer>
