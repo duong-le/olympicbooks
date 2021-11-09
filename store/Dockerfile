@@ -6,12 +6,7 @@ COPY package.json ./
 
 COPY yarn.lock ./
 
-RUN apk add --no-cache --virtual .gyp \
-  python \
-  make \
-  g++ \
-  && yarn install \
-  && apk del .gyp
+RUN yarn install
 
 COPY . ./
 
