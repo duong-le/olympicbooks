@@ -3,8 +3,6 @@ import slugify from 'slugify';
 
 @Injectable()
 export class SlugService {
-  constructor() {}
-
   createSlug(string: string, suffix: string | number = null): string {
     let slug = slugify(string, {
       replacement: '-', // replace spaces with replacement character

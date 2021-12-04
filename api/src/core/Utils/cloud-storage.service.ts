@@ -30,7 +30,7 @@ export class CloudStorageService {
 
   private getFilename(uploadedFile: File, destination: string): string {
     const originalName = parse(uploadedFile.originalname);
-    let fileName = this.slugService.createSlug(originalName.name, Date.now()) + originalName.ext;
+    const fileName = this.slugService.createSlug(originalName.name, Date.now()) + originalName.ext;
 
     destination = this.slugService.createSlug(destination);
     if (destination) destination += '/';
