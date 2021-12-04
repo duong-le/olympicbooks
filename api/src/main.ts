@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { useContainer } from 'class-validator';
 import * as helmet from 'helmet';
@@ -20,7 +20,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.use(helmet());
   app.set('trust proxy', 1);
-  app.setGlobalPrefix('/v1');
+  app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
 
   if (process.env.NODE_ENV !== 'PRODUCTION') {
