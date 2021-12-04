@@ -4,7 +4,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { useContainer } from 'class-validator';
 import * as helmet from 'helmet';
-import * as rateLimit from 'express-rate-limit';
 import { CrudConfigService } from '@nestjsx/crud';
 CrudConfigService.load({
   routes: {
@@ -31,7 +30,6 @@ async function bootstrap() {
     app.enableCors({ origin: true });
   } else {
     app.enableCors({ origin: [/.olympicbooks.com/] });
-    app.use(rateLimit({ windowMs: 60 * 60 * 1000, max: 500 }));
   }
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });

@@ -1,7 +1,8 @@
 import { ClassSerializerInterceptor, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { MulterModule } from '@nestjs/platform-express';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AdminsModule } from './controllers/admin/admins/admins.module';
@@ -26,6 +27,7 @@ import { UtilsModule } from './core/Utils/utils.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    ThrottlerModule.forRoot({ ttl: 3600, limit: 1000 }),
     TypeOrmModule.forRoot(OrmConfig),
     MulterModule.register(),
     AuthModule,
@@ -41,12 +43,16 @@ import { UtilsModule } from './core/Utils/utils.module';
     AdminAttributesModule,
     AdminProductsModule,
     AdminCustomersModule,
-    UtilsModule,
+    UtilsModule
   ],
   providers: [
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
     }
   ]
 })
