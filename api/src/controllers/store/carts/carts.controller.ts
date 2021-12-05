@@ -108,6 +108,9 @@ export class CartsController {
   @Patch(':id')
   async updateOne(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateCartItemDto): Promise<CartItem> {
     const cartItem = await this.cartRepository.findOne(id);
+    if (!cartItem) {
+      throw new BadRequestException(`Cart item ${id} is not found`);
+    }
 
     if (cartItem.product.status !== ProductStatus.ACTIVE)
       throw new BadRequestException(`Product ${cartItem.product.id} is not active`);
