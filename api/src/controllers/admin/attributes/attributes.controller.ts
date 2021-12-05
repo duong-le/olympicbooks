@@ -49,7 +49,10 @@ export class AdminAttributesController {
       .leftJoinAndSelect('attribute.attributeValues', 'attributeValue');
 
     if (categoryId)
-      query.leftJoin('attribute.categories', 'category').where('category.id = :categoryId', { categoryId });
+      query
+        .leftJoin('attribute.categories', 'category')
+        .where('category.id = :categoryId', { categoryId })
+        .andWhere('category.deletedAt IS NULL');
 
     return await query.getMany();
   }
