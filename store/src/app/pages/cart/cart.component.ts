@@ -42,7 +42,7 @@ export class CartComponent implements OnInit, OnDestroy {
       },
       (error) => {
         this.isDisabled = false;
-        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        this.messageService.error('Có lỗi xảy ra, vui lòng tải lại trang và thử lại!');
       }
     );
   }
@@ -57,7 +57,7 @@ export class CartComponent implements OnInit, OnDestroy {
       },
       (error) => {
         this.isDisabled = false;
-        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        this.messageService.error('Có lỗi xảy ra, vui lòng tải lại trang và thử lại!');
       }
     );
   }

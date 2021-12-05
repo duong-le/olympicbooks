@@ -75,7 +75,7 @@ export class ProfileComponent implements OnInit {
           this.profileForm.updateValueAndValidity();
           this.messageService.success('Cập nhật hồ sơ thành công!');
         },
-        (error) => this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!')
+        (error) => this.messageService.error('Có lỗi xảy ra, vui lòng tải lại trang và thử lại!')
       );
   }
 
@@ -97,7 +97,7 @@ export class ProfileComponent implements OnInit {
           this.passwordForm.updateValueAndValidity();
           this.messageService.success('Cập nhật mật khẩu thành công!');
         },
-        (error) => this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!')
+        (error) => this.messageService.error('Có lỗi xảy ra, vui lòng tải lại trang và thử lại!')
       );
   }
 

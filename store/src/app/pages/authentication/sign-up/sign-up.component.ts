@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { constant } from 'src/app/shared/constant';
+
 import { AuthenticationService } from '../authentication.service';
 
 @Component({
@@ -34,7 +35,7 @@ export class SignUpComponent implements OnInit {
     });
   }
 
-  submitForm(): void {
+  submitSignUpForm(): void {
     this.isLoading = true;
     this.authenticationService.signUp(this.signUpForm.value).subscribe(
       (response) => {
@@ -44,7 +45,7 @@ export class SignUpComponent implements OnInit {
       },
       (error) => {
         if (error.status === 409) this.messageService.error('Email đã tồn tại');
-        else this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        else this.messageService.error('Có lỗi xảy ra, vui lòng tải lại trang và thử lại!');
         this.isLoading = false;
       }
     );

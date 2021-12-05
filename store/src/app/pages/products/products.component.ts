@@ -117,7 +117,7 @@ export class ProductsComponent implements OnInit {
       },
       (error) => {
         this.isBtnLoading[btnName] = false;
-        this.messageService.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        this.messageService.error('Có lỗi xảy ra, vui lòng tải lại trang và thử lại!');
       }
     );
   }

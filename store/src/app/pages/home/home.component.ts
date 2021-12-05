@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { combineLatest } from 'rxjs';
 
 import { ProductStatus } from '../../shared/Enums/products.enum';
@@ -26,7 +27,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private titleService: Title,
     private categoriesService: CategoriesService,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private messageService: NzMessageService
   ) {
     this.titleService.setTitle('Trang chủ | OlympicBooks');
   }
@@ -47,7 +49,10 @@ export class HomeComponent implements OnInit {
         this.isLoading = false;
         this.cardStyle = { padding: '1px' };
       },
-      (error) => {}
+      (error) => {
+        this.isLoading = false;
+        this.messageService.error('Có lỗi xảy ra, vui lòng tải lại trang và thử lại!');
+      }
     );
   }
 }
