@@ -118,7 +118,9 @@ export class AdminProductsController implements CrudController<Product> {
     }
 
     if (categoryId && product?.category?.id !== categoryId) {
-      product.category = await this.categoryRepository.findOne(categoryId);
+      const category = await this.categoryRepository.findOne(categoryId);
+      if (!category) throw new NotFoundException(`Category ${categoryId} is not found`);
+      product.category = category;
     }
 
     if (attributeValueIds?.length) {

@@ -3,9 +3,7 @@ import { Transform, Type } from 'class-transformer';
 import { IsDefined, IsEnum, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, Min, Validate } from 'class-validator';
 
 import { ArrayExistValidator } from '../../../core/Utils/array-exist.validator';
-import { ExistValidator } from '../../../core/Utils/exist.validator';
 import { AttributeValue } from '../../../entities/attribute-value.entity';
-import { Category } from '../../../entities/categories.entity';
 import { ProductImage } from '../../../entities/product-images.entity';
 import { ProductStatus } from '../../../shared/Enums/products.enum';
 
@@ -56,7 +54,6 @@ export class CreateProductDto {
   @Type(() => Number)
   @IsInt()
   @IsPositive()
-  @Validate(ExistValidator, [Category, 'id'])
   categoryId: number;
 
   @ApiPropertyOptional({ type: 'array', items: { type: 'string', format: 'binary' } })
