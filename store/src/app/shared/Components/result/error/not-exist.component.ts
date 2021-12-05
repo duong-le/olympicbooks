@@ -6,7 +6,7 @@ import { Title } from '@angular/platform-browser';
   template: `
     <nz-result nzStatus="404" nzTitle="404" nzSubTitle="Xin lỗi, trang bạn đang tìm kiếm không tồn tại">
       <div nz-result-extra>
-        <button nz-button nzType="primary" routerLink="/">Về trang chủ</button>
+        <a nz-button nzType="primary" routerLink="/">Về trang chủ</a>
       </div>
     </nz-result>
   `

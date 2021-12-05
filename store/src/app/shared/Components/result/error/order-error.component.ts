@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
       nzSubTitle="Xin vui lòng tải lại trang và thử lại!"
     >
       <div nz-result-extra>
-        <button nz-button nzType="primary" routerLink="/">Quay về trang chủ</button>
+        <a nz-button nzType="primary" routerLink="/">Quay về trang chủ</a>
       </div>
     </nz-result>
   `

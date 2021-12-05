@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   template: `
     <nz-result nzIcon="shopping-twotone" nzTitle="Không có sản phẩm nào trong giỏ hàng của bạn">
       <div nz-result-extra>
-        <button nz-button nzType="primary" routerLink="/">Tiếp tục mua sắm</button>
+        <a nz-button nzType="primary" routerLink="/">Tiếp tục mua sắm</a>
       </div>
     </nz-result>
   `

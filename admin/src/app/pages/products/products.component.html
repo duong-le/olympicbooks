@@ -29,10 +29,10 @@
   </div>
 
   <div nz-col>
-    <button nz-button nzType="primary" routerLink="new">
+    <a nz-button nzType="primary" routerLink="new">
       <i nz-icon nzType="plus-circle" theme="outline"></i>
       <span>Thêm mới</span>
-    </button>
+    </a>
   </div>
 </div>
 
@@ -89,16 +89,16 @@
           >
             <i nz-icon nzType="link" theme="outline"></i>
           </a>
-          <button
+          <a
             *nzSpaceItem
             nz-button
-            nzType="text"
+            nzType="link"
             nz-tooltip
             nzTooltipTitle="Chỉnh sửa sản phẩm"
             [routerLink]="[item?.id]"
           >
             <i nz-icon nzType="edit" theme="twotone"></i>
-          </button>
+          </a>
           <button
             *nzSpaceItem
             nz-button
@@ -136,8 +136,7 @@
     nzTheme="fill"
     *ngIf="searchInputById"
     (click)="searchInputById = null; onSearchById()"
-  >
-  </i>
+  ></i>
 </ng-template>
 
 <ng-template #inputClearByName>
@@ -148,8 +147,7 @@
     nzTheme="fill"
     *ngIf="searchInputByTitle"
     (click)="searchInputByTitle = null; onSearchByTitle()"
-  >
-  </i>
+  ></i>
 </ng-template>
 
 <ng-template #loadingIndicator><i nz-icon nzType="loading" class="loading"></i></ng-template>
@@ -167,7 +165,8 @@
     <nz-descriptions-item nzTitle="Danh mục">{{ product?.category?.title }}</nz-descriptions-item>
     <nz-descriptions-item *ngFor="let attribute of product?.attributes" [nzTitle]="attribute?.name">
       <ng-container *ngFor="let attributeValue of attribute?.attributeValues">
-        {{ attributeValue?.name }} <br />
+        {{ attributeValue?.name }}
+        <br />
       </ng-container>
     </nz-descriptions-item>
   </nz-descriptions>

@@ -5,8 +5,8 @@ import { Component, OnInit } from '@angular/core';
   template: `
     <nz-result nzStatus="success" nzTitle="Đặt hàng thành công">
       <div nz-result-extra>
-        <button nz-button nzType="primary" routerLink="/">Quay về trang chủ</button>
-        <button nz-button routerLink="/customer/orders">Quản lý đơn hàng</button>
+        <a nz-button nzType="primary" routerLink="/">Quay về trang chủ</a>
+        <a nz-button routerLink="/customer/orders">Quản lý đơn hàng</a>
       </div>
     </nz-result>
   `

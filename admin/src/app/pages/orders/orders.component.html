@@ -60,16 +60,16 @@
             >
               <i nz-icon nzType="eye" theme="twotone"></i>
             </button>
-            <button
+            <a
               *nzSpaceItem
               nz-button
-              nzType="text"
+              nzType="link"
               nz-tooltip
               nzTooltipTitle="Chỉnh sửa đơn hàng"
               [routerLink]="[order?.id]"
             >
               <i nz-icon nzType="edit" theme="twotone"></i>
-            </button>
+            </a>
           </nz-space>
         </td>
         <td>{{ order?.id }}</td>
@@ -198,14 +198,14 @@
   </nz-descriptions>
 </ng-template>
 <ng-template #inputSearch><i nz-icon nzType="search"></i></ng-template>
-<ng-template #inputClearById
-  ><i
+<ng-template #inputClearById>
+  <i
     nz-icon
     nzType="close-circle"
     class="ant-input-clear-icon"
     nzTheme="fill"
     *ngIf="searchInputById"
     (click)="searchInputById = null; onSearchById()"
-  ></i
-></ng-template>
+  ></i>
+</ng-template>
 <ng-template #loadingIndicator><i nz-icon nzType="loading" class="loading"></i></ng-template>

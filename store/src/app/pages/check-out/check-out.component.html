@@ -15,9 +15,11 @@
               [nzExtra]="updateShippingAddress"
             >
               <nz-descriptions [nzColumn]="1" nzBordered>
-                <nz-descriptions-item nzTitle="Họ tên">{{ customer?.name }} </nz-descriptions-item>
-                <nz-descriptions-item nzTitle="Số điện thoại">{{ customer?.phoneNumber }}</nz-descriptions-item>
-                <nz-descriptions-item nzTitle="Địa chỉ">{{ customer?.address }} </nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Họ tên">{{ customer?.name }}</nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Số điện thoại">
+                  {{ customer?.phoneNumber }}
+                </nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Địa chỉ">{{ customer?.address }}</nz-descriptions-item>
                 <nz-descriptions-item nzTitle="Lời nhắn">
                   <nz-form-item class="buyer-note">
                     <nz-form-control>
@@ -35,7 +37,8 @@
 
             <ng-template #updateShippingAddress>
               <button nz-button nzType="link" (click)="showAddressModal()">
-                <i nz-icon nzType="edit" nzTheme="outline"></i> Thay đổi
+                <i nz-icon nzType="edit" nzTheme="outline"></i>
+                Thay đổi
               </button>
               <nz-modal
                 nzTitle="Cập nhật địa chỉ giao hàng"
@@ -54,9 +57,9 @@
                     </nz-form-item>
 
                     <nz-form-item>
-                      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phone" nzRequired
-                        >Số điện thoại</nz-form-label
-                      >
+                      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phone" nzRequired>
+                        Số điện thoại
+                      </nz-form-label>
                       <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập số điện thoại">
                         <input nz-input id="phone" formControlName="phoneNumber" type="tel" />
                       </nz-form-control>
@@ -110,8 +113,7 @@
                 nzType="info"
                 nzShowIcon
                 nzMessage="Phí giao hàng sẽ được cập nhật chính xác khi đơn hàng được xử lý"
-              >
-              </nz-alert>
+              ></nz-alert>
             </nz-card>
           </div>
 
@@ -131,7 +133,7 @@
                       >
                         <b class="transaction-method-info">{{ method?.info }}</b>
                         <ng-template #radioBtn>
-                          <label nz-radio [nzDisabled]="method.disabled" [nzValue]="method.id"> </label>
+                          <label nz-radio [nzDisabled]="method.disabled" [nzValue]="method.id"></label>
                         </ng-template>
                       </nz-collapse-panel>
                     </nz-collapse>
@@ -188,9 +190,10 @@
           </nz-card>
 
           <ng-template #editCart>
-            <button nz-button nzType="link" routerLink="/cart">
-              <i nz-icon nzType="edit" nzTheme="outline"></i> Thay đổi
-            </button>
+            <a nz-button nzType="link" routerLink="/cart">
+              <i nz-icon nzType="edit" nzTheme="outline"></i>
+              Thay đổi
+            </a>
           </ng-template>
         </div>
 
@@ -213,8 +216,7 @@
               nzType="warning"
               nzShowIcon
               nzMessage="Miễn phí giao hàng cho đơn hàng từ {{ 500_000 | price }}"
-            >
-            </nz-alert>
+            ></nz-alert>
 
             <nz-divider></nz-divider>
 

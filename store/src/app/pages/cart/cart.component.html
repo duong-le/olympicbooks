@@ -48,8 +48,7 @@
                   [nzStep]="1"
                   (ngModelChange)="changeQuantity(cartItem?.id, cartItem?.quantity)"
                   [nzDisabled]="isDisabled"
-                >
-                </nz-input-number>
+                ></nz-input-number>
               </div>
 
               <div nz-col nzXl="3">
@@ -90,9 +89,7 @@
             <span class="price">{{ cart?.orderValue | price }}</span>
           </div>
         </div>
-        <button nz-button nzType="primary" routerLink="/checkout" nzBlock [disabled]="isDisabled">
-          Xác nhận
-        </button>
+        <a nz-button nzType="primary" routerLink="/checkout" nzBlock [disabled]="isDisabled">Xác nhận</a>
       </nz-card>
     </div>
   </div>

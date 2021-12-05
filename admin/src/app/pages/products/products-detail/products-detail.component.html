@@ -28,9 +28,7 @@
 <form nz-form [formGroup]="productForm">
   <nz-card [nzLoading]="isLoading" nzTitle="Thông tin cơ bản" id="basic-info">
     <nz-form-item>
-      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="categoryId" nzRequired>
-        Danh mục
-      </nz-form-label>
+      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="categoryId" nzRequired>Danh mục</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <nz-tree-select
           [nzNodes]="categoryTree"
@@ -40,13 +38,12 @@
           [nzDropdownStyle]="{ 'max-height': '500px' }"
           formControlName="categoryId"
           (nzTreeClick)="changeCategoryAttributes($event.node.origin['id'])"
-        >
-        </nz-tree-select>
+        ></nz-tree-select>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="title" nzRequired> Tên sản phẩm </nz-form-label>
+      <nz-form-label [nzMd]="6" [nzSm]="8" [nzXs]="24" nzFor="title" nzRequired>Tên sản phẩm</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input this field!">
         <input nz-input formControlName="title" type="text" />
       </nz-form-control>
@@ -85,8 +82,7 @@
             *ngFor="let status of productStatus | keyvalue"
             [nzLabel]="status.value | productstatus"
             [nzValue]="status.value"
-          >
-          </nz-option>
+          ></nz-option>
         </nz-select>
       </nz-form-control>
     </nz-form-item>
@@ -111,15 +107,14 @@
               *ngFor="let attributeValue of attribute.attributeValues"
               [nzLabel]="attributeValue?.name"
               [nzValue]="attributeValue?.id"
-            >
-            </nz-option>
+            ></nz-option>
           </nz-select>
 
           <ng-template #createAttributeValueTemplate>
             <nz-divider></nz-divider>
             <div class="input-container">
               <input nz-input type="text" nzSize="small" #attributeValueName />
-              <a
+              <button
                 nz-button
                 nzType="link"
                 class="add-attribute-value-btn"
@@ -128,8 +123,9 @@
                   attributeValueName.value = ''
                 "
               >
-                <i nz-icon nzType="plus"></i> Thêm giá trị
-              </a>
+                <i nz-icon nzType="plus"></i>
+                Thêm giá trị
+              </button>
             </div>
           </ng-template>
         </nz-form-control>
@@ -156,7 +152,10 @@
         [nzBeforeUpload]="beforeUpload"
         (nzChange)="handleUploadEventChange($event)"
       >
-        <button nz-button><i nz-icon nzType="upload"></i>Tải ảnh lên</button>
+        <button nz-button>
+          <i nz-icon nzType="upload"></i>
+          Tải ảnh lên
+        </button>
       </nz-upload>
     </nz-form-control>
   </nz-form-item>
