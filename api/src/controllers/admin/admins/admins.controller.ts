@@ -7,7 +7,7 @@ import { JwtAuthGuard } from '../../../core/Guards/jwt-auth.guard';
 import { RolesGuard } from '../../../core/Guards/roles.guard';
 import { Admin } from '../../../entities/admins.entity';
 import { UserType } from '../../../shared/Enums/users.enum';
-import { AdminsService } from './admins.service';
+import { AdminsService } from '../../../services/admins.service';
 
 @ApiTags('Admins')
 @ApiBearerAuth()
