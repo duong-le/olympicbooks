@@ -3,7 +3,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { useContainer } from 'class-validator';
-import * as helmet from 'helmet';
+import helmet from 'helmet';
 import { CrudConfigService } from '@nestjsx/crud';
 CrudConfigService.load({
   routes: {

@@ -1,5 +1,5 @@
-import { Metadata } from '@google-cloud/common/build/src/service-object';
 import { Bucket, Storage } from '@google-cloud/storage';
+import { Metadata } from '@google-cloud/storage/build/src/nodejs-common/service-object';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { memoryStorage } from 'multer';
