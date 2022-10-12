@@ -8,7 +8,8 @@
       (click)="update()"
       [disabled]="orderForm.invalid || orderForm.pristine"
     >
-      <i nz-icon nzType="save" nzTheme="outline"></i>Lưu
+      <i nz-icon nzType="save" nzTheme="outline"></i>
+      Lưu
     </button>
   </nz-page-header-extra>
 </nz-page-header>
@@ -22,6 +23,7 @@
   [nzLoading]="isLoading"
   [nzLoadingIndicator]="loadingIndicator"
   id="order-items"
+  [nzFooter]="footer"
 >
   <thead>
     <tr>
@@ -46,7 +48,6 @@
       <td>{{ data?.totalValue | price }}</td>
     </tr>
   </tbody>
-
   <tfoot>
     <tr>
       <td colSpan="2"></td>
@@ -65,6 +66,8 @@
     </tr>
   </tfoot>
 </nz-table>
+
+<ng-template #footer></ng-template>
 
 <form nz-form [formGroup]="orderForm">
   <nz-card [nzLoading]="isLoading" nzTitle="Lời nhắn" id="note">
@@ -102,8 +105,7 @@
               *ngFor="let state of shippingState | keyvalue"
               [nzLabel]="state.value | orderstate"
               [nzValue]="state.value"
-            >
-            </nz-option>
+            ></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
@@ -172,8 +174,7 @@
               *ngFor="let state of transactionState | keyvalue"
               [nzLabel]="state.value | orderstate"
               [nzValue]="state.value"
-            >
-            </nz-option>
+            ></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
