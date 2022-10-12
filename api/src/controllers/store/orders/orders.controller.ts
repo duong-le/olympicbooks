@@ -1,7 +1,7 @@
 import { BadRequestException, Controller, NotFoundException, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Crud, CrudAuth, CrudController, Override, ParsedBody } from '@nestjsx/crud';
+import { Crud, CrudAuth, CrudController, Override, ParsedBody } from '@rewiko/crud';
 import { Repository } from 'typeorm';
 
 import { Roles } from '../../../core/Decorators/roles.decorator';

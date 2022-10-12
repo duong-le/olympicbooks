@@ -1,10 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
+import { TypeOrmCrudService } from '@rewiko/crud-typeorm';
 import { plainToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
 
-import { AdminUpdateCustomerDto, CreateCustomerDto, UpdateCustomerDto } from '../controllers/store/customers/customers.dto';
+import {
+  AdminUpdateCustomerDto,
+  CreateCustomerDto,
+  UpdateCustomerDto
+} from '../controllers/store/customers/customers.dto';
 import { Customer } from '../entities/customers.entity';
 import { AuthService } from './auth.service';
 

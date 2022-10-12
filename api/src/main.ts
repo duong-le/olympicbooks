@@ -4,7 +4,7 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { useContainer } from 'class-validator';
 import helmet from 'helmet';
-import { CrudConfigService } from '@nestjsx/crud';
+import { CrudConfigService } from '@rewiko/crud';
 CrudConfigService.load({
   routes: {
     exclude: ['createManyBase', 'replaceOneBase', 'recoverOneBase'],

@@ -1,6 +1,6 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
+import { Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest } from '@rewiko/crud';
 
 import { Roles } from '../../../core/Decorators/roles.decorator';
 import { JwtAuthGuard } from '../../../core/Guards/jwt-auth.guard';

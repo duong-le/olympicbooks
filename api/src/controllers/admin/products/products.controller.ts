@@ -9,8 +9,8 @@ import {
   GetManyDefaultResponse,
   Override,
   ParsedBody,
-  ParsedRequest,
-} from '@nestjsx/crud';
+  ParsedRequest
+} from '@rewiko/crud';
 import { Repository } from 'typeorm';
 
 import { Roles } from '../../../core/Decorators/roles.decorator';

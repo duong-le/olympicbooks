@@ -46,6 +46,17 @@ export class initial1630128213913 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "category_attribute" ADD CONSTRAINT "FK_02d2d1bd2127e4d54302549fefd" FOREIGN KEY ("attributeId") REFERENCES "attribute"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "category_closure" ADD CONSTRAINT "FK_4c04930e4573b49ab28a4600da8" FOREIGN KEY ("ancestor_category_id") REFERENCES "category"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "category_closure" ADD CONSTRAINT "FK_11da9decc6d053c89b14825abe2" FOREIGN KEY ("descendant_category_id") REFERENCES "category"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`
+            INSERT INTO "transaction_method" ("id", "createdAt", "updatedAt", "deletedAt", "name", "description", "info", "disabled") VALUES
+            (1, '2020-11-12 14:44:56.262616', '2020-11-12 14:44:56.262616', NULL, 'cod', 'Thanh toán tiền mặt khi nhận hàng', 'Quý khách vui lòng thanh toán tiền mặt cho nhân viên giao hàng ngay khi nhận được đơn hàng của mình', 'f'),
+            (2, '2020-11-12 14:44:56.262616', '2020-11-12 14:44:56.262616', NULL, 'atm', 'Thanh toán bằng thẻ ATM nội địa/Internet Banking', 'Họ tên: Đào Đăng Đạt\nNgân hàng: Techcombank - Ngân hàng TMCP Kỹ thương Việt Nam\nSố tài khoản: 19031245246661', 'f'),
+            (3, '2020-11-12 14:44:56.262616', '2020-11-12 14:44:56.262616', NULL, 'momo', 'Thanh toán bằng ví điện tử MoMo', 'Họ tên: Đào Đăng Đạt\nSố điện thoại: 0984803198', 'f');
+        `);
+        await queryRunner.query(`
+            INSERT INTO "public"."shipping_method" ("id", "createdAt", "updatedAt", "deletedAt", "name", "description", "fee", "disabled") VALUES
+            (1, '2020-11-12 14:44:56.262616', '2020-11-12 14:44:56.262616', NULL, 'standard', 'Giao tiêu chuẩn', 35000, 'f'),
+            (2, '2020-11-12 14:44:56.262616', '2020-11-12 14:44:56.262616', NULL, 'express', 'Giao nhanh', 60000, 't');
+        `);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

@@ -1,6 +1,13 @@
 import { Controller, NotFoundException, Query } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
-import { Crud, CrudController, CrudRequest, GetManyDefaultResponse, Override, ParsedRequest } from '@nestjsx/crud';
+import {
+  Crud,
+  CrudController,
+  CrudRequest,
+  GetManyDefaultResponse,
+  Override,
+  ParsedRequest
+} from '@rewiko/crud';
 
 import { Product } from '../../../entities/products.entity';
 import { CategoriesService } from '../../../services/categories.service';
