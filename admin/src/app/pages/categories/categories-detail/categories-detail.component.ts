@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
@@ -25,8 +25,8 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
   @Output() notifyRender: EventEmitter<any> = new EventEmitter();
   @Output() notifyDelete: EventEmitter<any> = new EventEmitter();
 
-  categoryForm: FormGroup;
-  attributeForm: FormGroup;
+  categoryForm: UntypedFormGroup;
+  attributeForm: UntypedFormGroup;
   category: Category;
   attributes: Attribute[];
   categoryTree: NzTreeNodeOptions[] = [];
@@ -43,7 +43,7 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
   updatingAttributeControlIndex: number;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private categoriesService: CategoriesService,
     private attributesService: AttributesService,
     private messageService: NzMessageService,
@@ -80,7 +80,7 @@ export class CategoriesDetailComponent implements OnInit, OnChanges {
   }
 
   get attributeFormArray() {
-    return this.categoryForm.get('attributes') as FormArray;
+    return this.categoryForm.get('attributes') as UntypedFormArray;
   }
 
   get attributeIdFormControl() {

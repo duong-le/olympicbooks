@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
@@ -23,7 +23,7 @@ import { ProductsService } from '../products.service';
   styleUrls: ['./products-detail.component.scss']
 })
 export class ProductsDetailComponent implements OnInit {
-  productForm: FormGroup;
+  productForm: UntypedFormGroup;
   product: Product;
   categoryTree: NzTreeNodeOptions[] = [];
   fileList: NzUploadFile[] = [];
@@ -40,7 +40,7 @@ export class ProductsDetailComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private productsService: ProductsService,
     private attributesService: AttributesService,
     private categoriesService: CategoriesService,
@@ -79,7 +79,7 @@ export class ProductsDetailComponent implements OnInit {
   }
 
   get attributeFormArray() {
-    return this.productForm.get('attributes') as FormArray;
+    return this.productForm.get('attributes') as UntypedFormArray;
   }
 
   renderProductDetailPage() {

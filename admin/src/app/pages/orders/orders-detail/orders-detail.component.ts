@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
@@ -15,7 +15,7 @@ import { OrdersService } from '../orders.service';
   styleUrls: ['./orders-detail.component.scss']
 })
 export class OrdersDetailComponent implements OnInit {
-  orderForm: FormGroup;
+  orderForm: UntypedFormGroup;
   order: Order;
   isLoading = true;
   isBtnLoading = false;
@@ -26,7 +26,7 @@ export class OrdersDetailComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private ordersService: OrdersService,
     private messageService: NzMessageService,
     private location: Location

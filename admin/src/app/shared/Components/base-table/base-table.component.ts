@@ -1,5 +1,5 @@
 import { Directive, OnInit, TemplateRef } from '@angular/core';
-import { CondOperator, RequestQueryBuilder } from '@nestjsx/crud-request';
+import { CondOperator, RequestQueryBuilder } from '@rewiko/crud-request';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
