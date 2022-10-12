@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { finalize } from 'rxjs/operators';
@@ -13,8 +13,8 @@ import { CustomerService } from '../customer.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  profileForm: FormGroup;
-  passwordForm: FormGroup;
+  profileForm: UntypedFormGroup;
+  passwordForm: UntypedFormGroup;
   isUpdateProfileLoading = false;
   isUpdatePasswordLoading = false;
   newPasswordVisible = false;
@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private titleService: Title,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private customerService: CustomerService,
     private messageService: NzMessageService
   ) {
@@ -101,7 +101,7 @@ export class ProfileComponent implements OnInit {
       );
   }
 
-  toggleDisableFormControl(form: FormGroup, value: Boolean, exclude = []) {
+  toggleDisableFormControl(form: UntypedFormGroup, value: Boolean, exclude = []) {
     const state = value ? 'disable' : 'enable';
     Object.keys(form.controls).forEach((controlName) => {
       if (!exclude.includes(controlName)) {
@@ -115,7 +115,7 @@ export class ProfileComponent implements OnInit {
     Promise.resolve().then(() => this.passwordForm.controls.confirmPassword.updateValueAndValidity());
   }
 
-  confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
+  confirmationValidator = (control: UntypedFormControl): { [s: string]: boolean } => {
     if (!control.value) return { required: true };
     else if (control.value !== this.passwordForm.controls.password.value)
       return { confirm: true, error: true };

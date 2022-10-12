@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -12,14 +12,14 @@ import { AuthenticationService } from '../authentication.service';
   styleUrls: ['../authentication.component.scss']
 })
 export class SignInComponent implements OnInit {
-  signInForm: FormGroup;
+  signInForm: UntypedFormGroup;
   passwordVisible = false;
   isLoading = false;
   returnUrl: string;
 
   constructor(
     private titleService: Title,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,

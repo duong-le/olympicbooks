@@ -158,7 +158,6 @@
       }
     }
   },
-  "defaultProject": "store",
   "cli": {
     "analytics": "8ba9af63-0778-4cb5-b57e-04909d29bac7"
   }

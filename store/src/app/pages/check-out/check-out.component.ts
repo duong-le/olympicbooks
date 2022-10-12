@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { forkJoin, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -18,8 +18,8 @@ import { CheckOutService } from './check-out.service';
   styleUrls: ['./check-out.component.scss']
 })
 export class CheckOutComponent implements OnInit, OnDestroy {
-  orderForm: FormGroup;
-  addressForm: FormGroup;
+  orderForm: UntypedFormGroup;
+  addressForm: UntypedFormGroup;
   cart: Cart;
   customer: Customer;
   cartSubscription: Subscription;
@@ -33,7 +33,7 @@ export class CheckOutComponent implements OnInit, OnDestroy {
 
   constructor(
     private titleService: Title,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private checkOutService: CheckOutService,
     private cartService: CartService,
     private customerService: CustomerService

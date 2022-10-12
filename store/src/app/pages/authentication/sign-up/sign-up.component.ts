@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -13,13 +13,13 @@ import { AuthenticationService } from '../authentication.service';
   styleUrls: ['../authentication.component.scss']
 })
 export class SignUpComponent implements OnInit {
-  signUpForm: FormGroup;
+  signUpForm: UntypedFormGroup;
   passwordVisible = false;
   isLoading = false;
 
   constructor(
     private titleService: Title,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private authenticationService: AuthenticationService,
     private messageService: NzMessageService
