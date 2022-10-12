@@ -43,7 +43,7 @@ This will create 4 services: API, store, admin and database. In order for these 
 
 ```
 $ cd api
-$ yarn migration:run
+$ npm run migration:run
 ```
 
 ## License

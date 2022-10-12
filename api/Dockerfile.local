@@ -4,8 +4,9 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 
-COPY yarn.lock ./
+COPY package-lock.json ./
 
-RUN yarn install
+# TODO: Remove the "force" tag when upgrade @nestjs/typeorm to v9
+RUN npm install --force
 
 COPY . ./
